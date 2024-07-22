@@ -39,6 +39,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap"
         rel="stylesheet">
+   
 
     <script src="{{ asset('website/custom/js/app.js') }}"></script>
     @stack('css')

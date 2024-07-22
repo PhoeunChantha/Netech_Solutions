@@ -40,9 +40,9 @@
 
     .text-overlay {
         position: absolute;
-        top: 30%;
-        left: 21%;
-        transform: translate(-50%, -50%);
+        top: 6%;
+        left: 4%;
+        /* transform: translate(-50%, -50%); */
         color: white;
         text-align: center;
         border-radius: 5px;
@@ -359,16 +359,128 @@
         font-size: 15px;
     }
 
-    .row.w-100.d-flex.justify-content-between {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-        margin-right: 30em;
+    .head-img {
+        border: none;
+        background-color: #ffffff;
     }
 
-    h6 {
+    .head-img img {
+        background-color: #ffffff;
+        width: 100%;
+    }
+
+    .desktop-body .rate {
         margin: 0;
+        margin-top: 0.5em;
+    }
+
+    .addcard {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        width: 35px;
+        height: 35px;
+        top: -6px;
+        position: relative;
+        background-color: #F0F2FD;
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(239, 234, 234, 0.3);
+    }
+
+    .addcard a {
+        color: #F0F2FD;
+        text-decoration: none;
+        position: relative;
+    }
+
+    .addcard>a>i {
+        color: #A1A1A1;
+    }
+
+    /* .card-background {
+        background-image: url('/website/upload/service.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        filter: blur(2px);
+        height: 31em;
+        width: 100%;
+    } */
+
+    .card-background {
+        background-image: url('/website/upload/service.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        filter: blur(2px);
+        height: 31em;
+        width: 100%;
+        transition: background-image 0.3s ease-in-out;
+    }
+
+    .main-service {
+        position: absolute;
+        top: 6.2em;
+    }
+
+
+    .carousel-button {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #1077B8;
+        color: #fff;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        z-index: 1;
+
+    }
+
+
+    .carousel-button .carousel-control-prev-icon,
+    .carousel-button .carousel-control-next-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30px;
+        height: 30px;
+        background-size: 100%, 100%;
+    }
+
+    .container-button {
+        align-content: center;
+    }
+
+    .div-title {
+        font-size: 40px;
+        margin-bottom: 1em;
+    }
+
+    .card-service>.col-md-10 {
+        height: 28.4em;
+    }
+
+    .card-service {
+        background-color: rgba(255, 255, 255, 0.9);
+        overflow: hidden;
+    }
+
+    #contentContainer {
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .fade-out {
+        opacity: 1;
+    }
+
+    .fade-in {
+        opacity: 1;
+    }
+    #serviceImage{
+        border-radius: 20px;
     }
 </style>

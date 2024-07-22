@@ -41,12 +41,12 @@ body {
 
 /* search */
 .search-container {
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
 }
 .input-group .search {
-  width: 35em;
+  /* width: 35em; */
   border-radius: 10px;
   background-color: #ebf7ff;
 }
@@ -55,12 +55,48 @@ body {
   border-radius: 10px;
   margin-right: 2em !important;
 }
+.checkin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  width: 40px;
+  height: 40px;
+  /* top: -6px; */
+  position: relative;
+  background-color: #1077b8;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(239, 234, 234, 0.3);
+}
+
+.checkin a {
+  color: #f0f2fd;
+  text-decoration: none;
+  position: relative;
+}
+
+.checkin > a > i {
+  color: #a1a1a1;
+}
+
+.checkin > a > .badge {
+  position: absolute;
+  top: -10px;
+  right: -12px;
+  font-size: 0.7em;
+  padding: 3px 3px;
+  border-radius: 50%;
+  align-content: center;
+  align-items: center;
+}
 
 .phone-container {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 1em;
+  margin: 0;
+  padding: 0;
 }
 
 .phone-number {
@@ -93,29 +129,9 @@ body {
 .btn-login a:hover {
   background-color: #1077b8;
 }
-/* telegram */
-.telegram-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* width: 47px;
-  height: 47px; */
-  /* background-color: #1077b8; */
-  border-radius: 50%;
-  /* margin-right: 1em !important; */
-}
-
-.telegram-container a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  text-decoration: none;
-}
-.telegram-container a i {
-  font-size: 40px;
-  padding: 0 0 0 0;
+.badge-small {
+  font-size: 0.7em;
+  padding: 0.2em 0.4em;
 }
 .btn-primary {
   background-color: #1577ff;
@@ -145,16 +161,22 @@ body {
 .nav-link.active::after {
   content: "";
   display: block;
-  width: 86%;
+  /* width: 86%; */
+  width: 76%;
   height: 2px;
   background-color: #ffffff;
   position: absolute;
   bottom: 3px; /* Adjust position if needed */
-  left: 8%;
+  /* left: 8%; */
+  left: 13%;
 }
 
 .nav-link.active {
   color: #ffffff; /* Ensure active link text is white */
+}
+.nav-item > .nav-link > img {
+  width: 11%;
+  padding-left: 0;
 }
 
 /* footer */
@@ -255,67 +277,21 @@ body {
 .address > span {
   font-size: 14px;
 }
-
-/* responsive */
-@media (min-width: 1298px) and (max-width: 1338px) {
-  .navbar {
+.nav-rightside1{
     width: 100%;
-  }
-  .phone-container {
-    width: 20%;
-    font-size: 14px;
-    margin-right: 0;
-  }
-  .phone-container i {
-    font-size: 17px;
-  }
-  .search-container {
-    width: 100%;
-  }
-  .input-group .search {
-    width: 28em !important;
-    border-radius: 10px;
-    background-color: #ebf7ff;
-  }
-  .nav-leftside {
-    height: 0%;
-    /* width: 10% !important; */
-  }
-  .navbar-brand {
-    width: 20%;
-  }
-  .phone-container {
-    width: 15%;
-  }
 }
-@media (min-width: 989px) and (max-width: 1297px) {
-  .navbar {
+/* responsive */
+@media (min-width: 1200px) and (max-width: 1353px) {
+  .nav-rightside1 {
     width: 100%;
   }
-  .phone-container {
-    width: 20%;
-    font-size: 14px;
-    margin-right: 0;
-  }
-  .phone-container i {
-    font-size: 17px;
-  }
-  .search-container {
+  .nav{
     width: 100%;
+    gap: 0.5em !important;
   }
-  .input-group .search {
-    width: 25em !important;
-    border-radius: 10px;
-    background-color: #ebf7ff;
+  .nav-item>.nav-link{
+    font-size: 16px ;
   }
-  .nav-leftside {
-    height: 0%;
-    /* width: 10% !important; */
-  }
-  .navbar-brand {
-    width: 20%;
-  }
-  .phone-container {
-    width: 15%;
-  }
+
+
 }
