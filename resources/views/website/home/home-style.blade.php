@@ -300,7 +300,7 @@
         border-radius: 20px;
         align-items: center;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        transition: transform 0.5s ease;
+        /* transition: transform 0.5s ease; */
 
     }
 
@@ -325,7 +325,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        transition: background 0.3s ease;
+        transition: background 0.5s ease;
         pointer-events: none;
     }
 
@@ -357,6 +357,17 @@
         display: block;
         margin-top: 5px;
         font-size: 15px;
+    }
+
+    .shadow-hover {
+        text-decoration: none;
+         transition: transform 0.5s ease;
+        transition: text-shadow 0.3s ease-in-out;
+    }
+
+    .shadow-hover:hover {
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
     }
 
     .head-img {
@@ -414,7 +425,7 @@
         background-position: center;
         background-repeat: no-repeat;
         filter: blur(2px);
-        height: 31em;
+        height: 33em;
         width: 100%;
         transition: background-image 0.3s ease-in-out;
     }
@@ -422,6 +433,8 @@
     .main-service {
         position: absolute;
         top: 6.2em;
+
+
     }
 
 
@@ -482,6 +495,7 @@
     }
 
     #serviceImage {
+        width: 100%;
         border-radius: 20px;
     }
 
@@ -490,5 +504,31 @@
         padding: 0 0 0 0;
     }
 
-   
+    .head-video {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center
+    }
+
+    .btn-video {
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 3px solid #FFFFFF;
+        background-color: transparent;
+        transition: transform 0.5s ease;
+    }
+
+    .btn-video:hover {
+        transform: scale(1.1);
+    }
+
+    .modal-body {
+        padding: 0.5em !important;
+    }
 </style>

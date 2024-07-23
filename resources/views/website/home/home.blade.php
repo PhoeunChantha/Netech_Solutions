@@ -161,7 +161,9 @@
                                 <h5 class="fw-bolder" style="color: #1077B8;">{{ __('Desktop') }}</h5>
                             </div>
                             <div class="col-md-6">
-                                <h6 class="float-end fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
+                                 <a href="#" class="float-end shadow-hover">
+                                    <h6 class="fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
+                                </a>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -267,7 +269,9 @@
                                         <h5 class="fw-bolder text-white">{{ __('Best Promotion') }}</h5>
                                     </div>
                                     <div class="col-md-6">
-                                        <h6 class="float-end fw-bold text-white">{{ __('See All') }}</h6>
+                                        <a href="#" class="float-end shadow-hover">
+                                            <h6 class="fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -401,7 +405,9 @@
                                 <h5 class="fw-bolder fs-4" style="color: #1077B8;">{{ __('Laptop') }}</h5>
                             </div>
                             <div class="col-md-6">
-                                <h6 class="float-end fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
+                                <a href="#" class="float-end shadow-hover">
+                                    <h6 class="fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
+                                </a>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -507,7 +513,9 @@
                                         <h5 class="fw-bolder fs-4" style="color: #1077B8;">{{ __('Service') }}</h5>
                                     </div>
                                     <div class="col-md-6">
-                                        <h6 class="float-end fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
+                                        <a href="#" class="float-end shadow-hover">
+                                            <h6 class="fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="card border-1 p-0 shadow" style="background: none;">
@@ -515,26 +523,26 @@
                                 </div>
                                 <div class="row main-service d-flex justify-content-center">
                                     <div class="col-md-7">
-                                        <div class="card card-service border-0 shadow-lg">
-                                            <div class="col-md-10 p-4" id="contentContainer">
-                                                <div class="col-md-11 div-title bg-secondary" id="divTitle">Camera
+                                        <div class="card card-service border-0 shadow-lg h-100">
+                                            <div class="col-md-12 p-4" id="contentContainer">
+                                                <div class="col-md-12 div-title bg-secondary text-uppercase" id="divTitle">Camera
                                                     security Installer</div>
-                                                <div class="col-md-11 div-description fs-5" id="divDescription">Lorem
+                                                <div class="col-md-12 div-description fs-4" id="divDescription">Lorem
                                                     Ipsum has been the industry's standard dummy text ever since the 1500s,
                                                     when an unknown printer took a galley of type and scrambled it to make a
                                                     ty
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-12 mt-2">
                                                     <span class="text-danger fs-5 fw-bolder">$99.00</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <img width="100%" src="/website/upload/service.png" alt=""
+                                    <div class="col-md-4 p-0">
+                                        <img  class="" src="/website/upload/service.png" alt=""
                                             id="serviceImage">
                                     </div>
-                                    <div class="col text-center container-button">
+                                    <div class="col p-0 text-center container-button">
                                         <button class="carousel-button next" type="button" id="nextButton">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">Next</span>
@@ -556,7 +564,9 @@
                                 <h5 class="fw-bolder fs-4" style="color: #1077B8;">{{ __('Accessories') }}</h5>
                             </div>
                             <div class="col-md-6">
-                                <h6 class="float-end fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
+                                <a href="#" class="float-end shadow-hover">
+                                    <h6 class="fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
+                                </a>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -669,6 +679,10 @@
                                 <div class="card home-desktop border-0 shadow-lg">
                                     <div class="card-header head-video justify-content-center">
                                         <img src="/website/upload/image1.jpg" alt="not found">
+                                        <button class=" playvideo btn-video" data-bs-toggle="modal"
+                                            data-bs-target="#videoModal">
+                                            <i class="fa-solid fa-play fa-lg" style="color: white"></i>
+                                        </button>
                                     </div>
                                     <div class="card-body desktop-body">
                                         <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
@@ -676,6 +690,26 @@
                                         <div class="discription fs-6">
                                             Lorem Ipsum is simply dummy text of theprinting and typesetting industry.Lorem
                                             Lorem Ipsum is simply.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <video width="100%" src="/website/video/video1.mp4" controls></video>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
@@ -730,14 +764,6 @@
                 </div>
                 {{-- </div> --}}
             </div>
-            <div class="col-md-12">
-                <div class="btn-up float-end shadow-lg">
-                    <button onclick="topFunction()" id="myBtngoup" class="btn" title="Go to top">
-                        <i class="fa-solid fa-chevron-up"></i>
-                    </button>
-                </div>
-            </div>
-
         </div>
         {{-- <script>
             const content = [{
@@ -862,5 +888,4 @@
             // Initial content load
             updateContent();
         </script>
-
     @endsection
