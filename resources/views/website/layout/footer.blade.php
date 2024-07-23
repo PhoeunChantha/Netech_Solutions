@@ -1,15 +1,3 @@
-<style>
-    /* @media (min-width: 1279px) {
-        .main-footer {
-            bottom: auto;
-        }
-    } */
-
-    /* .main-footer {
-        padding: .7rem;
-    } */
-</style>
-
 <footer class="main-footer text-start position-absolute bottom-auto w-100 px-5 pt-5 pb-3">
     {{-- <strong>{{ session()->get('copy_right_text') }}</strong> --}}
     <div class="col-12">
@@ -81,3 +69,4 @@
         </div>
     </div>
 </footer>
+

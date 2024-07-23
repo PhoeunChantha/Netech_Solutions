@@ -27,6 +27,7 @@
         });
     </script> --}}
    <script>
+    
        @if (session('success'))
            Swal.fire({
                position: 'center',
@@ -56,4 +57,5 @@
                timer: 2000
            });
        @endif
+
    </script>

@@ -2,7 +2,6 @@
 @section('content')
     @include('website.home.home-style')
     <div class="content">
-
         <div class="row mt--3 mx-0 justify-content-center align-content-center">
             <div id="carouselExampleSlidesOnly" class="carousel slide " data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -83,6 +82,7 @@
                         <img src="\website\upload\pro8.png" alt="not found">
                     </div>
                 </div>
+
                 <div class="row justify-content-center">
                     <div class="col-10">
                         <div class="card container-card mt-5 mb-5 p-4 shadow-lg border-0">
@@ -653,7 +653,91 @@
                         </div>
                     </div>
                 </div>
+                {{-- <div class="col-md-12"> --}}
+                <div class="row mt-3 video-container justify-content-center" style="background-color:#EBF7FF">
+                    <div class="col-md-10 mt-4 mb-5 ">
+                        <div class="row justify-content-center">
+                            <div class="row d-flex justify-content-between mb-3">
+                                <div class="col-md-6">
+                                    <h5 class="fw-bolder fs-4" style="color: #1077B8;">{{ __('Video') }}</h5>
+                                </div>
+                                {{-- <div class="col-md-6">
+                                        <h6 class="float-end fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
+                                    </div> --}}
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card home-desktop border-0 shadow-lg">
+                                    <div class="card-header head-video justify-content-center">
+                                        <img src="/website/upload/image1.jpg" alt="not found">
+                                    </div>
+                                    <div class="card-body desktop-body">
+                                        <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
+                                        </h6>
+                                        <div class="discription fs-6">
+                                            Lorem Ipsum is simply dummy text of theprinting and typesetting industry.Lorem
+                                            Lorem Ipsum is simply.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card home-desktop border-0 shadow-lg">
+                                    <div class="card-header head-video justify-content-center">
+                                        <img src="/website/upload/image1.jpg" alt="not found">
+                                    </div>
+                                    <div class="card-body desktop-body">
+                                        <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
+                                        </h6>
+                                        <div class="discription fs-6">
+                                            Lorem Ipsum is simply dummy text of theprinting and typesetting industry.Lorem
+                                            Lorem Ipsum is simply.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card home-desktop border-0 shadow-lg">
+                                    <div class="card-header head-video justify-content-center">
+                                        <img src="/website/upload/image1.jpg" alt="not found">
+                                    </div>
+                                    <div class="card-body desktop-body">
+                                        <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
+                                        </h6>
+                                        <div class="discription fs-6">
+                                            Lorem Ipsum is simply dummy text of theprinting and typesetting industry.Lorem
+                                            Lorem Ipsum is simply.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card home-desktop border-0 shadow-lg">
+                                    <div class="card-header head-video justify-content-center">
+                                        <img src="/website/upload/image1.jpg" alt="not found">
+                                    </div>
+                                    <div class="card-body desktop-body">
+                                        <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
+                                        </h6>
+                                        <div class="discription fs-6">
+                                            Lorem Ipsum is simply dummy text of theprinting and typesetting industry.Lorem
+                                            Lorem Ipsum is simply.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- </div> --}}
             </div>
+            <div class="col-md-12">
+                <div class="btn-up float-end shadow-lg">
+                    <button onclick="topFunction()" id="myBtngoup" class="btn" title="Go to top">
+                        <i class="fa-solid fa-chevron-up"></i>
+                    </button>
+                </div>
+            </div>
+
         </div>
         {{-- <script>
             const content = [{
@@ -778,39 +862,5 @@
             // Initial content load
             updateContent();
         </script>
+
     @endsection
-
-    {{-- <script>
-    let currentIndex = 0;
-
-    function showSlide(index) {
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
-
-      //  Hide all slides
-        // for (let i = 0; i < totalSlides; i++) {
-        //     slides[i].style.display = "none";
-        // }
-
-        // Show the current slide
-        if (index >= totalSlides) {
-            currentIndex = 0; // Go back to the first slide
-        } else if (index < 0) {
-            currentIndex = totalSlides - 1; // Go to the last slide
-        } else {
-            currentIndex = index;
-        }
-
-        slides[currentIndex].style.display = "block";
-    }
-
-    function nextSlide() {
-        showSlide(currentIndex + 1);
-    }
-
-    // Auto slide every 3 seconds
-    setInterval(nextSlide, 2000);
-
-    // Initialize the first slide
-    showSlide(currentIndex);
-</script> --}}

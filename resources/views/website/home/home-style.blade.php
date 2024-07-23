@@ -480,7 +480,15 @@
     .fade-in {
         opacity: 1;
     }
-    #serviceImage{
+
+    #serviceImage {
         border-radius: 20px;
     }
+
+    .video-container {
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+    }
+
+   
 </style>

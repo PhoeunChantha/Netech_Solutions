@@ -96,126 +96,87 @@
         <div class="nav-rightside1 justify-content-center col-md-12 d-flex " id="navRightside">
             <div class="row">
                 {{-- <div class="col-md-12"> --}}
-                    <ul class="nav justify-content-center gap-1">
-                        <li class="nav-item">
-                            <a class="nav-link active text-center justify-content-center" aria-current="page"
-                                href="#"> <i class="fas fa-home px-2"></i>{{ __('Home') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-center justify-content-center" aria-current="page"
-                                href="#"> <i class="fas fa-desktop px-2"></i>{{ __('DESKTOP') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-center justify-content-center" aria-current="page"
-                                href="#"><i class="fas fa-laptop px-2"></i>{{ __('LAPTOP') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-center justify-content-center" aria-current="page"
-                                href="#">
-                                <img class="" src="\website\nav\accessory.png" alt="not found">
-                                {{ __('ACCESSORIES') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-center justify-content-center" aria-current="page"
-                                href="#">
-                                <img class="" src="\website\nav\service.png" alt="">
-                                {{ __('SERVICES') }}
-                            </a>
-                            {{-- <i class="fa-solid fa-user-gear px-2" style="color:#ffffff;"></i> --}}
+                <ul class="nav justify-content-center gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link active text-center justify-content-center" aria-current="page"
+                            href="#"> <i class="fas fa-home px-2"></i>{{ __('Home') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active text-center justify-content-center" aria-current="page"
+                            href="#"> <i class="fas fa-desktop px-2"></i>{{ __('DESKTOP') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active text-center justify-content-center" aria-current="page"
+                            href="#"><i class="fas fa-laptop px-2"></i>{{ __('LAPTOP') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active text-center justify-content-center" aria-current="page"
+                            href="#">
+                            <img class="" src="\website\nav\accessory.png" alt="not found">
+                            {{ __('ACCESSORIES') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active text-center justify-content-center" aria-current="page"
+                            href="#">
+                            <img class="" src="\website\nav\service.png" alt="">
+                            {{ __('SERVICES') }}
+                        </a>
+                        {{-- <i class="fa-solid fa-user-gear px-2" style="color:#ffffff;"></i> --}}
 
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-center justify-content-center" aria-current="page"
-                                href="#">
-                                {{-- <i class="fa-solid fa-circle-exclamation px-2" style="color: #ffffff;"></i> --}}
-                                <img class="" src="\website\nav\about.png" alt="">
-                                {{ __('ABOUT US') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-center justify-content-center" aria-current="page"
-                                href="#">
-                                {{-- <i class="fa-solid fa-user-pen px-2" style="color: #ffffff;"></i> --}}
-                                <img class="" src="\website\nav\contact.png" alt="">
-                                {{ __('Contact Us') }}
-                            </a>
-                        </li>
-                    </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active text-center justify-content-center" aria-current="page"
+                            href="#">
+                            {{-- <i class="fa-solid fa-circle-exclamation px-2" style="color: #ffffff;"></i> --}}
+                            <img class="" src="\website\nav\about.png" alt="">
+                            {{ __('ABOUT US') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active text-center justify-content-center" aria-current="page"
+                            href="#">
+                            {{-- <i class="fa-solid fa-user-pen px-2" style="color: #ffffff;"></i> --}}
+                            <img class="" src="\website\nav\contact.png" alt="">
+                            {{ __('Contact Us') }}
+                        </a>
+                    </li>
+                </ul>
                 {{-- </div> --}}
             </div>
         </div>
     </div>
+
     @include('website.layout.modal_login')
 </nav>
-<script>
-    $(document).ready(function() {
-        $('#dropdown-toggle').on('click', function() {
-            $(this).next('.dropdown-menu').toggle();
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#dropdown-toggle').on('click', function() {
+                $(this).next('.dropdown-menu').toggle();
+            });
         });
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-        const darkToggle = document.querySelector('.dark-toggle');
-        const body = document.body;
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkToggle = document.querySelector('.dark-toggle');
+            const body = document.body;
 
-        darkToggle.addEventListener('click', function() {
-            body.classList.toggle('dark');
+            darkToggle.addEventListener('click', function() {
+                body.classList.toggle('dark');
+            });
         });
-    });
-</script>
-<script>
-    window.onscroll = function() {
-        myFunction()
-    };
 
-    var navbar = document.getElementById("sticky2");
-    var sticky = navbar.offsetTop;
+        window.onscroll = function() {
+            myFunction()
+        };
+        var navbar = document.getElementById("sticky2");
+        var sticky = navbar.offsetTop;
 
-    function myFunction() {
-        if (window.pageYOffset >= sticky) {
-            navbar.classList.add("sticky");
-        } else {
-            navbar.classList.remove("sticky");
+        function myFunction() {
+            if (window.pageYOffset >= sticky) {
+                navbar.classList.add("sticky");
+            } else {
+                navbar.classList.remove("sticky");
+            }
         }
-    }
-</script>
-{{-- <script>
-    function toggleNavbar() {
-        const navRightside = document.getElementById('navRightside');
-        if (navRightside.classList.contains('show')) {
-            navRightside.classList.remove('show');
-            setTimeout(() => {
-                navRightside.style.display = 'none';
-            }, 500); // Match this to the CSS transition duration
-        } else {
-            navRightside.style.display = 'flex';
-            setTimeout(() => {
-                navRightside.classList.add('show');
-            }, 10); // Small delay to allow the display change to take effect
-        }
-    }
-
-    // Optional: Ensure that the nav is hidden on page load for small screens
-    document.addEventListener('DOMContentLoaded', () => {
-        const navRightside = document.getElementById('navRightside');
-        if (window.innerWidth < 768) {
-            navRightside.classList.remove('show');
-            navRightside.style.display = 'none';
-        } else {
-            navRightside.classList.add('show');
-            navRightside.style.display = 'flex';
-        }
-    });
-
-    // Hide nav when clicking outside of it (optional enhancement)
-    document.addEventListener('click', (event) => {
-        const navRightside = document.getElementById('navRightside');
-        const toggler = document.querySelector('.navbar-toggler');
-        if (!navRightside.contains(event.target) && !toggler.contains(event.target)) {
-            navRightside.classList.remove('show');
-            setTimeout(() => {
-                navRightside.style.display = 'none';
-            }, 500); // Match this to the CSS transition duration
-        }
-    });
-</script> --}}
+    </script>
+@endpush
