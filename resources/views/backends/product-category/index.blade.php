@@ -60,7 +60,7 @@
 
                         {{-- table --}}
                         @include('backends.product-category._table')
-
+                       
                     </div>
                 </div>
             </div>
@@ -103,6 +103,7 @@
             }
             reader.readAsDataURL(this.files[0]);
         });
+
 
         $(document).on('click', '.btn-delete', function(e) {
             e.preventDefault();

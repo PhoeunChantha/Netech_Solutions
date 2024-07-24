@@ -37,6 +37,10 @@ class SetSessionData
 
             $request->session()->put('app_logo', $app_logo);
 
+            $email = @$business->where('type', 'email')->first()->value;
+
+            $request->session()->put('email', $email);
+
             $app_name = @$business->where('type', 'company_name')->first()->value;
 
             $request->session()->put('app_name', $app_name);

@@ -96,10 +96,9 @@
 
             <div class="modal-header bg-style-1 justify-content-center">
                 <h5 class="modal-title text-uppercase" id="staticBackdropLabel">{{ __('Login') }}</h5>
-                {{-- <button type="button" class="close cus-login-close-btn" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close cus-login-close-btn" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="cus-login-close">&times;</span>
-                </button> --}}
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </button>
             </div>
 
             <div class="modal-body bg-style-1">

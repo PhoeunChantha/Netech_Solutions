@@ -1,8 +1,10 @@
 <nav class="navbar bg-body-tertiary" style="background-color: white">
     <div class="container-fluid sticky1 justify-content-around p-2">
         <div class="nav-leftside text-center col-md-2">
-            <a class="navbar-brand" href="#">
-                <img src="\website\upload\weblogo.png" alt="not found" width="50%" class="logo">
+            <a class="navbar-brand" href="{{ route('home') }}">
+                {{-- <img src="\website\upload\weblogo.png" alt="not found" width="50%" class="logo"> --}}
+                <img src="@if (session()->has('app_logo') && file_exists('uploads/business_settings/' . session()->get('app_logo'))) {{ asset('uploads/business_settings/' . session()->get('app_logo')) }} @else {{ asset('uploads/image/default.png') }} @endif"
+                    alt="" width="60%" class="logo">
             </a>
         </div>
         <div class="col-md-2 phone-container">
@@ -96,49 +98,27 @@
         <div class="nav-rightside1 justify-content-center col-md-12 d-flex " id="navRightside">
             <div class="row">
                 {{-- <div class="col-md-12"> --}}
-                <ul class="nav justify-content-center gap-1">
-                    <li class="nav-item">
-                        <a class="nav-link active text-center justify-content-center" aria-current="page"
-                            href="#"> <i class="fas fa-home px-2"></i>{{ __('Home') }}</a>
+                <ul class="nav justify-content-center gap-3">
+                    <li class="nav-item p-1">
+                        <a class="nav-link active text-center gap-1" aria-current="page" href="#"> <i
+                                class="fas fa-home"></i>{{ __('Home') }}</a>
                     </li>
+                    @foreach ($cate as $item)
+                        <li class="nav-item p-1">
+                            <a class="nav-link active text-center gap-1" href="#"> <i
+                                    class="fas fa-home"></i>{{ $item->name }}</a>
+                        </li>
+                    @endforeach
                     <li class="nav-item">
-                        <a class="nav-link active text-center justify-content-center" aria-current="page"
-                            href="#"> <i class="fas fa-desktop px-2"></i>{{ __('DESKTOP') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-center justify-content-center" aria-current="page"
-                            href="#"><i class="fas fa-laptop px-2"></i>{{ __('LAPTOP') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-center justify-content-center" aria-current="page"
-                            href="#">
-                            <img class="" src="\website\nav\accessory.png" alt="not found">
-                            {{ __('ACCESSORIES') }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-center justify-content-center" aria-current="page"
-                            href="#">
-                            <img class="" src="\website\nav\service.png" alt="">
-                            {{ __('SERVICES') }}
-                        </a>
-                        {{-- <i class="fa-solid fa-user-gear px-2" style="color:#ffffff;"></i> --}}
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-center justify-content-center" aria-current="page"
-                            href="#">
+                        <a class="nav-link active  text-center " href="#">
                             {{-- <i class="fa-solid fa-circle-exclamation px-2" style="color: #ffffff;"></i> --}}
-                            <img class="" src="\website\nav\about.png" alt="">
-                            {{ __('ABOUT US') }}
+                            <img class="m-1" src="\website\nav\about.png" alt="not found">{{ __('ABOUT US') }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active text-center justify-content-center" aria-current="page"
-                            href="#">
+                        <a class="nav-link active  text-center " href="#">
                             {{-- <i class="fa-solid fa-user-pen px-2" style="color: #ffffff;"></i> --}}
-                            <img class="" src="\website\nav\contact.png" alt="">
-                            {{ __('Contact Us') }}
+                            <img class="m-1" src="\website\nav\contact.png" alt="not found">{{ __('Contact Us') }}
                         </a>
                     </li>
                 </ul>

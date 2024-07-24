@@ -122,7 +122,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         // dd($request->all());
-       
+
         $validator = Validator::make($request->all(), [
             'first_name' => 'nullable',
             'last_name' => 'nullable',

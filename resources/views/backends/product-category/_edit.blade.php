@@ -3,12 +3,13 @@
 <div class="modal-dialog modal-md modal-dialog-centered">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">{{ __('Edit Category') }}</h5>
+            <h5 class="modal-title">{{ __('New Category') }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
         </div>
-        <form action="{{ route('admin.product-category.update', $category->id) }}" class="submit-form" method="post">
+        <form action="{{ route('admin.product-category.update', $category->id) }}" enctype="multipart/form-data"
+            class="submit-form" method="post">
             <div class="modal-body">
                 @csrf
                 @method('PUT')
@@ -63,6 +64,27 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group col-md-12">
+                    <div class="form-group">
+                        <label for="exampleInputFile">{{ __('Image') }}</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="hidden" name="icon_images" class="image_hidden">
+                                <input type="file" class="custom-file-input image-file-input" id="exampleInputFile"
+                                    name="icon_image">
+                                <label class="custom-file-label"
+                                    for="exampleInputFile">{{ $category->icon_images ? basename($category->icon_images) : __('Choose file') }}</label>
+                            </div>
+                        </div>
+                        <div class="preview preview-multiple text-center border rounded mt-2" style="height: 150px">
+                            <img src="
+                            @if ($category->icon_images && file_exists(public_path('uploads/category/' . $icon_images->icon_images))) @else
+                             {{ asset('uploads/defualt.png') }} @endif"
+                                alt="" height="100%">
+                        </div>
+                    </div>
+
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
@@ -71,7 +93,18 @@
         </form>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 {{-- @push('js') --}}
-<script></script>
+<script>
+    $('.image-file-input').change(function(e) {
+        var reader = new FileReader();
+        var preview = $(this).closest('.form-group').find('.preview img');
+        reader.onload = function(e) {
+            preview.attr('src', e.target.result).show();
+        }
+        reader.readAsDataURL(this.files[0]);
+    });
+</script>
 {{-- @endpush --}}

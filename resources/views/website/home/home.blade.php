@@ -161,7 +161,7 @@
                                 <h5 class="fw-bolder" style="color: #1077B8;">{{ __('Desktop') }}</h5>
                             </div>
                             <div class="col-md-6">
-                                 <a href="#" class="float-end shadow-hover">
+                                <a href="#" class="float-end shadow-hover">
                                     <h6 class="fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
                                 </a>
                             </div>
@@ -525,7 +525,8 @@
                                     <div class="col-md-7">
                                         <div class="card card-service border-0 shadow-lg h-100">
                                             <div class="col-md-12 p-4" id="contentContainer">
-                                                <div class="col-md-12 div-title bg-secondary text-uppercase" id="divTitle">Camera
+                                                <div class="col-md-12 div-title bg-secondary text-uppercase"
+                                                    id="divTitle">Camera
                                                     security Installer</div>
                                                 <div class="col-md-12 div-description fs-4" id="divDescription">Lorem
                                                     Ipsum has been the industry's standard dummy text ever since the 1500s,
@@ -539,7 +540,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4 p-0">
-                                        <img  class="" src="/website/upload/service.png" alt=""
+                                        <img class="" src="/website/upload/service.png" alt=""
                                             id="serviceImage">
                                     </div>
                                     <div class="col p-0 text-center container-button">
@@ -704,8 +705,9 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body">
-                                            <video width="100%" src="/website/video/video1.mp4" controls></video>
+                                        <div class="modal-body show-video">
+                                            <video id="modalvideo" width="100%" src="/website/video/video1.mp4"
+                                                controls></video>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -887,5 +889,70 @@
 
             // Initial content load
             updateContent();
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var modalElement = document.getElementById('videoModal');
+
+                modalElement.addEventListener('hide.bs.modal', function() {
+                    var video = document.getElementById('modalVideo');
+                    var iframe = document.getElementById('modalIframe');
+
+                    if (video) {
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+
+                    if (iframe) {
+                        iframe.src = iframe.src;
+                    }
+                });
+            });
+        </script>
+        {{-- <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const productContainer = document.querySelector(".product");
+                const images = productContainer.querySelectorAll("img");
+                const numberOfImages = images.length;
+
+                // Duplicate the images to create a seamless loop
+                for (let i = 0; i < numberOfImages; i++) {
+                    const clone = images[i].cloneNode(true);
+                    productContainer.appendChild(clone);
+                }
+
+                // Calculate the width of the product container to set the animation
+                const totalWidth = productContainer.scrollWidth / 2;
+                productContainer.style.width = totalWidth + "px";
+
+                // Set the animation dynamically based on the container's width
+                productContainer.style.animation = `scroll ${totalWidth / 50}s linear infinite`;
+            });
+        </script> --}}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const productContainer = document.querySelector(".product");
+                const images = productContainer.querySelectorAll("img");
+                const numberOfImages = images.length;
+
+                // Duplicate the images to create a seamless loop
+                for (let i = 0; i < numberOfImages; i++) {
+                    const clone = images[i].cloneNode(true);
+                    productContainer.appendChild(clone);
+                }
+
+                let scrollAmount = 0;
+
+                function scrollImages() {
+                    scrollAmount -= 1; // Adjust this value to control the speed
+                    if (scrollAmount <= -productContainer.scrollWidth / 2) {
+                        scrollAmount = 0;
+                    }
+                    productContainer.style.transform = `translateX(${scrollAmount}px)`;
+                    requestAnimationFrame(scrollImages);
+                }
+
+                scrollImages();
+            });
         </script>
     @endsection
