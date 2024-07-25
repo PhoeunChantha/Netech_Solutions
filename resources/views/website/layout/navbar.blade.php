@@ -101,21 +101,28 @@
                 <ul class="nav justify-content-center gap-3">
                     <li class="nav-item p-1">
                         <a class="nav-link active text-center gap-1" aria-current="page" href="#"> <i
-                                class="fas fa-home"></i>{{ __('Home') }}</a>
+                                class="fas fa-home "></i>{{ __('Home') }}</a>
                     </li>
                     @foreach ($cate as $item)
                         <li class="nav-item p-1">
-                            <a class="nav-link active text-center gap-1" href="#"> <i
-                                    class="fas fa-home"></i>{{ $item->name }}</a>
+                            <a class="nav-link active text-center fs-5 gap-1" href="#">
+                                <img src="
+                            @if ($item->icon_images && file_exists(public_path('uploads/category/' . $item->icon_images))) {{ asset('uploads/category/' . $item->icon_images) }}
+                            @else
+                                {{ asset('uploads/default.png') }} @endif"
+                                    alt="{{ $item->name }}">
+                                {{ $item->name }}
+                            </a>
                         </li>
                     @endforeach
-                    <li class="nav-item">
+
+                    <li class="nav-item p-1">
                         <a class="nav-link active  text-center " href="#">
                             {{-- <i class="fa-solid fa-circle-exclamation px-2" style="color: #ffffff;"></i> --}}
                             <img class="m-1" src="\website\nav\about.png" alt="not found">{{ __('ABOUT US') }}
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item p-1">
                         <a class="nav-link active  text-center " href="#">
                             {{-- <i class="fa-solid fa-user-pen px-2" style="color: #ffffff;"></i> --}}
                             <img class="m-1" src="\website\nav\contact.png" alt="not found">{{ __('Contact Us') }}
