@@ -118,7 +118,7 @@
         width: 7%;
         padding: 1em;
         margin-right: 5em;
-         /* flex-shrink: 0; */
+        /* flex-shrink: 0; */
         /* display: inline-block; */
     }
 
@@ -475,6 +475,18 @@
         background-size: 100%, 100%;
     }
 
+    .carousel-button {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.5s ease;
+
+    }
+
+    .carousel-button:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transform: scale(1.1);
+        /* Adjust color as needed */
+    }
+
     .container-button {
         align-content: center;
     }
@@ -504,6 +516,80 @@
     .fade-in {
         opacity: 1;
     }
+
+    /* Add these styles to your CSS file or within a <style> tag in your HTML */
+    /* @keyframes scrollUp {
+        0% {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(-20px);
+            opacity: 1;
+        }
+    }
+
+    @keyframes scrollDown {
+        0% {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .scroll-up {
+        animation: scrollUp 0.5s forwards;
+    }
+
+    .scroll-down {
+        animation: scrollDown 0.5s forwards;
+    } */
+    /* Add these styles to your CSS file or within a <style> tag in your HTML */
+    @keyframes slideUp {
+        0% {
+            transform: translateY(90%);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideDown {
+        0% {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .slide-up {
+        animation: slideUp 0.5s forwards;
+    }
+
+    .slide-down {
+        animation: slideDown 0.5s forwards;
+    }
+
+    #image-sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        overflow: auto !important;
+    }
+
 
     #serviceImage {
         width: 100%;

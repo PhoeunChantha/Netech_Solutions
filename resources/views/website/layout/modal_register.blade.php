@@ -7,6 +7,10 @@
         color: #f4f4f4 !important;
         border-radius: 10px;
     }
+    .btn-save-register:hover{
+         background-color: #1077B8;
+        color: #f4f4f4 ;
+    }
 
     div:where(.swal2-container) .swal2-html-container {
         padding: .3em 1.6em .3em !important;
@@ -42,7 +46,7 @@
                                     <input type="file" class="register-profile-input" id="exampleInputFileFront"
                                         name="image" accept="image/png, image/jpeg" onchange="previewImageFront(event)">
                                     <label class="custom-file-label"
-                                        for="exampleInputFile">{{ $user->image ?? __('Choose file') }}</label>
+                                        for="exampleInputFileFront">{{ $user->image ?? __('Choose file') }}</label>
                                 </div>
                             </div>
                             <div class="preview preview-front preview-multiple text-center border rounded mt-2 w-100">

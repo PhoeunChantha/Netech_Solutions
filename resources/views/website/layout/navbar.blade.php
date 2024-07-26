@@ -17,7 +17,7 @@
             <div class="row">
                 <form action="#">
                     <div class="input-group">
-                        <input type="search" class="form-control search" placeholder="Search product here">
+                        <input type="search" id="searchs" class="form-control search" placeholder="Search product here">
                         <div class="input-group-append btn-search">
                             <button type="submit" class="btn">
                                 <i class="fa fa-search" style="color: #ffffff"></i>
@@ -100,12 +100,12 @@
                 {{-- <div class="col-md-12"> --}}
                 <ul class="nav justify-content-center gap-3">
                     <li class="nav-item p-1">
-                        <a class="nav-link active text-center gap-1" aria-current="page" href="#"> <i
-                                class="fas fa-home "></i>{{ __('Home') }}</a>
+                        <a class="nav-link active text-center fs-5" aria-current="page" href="{{route('home')}}"> <i
+                                class="fas fa-home m-1"></i>{{ __('Home') }}</a>
                     </li>
                     @foreach ($cate as $item)
                         <li class="nav-item p-1">
-                            <a class="nav-link active text-center fs-5 gap-1" href="#">
+                            <a class="nav-link active text-center fs-5 " href="#">
                                 <img src="
                             @if ($item->icon_images && file_exists(public_path('uploads/category/' . $item->icon_images))) {{ asset('uploads/category/' . $item->icon_images) }}
                             @else
@@ -119,13 +119,13 @@
                     <li class="nav-item p-1">
                         <a class="nav-link active  text-center " href="#">
                             {{-- <i class="fa-solid fa-circle-exclamation px-2" style="color: #ffffff;"></i> --}}
-                            <img class="m-1" src="\website\nav\about.png" alt="not found">{{ __('ABOUT US') }}
+                            <img class="m-1 fs-5" src="\website\nav\about.png" alt="not found">{{ __('ABOUT US') }}
                         </a>
                     </li>
                     <li class="nav-item p-1">
                         <a class="nav-link active  text-center " href="#">
                             {{-- <i class="fa-solid fa-user-pen px-2" style="color: #ffffff;"></i> --}}
-                            <img class="m-1" src="\website\nav\contact.png" alt="not found">{{ __('Contact Us') }}
+                            <img class="m-1 fs-5" src="\website\nav\contact.png" alt="not found">{{ __('Contact Us') }}
                         </a>
                     </li>
                 </ul>
@@ -143,14 +143,14 @@
                 $(this).next('.dropdown-menu').toggle();
             });
         });
-        document.addEventListener('DOMContentLoaded', function() {
-            const darkToggle = document.querySelector('.dark-toggle');
-            const body = document.body;
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const darkToggle = document.querySelector('.dark-toggle');
+        //     const body = document.body;
 
-            darkToggle.addEventListener('click', function() {
-                body.classList.toggle('dark');
-            });
-        });
+        //     darkToggle.addEventListener('click', function() {
+        //         body.classList.toggle('dark');
+        //     });
+        // });
 
         window.onscroll = function() {
             myFunction()
