@@ -72,18 +72,19 @@
                                 <input type="hidden" name="icon_images" class="image_hidden">
                                 <input type="file" class="custom-file-input image-file-input" id="exampleInputFile"
                                     name="icon_image">
-                                <label class="custom-file-label"
-                                    for="exampleInputFile">{{ $category->icon_images ? basename($category->icon_images) : __('Choose file') }}</label>
+                                <label class="custom-file-label" for="exampleInputFile">
+                                    {{ $category->icon_images ? basename($category->icon_images) : __('Choose file') }}
+                                </label>
                             </div>
                         </div>
                         <div class="preview preview-multiple text-center border rounded mt-2" style="height: 150px">
                             <img src="
-                            @if ($category->icon_images && file_exists(public_path('uploads/category/' . $icon_images->icon_images))) @else
-                             {{ asset('uploads/defualt.png') }} @endif"
-                                alt="" height="100%">
+                                @if ($category->icon_images && file_exists(public_path('uploads/category/' . $category->icon_images))) {{ asset('uploads/category/' . $category->icon_images) }}
+                                @else
+                                {{ asset('uploads/defualt.png') }} @endif"
+                                alt="" height="20%">
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="modal-footer">
@@ -98,13 +99,35 @@
 
 {{-- @push('js') --}}
 <script>
-    $('.image-file-input').change(function(e) {
+    $('.custom-file-input').change(function(e) {
         var reader = new FileReader();
         var preview = $(this).closest('.form-group').find('.preview img');
+        var label = $(this).closest('.form-group').find('.custom-file-label');
         reader.onload = function(e) {
             preview.attr('src', e.target.result).show();
         }
         reader.readAsDataURL(this.files[0]);
+        // Update file name label
+        var fileName = e.target.files[0].name;
+        label.text(fileName);
     });
 </script>
+{{-- <script>
+    $(document).ready(function() {
+        $('.image-file-input').change(function(e) {
+            var reader = new FileReader();
+            var preview = $(this).closest('.form-group').find('.preview img');
+            var label = $(this).closest('.form-group').find('.custom-file-label');
+
+            reader.onload = function(e) {
+                preview.attr('src', e.target.result).show();
+            }
+            reader.readAsDataURL(this.files[0]);
+
+            // Update file name label
+            var fileName = e.target.files[0].name;
+            label.text(fileName);
+        });
+    });
+</script> --}}
 {{-- @endpush --}}

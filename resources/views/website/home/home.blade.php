@@ -3,20 +3,16 @@
     @include('website.home.home-style')
     <div class="content">
         <div class="row mt--3 mx-0 justify-content-center align-content-center">
-            <div id="carouselExampleSlidesOnly" class="carousel slide " data-bs-ride="carousel">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="website/upload/banner.png" class="d-block w-100" alt="Banner 1">
-                    </div>
-                    {{-- <div class="carousel-item">
-                        <img src="website/upload/banner1.png" class="d-block w-100" alt="Banner 2">
-                    </div> --}}
-                    <div class="carousel-item">
-                        <img src="website/upload/banner2.png" class="d-block w-100" alt="Banner 3">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="website/upload/banner3.png" class="d-block w-100" alt="Banner 4">
-                    </div>
+                    @foreach ($banners as $key => $banner)
+                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                            <img src="
+                            @if ($banner->image_url && file_exists(public_path('uploads/banner/' . $banner->image_url))) {{ asset('uploads/banner/' . $banner->image_url) }} @endif
+                            "
+                                class="d-block w-100" alt="Banner">
+                        </div>
+                    @endforeach
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -28,7 +24,7 @@
                         <div class="card-body body-cate">
                             <div class="col-3 all-category text-center">
                                 <div class="img-container">
-                                    <img src="\website\upload\img1.png" alt="not found">
+                                    <img src="\website\upload\img6.png" alt="not found">
                                     <div class="text-overlay">
                                         <h5>Desktop</h5>
                                         <span>430 products</span>
@@ -37,7 +33,7 @@
                             </div>
                             <div class="col-3 all-category text-center">
                                 <div class="img-container">
-                                    <img src="\website\upload\img2.png" alt="not found">
+                                    <img src="/website/upload/image1.jpg" alt="not found">
                                     <div class="text-overlay">
                                         <h5>Laptop</h5>
                                         <span>250 products</span>
@@ -46,7 +42,7 @@
                             </div>
                             <div class="col-3 all-category text-center">
                                 <div class="img-container">
-                                    <img src="\website\upload\img3.png" alt="not found">
+                                    <img src="\website\upload\p1.png" alt="not found">
                                     <div class="text-overlay">
                                         <h5>Accesseries</h5>
                                         <span>120 products</span>
@@ -125,7 +121,7 @@
                                                         <h6>DeskTop1</h6>
                                                         <span>$500</span>
                                                     </div>
-                                                    <img src="/website/upload/image1.jpg" alt="not found">
+                                                    <img src="\website\upload\img6.png" alt="not found">
                                                 </div>
                                             </div>
                                             <div class="col-4 mt-3 text-center">
@@ -167,9 +163,9 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
+                            <div class="card home-desktop  border-0 shadow-lg">
                                 <div class="card-header head-img justify-content-center">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
+                                    <img src="\website\upload\img6.png" alt="not found">
                                 </div>
                                 <div class="card-body desktop-body">
                                     <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
@@ -192,7 +188,7 @@
                         <div class="col-md-3">
                             <div class="card home-desktop border-0 shadow-lg">
                                 <div class="card-header head-img">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
+                                    <img src="\website\upload\img6.png" alt="not found">
                                 </div>
                                 <div class="card-body desktop-body">
                                     <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
@@ -525,8 +521,8 @@
                                     <div class="col-md-7">
                                         <div class="card card-service border-0 shadow-lg h-100">
                                             <div class="col-md-12 p-4" id="contentContainer">
-                                                <div class="col-md-12 div-title fw-bold  text-uppercase"
-                                                    id="divTitle" style="color: #1077B8">Camera
+                                                <div class="col-md-12 div-title fw-bold  text-uppercase" id="divTitle"
+                                                    style="color: #1077B8">Camera
                                                     security Installer</div>
                                                 <div class="col-md-12 div-description fs-4" id="divDescription">Lorem
                                                     Ipsum has been the industry's standard dummy text ever since the 1500s,

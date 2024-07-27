@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backends\RoleController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Website\Auth\LoginController;
 use App\Http\Controllers\Backends\NavigationController;
 use App\Http\Controllers\Backends\FileManagerController;
 use App\Http\Controllers\Backends\BusinessSettingController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
 use App\Http\Controllers\Website\Auth\LoginController as WebsiteAuthLoginController;
 
@@ -101,10 +103,14 @@ Route::middleware(['auth', 'CheckUserLogin', 'SetSessionData'])->group(function 
         Route::resource('role', RoleController::class);
         Route::resource('header', NavigationController::class);
 
+        Route::resource('product', ProductController::class);
         Route::get('product-category/update_status', [CategoryController::class, 'updateStatus'])->name('product-category.update_status');
         Route::resource('product-category', CategoryController::class);
 
-        Route::resource('product', ProductController::class);
+        Route::get('banner/update_status', [BackendsBannerController::class, 'updateStatus'])->name('banner.update_status');
+        Route::resource('banner', BackendsBannerController::class);
+
+
         //header
         Route::get('/header', [DashboardController::class, 'header']);
     });

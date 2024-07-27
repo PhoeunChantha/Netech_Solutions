@@ -104,7 +104,7 @@
                                 class="fas fa-home m-1"></i>{{ __('Home') }}</a>
                     </li>
                     @foreach ($cate as $item)
-                        <li class="nav-item p-1">
+                        <li class="nav-item">
                             <a class="nav-link active text-center fs-5 " href="#">
                                 <img src="
                             @if ($item->icon_images && file_exists(public_path('uploads/category/' . $item->icon_images))) {{ asset('uploads/category/' . $item->icon_images) }}

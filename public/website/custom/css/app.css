@@ -175,8 +175,8 @@ body {
   color: #ffffff; /* Ensure active link text is white */
 }
 .nav-item > .nav-link > img {
-  width: 11%;
-  padding-left: 0;
+  width: 20px;
+  color: #f4f4f4;
 }
 
 /* footer */
@@ -293,4 +293,3 @@ body {
     font-size: 16px;
   }
 }
-

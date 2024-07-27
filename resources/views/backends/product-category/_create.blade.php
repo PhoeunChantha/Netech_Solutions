@@ -77,7 +77,7 @@
 
 <script>
     const compressor = new window.Compress();
-    $('.image-file-input').change(function(e) {
+    $('.custom-file-input').change(function(e) {
         // Update the custom file label with the selected file name
         const fileName = e.target.files[0] ? e.target.files[0].name : 'Choose Image';
         $(this).siblings('.custom-file-label').text(fileName);

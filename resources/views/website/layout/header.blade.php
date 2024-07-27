@@ -47,6 +47,7 @@
         html {
             scroll-behavior: smooth;
         }
+
         /* ::-webkit-scrollbar {
             display: none;
 
@@ -61,4 +62,64 @@
         /* * {
             -ms-overflow-style: none;
         } */
+
+        svg {
+            width: 200px;
+        }
+
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e7e7ed;
+            z-index: 9999;
+        }
+
+        .content {
+            display: none;
+            /* Hide content initially */
+        }
+
+        .wavy {
+            position: relative;
+            /* top: 27em; */
+
+            -webkit-box-reflect: below -12px linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+        }
+
+        .wavy span {
+            position: relative;
+            display: inline-block;
+            color: white;
+            font-size: 2em;
+
+            text-transform: uppercase;
+
+            animation: animate 1s ease-in-out infinite;
+            animation-delay: calc(0.1s * var(--i));
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0px);
+                color: yellow opacity: 0.2;
+            }
+
+            20% {
+                transform: translateY(-20px);
+                color: red;
+                opacity: 0.3;
+            }
+
+            40%,
+            100% {
+                transform: translateY(0px);
+
+            }
+        }
     </style>

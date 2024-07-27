@@ -1,24 +1,11 @@
 @extends('backends.master')
-
-@push('css')
-    <style>
-        .preview {
-            margin-block: 12px;
-            text-align: center;
-        }
-
-        .tab-pane {
-            margin-top: 20px
-        }
-    </style>
-@endpush
 @section('contents')
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h3>{{ __('Product Category') }}</h3>
+                    <h3>{{ __('Banners') }}</h3>
                 </div>
                 <div class="col-sm-6" style="text-align: right">
                 </div>
@@ -35,31 +22,22 @@
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h3 class="card-title">{{ __('Category List') }}</h3>
+                                    <h3 class="card-title">{{ __('Banner List') }}</h3>
                                 </div>
-                                {{-- <span class="badge bg-warning total-count">{{ $grades->total() }}</span> --}}
                                 <div class="col-sm-6">
-                                    {{-- <a href="{{ au }}"></a> --}}
-                                    {{-- <a class="btn btn-primary float-right" href="{{ route('admin.product-category.create') }}">
-                                    <i class=" fa fa-plus-circle"></i>
-                                    {{ __('Add New') }}
-                                </a> --}}
-                                    @if (auth()->user()->can('pro_category.create'))
-                                        <a class="btn btn-primary btn-modal float-right" href="#"
-                                            data-href="{{ route('admin.product-category.create') }}" data-toggle="modal"
-                                            data-container=".modal_form">
-                                            <i class=" fa fa-plus-circle"></i>
-                                            {{ __('Add New') }}
-                                        </a>
+                                    <a class="btn btn-primary float-right" href="{{ route('admin.banner.create') }}">
+                                        <i class=" fa fa-plus-circle"></i>
+                                        {{ __('Add New') }}
+                                    </a>
+                                    @if (auth()->user()->can('banner.create'))
                                     @endif
-
                                 </div>
                             </div>
                         </div>
                         <!-- /.card-header -->
 
                         {{-- table --}}
-                        @include('backends.product-category._table')
+                        @include('backends.banner._table')
 
                     </div>
                 </div>
@@ -68,6 +46,7 @@
     </section>
     <div class="modal fade modal_form" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
 @endsection
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 @push('js')
     <script>
         $('.btn_add').click(function(e) {
@@ -103,7 +82,6 @@
             }
             reader.readAsDataURL(this.files[0]);
         });
-
 
         $(document).on('click', '.btn-delete', function(e) {
             e.preventDefault();
@@ -154,7 +132,7 @@
             console.log($(this).data('id'));
             $.ajax({
                 type: "get",
-                url: "{{ route('admin.product-category.update_status') }}",
+                url: "{{ route('admin.banner.update_status') }}",
                 data: {
                     "id": $(this).data('id')
                 },

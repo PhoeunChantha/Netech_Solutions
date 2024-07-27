@@ -236,6 +236,7 @@ class CategoryController extends Controller
 
         return response()->json($output);
     }
+
     public function updateStatus(Request $request)
     {
         try {
