@@ -17,4 +17,7 @@ class DesktopController extends Controller
         return view('website.desktop.desktop', compact('cate', 'banners'));
 
     }
+    function create(){
+        
+    }
 }
