@@ -16,6 +16,9 @@ use App\Http\Controllers\Backends\FileManagerController;
 use App\Http\Controllers\Backends\BusinessSettingController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
+use App\Http\Controllers\Website\DesktopController;
+use App\Http\Controllers\Website\LaptopController;
+use App\Http\Controllers\Website\MacController;
 use App\Http\Controllers\Website\Auth\LoginController as WebsiteAuthLoginController;
 
 /*
@@ -62,8 +65,16 @@ Route::middleware(['SetFrontendSession'])->group(function () {
     Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
     Route::put('/account/profile/{id}/update', [AccountController::class, 'profileUpdate'])->name('account.profile.update');
     Route::post('/account/profile/store', [AccountController::class, 'profileStore'])->name('account.profile.store');
+
+    //desktop route has start
+    Route::get('/desktop',[DesktopController::class, 'index'])->name('desktop');
+    //laptop route has start
+    Route::get('/laptop', [LaptopController::class, 'index'])->name('laptop');
+    //mac route has start
+    Route::get('/mac',[MacController::class, 'index'])->name('mac');
 });
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
+
 
 
 
@@ -113,6 +124,10 @@ Route::middleware(['auth', 'CheckUserLogin', 'SetSessionData'])->group(function 
 
         //header
         Route::get('/header', [DashboardController::class, 'header']);
+
+
+
+
     });
 });
 
