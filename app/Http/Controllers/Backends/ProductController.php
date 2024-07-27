@@ -214,7 +214,7 @@ class ProductController extends Controller
             DB::commit();
             $output = [
                 'success' => 1,
-                'msg' => __('Created successfully')
+                'msg' => __('updated successfully')
             ];
         } catch (\Exception $e) {
             dd($e);

@@ -175,8 +175,8 @@ body {
   color: #ffffff; /* Ensure active link text is white */
 }
 .nav-item > .nav-link > img {
-  width: 11%;
-  padding-left: 0;
+  width: 20px;
+  color: #f4f4f4;
 }
 
 /* footer */
@@ -277,21 +277,19 @@ body {
 .address > span {
   font-size: 14px;
 }
-.nav-rightside1{
-    width: 100%;
+.nav-rightside1 {
+  width: 100%;
 }
 /* responsive */
 @media (min-width: 1200px) and (max-width: 1353px) {
   .nav-rightside1 {
     width: 100%;
   }
-  .nav{
+  .nav {
     width: 100%;
     gap: 0.5em !important;
   }
-  .nav-item>.nav-link{
-    font-size: 16px ;
+  .nav-item > .nav-link {
+    font-size: 16px;
   }
-
-
 }

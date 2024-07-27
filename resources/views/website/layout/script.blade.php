@@ -56,4 +56,37 @@
                timer: 2000
            });
        @endif
+       //    pre loader
+       //    document.addEventListener("DOMContentLoaded", function() {
+       //        window.addEventListener("load", function() {
+       //            // Set the duration for the preloader (in milliseconds)
+       //            const preloaderDuration = 3000; // 3000ms = 3 seconds
+
+       //            setTimeout(function() {
+       //                document.querySelector(".preloader").style.display = "none";
+       //                document.querySelector(".content").style.display = "block";
+       //            }, preloaderDuration);
+       //        });
+       //    });
+       window.addEventListener('load', function() {
+           const preloaderDuration = 2000; // 3000ms = 3 seconds
+           const preloader = document.querySelector('.preloader');
+           const content = document.querySelector('.content');
+
+           if (preloader) {
+               preloader.style.display = "flex";
+           }
+
+           if (content) {
+               content.style.display = "none";
+           }
+           setTimeout(function() {
+               if (preloader) {
+                   preloader.style.display = "none";
+               }
+               if (content) {
+                   content.style.display = "block";
+               }
+           }, preloaderDuration);
+       });
    </script>

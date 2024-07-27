@@ -21,7 +21,8 @@
     }
 
     .btn-modal-login:hover {
-        color: #ffffffff !important;
+          color: #ffffffff ;
+       background-color: #1077B8;
     }
 
     .modal {
@@ -96,18 +97,17 @@
 
             <div class="modal-header bg-style-1 justify-content-center">
                 <h5 class="modal-title text-uppercase" id="staticBackdropLabel">{{ __('Login') }}</h5>
-                {{-- <button type="button" class="close cus-login-close-btn" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close cus-login-close-btn" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="cus-login-close">&times;</span>
-                </button> --}}
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </button>
             </div>
 
             <div class="modal-body bg-style-1">
                 <form action="{{ route('web.login') }}" method="POST" class="form-login">
                     @csrf
                     <div class="form-group mb-3">
-                        <label class="label" for="name">{{ __('Email') }}</label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                        <label class="label" for="email">{{ __('Email') }}</label>
+                        <input id="emails" type="email" class="form-control @error('email') is-invalid @enderror"
                             name="email" value="{{ old('email') }}" required autocomplete="Email" autofocus>
                         @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -117,7 +117,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label class="label" for="password">{{ __('Password') }}</label>
-                        <input id="password" type="password"
+                        <input id="passwords" type="password"
                             class="form-control @error('password') is-invalid @enderror" name="password" required
                             autocomplete="current-password">
                         @error('password')

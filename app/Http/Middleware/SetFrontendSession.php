@@ -23,6 +23,7 @@ class SetFrontendSession
         $app_logo = @$business->where('type', 'web_header_logo')->first()->value;
         $web_banner_logo = @$business->where('type', 'web_banner_logo')->first()->value;
         $app_name = @$business->where('type', 'company_name')->first()->value;
+        $email = @$business->where('type', 'email')->first()->value;
         $phone = @$business->where('type', 'phone')->first()->value;
         $telegram = @$business->where('type', 'telegram')->first()->value;
         $about_club = @$business->where('type', 'about_club')->first()->value;
@@ -34,6 +35,7 @@ class SetFrontendSession
         $request->session()->put('app_logo', $app_logo);
         $request->session()->put('web_banner_logo', $web_banner_logo);
         $request->session()->put('app_name', $app_name);
+        $request->session()->put('email', $email);
         $request->session()->put('phone', $phone);
         $request->session()->put('telegram', $telegram);
         $request->session()->put('about_club', $about_club);

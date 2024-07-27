@@ -3,10 +3,21 @@
 
 <head>
     @include('website.layout.header')
+
+
 </head>
 
 <body>
+
     <div class="wrapper">
+        {{-- <div class="preloader">
+            @include('website.layout.preloader')
+        </div> --}}
+        <!-- Preloader -->
+        {{-- <div class="preloader flex-column justify-content-center align-items-center">
+            @include('website.layout.preloader')
+        </div> --}}
+
         <!-- Navbar -->
         @include('website.layout.navbar')
         <!-- End Navbar -->

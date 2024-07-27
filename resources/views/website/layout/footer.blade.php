@@ -1,24 +1,15 @@
-<style>
-    /* @media (min-width: 1279px) {
-        .main-footer {
-            bottom: auto;
-        }
-    } */
-
-    /* .main-footer {
-        padding: .7rem;
-    } */
-</style>
-
 <footer class="main-footer text-start position-absolute bottom-auto w-100 px-5 pt-5 pb-3">
     {{-- <strong>{{ session()->get('copy_right_text') }}</strong> --}}
     <div class="col-12">
         <div class="row  justify-content-center">
             <div class="col-3 logo-circle">
                 <div class="logo-container">
-                    <img src="\website\upload\image 307.png" alt="not found" class="logo-footer">
+                    {{-- <img src="\website\upload\image 307.png" alt="not found" class="logo-footer"> --}}
+                    <img src="@if (session()->has('app_icon') && file_exists('uploads/business_settings/' . session()->get('app_icon'))) {{ asset('uploads/business_settings/' . session()->get('app_icon')) }} @else {{ asset('uploads/image/default.png') }} @endif"
+                        alt="" width="60%" class="logo-footer">
                 </div>
-                <strong>NETTECH SOLUTION STORE</strong>
+                {{-- <strong>NETTECH SOLUTION STORE</strong> --}}
+                <strong>{{ session()->get('app_name') }}</strong>
             </div>
             <div class="col-2">
                 <strong class="footer-title">{{ __('Contact Us') }}</strong>
@@ -37,7 +28,8 @@
                     <span>{{ __('Start Conversation') }}</span>
                     <p>
                         <i class="fa fa-phone" style="color: #FFFFFF"></i>
-                        +85592290584
+                        <strong>+{{ session()->get('phone') }}</strong>
+                        {{-- +85592290584 --}}
                     </p>
                 </div>
             </div>
@@ -51,7 +43,8 @@
                     <hr style="border: 1.2px solid;">
                     <span>
                         <i class="fa fa-envelope" aria-hidden="true"></i>
-                        {{ __('phoeunchantha@gmail.com') }}
+                        <strong>{{ session()->get('email') }}</strong>
+                        {{-- {{ __('phoeunchantha@gmail.com') }} --}}
                     </span>
                 </div>
             </div>
@@ -70,14 +63,15 @@
                         <hr class="styled-hr">
                     </div>
                     <i class="fas fa-location    "></i>
-                    <span>Phum Prey Pring Khang Tboung 2, Sangkat Chom Chao 3, Khan, Pou Senchey, Phnom Penh</span>
+                    <strong>{{ session()->get('company_address') }}</strong>
+                    {{-- <span>Phum Prey Pring Khang Tboung 2, Sangkat Chom Chao 3, Khan, Pou Senchey, Phnom Penh</span> --}}
                 </div>
             </div>
         </div>
         <hr style="border: 1.2px solid;">
         <div class="col-12 copy_right_text text-center">
-            {{-- <strong>{{ session()->get('copy_right_text') }}</strong> --}}
-            <strong style="font-weight: 400">Copyright 2024 by NETTECH SOLUTION STORE.</strong>
+            <strong>{{ session()->get('copy_right_text') }}</strong>
+            {{-- <strong style="font-weight: 400">Copyright 2024 by NETTECH SOLUTION STORE.</strong> --}}
         </div>
     </div>
 </footer>

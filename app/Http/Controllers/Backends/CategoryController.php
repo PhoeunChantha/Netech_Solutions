@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Translation;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\helpers\ImageManager;
 use App\Models\BusinessSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -43,6 +44,7 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'icon_image' => 'nullable',
         ]);
 
         if (is_null($request->name[array_search('en', $request->lang)])) {
@@ -62,14 +64,18 @@ class CategoryController extends Controller
         }
 
         try {
+            // dd($request->all());
             DB::beginTransaction();
-
             $category = new Category;
             $category->name = $request->name[array_search('en', $request->lang)];
             $category->slug = Str::slug($request->name[array_search('en', $request->lang)]);
             $category->created_by = auth()->user()->id;
-            $category->save();
 
+            if ($request->hasFile('icon_image')) {
+                $category->icon_images = ImageManager::upload('uploads/category/', $request->icon_image);
+            }
+
+            $category->save();
             $data = [];
             foreach ($request->lang as $index => $key) {
                 if ($request->name[$index] && $key != 'en') {
@@ -91,6 +97,7 @@ class CategoryController extends Controller
                 'msg' => __('Create successfully'),
             ];
         } catch (Exception $e) {
+            dd($e);
             DB::rollBack();
             $output = [
                 'success' => 0,
@@ -133,6 +140,7 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'icon_image' => 'nullable',
         ]);
 
         if (is_null($request->name[array_search('en', $request->lang)])) {
@@ -157,6 +165,9 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             $category->name = $request->name[array_search('en', $request->lang)];
             $category->slug = Str::slug($request->name[array_search('en', $request->lang)]);
+            if ($request->hasFile('icon_image')) {
+                $category->icon_images = ImageManager::update('uploads/category/', $category->icon_image, $request->icon_image);
+            }
             $category->save();
 
             $data = [];
@@ -225,6 +236,7 @@ class CategoryController extends Controller
 
         return response()->json($output);
     }
+
     public function updateStatus(Request $request)
     {
         try {

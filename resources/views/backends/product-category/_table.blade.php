@@ -47,7 +47,7 @@
                                 </button>
                             </form>
                         @endif
-                       
+
                         {{-- <a href="#" data-href="{{ route('admin.product-category.edit', $category->id) }}"
                             class="btn btn-info btn-sm btn-modal btn-edit" data-toggle="modal"
                             data-container=".modal_form">
@@ -73,16 +73,17 @@
         </tbody>
     </table>
 
-    {{-- <div class="row">
+    <div class="row">
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
                 <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
-                    {{ __('Showing') }} {{ $grades->firstItem() }} {{ __('to') }} {{ $grades->lastItem() }} {{ __('of') }} {{ $grades->total() }} {{ __('entries') }}
+                    {{ __('Showing') }} {{ $categories->firstItem() }} {{ __('to') }} {{ $categories->lastItem() }}
+                    {{ __('of') }} {{ $categories->total() }} {{ __('entries') }}
                 </div>
-                <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $grades->links() }}</div>
+                <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $categories->links() }}</div>
             </div>
         </div>
-    </div> --}}
+    </div>
 
 
 </div>

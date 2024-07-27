@@ -25,7 +25,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
-    <link rel="stylesheet" href="{{ asset('website/sweetalert2/css/sweetalert2.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('website/sweetalert2/css/sweetalert2.min.css') }}"> --}}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery -->
@@ -39,9 +39,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap"
         rel="stylesheet">
-   
 
-    <script src="{{ asset('website/custom/js/app.js') }}"></script>
+
+    {{-- <script src="{{ asset('website/custom/js/app.js') }}"></script> --}}
     @stack('css')
     <style>
         html {
@@ -62,4 +62,64 @@
         /* * {
             -ms-overflow-style: none;
         } */
+
+        svg {
+            width: 200px;
+        }
+
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e7e7ed;
+            z-index: 9999;
+        }
+
+        .content {
+            display: none;
+            /* Hide content initially */
+        }
+
+        .wavy {
+            position: relative;
+            /* top: 27em; */
+
+            -webkit-box-reflect: below -12px linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+        }
+
+        .wavy span {
+            position: relative;
+            display: inline-block;
+            color: white;
+            font-size: 2em;
+
+            text-transform: uppercase;
+
+            animation: animate 1s ease-in-out infinite;
+            animation-delay: calc(0.1s * var(--i));
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0px);
+                color: yellow opacity: 0.2;
+            }
+
+            20% {
+                transform: translateY(-20px);
+                color: red;
+                opacity: 0.3;
+            }
+
+            40%,
+            100% {
+                transform: translateY(0px);
+
+            }
+        }
     </style>
