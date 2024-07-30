@@ -1,24 +1,28 @@
 <?php
 
-use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\Website\MacController;
 use App\Http\Controllers\Backends\RoleController;
 use App\Http\Controllers\Backends\UserController;
+use App\Http\Controllers\Backends\BrandController;
+use App\Http\Controllers\Website\LaptopController;
 use App\Http\Controllers\Website\AccountController;
+use App\Http\Controllers\Website\DesktopController;
+use App\Http\Controllers\Website\ServiceController;
 use App\Http\Controllers\Backends\ProductController;
 use App\Http\Controllers\Backends\CategoryController;
 use App\Http\Controllers\Backends\LanguageController;
 use App\Http\Controllers\Backends\DashboardController;
 use App\Http\Controllers\Website\Auth\LoginController;
 use App\Http\Controllers\Backends\NavigationController;
+use App\Http\Controllers\Website\AccessoriesController;
 use App\Http\Controllers\Backends\FileManagerController;
+use App\Http\Controllers\Website\ProductCategoryController;
 use App\Http\Controllers\Backends\BusinessSettingController;
-use App\Http\Controllers\BannerController;
 use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
-use App\Http\Controllers\Website\DesktopController;
-use App\Http\Controllers\Website\LaptopController;
-use App\Http\Controllers\Website\MacController;
+use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
 use App\Http\Controllers\Website\Auth\LoginController as WebsiteAuthLoginController;
 
 /*
@@ -66,12 +70,18 @@ Route::middleware(['SetFrontendSession'])->group(function () {
     Route::put('/account/profile/{id}/update', [AccountController::class, 'profileUpdate'])->name('account.profile.update');
     Route::post('/account/profile/store', [AccountController::class, 'profileStore'])->name('account.profile.store');
 
+
     //desktop route has start
-    Route::get('/desktop',[DesktopController::class, 'index'])->name('desktop');
+    Route::get('/desktop/{slug}',[DesktopController::class, 'index'])->name('desktop.show');
     //laptop route has start
-    Route::get('/laptop', [LaptopController::class, 'index'])->name('laptop');
+    Route::get('/laptop/{slug}', [LaptopController::class, 'index'])->name('laptop.show');
     //mac route has start
-    Route::get('/mac',[MacController::class, 'index'])->name('mac');
+    Route::get('/mac/{slug}',[MacController::class, 'index'])->name('mac.show');
+
+    Route::get('/services/{slug}',[ServiceController::class, 'index'])->name('services.show');
+    Route::get('/accessories/{slug}',[AccessoriesController::class, 'index'])->name('accessories.show');
+
+    Route::get('/category/{slug}',[ProductCategoryController::class, 'showCategoryProducts'])->name('category.show');
 });
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
 
@@ -115,11 +125,14 @@ Route::middleware(['auth', 'CheckUserLogin', 'SetSessionData'])->group(function 
         Route::resource('header', NavigationController::class);
 
         Route::resource('product', ProductController::class);
+
         Route::get('product-category/update_status', [CategoryController::class, 'updateStatus'])->name('product-category.update_status');
         Route::resource('product-category', CategoryController::class);
 
         Route::get('banner/update_status', [BackendsBannerController::class, 'updateStatus'])->name('banner.update_status');
         Route::resource('banner', BackendsBannerController::class);
+
+        Route::resource('brand', BrandController::class);
 
 
         //header

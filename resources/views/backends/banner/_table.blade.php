@@ -18,7 +18,7 @@
                         <img src="
                         @if ($banner->image_url && file_exists(public_path('uploads/banner/' . $banner->image_url))) {{ asset('uploads/banner/' . $banner->image_url) }}
                         @else
-                            {{ asset('uploads/image/default.png') }} @endif
+                            {{ asset('uploads/defualt.png') }} @endif
                         "
                             alt="" class="profile_img_table">
 
@@ -63,7 +63,6 @@
             @endforeach
         </tbody>
     </table>
-
     <div class="row">
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
@@ -75,6 +74,4 @@
             </div>
         </div>
     </div>
-
-
 </div>
