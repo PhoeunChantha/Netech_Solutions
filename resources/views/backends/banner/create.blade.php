@@ -51,7 +51,7 @@
                                                                 <input type="name" id="name_{{ $lang['code'] }}"
                                                                     class="form-control @error('name') is-invalid @enderror"
                                                                     name="name[]" placeholder="{{ __('Enter Name') }}"
-                                                                    value="{{ old('name') }}">
+                                                                    value="">
                                                                 @error('name')
                                                                     <span class="invalid-feedback" role="alert">
                                                                         <strong>{{ $message }}</strong>

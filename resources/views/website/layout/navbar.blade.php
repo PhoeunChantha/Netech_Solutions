@@ -17,7 +17,8 @@
             <div class="row">
                 <form action="#">
                     <div class="input-group">
-                        <input type="search" id="searchs" class="form-control search" placeholder="Search product here">
+                        <input type="search" id="searchs" class="form-control search"
+                            placeholder="Search product here">
                         <div class="input-group-append btn-search">
                             <button type="submit" class="btn">
                                 <i class="fa fa-search" style="color: #ffffff"></i>
@@ -100,12 +101,14 @@
                 {{-- <div class="col-md-12"> --}}
                 <ul class="nav justify-content-center gap-3">
                     <li class="nav-item p-1">
-                        <a class="nav-link active text-center fs-5" aria-current="page" href="{{route('home')}}"> <i
+                        <a class="nav-link text-center fs-5 {{ Request::is('/') ? ' active' : '' }}"
+                            aria-current="page" href="{{ route('home') }}"> <i
                                 class="fas fa-home m-1"></i>{{ __('Home') }}</a>
                     </li>
-                    @foreach ($cate as $item)
+                    {{-- @foreach ($categories as $item)
                         <li class="nav-item">
-                            <a class="nav-link active text-center fs-5 " href="#">
+                            <a class="nav-link text-center fs-5 {{ Request::routeIs($item->slug . '.show') ? 'active' : '' }}"
+                                href="{{ route($item->slug . '.show', $item->slug) }}">
                                 <img src="
                             @if ($item->icon_images && file_exists(public_path('uploads/category/' . $item->icon_images))) {{ asset('uploads/category/' . $item->icon_images) }}
                             @else
@@ -114,16 +117,29 @@
                                 {{ $item->name }}
                             </a>
                         </li>
+                    @endforeach --}}
+                    @foreach ($categories as $item)
+                        <li class="nav-item">
+                            <a class="nav-link text-center fs-5 {{ Request::routeIs('category.show') && Request::route('slug') == $item->slug ? 'active' : '' }}"
+                                href="{{ route('category.show', $item->slug) }}">
+                                <img src="
+                                    @if ($item->icon_images && file_exists(public_path('uploads/category/' . $item->icon_images))) {{ asset('uploads/category/' . $item->icon_images) }}
+                                    @else
+                                        {{ asset('uploads/default.png') }} @endif"
+                                    alt="{{ $item->name }}">
+                                {{ $item->name }}
+                            </a>
+                        </li>
                     @endforeach
 
                     <li class="nav-item p-1">
-                        <a class="nav-link active  text-center " href="#">
+                        <a class="nav-link   text-center " href="#">
                             {{-- <i class="fa-solid fa-circle-exclamation px-2" style="color: #ffffff;"></i> --}}
                             <img class="m-1 fs-5" src="\website\nav\about.png" alt="not found">{{ __('ABOUT US') }}
                         </a>
                     </li>
                     <li class="nav-item p-1">
-                        <a class="nav-link active  text-center " href="#">
+                        <a class="nav-link   text-center " href="#">
                             {{-- <i class="fa-solid fa-user-pen px-2" style="color: #ffffff;"></i> --}}
                             <img class="m-1 fs-5" src="\website\nav\contact.png" alt="not found">{{ __('Contact Us') }}
                         </a>
@@ -137,20 +153,20 @@
     @include('website.layout.modal_login')
 </nav>
 @push('js')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#dropdown-toggle').on('click', function() {
                 $(this).next('.dropdown-menu').toggle();
             });
         });
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     const darkToggle = document.querySelector('.dark-toggle');
-        //     const body = document.body;
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkToggle = document.querySelector('.dark-toggle');
+            const body = document.body;
 
-        //     darkToggle.addEventListener('click', function() {
-        //         body.classList.toggle('dark');
-        //     });
-        // });
+            darkToggle.addEventListener('click', function() {
+                body.classList.toggle('dark');
+            });
+        });
 
         window.onscroll = function() {
             myFunction()
@@ -165,5 +181,5 @@
                 navbar.classList.remove("sticky");
             }
         }
-    </script>
+    </script> --}}
 @endpush

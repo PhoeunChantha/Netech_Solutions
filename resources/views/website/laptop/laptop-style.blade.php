@@ -16,6 +16,7 @@
         gap: 10px;
         width: 100%;
     }
+
     /* end body card */
 
     /* categorgy start */
@@ -36,7 +37,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #0072C6; /* Blue background color */
+        background-color: #0072C6;
+        /* Blue background color */
     }
 
     /* ime set  start */
@@ -46,6 +48,7 @@
         display: inline-block;
         object-fit: contain;
     }
+
     /* end imge set  */
 
 
@@ -66,6 +69,7 @@
         transition: opacity 0.3s ease;
 
     }
+
     /* end overlay style */
 
     /*start set font style and span style */
@@ -76,29 +80,33 @@
         left: 20px;
         font-size: 24px;
     }
+
     .text-overlay span {
         position: absolute;
         top: 40px;
         left: 20px;
     }
+
     .text-overlay span {
         position: absolute;
         top: 40px;
         left: 20px;
 
     }
-      /* end set font style and span style */
+
+    /* end set font style and span style */
 
     .img-container img,
     .img-container .text-overlay {
         transition: transform 0.5s ease;
     }
 
- /* start imge when ohver on imge */
+    /* start imge when ohver on imge */
     .img-container:hover img,
     .img-container:hover .text-overlay {
         transform: scale(1.1);
     }
+
     /* end imge when ohver on imge */
 
 
@@ -108,7 +116,7 @@
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
 
-    @keyframes scroll {
+    /* @keyframes scroll {
         0% {
             transform: translateX(100%);
         }
@@ -116,7 +124,7 @@
         100% {
             transform: translateX(-100%);
         }
-    }
+    } */
 
     .main-product {
         background-color: #FFFFFF;
@@ -138,9 +146,10 @@
     }
 
     .product>img {
-        width: 10%;
+        width: 7%;
         padding: 1em;
         margin-right: 5em;
+        /* flex-shrink: 0; */
         /* display: inline-block; */
     }
 
@@ -157,8 +166,9 @@
         color: #1077B8;
         font-weight: 700;
     }
-    .latest-product{
-        background-image:  url('/website/desktop/technology.png');
+
+    .latest-product {
+        background-image: url('/website/desktop/technology.png');
         background-size: cover;
         background-position: center;
         width: 100%;
@@ -168,18 +178,22 @@
         padding: 10px;
         position: relative;
     }
-    .latest-product img{
+
+    .latest-product img {
         width: 70%;
         height: 350px;
     }
+
     .annimation {
         position: relative;
         left: 10px;
         top: 20px;
-        height: 150px; /* Adjust size as needed */
+        height: 150px;
+        /* Adjust size as needed */
         transform: translateY(-10%);
         animation: moveUpDown 2s infinite alternate ease-in-out;
     }
+
     @keyframes moveUpDown {
         0% {
             top: 30px;
@@ -189,7 +203,8 @@
             top: 0px;
         }
     }
-    .text-over{
+
+    .text-over {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -198,11 +213,13 @@
         border: none;
 
     }
+
     .text-overlay h3 {
         font-size: 24px;
         margin: 0;
 
     }
+
     .text-over a {
 
         text-decoration: none;
@@ -402,7 +419,8 @@
     .card-header.head-img {
         width: 100%;
         height: 0;
-        padding-bottom: 90.25%; /* 16:9 aspect ratio */
+        padding-bottom: 90.25%;
+        /* 16:9 aspect ratio */
         position: relative;
         overflow: hidden;
     }
@@ -425,12 +443,14 @@
 
     .card-title,
     .card-text {
-        margin: 0; /* Remove any margin from the heading and paragraph elements */
+        margin: 0;
+        /* Remove any margin from the heading and paragraph elements */
     }
 
     .addcard>a>i {
         color: #A1A1A1;
     }
+
     /* End product */
 
     /* .head-img {
@@ -544,7 +564,20 @@
     .fade-in {
         opacity: 1;
     }
-    #serviceImage{
+
+    #serviceImage {
         border-radius: 20px;
+    }
+
+    .brand>button {
+        color: red;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .brand>button:hover {
+        background-color: #ff0000;
+        color: white;
     }
 </style>

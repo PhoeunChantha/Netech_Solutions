@@ -3,7 +3,7 @@
 
 <head>
     @include('website.layout.header')
-
+    
 
 </head>
 
@@ -33,6 +33,10 @@
         <!-- End Footer -->
 
     </div>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">
+        <i class="fa-solid fa-angle-double-up fa-bounce fa-lg"></i>
+    </button>
+
     @include('website.layout.script')
 </body>
 

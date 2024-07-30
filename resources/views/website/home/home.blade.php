@@ -25,36 +25,44 @@
                             <div class="col-3 all-category text-center">
                                 <div class="img-container">
                                     <img src="\website\upload\img6.png" alt="not found">
-                                    <div class="text-overlay">
-                                        <h5>Desktop</h5>
-                                        <span>430 products</span>
+                                    <div class="main-text-overlay">
+                                        <div class="text-overlay">
+                                            <h5>Desktop</h5>
+                                            <span>430 products</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-3 all-category text-center">
                                 <div class="img-container">
                                     <img src="/website/upload/image1.jpg" alt="not found">
-                                    <div class="text-overlay">
-                                        <h5>Laptop</h5>
-                                        <span>250 products</span>
+                                    <div class="main-text-overlay">
+                                        <div class="text-overlay ">
+                                            <h5>Laptop</h5>
+                                            <span>250 products</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-3 all-category text-center">
                                 <div class="img-container">
                                     <img src="\website\upload\p1.png" alt="not found">
-                                    <div class="text-overlay">
-                                        <h5>Accesseries</h5>
-                                        <span>120 products</span>
+                                    <div class="main-text-overlay">
+                                        <div class="text-overlay">
+                                            <h5>Accesseries</h5>
+                                            <span>120 products</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-3 all-category text-center">
                                 <div class="img-container">
                                     <img src="\website\upload\img4.png" alt="not found">
-                                    <div class="text-overlay">
-                                        <h5 class="">Service</h5>
-                                        <span>500 products</span>
+                                    <div class="main-text-overlay">
+                                        <div class="text-overlay">
+                                            <h5 class="">Service</h5>
+                                            <span>500 products</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -68,14 +76,12 @@
             <div class="row mt--3 mx-0 justify-content-center align-content-center">
                 <div class="col-12 main-product mt-5">
                     <div class="product">
-                        <img src="\website\upload\pro1.png" alt="not found">
-                        <img src="\website\upload\pro2.png" alt="not found">
-                        <img src="\website\upload\pro3.png" alt="not found">
-                        <img src="\website\upload\pro4.png" alt="not found">
-                        <img src="\website\upload\pro5.png" alt="not found">
-                        <img src="\website\upload\pro6.png" alt="not found">
-                        <img src="\website\upload\pro7.png" alt="not found">
-                        <img src="\website\upload\pro8.png" alt="not found">
+                        @foreach ($brands as $brand)
+                            <img src="
+                                @if ($brand->thumbnail && file_exists(public_path('uploads/brands/' . $brand->thumbnail))) {{ asset('uploads/brands/' . $brand->thumbnail) }} @endif
+                                "
+                                alt="brand">
+                        @endforeach
                     </div>
                 </div>
 
@@ -162,96 +168,157 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop  border-0 shadow-lg">
-                                <div class="card-header head-img justify-content-center">
-                                    <img src="\website\upload\img6.png" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                        <div class="items-slider">
+                            <div class="item p-2">
+                                @foreach ($products as $item)
+                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                        <div class="card home-desktop  border-0 shadow-lg">
+                                            <div class="card-header head-img justify-content-center">
+                                                <img src="{{ asset('uploads/products/' . $item->thumbnail) }}"
+                                                    alt="not found">
+                                            </div>
+                                            <div class="card-body desktop-body">
+                                                <h6 class="card-title fw-bold" style="color: #1077B8;">
+                                                    {{ $item->name }}
+                                                </h6>
+                                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">
+                                                    ${{ $item->price }}
+                                                </p>
+                                                <div class="rate ">
+                                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                    <span>(5)</span>
+                                                    <div class="addcard float-end">
+                                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                {{-- <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="\website\upload\img6.png" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate ">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="\website\upload\img6.png" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate ">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate ">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate ">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -406,93 +473,101 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img justify-content-center">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                        <div class="items-slider">
+                            <div class="item p-2">
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img justify-content-center">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate ">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate ">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate ">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -566,98 +641,131 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img justify-content-center">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
+                        <div class="items-slider">
+                            <div class="item p-2">
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img justify-content-center">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate ">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate ">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate ">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card home-desktop border-0 shadow-lg">
+                                        <div class="card-header head-img">
+                                            <img src="/website/upload/image1.jpg" alt="not found">
+                                        </div>
+                                        <div class="card-body desktop-body">
+                                            <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                            </h6>
+                                            <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00
+                                            </p>
+                                            <div class="rate ">
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                <span>(5)</span>
+                                                <div class="addcard float-end">
+                                                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="/website/upload/image1.jpg" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 {{-- <div class="col-md-12"> --}}
@@ -672,87 +780,111 @@
                                         <h6 class="float-end fw-bold" style="color: #1077B8;">{{ __('See All') }}</h6>
                                     </div> --}}
                             </div>
-                            <div class="col-md-3">
-                                <div class="card home-desktop border-0 shadow-lg">
-                                    <div class="card-header head-video justify-content-center">
-                                        <img src="/website/upload/image1.jpg" alt="not found">
-                                        <button class=" playvideo btn-video" data-bs-toggle="modal"
-                                            data-bs-target="#videoModal">
-                                            <i class="fa-solid fa-play fa-lg" style="color: white"></i>
-                                        </button>
-                                    </div>
-                                    <div class="card-body desktop-body">
-                                        <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
-                                        </h6>
-                                        <div class="discription fs-6">
-                                            Lorem Ipsum is simply dummy text of theprinting and typesetting industry.Lorem
-                                            Lorem Ipsum is simply.
+                            <div class="items-slider">
+                                <div class="item p-2">
+                                    <div class="col-md-3">
+                                        <div class="card home-desktop border-0 shadow-lg">
+                                            <div class="card-header head-video justify-content-center">
+                                                <img src="/website/upload/image1.jpg" alt="not found">
+                                                <button class=" playvideo btn-video" data-bs-toggle="modal"
+                                                    data-bs-target="#videoModal">
+                                                    <i class="fa-solid fa-play fa-lg" style="color: white"></i>
+                                                </button>
+                                            </div>
+                                            <div class="card-body desktop-body">
+                                                <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
+                                                </h6>
+                                                <div class="discription fs-6">
+                                                    Lorem Ipsum is simply dummy text of theprinting and typesetting
+                                                    industry.Lorem
+                                                    Lorem Ipsum is simply.
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- Modal -->
-                            <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body show-video">
-                                            <video id="modalvideo" width="100%" src="/website/video/video1.mp4"
-                                                controls></video>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card home-desktop border-0 shadow-lg">
-                                    <div class="card-header head-video justify-content-center">
-                                        <img src="/website/upload/image1.jpg" alt="not found">
-                                    </div>
-                                    <div class="card-body desktop-body">
-                                        <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
-                                        </h6>
-                                        <div class="discription fs-6">
-                                            Lorem Ipsum is simply dummy text of theprinting and typesetting industry.Lorem
-                                            Lorem Ipsum is simply.
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="videoModal" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body show-video">
+                                                    <video id="modalvideo" width="100%" src="/website/video/video1.mp4"
+                                                        controls></video>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card home-desktop border-0 shadow-lg">
-                                    <div class="card-header head-video justify-content-center">
-                                        <img src="/website/upload/image1.jpg" alt="not found">
-                                    </div>
-                                    <div class="card-body desktop-body">
-                                        <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
-                                        </h6>
-                                        <div class="discription fs-6">
-                                            Lorem Ipsum is simply dummy text of theprinting and typesetting industry.Lorem
-                                            Lorem Ipsum is simply.
+                                    <div class="col-md-3">
+                                        <div class="card home-desktop border-0 shadow-lg">
+                                            <div class="card-header head-video justify-content-center">
+                                                <img src="/website/upload/image1.jpg" alt="not found">
+                                            </div>
+                                            <div class="card-body desktop-body">
+                                                <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
+                                                </h6>
+                                                <div class="discription fs-6">
+                                                    Lorem Ipsum is simply dummy text of theprinting and typesetting
+                                                    industry.Lorem
+                                                    Lorem Ipsum is simply.
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card home-desktop border-0 shadow-lg">
-                                    <div class="card-header head-video justify-content-center">
-                                        <img src="/website/upload/image1.jpg" alt="not found">
+                                    <div class="col-md-3">
+                                        <div class="card home-desktop border-0 shadow-lg">
+                                            <div class="card-header head-video justify-content-center">
+                                                <img src="/website/upload/image1.jpg" alt="not found">
+                                            </div>
+                                            <div class="card-body desktop-body">
+                                                <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
+                                                </h6>
+                                                <div class="discription fs-6">
+                                                    Lorem Ipsum is simply dummy text of theprinting and typesetting
+                                                    industry.Lorem
+                                                    Lorem Ipsum is simply.
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="card-body desktop-body">
-                                        <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
-                                        </h6>
-                                        <div class="discription fs-6">
-                                            Lorem Ipsum is simply dummy text of theprinting and typesetting industry.Lorem
-                                            Lorem Ipsum is simply.
+                                    <div class="col-md-3">
+                                        <div class="card home-desktop border-0 shadow-lg">
+                                            <div class="card-header head-video justify-content-center">
+                                                <img src="/website/upload/image1.jpg" alt="not found">
+                                            </div>
+                                            <div class="card-body desktop-body">
+                                                <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
+                                                </h6>
+                                                <div class="discription fs-6">
+                                                    Lorem Ipsum is simply dummy text of theprinting and typesetting
+                                                    industry.Lorem
+                                                    Lorem Ipsum is simply.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card home-desktop border-0 shadow-lg">
+                                            <div class="card-header head-video justify-content-center">
+                                                <img src="/website/upload/image1.jpg" alt="not found">
+                                            </div>
+                                            <div class="card-body desktop-body">
+                                                <h6 class="card-title fw-bold" style="color: #1077B8;">Fixing computer
+                                                </h6>
+                                                <div class="discription fs-6">
+                                                    Lorem Ipsum is simply dummy text of theprinting and typesetting
+                                                    industry.Lorem
+                                                    Lorem Ipsum is simply.
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -829,129 +961,6 @@
             // Initial content load
             updateContent('slide-up');
         </script>
-        {{-- <script>
-            const content = [{
-                    title: 'Camera security Installer',
-                    description: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ty',
-                    image: '/website/upload/service.png',
-                    backgroundImage: '/website/upload/service.png'
-                },
-                {
-                    title: 'Set up and install network',
-                    description: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s  when an unknown printer took a galley of type and scrambled it to make a ty',
-                    image: '/website/upload/service1.png',
-                    backgroundImage: '/website/upload/service1.png'
-                },
-                {
-                    title: 'Wifi solution',
-                    description: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s  when an unknown printer took a galley of type and scrambled it to make a ty',
-                    image: '/website/upload/service2.png',
-                    backgroundImage: '/website/upload/service2.png'
-                },
-                {
-                    title: 'Solution for data back up',
-                    description: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ty',
-                    image: '/website/upload/service3.png',
-                    backgroundImage: '/website/upload/service3.png'
-                }
-                // Add more objects for additional items
-            ];
-
-            let currentIndex = 0;
-
-            document.getElementById('nextButton').addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % content.length;
-                updateContent('scroll-up');
-            });
-
-            document.getElementById('prevButton').addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + content.length) % content.length;
-                updateContent('scroll-down');
-            });
-
-            function updateContent(animationClass) {
-                const contentContainer = document.getElementById('divTitle');
-                contentContainer.classList.add('fade-out');
-                setTimeout(() => {
-                    const currentContent = content[currentIndex];
-                    document.getElementById('divTitle').textContent = currentContent.title;
-                    document.getElementById('divDescription').textContent = currentContent.description;
-                    document.getElementById('serviceImage').src = currentContent.image;
-                    document.getElementById('cardBackground').style.backgroundImage =
-                        `url(${currentContent.backgroundImage})`;
-                    contentContainer.classList.remove('fade-out');
-                    contentContainer.classList.add(animationClass);
-                }, 500); // Match the CSS transition duration
-                setTimeout(() => {
-                    contentContainer.classList.remove(animationClass);
-                }, 1000); // Match the CSS transition duration
-            }
-
-            // Initial content load
-            updateContent('scroll-up');
-        </script> --}}
-        {{-- <script>
-            const content = [{
-                    title: 'Camera security Installer',
-                    description: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ty',
-                    image: '/website/upload/service.png',
-                    backgroundImage: '/website/upload/service.png'
-                },
-                {
-                    title: 'Set up and install network',
-                    description: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s  when an unknown printer took a galley of type and scrambled it to make a ty',
-                    image: '/website/upload/service1.png',
-                    backgroundImage: '/website/upload/service1.png'
-                },
-                {
-                    title: 'Wifi solution',
-                    description: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s  when an unknown printer took a galley of type and scrambled it to make a ty',
-                    image: '/website/upload/service2.png',
-                    backgroundImage: '/website/upload/service2.png'
-                },
-                {
-                    title: 'Solution for data back up',
-                    description: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ty',
-                    image: '/website/upload/service3.png',
-                    backgroundImage: '/website/upload/service3.png'
-                }
-
-                // Add more objects for additional items
-            ];
-
-            let currentIndex = 0;
-
-            document.getElementById('nextButton').addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % content.length;
-                updateContent();
-            });
-
-            document.getElementById('prevButton').addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + content.length) % content.length;
-                updateContent();
-            });
-
-            function updateContent() {
-                const contentContainer = document.getElementById('contentContainer');
-                contentContainer.classList.add('fade-out');
-                setTimeout(() => {
-                    const currentContent = content[currentIndex];
-                    document.getElementById('divTitle').textContent = currentContent.title;
-                    document.getElementById('divDescription').textContent = currentContent.description;
-                    document.getElementById('serviceImage').src = currentContent.image;
-                    document.getElementById('cardBackground').style.backgroundImage =
-                        `url(${currentContent.backgroundImage})`;
-                    contentContainer.classList.remove('fade-out');
-                    contentContainer.classList.add('fade-in');
-                }, 500); // Match the CSS transition duration
-                setTimeout(() => {
-                    contentContainer.classList.remove('fade-in');
-                }, 1000); // Match the CSS transition duration
-            }
-
-            // Initial content load
-            updateContent();
-        </script> --}}
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var modalElement = document.getElementById('videoModal');
@@ -971,26 +980,6 @@
                 });
             });
         </script>
-        {{-- <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const productContainer = document.querySelector(".product");
-                const images = productContainer.querySelectorAll("img");
-                const numberOfImages = images.length;
-
-                // Duplicate the images to create a seamless loop
-                for (let i = 0; i < numberOfImages; i++) {
-                    const clone = images[i].cloneNode(true);
-                    productContainer.appendChild(clone);
-                }
-
-                // Calculate the width of the product container to set the animation
-                const totalWidth = productContainer.scrollWidth / 2;
-                productContainer.style.width = totalWidth + "px";
-
-                // Set the animation dynamically based on the container's width
-                productContainer.style.animation = `scroll ${totalWidth / 50}s linear infinite`;
-            });
-        </script> --}}
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 const productContainer = document.querySelector(".product");

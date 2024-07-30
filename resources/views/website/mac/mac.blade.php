@@ -6,23 +6,21 @@
     <div class="row mt--3 mx-0 justify-content-center align-content-center">
 
         {{-- banner slide top has start --}}
-        <div id="carouselExampleSlidesOnly" class="carousel slide " data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="website/upload/banner.png" class="d-block w-100" alt="Banner 1">
-                </div>
-
-                <div class="carousel-item">
-                    <img src="website/upload/banner2.png" class="d-block w-100" alt="Banner 3">
-                </div>
-                <div class="carousel-item">
-                    <img src="website/upload/banner3.png" class="d-block w-100" alt="Banner 4">
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach ($banners as $key => $banner)
+                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                            <img src="
+                            @if ($banner->image_url && file_exists(public_path('uploads/banner/' . $banner->image_url))) {{ asset('uploads/banner/' . $banner->image_url) }} @endif
+                            "
+                                class="d-block w-100" alt="Banner">
+                        </div>
+                    @endforeach
                 </div>
             </div>
-        </div>
         {{-- Banner slide top end --}}
 
-        <div class="row justify-content-center">
+        {{-- <div class="row justify-content-center">
             <div class="col-10">
                 <div class="card mt-4 main-card">
                     <div class="card-title mt-4">
@@ -66,7 +64,7 @@
             <div class="col-10 banner1 mt-3">
                 <img src="\website\upload\banner1.png" alt="not found">
             </div>
-        </div>
+        </div> --}}
         <div class="row justify-content-center">
             {{--  slide of brand product --}}
             <div class="col-12 main-product mt-3">

@@ -148,7 +148,7 @@ class BannerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -187,7 +187,7 @@ class BannerController extends Controller
             $banner->description = ($request->description[array_search('en', $request->lang)]);
             $banner->order = $request->order;
             if ($request->hasFile('image')) {
-                $banner->image_url = ImageManager::upload('uploads/banner/', $request->image);
+                $banner->image_url = ImageManager::update('uploads/banner/', $request->image);
             }
             $banner->save();
             $data = [];
@@ -237,7 +237,33 @@ class BannerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $banner = Banner::findOrFail($id);
+            $translation = Translation::where('translationable_type', 'App\Models\Banner')
+                ->where('translationable_id', $banner->id);
+
+            $translation->delete();
+            $banner->delete();
+
+            $banners = Banner::latest('id')->paginate(10);
+            $view = view('backends.banner._table', compact('banners'))->render();
+
+            DB::commit();
+            $output = [
+                'status' => 1,
+                'view' => $view,
+                'msg' => __('Deleted successfully')
+            ];
+        } catch (Exception $e) {
+            DB::rollBack();
+            $output = [
+                'status' => 0,
+                'msg' => __('Something went wrong')
+            ];
+        }
+
+        return response()->json($output);
     }
     public function updateStatus(Request $request)
     {

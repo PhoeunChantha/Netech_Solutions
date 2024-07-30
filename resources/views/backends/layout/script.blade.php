@@ -53,7 +53,9 @@
 <script src="{{ asset('backend/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 <script src="{{ asset('backend/plugins/daterangepicker/daterangepicker.js') }}"></script>
 <script src="{{ asset('js/compress.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 
 {{ Session::has('message') }}
 
@@ -85,36 +87,65 @@
         bsCustomFileInput.init();
 
         // init summernote
-        // $('.summernote').summernote({
-        //     placeholder: '{{ __('Type something') }}',
-        //     tabsize: 2,
-        //     height: $('.summernote').data('height') ?? 300
-        // });
-        // $('.in_kind_support_summernote').summernote({
-        //     placeholder: '{{ __('Type something') }}',
-        //     tabsize: 2,
-        //     height: 100,
-        //     width: 500
-        // });
-
         $('.summernote').summernote({
             placeholder: '{{ __('Type something') }}',
             tabsize: 2,
-            height: $('.summernote').data('height') ?? 300,
-            callbacks: {
-                onInit: function() {
-                    // Clean up initial content
-                    var initialContent = $('.summernote').summernote('code');
-                    var cleanedContent = initialContent.replace(/<p><br><\/p>/g, '');
-                    $('.summernote').summernote('code', cleanedContent);
-                },
-                onChange: function(contents, $editable) {
-                    // Optionally, clean up content on change if needed
-                    var cleanedContent = contents.replace(/<p><br><\/p>/g, '');
-                    $('.summernote').summernote('code', cleanedContent);
-                }
-            }
+            height: $('.summernote').data('height') ?? 300
         });
+        $('.in_kind_support_summernote').summernote({
+            placeholder: '{{ __('Type something') }}',
+            tabsize: 2,
+            height: 100,
+            width: 500
+        });
+
+        // $('.summernote').summernote({
+        //     placeholder: '{{ __('Type something') }}',
+        //     tabsize: 2,
+        //     height: $('.summernote').data('height') ?? 300,
+        //     callbacks: {
+        //         onInit: function() {
+        //             // Clean up initial content
+        //             var initialContent = $('.summernote').summernote('code');
+        //             var cleanedContent = initialContent.replace(/<p><br><\/p>/g, '');
+        //             $('.summernote').summernote('code', cleanedContent);
+        //         },
+        //         onChange: function(contents, $editable) {
+        //             // Optionally, clean up content on change if needed
+        //             var cleanedContent = contents.replace(/<p><br><\/p>/g, '');
+        //             $('.summernote').summernote('code', cleanedContent);
+        //         }
+        //     }
+        // });
+        // $(document).ready(function() {
+        //     // Initialize Summernote as before
+        //     $('.summernote').summernote({
+        //         placeholder: '{{ __('Type something') }}',
+        //         tabsize: 2,
+        //         height: $('.summernote').data('height') ?? 300
+        //     });
+
+        //     $('.in_kind_support_summernote').summernote({
+        //         placeholder: '{{ __('Type something') }}',
+        //         tabsize: 2,
+        //         height: 100,
+        //         width: 500
+        //     });
+
+        //     // Strip HTML tags before form submission
+        //     $('form').on('submit', function(e) {
+        //         $('.summernote').each(function() {
+        //             var plainText = $(this).summernote('code').replace(
+        //                 /<\/?[^>]+(>|$)/g, ""); // Strip HTML tags
+        //             $(this).val(
+        //                 plainText
+        //             ); // Set the stripped text as the value of the textarea
+        //         });
+        //     });
+        // });
+
+
+
 
         $('.datepicker').datepicker({
             language: "es",
@@ -123,19 +154,19 @@
         });
 
 
-        //   $(".table").DataTable({
-        //     "responsive": true, "lengthChange": false, "autoWidth": false,
-        //     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        //   }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        //   $('#example2').DataTable({
-        //     "paging": true,
-        //     "lengthChange": false,
-        //     "searching": false,
-        //     "ordering": true,
-        //     "info": true,
-        //     "autoWidth": false,
-        //     "responsive": true,
-        //   });
+        // $(".table").DataTable({
+        // "responsive": true, "lengthChange": false, "autoWidth": false,
+        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        // $('#example2').DataTable({
+        // "paging": true,
+        // "lengthChange": false,
+        // "searching": false,
+        // "ordering": true,
+        // "info": true,
+        // "autoWidth": false,
+        // "responsive": true,
+        // });
     });
 </script>
 
