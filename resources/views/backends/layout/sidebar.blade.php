@@ -53,6 +53,15 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.brand.index') }}"
+                        class="nav-link @if (request()->routeIs('admin.brand*')) active @endif">
+                        <i class="nav-icon fas fa-desktop"></i>
+                        <p>
+                            {{ __('Brand') }}
+                        </p>
+                    </a>
+                </li>
                  @if (auth()->user()->can('banner.view'))
                 @endif
                 <li class="nav-item @if (request()->routeIs('admin.product.*') || request()->routeIs('admin.product-category.*')) menu-is-opening menu-open @endif">

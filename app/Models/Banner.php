@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 class Banner extends Model
 {
     use HasFactory;
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     public function getNameAttribute($name)
     {

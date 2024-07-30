@@ -1,29 +1,24 @@
-@extends('website.app');
+@extends('website.app')
 @section('content')
-@include('website.laptop.laptop-style')
-<div class="content">
-
-    <div class="row mt--3 mx-0 justify-content-center align-content-center">
-
-        {{-- banner slide top has start --}}
-        <div id="carouselExampleSlidesOnly" class="carousel slide " data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="website/upload/banner.png" class="d-block w-100" alt="Banner 1">
-                </div>
-
-                <div class="carousel-item">
-                    <img src="website/upload/banner2.png" class="d-block w-100" alt="Banner 3">
-                </div>
-                <div class="carousel-item">
-                    <img src="website/upload/banner3.png" class="d-block w-100" alt="Banner 4">
+    @include('website.laptop.laptop-style')
+    <div class="content">
+        <div class="row mt--3 mx-0 justify-content-center align-content-center">
+            {{-- banner slide top has start --}}
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach ($banners as $key => $banner)
+                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                            <img src="
+                            @if ($banner->image_url && file_exists(public_path('uploads/banner/' . $banner->image_url))) {{ asset('uploads/banner/' . $banner->image_url) }} @endif
+                            "
+                                class="d-block w-100" alt="Banner">
+                        </div>
+                    @endforeach
                 </div>
             </div>
-        </div>
-        {{-- Banner slide top end --}}
-
-        <div class="row justify-content-center">
-            <div class="col-10">
+            {{-- Banner slide top end --}}
+            <div class="row justify-content-center">
+                {{-- <div class="col-10">
                 <div class="card mt-4 main-card">
                     <div class="card-title mt-4">
                         <h2 class="text-center fw-bold" style="color: #1077B8">{{ __('All Categories') }}</h2>
@@ -39,7 +34,6 @@
                             </div>
 
                         </div>
-
                         <div class="col-4 all-category text-center">
                             <div class="img-container">
                                 <img src="\website\desktop\window.png" alt="not found">
@@ -48,7 +42,6 @@
                                     <span>430 products</span>
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-4 all-category text-center">
                             <div class="img-container">
@@ -62,339 +55,346 @@
                         </div>
                     </div>
                 </div>
+            </div> --}}
+                <div class="col-10 banner1 mt-4">
+                    <img src="\website\upload\banner1.png" alt="not found">
+                </div>
             </div>
-            <div class="col-10 banner1 mt-4">
-                <img src="\website\upload\banner1.png" alt="not found">
+            <div class="row justify-content-center">
+                {{--  slide of brand product --}}
+                <div class="col-12 main-product mt-4">
+                    <div class="product">
+                        <img src="\website\upload\pro1.png" alt="not found">
+                        <img src="\website\upload\pro2.png" alt="not found">
+                        <img src="\website\upload\pro3.png" alt="not found">
+                        <img src="\website\upload\pro4.png" alt="not found">
+                        <img src="\website\upload\pro5.png" alt="not found">
+                        <img src="\website\upload\pro6.png" alt="not found">
+                        <img src="\website\upload\pro7.png" alt="not found">
+                        <img src="\website\upload\pro8.png" alt="not found">
+                    </div>
+                </div>
+                {{-- slide brand product end --}}
+            </div>
+            {{-- button filter --}}
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-10 brand">
+                    <button class="btn active  border-danger " type="button">{{ __('All Product') }}</button>
+                    <button class="btn  border-danger" type="button">{{ __('Window') }}</button>
+                    <button class="btn  border-danger" type="button">{{ __('Apple') }}</button>
+                </div>
+            </div>
+
+            <div class="row mt--3 mt-5 mx-0 justify-content-center align-content-center">
+                {{-- Product content start  --}}
+                <div class="col-md-10">
+                    <div class="row justify-content-center p-2">
+                        <div class="row d-flex justify-content-between mb-3">
+                            <div class="col-md-12">
+                                <h5 class="fw-bolder" style="color: #1077B8;">{{ __('All Product') }}</h5>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img justify-content-center">
+                                    <img src="/website/laptop/d-1.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate ">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img">
+                                    <img src="/website/laptop/d-2.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate ">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img">
+                                    <img src="/website/laptop/d-3.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img">
+                                    <img src="/website/laptop/md-2.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate ">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row justify-content-center p-2">
+                        <div class="row d-flex justify-content-between mb-3">
+                            <div class="col-md-12">
+                                <h5 class="fw-bolder fs-4" style="color: #1077B8;">{{ __('') }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img justify-content-center">
+                                    <img src="/website/desktop/d-1.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate ">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img">
+                                    <img src="/website/desktop/l-1.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate ">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img">
+                                    <img src="/website/desktop/l-2.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img">
+                                    <img src="/website/desktop/m-d1.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate ">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row justify-content-center p-2">
+                        <div class="row d-flex justify-content-between mb-3">
+                            <div class="col-md-12">
+                                <h5 class="fw-bolder fs-4" style="color: #1077B8;">{{ __('') }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img justify-content-center">
+                                    <img src="/website/laptop/d-1.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate ">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img">
+                                    <img src="/website/laptop/l-1.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate ">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img">
+                                    <img src="/website/laptop/l-2.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card home-desktop border-0 shadow-lg">
+                                <div class="card-header head-img">
+                                    <img src="/website/laptop/m-d1.png" alt="not found">
+                                </div>
+                                <div class="card-body desktop-body">
+                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
+                                    </h6>
+                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
+                                    <div class="rate ">
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        <span>(5)</span>
+                                        <div class="addcard float-end">
+                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Product content end --}}
             </div>
         </div>
-        <div class="row justify-content-center">
-            {{--  slide of brand product --}}
-            <div class="col-12 main-product mt-4">
-                <div class="product">
-                    <img src="\website\upload\pro1.png" alt="not found">
-                    <img src="\website\upload\pro2.png" alt="not found">
-                    <img src="\website\upload\pro3.png" alt="not found">
-                    <img src="\website\upload\pro4.png" alt="not found">
-                    <img src="\website\upload\pro5.png" alt="not found">
-                    <img src="\website\upload\pro6.png" alt="not found">
-                    <img src="\website\upload\pro7.png" alt="not found">
-                    <img src="\website\upload\pro8.png" alt="not found">
-                </div>
-            </div>
-            {{-- slide brand product end --}}
-        </div>
-
-
-        <div class="row mt--3 mt-5 mx-0 justify-content-center align-content-center">
-            {{-- Product content start  --}}
-            <div class="col-md-10">
-                <div class="row justify-content-center p-2">
-                    <div class="row d-flex justify-content-between mb-3">
-                        <div class="col-md-12">
-                            <h5 class="fw-bolder" style="color: #1077B8;">{{ __('All Product') }}</h5>
-                        </div>
-
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img justify-content-center">
-                                <img src="/website/laptop/d-1.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate ">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img">
-                                <img src="/website/laptop/d-2.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate ">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img">
-                                <img src="/website/laptop/d-3.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img">
-                                <img src="/website/laptop/md-2.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate ">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-10">
-                <div class="row justify-content-center p-2">
-                    <div class="row d-flex justify-content-between mb-3">
-                        <div class="col-md-12">
-                            <h5 class="fw-bolder fs-4" style="color: #1077B8;">{{ __('') }}</h5>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img justify-content-center">
-                                <img src="/website/desktop/d-1.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate ">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img">
-                                <img src="/website/desktop/l-1.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate ">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img">
-                                <img src="/website/desktop/l-2.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img">
-                                <img src="/website/desktop/m-d1.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate ">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-10">
-                <div class="row justify-content-center p-2">
-                    <div class="row d-flex justify-content-between mb-3">
-                        <div class="col-md-12">
-                            <h5 class="fw-bolder fs-4" style="color: #1077B8;">{{ __('') }}</h5>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img justify-content-center">
-                                <img src="/website/laptop/d-1.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate ">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img">
-                                <img src="/website/laptop/l-1.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate ">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img">
-                                <img src="/website/laptop/l-2.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card home-desktop border-0 shadow-lg">
-                            <div class="card-header head-img">
-                                <img src="/website/laptop/m-d1.png" alt="not found">
-                            </div>
-                            <div class="card-body desktop-body">
-                                <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                </h6>
-                                <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                <div class="rate ">
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                    <span>(5)</span>
-                                    <div class="addcard float-end">
-                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{-- Product content end --}}
-        </div>
-    </div>
-    {{-- <script>
+        {{-- <script>
         const content = [{
                 title: 'Camera security Installer',
                 description: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ty',
@@ -455,7 +455,7 @@
         // Initial content load
         updateContent();
     </script> --}}
-    {{-- <script>
+        {{-- <script>
         const content = [{
                 title: 'Camera security Installer',
                 description: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ty',
@@ -517,5 +517,4 @@
         // Initial content load
         updateContent();
     </script> --}}
-@endsection
-
+    @endsection

@@ -48,10 +48,20 @@
 
     <link rel="stylesheet" href="{{ asset('backend/custom/css/app.css') }}">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
     @stack('css')
 </head>
 
 <style type="text/css">
+    * {
+        font-family: "Kantumruy Pro", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: <weight>;
+        font-style: normal;
+        /* font-size: 15px; */
+    }
+
     .pagination {
         float: right;
         margin-top: 10px;

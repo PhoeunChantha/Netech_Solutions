@@ -21,6 +21,10 @@ class Category extends Model
         return $this->translations[0]->value ?? $name;
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 
 
     public function createdBy()

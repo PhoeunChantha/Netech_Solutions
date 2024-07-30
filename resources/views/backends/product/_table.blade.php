@@ -3,10 +3,14 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th class="">{{ __('Name') }}</th>
+                <th>{{ __('Code') }}</th>
+                <th>{{ __('Name') }}</th>
+                <th>{{ __('Brand') }}</th>
+                <th>{{ __('Price') }}</th>
+                <th>{{ __('QTY') }}</th>
+                {{-- <th>{{ __('Operating System') }}</th> --}}
                 <th>{{ __('Category') }}</th>
                 <th>{{ __('Created By') }}</th>
-                {{-- <th>{{ __('Status') }}</th> --}}
                 <th>{{ __('Action') }}</th>
             </tr>
         </thead>
@@ -14,27 +18,32 @@
             @foreach ($products as $product)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
+                    <td>{{ $product->code }}</td>
                     <td>
-                        <img src="
-                        @if ($product->image && file_exists(public_path('uploads/products/' . $product->image))) {{ asset('uploads/products/' . $product->image) }}
-                        @else
-                            {{ asset('uploads/image/default.png') }} @endif
-                        "
-                            alt="" class="profile_img_table">
-
-                        <span class="ml-2">
-                            {{ $product->name }}
+                        <span>
+                            <a class="example-image-link" href="{{ asset('uploads/products/' . $product->thumbnail) }}"
+                                data-lightbox="lightbox-' . $product->id . '">
+                                <img class="example-image image-thumbnail"
+                                    src="{{ asset('uploads/products/' . $product->thumbnail) }}" alt="profile"
+                                    width="50px" height="50px" style="cursor:pointer" />
+                            </a>
                         </span>
+                        {{-- <span class="ml-2">
+                            {{ $product->name }}
+                        </span> --}}
                     </td>
-                    <td>{{ $product->category->name }}</td>
+                    <td>{{ $product->brand->name ?? 'null' }}</td>
+                    <td>{{ $product->price}}</td>
+                    <td>{{ $product->quantity }}</td>
+                    {{-- <td>{{ $product->operating_system }}</td> --}}
+                    <td>{{ $product->category->name ?? 'null' }}</td>
                     <td>{{ $product->createdBy->name }}</td>
-                    {{-- <td>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input switcher_input status" id="status_{{ $product->id }}" data-id="{{ $product->id }}" {{ $product->status == 1 ? 'checked' : '' }} name="status">
-                            <label class="custom-control-label" for="status_{{ $product->id }}"></label>
-                        </div>
-                    </td> --}}
                     <td>
+                        <a href="#" class="btn btn-info btn-sm btn-view" data-toggle="modal"
+                            data-target="#view-product{{ $product->id }}">
+                            <i class="fas fa-eye"></i>
+                            {{ __('View') }}
+                        </a>
                         @if (auth()->user()->can('product.edit'))
                             <a href="{{ route('admin.product.edit', $product->id) }}"
                                 class="btn btn-info btn-sm btn-edit">
@@ -58,6 +67,7 @@
 
                     </td>
                 </tr>
+                @include('backends.product.view-product')
             @endforeach
         </tbody>
     </table>
