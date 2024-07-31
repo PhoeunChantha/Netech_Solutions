@@ -31,45 +31,14 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->phone }}</td>
                     <td>{{ $user->email }}</td>
-
-                    {{-- <td>
-                        @if (auth()->user()->hasRole('partner'))
-                            @php
-                                switch ($user->status) {
-                                    case 'request':
-                                        $badgecolor = 'badge-secondary';
-                                        break;
-                                    case 'confirmed':
-                                        $badgecolor = 'badge-success';
-                                        break;
-                                    case 'reject':
-                                        $badgecolor = 'badge-danger';
-                                        break;
-                                    default:
-                                        $badgecolor = '';
-                                        break;
-                                }
-                            @endphp
-                            <span class="badge {{ $badgecolor }} text-uppercase">{{ $user->status }}</span>
-                        @elseif (auth()->user()->hasRole('admin'))
-                            <div class="dropdown">
-                                <button type="button"
-                                    class="btn btn-xs @if ($user->status == 'request') btn-secondary @elseif($user->status == 'confirm') btn-success @elseif($user->status == 'reject') btn-danger @endif dropdown-toggle"
-                                    data-toggle="dropdown">
-                                    {{ $user->status }}
-                                </button>
-
-                                <div class="dropdown-menu">
-                                    @foreach ($status as $key => $item)
-                                        <a class="dropdown-item user_status" href="#"
-                                            data-id="{{ $user->id }}"
-                                            data-value="{{ $key }}">{{ $item }}</a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                    </td> --}}
-
+                    <td>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input switcher_input status"
+                                id="status_{{ $user->id }}" data-id="{{ $user->id }}"
+                                {{ $user->status == 1 ? 'checked' : '' }} name="status">
+                            <label class="custom-control-label" for="status_{{ $user->id }}"></label>
+                        </div>
+                    </td>
                     <td>{{ $user->created_at->format('d M Y h:i A') }}</td>
                     <td>
                         @if (auth()->user()->can('user.edit'))

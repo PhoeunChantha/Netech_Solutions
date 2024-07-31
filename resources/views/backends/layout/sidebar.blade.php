@@ -56,17 +56,17 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.brand.index') }}"
                         class="nav-link @if (request()->routeIs('admin.brand*')) active @endif">
-                        <i class="nav-icon fas fa-desktop"></i>
+                        <i class="nav-icon fa-solid fa-layer-group"></i>
                         <p>
                             {{ __('Brand') }}
                         </p>
                     </a>
                 </li>
-                 @if (auth()->user()->can('banner.view'))
+                @if (auth()->user()->can('banner.view'))
                 @endif
                 <li class="nav-item @if (request()->routeIs('admin.product.*') || request()->routeIs('admin.product-category.*')) menu-is-opening menu-open @endif">
                     <a href="#" class="nav-link @if (request()->routeIs('admin.product.*') || request()->routeIs('admin.product-category.*')) active @endif">
-                        <i class="nav-icon fa-solid fa-user-gear"></i>
+                        <i class="nav-icon fas fa-boxes"></i>
                         <p>
                             {{ __('Product Management') }}
                             <i class="right fas fa-angle-left"></i>
@@ -77,7 +77,8 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.product.index') }}"
                                     class="nav-link @if (request()->routeIs('admin.product.*')) active @endif">
-                                    <i class="nav-icon fas fa-user-alt"></i>
+                                    {{-- <i class="nav-icon fas fa-user-alt"></i> --}}
+                                    <i class="nav-icon fas fa-dot-circle"></i>
                                     <p>{{ __('Product') }}</p>
                                 </a>
                             </li>
@@ -86,7 +87,8 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.product-category.index') }}"
                                     class="nav-link @if (request()->routeIs('admin.product-category.*')) active @endif">
-                                    <i class="nav-icon fa-solid fa-user-gear"></i>
+                                    {{-- <i class="nav-icon fa-solid fa-user-gear"></i> --}}
+                                    <i class="nav-icon fas fa-dot-circle"></i>
                                     <p>{{ __('Product Category') }}</p>
                                 </a>
                             </li>
@@ -108,7 +110,8 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.user.index') }}"
                                     class="nav-link @if (request()->routeIs('admin.user.*')) active @endif">
-                                    <i class="nav-icon fas fa-user-alt"></i>
+                                    {{-- <i class="nav-icon fas fa-user-alt"></i> --}}
+                                    <i class="nav-icon fas fa-dot-circle"></i>
                                     <p>
                                         {{ __('User') }}
                                     </p>
@@ -119,7 +122,8 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.role.index') }}"
                                     class="nav-link @if (request()->routeIs('admin.role.*')) active @endif">
-                                    <i class="nav-icon fa-solid fa-user-gear"></i>
+                                    {{-- <i class="nav-icon fas fa-users-cog"></i> --}}
+                                    <i class="nav-icon fas fa-dot-circle"></i>
                                     <p>{{ __('Role') }}</p>
                                 </a>
                             </li>

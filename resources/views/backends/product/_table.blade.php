@@ -1,5 +1,5 @@
 <div class="card-body p-0 table-wrapper">
-    <table class="table">
+    <table class="table dataTable">
         <thead>
             <tr>
                 <th>#</th>

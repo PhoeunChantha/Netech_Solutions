@@ -68,27 +68,27 @@
        //            }, preloaderDuration);
        //        });
        //    });
-       window.addEventListener('load', function() {
-           const preloaderDuration = 2000; // 3000ms = 3 seconds
-           const preloader = document.querySelector('.preloader');
-           const content = document.querySelector('.content');
+    //    window.addEventListener('load', function() {
+    //        const preloaderDuration = 2000; // 3000ms = 3 seconds
+    //        const preloader = document.querySelector('.preloader');
+    //        const content = document.querySelector('.content');
 
-           if (preloader) {
-               preloader.style.display = "flex";
-           }
+    //        if (preloader) {
+    //            preloader.style.display = "flex";
+    //        }
 
-           if (content) {
-               content.style.display = "none";
-           }
-           setTimeout(function() {
-               if (preloader) {
-                   preloader.style.display = "none";
-               }
-               if (content) {
-                   content.style.display = "block";
-               }
-           }, preloaderDuration);
-       });
+    //        if (content) {
+    //            content.style.display = "none";
+    //        }
+    //        setTimeout(function() {
+    //            if (preloader) {
+    //                preloader.style.display = "none";
+    //            }
+    //            if (content) {
+    //                content.style.display = "block";
+    //            }
+    //        }, preloaderDuration);
+    //    });
    </script>
    <script>
        // Get the button

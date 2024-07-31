@@ -54,12 +54,12 @@
                                         <div class="row">
                                             <div class=" col-9 d-flex">
                                                 <div class="col-sm-6 filter">
-                                                    <label for="start_date">{{__('Start Date')}}</label>
+                                                    <label for="start_date">{{ __('Start Date') }}</label>
                                                     <input type="date" id="start_date" class="form-control"
                                                         name="start_date" value="{{ request('start_date') }}">
                                                 </div>
                                                 <div class="col-sm-6 filter">
-                                                    <label for="end_date">{{__('End Date')}}</label>
+                                                    <label for="end_date">{{ __('End Date') }}</label>
                                                     <input type="date" id="end_date" class="form-control"
                                                         name="end_date" value="{{ request('end_date') }}">
                                                 </div>
@@ -185,54 +185,24 @@
                 }
             });
         });
-
-        $(document).on('click', '.dropdown .dropdown-menu a.user_status', function(e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            var value = $(this).data('value');
+        $('input.status').on('change', function() {
+            console.log($(this).data('id'));
             $.ajax({
-                type: "POST",
-                url: '{{ route('admin.user_change_status') }}',
+                type: "get",
+                url: "{{ route('admin.user.update_status') }}",
                 data: {
-                    '_token': '{{ csrf_token() }}',
-                    'selected_status': value,
-                    'id': id
+                    "id": $(this).data('id')
                 },
                 dataType: "json",
                 success: function(response) {
-                    if (response.success == true) {
+                    console.log(response);
+                    if (response.status == 1) {
                         toastr.success(response.msg);
-                    }
-                    if (response.success == false) {
+                    } else {
                         toastr.error(response.msg);
                     }
-
-                    location.reload();
                 }
             });
         });
-        // $(document).on('click', '.dropdown .dropdown-menu a.user_status', function(e) {
-        //     e.preventDefault();
-        //     var id = $(this).data('id');
-        //     var value = $(this).data('value');
-        //     $.ajax({
-        //         type: "POST",
-        //         url: '{{ route('admin.user_change_status') }}',
-        //         data: {
-        //             '_token': '{{ csrf_token() }}',
-        //             'selected_status': value,
-        //             'id': id
-        //         },
-        //         dataType: "json",
-        //         success: function(response) {
-        //             if (response.success) {
-        //                 toastr.success(response.msg);
-        //             } else {
-        //                 toastr.error(response.msg);
-        //             }
-        //             location.reload();
-        //         }
-        //     });
-        // });
     </script>
 @endpush

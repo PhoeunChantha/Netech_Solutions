@@ -67,7 +67,7 @@
             width: 200px;
         }
 
-        .preloader {
+        /* .preloader {
             position: fixed;
             top: 0;
             left: 0;
@@ -78,17 +78,14 @@
             justify-content: center;
             background-color: #e7e7ed;
             z-index: 9999;
-        }
+        } */
 
-        .content {
+        /* .content {
             display: none;
-            /* Hide content initially */
-        }
+        } */
 
-        .wavy {
+        /* .wavy {
             position: relative;
-            /* top: 27em; */
-
             -webkit-box-reflect: below -12px linear-gradient(transparent, rgba(0, 0, 0, 0.2));
         }
 
@@ -97,9 +94,7 @@
             display: inline-block;
             color: white;
             font-size: 2em;
-
             text-transform: uppercase;
-
             animation: animate 1s ease-in-out infinite;
             animation-delay: calc(0.1s * var(--i));
         }
@@ -121,7 +116,7 @@
                 transform: translateY(0px);
 
             }
-        }
+        } */
 
         #myBtn {
             display: none;

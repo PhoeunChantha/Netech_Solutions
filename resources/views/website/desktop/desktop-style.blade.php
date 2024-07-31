@@ -9,13 +9,13 @@
     }
 
     /* body card start */
-    .card-body {
+    /* .card-body {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         gap: 10px;
         width: 100%;
-    }
+    } */
 
     /* end body card */
 
@@ -416,35 +416,62 @@
     }
 
     /* Product start */
-    .card-header.head-img {
-        width: 100%;
-        height: 0;
-        padding-bottom: 90.25%;
-        /* 16:9 aspect ratio */
-        position: relative;
-        overflow: hidden;
+    .head-img {
+        /* border: none; */
+        background-color: #ffffff;
+
     }
 
-    .card-header.head-img img {
-        position: absolute;
-        top: 0;
-        left: 0;
+    .head-img img {
+        padding: 5px;
+        /* background-color: #ffffff; */
         width: 100%;
-        height: 100%;
+        height: 12em;
         object-fit: contain;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        -webkit-transition: .3s ease-in-out;
+        transition: .3s ease-in-out;
     }
 
-    .desktop-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 20px;
+    .head-img img:hover {
+        -webkit-transform: scale(1.3);
+        transform: scale(1.3);
     }
 
-    .card-title,
-    .card-text {
+    .home-desktop {
+        transition: transform 0.3s ease-in-out;
+        /* width: 18em;
+        height: 20em; */
+    }
+
+    .home-desktop:hover {
+        transform: scale(1.04) translateX(2%);
+    }
+
+    .desktop-body .rate {
         margin: 0;
-        /* Remove any margin from the heading and paragraph elements */
+        margin-top: 0.5em;
+    }
+
+    .addcard {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        width: 35px;
+        height: 35px;
+        top: -6px;
+        position: relative;
+        background-color: #F0F2FD;
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(239, 234, 234, 0.3);
+    }
+
+    .addcard a {
+        color: #F0F2FD;
+        text-decoration: none;
+        position: relative;
     }
 
     .addcard>a>i {
@@ -570,14 +597,28 @@
     }
 
     .brand>button {
-        color: red;
+        color: black;
+        /* background-color: #ff0000; */
         padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+
     }
 
     .brand>button:hover {
         background-color: #ff0000;
         color: white;
+        transform: scale(1.10) translateX(1.5rem);
+    }
+
+    .brand .active {
+        background-color: #ff0000;
+        color: white;
+    }
+
+    .btn.active,
+    .btn:hover {
+        transition: background-color 0.3s ease, transform 0.3s ease;
     }
 </style>

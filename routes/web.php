@@ -118,8 +118,8 @@ Route::middleware(['auth', 'CheckUserLogin', 'SetSessionData'])->group(function 
             });
         });
 
+        Route::get('user/update_status', [UserController::class, 'updateStatus'])->name('user.update_status');
         Route::resource('user', UserController::class);
-        Route::post('user/change-status', [UserController::class, 'ChangeUserStatus'])->name('user_change_status');
 
         Route::resource('role', RoleController::class);
         Route::resource('header', NavigationController::class);

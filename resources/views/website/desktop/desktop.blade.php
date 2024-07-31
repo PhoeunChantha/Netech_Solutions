@@ -56,36 +56,41 @@
                 </div>
                 {{-- slide brand product end --}}
             </div>
+
             <div class="row justify-content-center mt-4">
                 <div class="col-md-10 brand">
-                    <button class="btn active  border-danger " type="button">{{ __('All Product') }}</button>
-                    <button class="btn  border-danger" type="button">{{ __('Window') }}</button>
-                    <button class="btn  border-danger" type="button">{{ __('Apple') }}</button>
+                    <button class="btn active border-danger filter-btn" data-filter="all"
+                        type="button">{{ __('All Product') }}</button>
+                    <button class="btn border-danger filter-btn" data-filter="window"
+                        type="button">{{ __('Window') }}</button>
+                    <button class="btn border-danger filter-btn" data-filter="apple"
+                        type="button">{{ __('Apple') }}</button>
                 </div>
             </div>
 
-            <div class="row mt--3 mt-5 mx-0 justify-content-center align-content-center">
-                {{-- Product content start  --}}
+            <div class="row mt-3 mt-5 mx-0 justify-content-center align-content-center">
+                {{-- Product content start --}}
                 <div class="col-md-10">
-                    <div class="row justify-content-center p-2">
-                        <div class="row d-flex justify-content-between mb-3">
+                    <div class="row justify-content-center p-2 mb-3">
+                        <div class="row d-flex justify-content-between">
                             <div class="col-md-12">
-                                <h5 class="fw-bolder" style="color: #1077B8;">{{ __('All Product') }}</h5>
+                                <h5 class="fw-bolder position-absolute" style="color: #1077B8;">{{ __('All Product') }}</h5>
                             </div>
-
                         </div>
-                        @foreach ($products as $item)
-                            <div class="col-sm-6 col-md-4 col-lg-3">
-                                <div class="card mt-5 mb-4 home-desktop border-0 shadow-lg">
-                                    <div class="card-header head-img justify-content-center">
+                        @forelse ($products as $item)
+                            <div class="col-sm-6 col-md-4 col-lg-3 product-item" data-brand-name="{{ $item->brand->name }}">
+                                <div class="card home-desktop mt-5 border-0 shadow-lg">
+                                    <div class="card-header head-img border-1 justify-content-center">
                                         <img src="{{ asset('uploads/products/' . $item->thumbnail) }}" alt="not found">
                                     </div>
                                     <div class="card-body desktop-body">
-                                        <h6 class="card-title fw-bold" style="color: #1077B8;">{{ $item->name }}
+                                        <h6 class="card-title fw-bold" style="color: #1077B8;">
+                                            {{ $item->name }}
                                         </h6>
                                         <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">
-                                            ${{ $item->price }}</p>
-                                        <div class="rate ">
+                                            ${{ $item->price }}
+                                        </p>
+                                        <div class="rate">
                                             <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                                             <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                                             <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
@@ -99,137 +104,13 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <p class="no-products-message">{{ __('No products available') }}</p>
+                        @endforelse
                     </div>
                 </div>
-                {{-- <div class="col-md-10">
-                    <div class="row justify-content-center p-2">
-                        <div class="row d-flex justify-content-between mb-3">
-                            <div class="col-md-12">
-                                <h5 class="fw-bolder fs-4" style="color: #1077B8;">{{ __('') }}</h5>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img justify-content-center">
-                                    <img src="/website/desktop/d-1.png" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="/website/desktop/l-1.png" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="/website/desktop/l-2.png" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card home-desktop border-0 shadow-lg">
-                                <div class="card-header head-img">
-                                    <img src="/website/desktop/m-d1.png" alt="not found">
-                                </div>
-                                <div class="card-body desktop-body">
-                                    <h6 class="card-title fw-bold" style="color: #1077B8;">Acer desktop Series 5
-                                    </h6>
-                                    <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">$1200.00</p>
-                                    <div class="rate ">
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                        <span>(5)</span>
-                                        <div class="addcard float-end">
-                                            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
                 {{-- Product content end --}}
             </div>
         </div>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const productContainer = document.querySelector(".product");
-                const images = productContainer.querySelectorAll("img");
-                const numberOfImages = images.length;
-
-                // Duplicate the images to create a seamless loop
-                for (let i = 0; i < numberOfImages; i++) {
-                    const clone = images[i].cloneNode(true);
-                    productContainer.appendChild(clone);
-                }
-
-                let scrollAmount = 0;
-
-                function scrollImages() {
-                    scrollAmount -= 1; // Adjust this value to control the speed
-                    if (scrollAmount <= -productContainer.scrollWidth / 2) {
-                        scrollAmount = 0;
-                    }
-                    productContainer.style.transform = `translateX(${scrollAmount}px)`;
-                    requestAnimationFrame(scrollImages);
-                }
-
-                scrollImages();
-            });
-        </script>
+        @include('website.desktop.desktop-script')
     @endsection

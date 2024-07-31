@@ -70,8 +70,6 @@
         margin: 0;
     }
 
-
-
     .img-container {
         position: relative;
         /* overflow: hidden; */
