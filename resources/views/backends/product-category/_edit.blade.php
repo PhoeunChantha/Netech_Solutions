@@ -86,6 +86,28 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group col-md-12">
+                    <div class="form-group">
+                        <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="hidden" name="thumbnails" class="thumbnails_hidden">
+                                <input type="file" class="custom-file-input" id="exampleInputFile" name="thumbnail"
+                                    accept="image/png, image/jpeg">
+                                <label class="custom-file-label" for="exampleInputFile">
+                                    {{ $category->thumbnails ? basename($category->thumbnails) : __('Choose file') }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="preview preview-multiple text-center border rounded mt-2" style="height: 150px">
+                            <img src="
+                                @if ($category->thumbnails && file_exists(public_path('uploads/category/' . $category->thumbnails))) {{ asset('uploads/category/' . $category->thumbnails) }}
+                                @else
+                                {{ asset('uploads/defualt.png') }} @endif"
+                                alt="" height="20%">
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>

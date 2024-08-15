@@ -49,10 +49,10 @@ class AppServiceProvider extends ServiceProvider
             $view->with('current_locale', app()->getLocale());
         });
         View::composer('*', function ($view) {
-            $categories = Category::paginate(10);
-            $banners = Banner::orderBy('order', 'desc')->where('status', '=', '1')->paginate(10);
+            $categories = Category::whereIn('name', ['desktop', 'laptop', 'services', 'accessories',])->where('status', 1)->paginate(10);
+            $banners = Banner::orderBy('order', 'desc')->where('status', 1)->paginate(10);
             $brands = Brand::paginate(50);
-            
+
 
             $view->with('categories', $categories);
             $view->with('brands', $brands);

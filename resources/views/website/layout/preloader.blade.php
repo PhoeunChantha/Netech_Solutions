@@ -1,4 +1,4 @@
- <div class="col-md-5 ">
+ {{-- <div class="col-md-5 ">
      <div class="row d-flex justify-content-center align-content-center align-items-center">
          <div class="col-md-12 d-flex justify-content-center">
              <img class="animation__shake" src="/website/nav/NETTECH-logo-preloader.png" alt="Nettecch" width="40%">
@@ -18,4 +18,4 @@
              </div>
          </div>
      </div>
- </div>
+ </div> --}}

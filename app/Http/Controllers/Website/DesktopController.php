@@ -11,10 +11,15 @@ use App\Http\Controllers\Controller;
 class DesktopController extends Controller
 {
     //
-    function index(){
+    function index()
+    {
         $cate = Category::all();
         $banners = Banner::orderBy('order', 'desc')->where('status', '=', '1')->get();
         return view('website.desktop.desktop', compact('cate', 'banners'));
-
+    }
+    public function showCategory()
+    {
+        $cate = Category::withCount('products')->get();
+        return view('website.desktop.categories',compact('cate'));
     }
 }

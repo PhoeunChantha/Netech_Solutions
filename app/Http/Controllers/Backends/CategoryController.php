@@ -20,8 +20,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest('id')->paginate(10);
-        return view('backends.product-category.index', compact('categories'));
+        $category = Category::latest('id')->paginate(10);
+        return view('backends.product-category.index', compact('category'));
     }
 
     /**
@@ -73,6 +73,9 @@ class CategoryController extends Controller
 
             if ($request->hasFile('icon_image')) {
                 $category->icon_images = ImageManager::upload('uploads/category/', $request->icon_image);
+            }
+            if ($request->hasFile('thumbnail')) {
+                $category->thumbnails = ImageManager::upload('uploads/category/', $request->thumbnail);
             }
 
             $category->save();
@@ -165,8 +168,18 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             $category->name = $request->name[array_search('en', $request->lang)];
             $category->slug = Str::slug($request->name[array_search('en', $request->lang)]);
+            // if ($request->hasFile('icon_image')) {
+            //     $category->icon_images = ImageManager::update('uploads/category/', $category->icon_image, $request->icon_image);
+            // }
             if ($request->hasFile('icon_image')) {
-                $category->icon_images = ImageManager::update('uploads/category/', $category->icon_image, $request->icon_image);
+                $oldImage = $category->icon_image;
+                $category->icon_images = ImageManager::update('uploads/category/', $oldImage, $request->file('icon_image'));
+                // $brand->save();
+            }
+            if ($request->hasFile('thumbnail')) {
+                $oldImage = $category->thumbnail;
+                $category->thumbnails = ImageManager::update('uploads/category/', $oldImage, $request->file('thumbnail'));
+                // $brand->save();
             }
             $category->save();
 

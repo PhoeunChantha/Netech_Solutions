@@ -7,6 +7,19 @@
     .main-card {
         background-color: #EBF7FF;
     }
+     .shadow-hover-cate {
+        position: absolute;
+        right: 1rem;
+        top: 2.3rem;
+        text-decoration: none;
+        transition: transform 0.5s ease;
+        transition: text-shadow 0.3s ease-in-out;
+    }
+
+    .shadow-hover-cate:hover {
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
+    }
 
     .body-cate {
         display: flex;
@@ -388,6 +401,7 @@
         text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         transform: scale(1.05);
     }
+
 
     .head-img {
         border: none;

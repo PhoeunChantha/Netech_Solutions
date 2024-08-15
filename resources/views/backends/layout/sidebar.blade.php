@@ -95,7 +95,15 @@
                         @endif
                     </ul>
                 </li>
-
+                <li class="nav-item">
+                    <a href="{{ route('admin.service.index') }}"
+                        class="nav-link @if (request()->routeIs('admin.service*')) active @endif">
+                        <i class="nav-icon fa-solid fa-layer-group"></i>
+                        <p>
+                            {{ __('Service') }}
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item @if (request()->routeIs('admin.user*') || request()->routeIs('admin.role*')) menu-is-opening menu-open @endif">
                     <a href="#" class="nav-link @if (request()->routeIs('admin.user*') || request()->routeIs('admin.role*')) active @endif">
                         <i class="nav-icon fa-solid fa-user-gear"></i>

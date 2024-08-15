@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Service;
 
 class ProductCategoryController extends Controller
 {
@@ -32,7 +33,15 @@ class ProductCategoryController extends Controller
     {
         $category = Category::where('slug', $slug)->firstOrFail();
         $products = Product::where('category_id', $category->id)->get();
+        $productscount = $products->count();
         // dd($products);
-        return view('website.desktop.desktop', compact('category', 'products'));
+        return view('website.desktop.desktop', compact('category', 'productscount', 'products'));
+    }
+    public function showservice()
+    {
+        // $category = Category::where('slug', $slug)->firstOrFail();
+        $services = Service::all();
+        // dd($products);
+        return view('website.servicespage.service', compact('services'));
     }
 }

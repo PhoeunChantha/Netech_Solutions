@@ -21,13 +21,19 @@ class HomeController extends Controller
         // Fetch category IDs for 'desktop' and 'laptop'
         $desktopCategory = Category::where('name', 'desktop')->pluck('id')->first();
         $laptopCategory = Category::where('name', 'laptop')->pluck('id')->first();
+        $accessoriesCategory = Category::where('name', 'accessories')->pluck('id')->first();
+        $cctvCategory = Category::where('name', 'cctv')->pluck('id')->first();
+        $printerCategory = Category::where('name', 'printer')->pluck('id')->first();
 
         // Fetch products for each category
         $desktopProducts = Product::where('category_id', $desktopCategory)->paginate(10);
         $laptopProducts = Product::where('category_id', $laptopCategory)->paginate(10);
-        if (!$desktopProducts || !$laptopProducts) {
+        $accessoriesProducts = Product::where('category_id', $accessoriesCategory)->paginate(10);
+        $cctvProducts = Product::where('category_id', $cctvCategory)->paginate(10);
+        $printerProducts = Product::where('category_id', $printerCategory)->paginate(10);
+        if (!$desktopProducts || !$laptopProducts || !$accessoriesProducts || !$cctvProducts || !$printerProducts) {
             return abort(404); // Return 404 if no products found for either 'desktop' or 'laptop' categories
         }
-        return view('website.home.home', compact('desktopProducts', 'laptopProducts'));
+        return view('website.home.home', compact('desktopProducts', 'laptopProducts', 'accessoriesProducts', 'cctvProducts', 'printerProducts'));
     }
 }

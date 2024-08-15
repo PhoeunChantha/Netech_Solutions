@@ -52,7 +52,7 @@
           filterProducts('all');
       });
   </script>
-  <script>
+  {{-- <script>
       document.addEventListener("DOMContentLoaded", function() {
           const productContainer = document.querySelector(".product");
           const images = productContainer.querySelectorAll("img");
@@ -77,4 +77,4 @@
 
           scrollImages();
       });
-  </script>
+  </script> --}}

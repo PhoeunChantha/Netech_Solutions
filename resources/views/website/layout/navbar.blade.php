@@ -28,37 +28,17 @@
                 </form>
             </div>
         </div>
-        <div class="checkin p-1 justify-content-center">
+        <div class="checkin p-1 justify-content-center align-items-center">
             <a href="#">
                 <i class="fa-solid fa-cart-shopping fa-lg" style="color: #ffffff"></i>
                 <span class="badge bg-danger badge-small">0</span>
             </a>
         </div>
-
-        <div class="dropdown align-content-center text-center">
-            <a class="nav-link flag-country p-1 dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="flag-icon flag-icon-{{ $current_locale == 'en' ? 'gb' : $current_locale }}"></i>
-                {{ array_search($current_locale, $available_locales) }}
+        <div class="checkin p-1 justify-content-center align-items-center">
+            <a href="#">
+                <img src="{{ asset('/website/nav/bag.png') }}" alt="bag">
+                <span class="badge bg-danger badge-small">0</span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right p-0">
-                @foreach ($available_locales as $locale_name => $available_locale)
-                    @if ($available_locale === $current_locale)
-                        <a href="{{ route('change_language', $available_locale) }}"
-                            class="dropdown-item text-capitalize active dropdown-item-primary">
-                            <i
-                                class="flag-icon flag-icon-{{ $available_locale == 'en' ? 'gb' : $available_locale }} mr-2"></i>
-                            {{ $locale_name }}
-                        </a>
-                    @else
-                        <a href="{{ route('change_language', $available_locale) }}"
-                            class="dropdown-item text-capitalize dropdown-item-primary">
-                            <i
-                                class="flag-icon flag-icon-{{ $available_locale == 'en' ? 'gb' : $available_locale }} mr-2"></i>
-                            {{ $locale_name }}
-                        </a>
-                    @endif
-                @endforeach
-            </div>
         </div>
         @guest
             <div class="btn-login">
@@ -84,6 +64,32 @@
                 </ul>
             </div>
         @endauth
+        <div class="dropdown align-content-center text-center">
+            <a class="nav-link flag-country p-1 dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="flag-icon flag-icon-{{ $current_locale == 'en' ? 'gb' : $current_locale }}"></i>
+                {{ array_search($current_locale, $available_locales) }}
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-0">
+                @foreach ($available_locales as $locale_name => $available_locale)
+                    @if ($available_locale === $current_locale)
+                        <a href="{{ route('change_language', $available_locale) }}"
+                            class="dropdown-item text-capitalize active dropdown-item-primary">
+                            <i
+                                class="flag-icon flag-icon-{{ $available_locale == 'en' ? 'gb' : $available_locale }} mr-2"></i>
+                            {{ $locale_name }}
+                        </a>
+                    @else
+                        <a href="{{ route('change_language', $available_locale) }}"
+                            class="dropdown-item text-capitalize dropdown-item-primary">
+                            <i
+                                class="flag-icon flag-icon-{{ $available_locale == 'en' ? 'gb' : $available_locale }} mr-2"></i>
+                            {{ $locale_name }}
+                        </a>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+
         <style>
             .flag-country {
                 border: 2px solid #1077B8;
@@ -99,7 +105,7 @@
         <div class="nav-rightside1 justify-content-center col-md-12 d-flex " id="navRightside">
             <div class="row">
                 {{-- <div class="col-md-12"> --}}
-                <ul class="nav justify-content-center gap-3">
+                <ul class="nav d-flex align-items-center justify-content-center gap-4">
                     <li class="nav-item p-1">
                         <a class="nav-link text-center fs-5 {{ Request::is('/') ? ' active' : '' }}"
                             aria-current="page" href="{{ route('home') }}"> <i
@@ -119,8 +125,8 @@
                         </li>
                     @endforeach --}}
                     @foreach ($categories as $item)
-                        <li class="nav-item">
-                            <a class="nav-link text-center fs-5 {{ Request::routeIs('category.show') && Request::route('slug') == $item->slug ? 'active' : '' }}"
+                        <li class="nav-item ">
+                            <a class="nav-link gap-1 d-flex justify-content-center align-items-center text-center fs-5 {{ Request::routeIs('category.show') && Request::route('slug') == $item->slug ? 'active' : '' }}"
                                 href="{{ route('category.show', $item->slug) }}">
                                 <img src="
                                     @if ($item->icon_images && file_exists(public_path('uploads/category/' . $item->icon_images))) {{ asset('uploads/category/' . $item->icon_images) }}
@@ -131,17 +137,25 @@
                             </a>
                         </li>
                     @endforeach
+                    <li class="nav-item p-1">
+                        <a class="nav-link text-center {{ Request::is('/service') ? ' active' : '' }}"
+                            href="{{ route('category.showservice') }}">
+                            <img class="m-1 fs-5" src="/website/nav/about.png" alt="not found">{{ __('Services') }}
+                        </a>
+                    </li>
 
                     <li class="nav-item p-1">
-                        <a class="nav-link   text-center " href="#">
+                        <a class="nav-link   text-center {{ Request::is('/about-us') ? ' active' : '' }}"
+                            href="{{ route('aboutus.show') }}">
                             {{-- <i class="fa-solid fa-circle-exclamation px-2" style="color: #ffffff;"></i> --}}
                             <img class="m-1 fs-5" src="\website\nav\about.png" alt="not found">{{ __('ABOUT US') }}
                         </a>
                     </li>
                     <li class="nav-item p-1">
-                        <a class="nav-link   text-center " href="#">
+                        <a class="nav-link   text-center " href="{{ route('services.show') }}">
                             {{-- <i class="fa-solid fa-user-pen px-2" style="color: #ffffff;"></i> --}}
-                            <img class="m-1 fs-5" src="\website\nav\contact.png" alt="not found">{{ __('Contact Us') }}
+                            <img class="m-1 fs-5" src="\website\nav\contact.png"
+                                alt="not found">{{ __('Contact Us') }}
                         </a>
                     </li>
                 </ul>
