@@ -1,58 +1,58 @@
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          const filterButtons = document.querySelectorAll('.filter-btn');
-          const productItems = document.querySelectorAll('.product-item');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const productItems = document.querySelectorAll('.product-item');
 
-          function filterProducts(filter) {
-              let hasVisibleProducts = false;
+        function filterProducts(filter) {
+            let hasVisibleProducts = false;
 
-              productItems.forEach(item => {
-                  const brandName = item.getAttribute('data-brand-name').toLowerCase();
+            productItems.forEach(item => {
+                const brandName = item.getAttribute('data-brand-name').toLowerCase();
 
-                  if (filter === 'all') {
-                      item.style.display = 'block';
-                      hasVisibleProducts = true;
-                  } else if (filter === 'window' && brandName !== 'apple') {
-                      item.style.display = 'block';
-                      hasVisibleProducts = true;
-                  } else if (filter === 'apple' && brandName === 'apple') {
-                      item.style.display = 'block';
-                      hasVisibleProducts = true;
-                  } else {
-                      item.style.display = 'none';
-                  }
-              });
+                if (filter === 'all') {
+                    item.style.display = 'block';
+                    hasVisibleProducts = true;
+                } else if (filter === 'window' && brandName !== 'apple') {
+                    item.style.display = 'block';
+                    hasVisibleProducts = true;
+                } else if (filter === 'apple' && brandName === 'apple') {
+                    item.style.display = 'block';
+                    hasVisibleProducts = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
 
-              if (hasVisibleProducts) {
-                  Swal.close();
-              } else {
-                  Swal.fire({
-                      title: 'No Products Available',
-                      text: 'No products match your filter criteria.',
-                      icon: 'info',
-                      confirmButtonText: 'OK'
-                  }).then(() => {
-                      filterButtons.forEach(btn => btn.classList.remove('active'));
-                      document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
-                      filterProducts('all');
-                  });
-              }
-          }
-          filterButtons.forEach(button => {
-              button.addEventListener('click', function() {
-                  const filter = this.getAttribute('data-filter');
+            if (hasVisibleProducts) {
+                Swal.close();
+            } else {
+                Swal.fire({
+                    title: 'No Products Available',
+                    text: 'No products match your filter criteria.',
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+                    filterProducts('all');
+                });
+            }
+        }
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
 
-                  filterButtons.forEach(btn => btn.classList.remove('active'));
-                  this.classList.add('active');
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
 
-                  filterProducts(filter);
-              });
-          });
+                filterProducts(filter);
+            });
+        });
 
-          filterProducts('all');
-      });
-  </script>
-  {{-- <script>
+        filterProducts('all');
+    });
+</script>
+{{-- <script>
       document.addEventListener("DOMContentLoaded", function() {
           const productContainer = document.querySelector(".product");
           const images = productContainer.querySelectorAll("img");

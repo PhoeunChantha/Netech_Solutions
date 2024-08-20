@@ -22,4 +22,7 @@ class DesktopController extends Controller
         $cate = Category::withCount('products')->get();
         return view('website.desktop.categories',compact('cate'));
     }
+    public function product_detail(){
+        return view('website.desktop.product-detail');
+    }
 }

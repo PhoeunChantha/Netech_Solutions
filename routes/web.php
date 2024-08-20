@@ -85,7 +85,7 @@ Route::middleware(['SetFrontendSession'])->group(function () {
 
     Route::get('/category/{slug}', [ProductCategoryController::class, 'showCategoryProducts'])->name('category.show');
     Route::get('/service', [ProductCategoryController::class, 'showservice'])->name('category.showservice');
-
+    Route::get('/product-detail', [DesktopController::class, 'product_detail'])->name('product-detail');
 
     Route::get('/about-us', [WebsiteAboutUsController::class, 'index'])->name('aboutus.show');
     Route::get('/category', [DesktopController::class, 'showCategory'])->name('allcategory.show');
