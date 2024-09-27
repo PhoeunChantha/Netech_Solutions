@@ -137,7 +137,7 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    <div class="form-group col-md-6 ">
+                                    {{-- <div class="form-group col-md-6 ">
                                         <label class="required_lable"
                                             for="Operating_System">{{ __('Operating System') }}</label>
                                         <select name="operating" id="operating"
@@ -151,7 +151,7 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group col-md-6 ">
                                         <label class="required_lable" for="price">{{ __('Price') }}</label>

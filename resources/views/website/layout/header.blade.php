@@ -40,6 +40,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap"
         rel="stylesheet">
 
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.11/dist/css/uikit.min.css" />
 
     {{-- <script src="{{ asset('website/custom/js/app.js') }}"></script> --}}
     @stack('css')
@@ -63,11 +65,11 @@
             -ms-overflow-style: none;
         } */
 
-        svg {
+        /* svg {
             width: 200px;
-        }
+        } */
 
-        .preloader {
+        /* .preloader {
             position: fixed;
             top: 0;
             left: 0;
@@ -78,17 +80,14 @@
             justify-content: center;
             background-color: #e7e7ed;
             z-index: 9999;
-        }
+        } */
 
-        .content {
+        /* .content {
             display: none;
-            /* Hide content initially */
-        }
+        } */
 
-        .wavy {
+        /* .wavy {
             position: relative;
-            /* top: 27em; */
-
             -webkit-box-reflect: below -12px linear-gradient(transparent, rgba(0, 0, 0, 0.2));
         }
 
@@ -97,9 +96,7 @@
             display: inline-block;
             color: white;
             font-size: 2em;
-
             text-transform: uppercase;
-
             animation: animate 1s ease-in-out infinite;
             animation-delay: calc(0.1s * var(--i));
         }
@@ -121,14 +118,16 @@
                 transform: translateY(0px);
 
             }
-        }
+        } */
 
-        #myBtn {
+        /* #myBtn {
             display: none;
             position: fixed;
             bottom: 20px;
             right: 30px;
             z-index: 99;
+            top: 30px;
+            height: ;
             font-size: 18px;
             border: none;
             outline: none;
@@ -136,33 +135,35 @@
             color: white;
             cursor: pointer;
             padding: 15px 10px;
-            border-radius: 4px;
+            border-radius: 50% border-radius: 4px;
             animation: myfirst 5s linear 2s infinite alternate;
+        } */
+        .go-up {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            justify-content: center;
+            align-items: center;
         }
 
-        @keyframes myfirst {
-            0% {
-                background-color: red;
-            }
+        #myBtn {
 
-            25% {
-                background-color: yellow;
-            }
+            border: none;
+            outline: none;
+            background-color: #555;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            height: 51px;
+            border-radius: 50%;
+            transition: transform 0.3s ease, background-color 0.3s ease;
 
-            50% {
-                background-color: blue;
-            }
-
-            75% {
-                background-color: green
-            }
-
-            100% {
-                background-color: red;
-            }
         }
 
         #myBtn:hover {
             background-color: #0a4569;
+            transform: scale(1.10);
+
         }
     </style>

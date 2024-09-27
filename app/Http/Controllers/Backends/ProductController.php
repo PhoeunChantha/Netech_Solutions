@@ -21,10 +21,22 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::latest('id')->paginate(10);
-        return view('backends.product.index', compact('products'));
+
+        $categories = Category::all();
+        $products = Product::when($request->category_id, function ($query) use ($request) {
+            $query->where('category_id', $request->category_id);
+        })->latest('id')->paginate(10);
+
+        if ($request->ajax()) {
+            $view = view('backends.product._table', compact('products', 'categories'))->render();
+            return response()->json([
+                'view' => $view
+            ]);
+        }
+        // $products = Product::latest('id')->paginate(10);
+        return view('backends.product.index', compact('products', 'categories'));
     }
 
     /**

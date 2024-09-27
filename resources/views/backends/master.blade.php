@@ -41,13 +41,15 @@
                 "paging": false,
                 "lengthChange": false,
                 "searching": true,
-                "ordering": true,
-                "info": true,
+                "ordering": false,
+                "info": false,
                 "autoWidth": false,
                 "responsive": true,
+                "initComplete": function(settings, json) {
+                    $('.dataTables_filter input').addClass('mt-2 mr-2');
+                }
             });
         });
-
     </script>
 </body>
 

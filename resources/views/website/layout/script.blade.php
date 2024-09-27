@@ -3,6 +3,9 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+   <!-- UIkit JS -->
+   <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.11/dist/js/uikit.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.11/dist/js/uikit-icons.min.js"></script>
    {{-- <script>
         $(document).ready(function() {
             var success_audio = "{{ URL::asset('sound/success.wav') }}";
@@ -68,27 +71,27 @@
        //            }, preloaderDuration);
        //        });
        //    });
-       window.addEventListener('load', function() {
-           const preloaderDuration = 2000; // 3000ms = 3 seconds
-           const preloader = document.querySelector('.preloader');
-           const content = document.querySelector('.content');
+       //    window.addEventListener('load', function() {
+       //        const preloaderDuration = 2000; // 3000ms = 3 seconds
+       //        const preloader = document.querySelector('.preloader');
+       //        const content = document.querySelector('.content');
 
-           if (preloader) {
-               preloader.style.display = "flex";
-           }
+       //        if (preloader) {
+       //            preloader.style.display = "flex";
+       //        }
 
-           if (content) {
-               content.style.display = "none";
-           }
-           setTimeout(function() {
-               if (preloader) {
-                   preloader.style.display = "none";
-               }
-               if (content) {
-                   content.style.display = "block";
-               }
-           }, preloaderDuration);
-       });
+       //        if (content) {
+       //            content.style.display = "none";
+       //        }
+       //        setTimeout(function() {
+       //            if (preloader) {
+       //                preloader.style.display = "none";
+       //            }
+       //            if (content) {
+       //                content.style.display = "block";
+       //            }
+       //        }, preloaderDuration);
+       //    });
    </script>
    <script>
        // Get the button
@@ -96,7 +99,7 @@
 
        // When the user scrolls down 20px from the top of the document, show the button
        window.addEventListener('scroll', function() {
-           if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+           if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
                mybutton.style.display = "block";
            } else {
                mybutton.style.display = "none";

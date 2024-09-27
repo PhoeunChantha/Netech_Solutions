@@ -68,15 +68,23 @@ body {
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(239, 234, 234, 0.3);
 }
+.checkin > a > img {
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
 
 .checkin a {
   color: #f0f2fd;
   text-decoration: none;
   position: relative;
+  padding: 0 0 0 0 !important;
 }
 
 .checkin > a > i {
+  font-size: 1.3em;
   color: #a1a1a1;
+  padding: 0;
 }
 
 .checkin > a > .badge {

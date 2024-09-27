@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($banners as $banner)
+            @foreach ($posters as $banner)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>
@@ -67,10 +67,10 @@
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
                 <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
-                    {{ __('Showing') }} {{ $banners->firstItem() }} {{ __('to') }} {{ $banners->lastItem() }}
-                    {{ __('of') }} {{ $banners->total() }} {{ __('entries') }}
+                    {{ __('Showing') }} {{ $posters->firstItem() }} {{ __('to') }} {{ $posters->lastItem() }}
+                    {{ __('of') }} {{ $posters->total() }} {{ __('entries') }}
                 </div>
-                <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $banners->links() }}</div>
+                <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $posters->links() }}</div>
             </div>
         </div>
     </div>

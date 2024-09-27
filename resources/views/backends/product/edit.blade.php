@@ -142,7 +142,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="form-group col-md-6">
+                                    {{-- <div class="form-group col-md-6">
                                         <label class="required_label" for="operating">{{ __('Operating System') }}</label>
                                         <select name="operating" id="operating"
                                             class="form-control select2 @error('operating') is-invalid @enderror">
@@ -161,7 +161,7 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group col-md-6">
                                         <label class="required_label" for="price">{{ __('Price') }}</label>

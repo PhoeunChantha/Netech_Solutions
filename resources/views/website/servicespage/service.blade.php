@@ -15,156 +15,68 @@
                     @endforeach
                 </div>
             </div>
-            <div class="row justify-content-center p-2">
-                <div class="col-10 banner1 mt-5" bis_skin_checked="1">
+            <div class="row justify-content-center">
+                {{-- <div class="col-md-10 banner1 mt-5" bis_skin_checked="1">
                     <img src="website/Accessories/banner1.png" alt="not found">
-                </div>
+                </div> --}}
                 <div class="col-md-10">
-                    <div class="row justify-content-center p-2 mt-4">
-                    </div>
-                </div>
-            </div>
-            <div class="text-center p-5">
-                <h2 class="fw-bolder" style="color: #000000;">{{ __(' Our Solutions ') }}</h2>
-                <h4 style="color: #000000;"></h4>Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
-                printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five
-                centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
-                recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</h5>
-            </div>
-            <div class="row justify-content-center p-1">
-                <div class="row row-cols-1 row-cols-md-2 g-4">
-                    <div class="col">
-                        <div class="card">
-                            <img src="/website/service/network.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h2 class="card-title">Solution</h2>
-                                <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting
-                                    industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen book. It
+                    <div class="card mt-5 mb-4 border-0">
+                        <div class="row justify-content-center mt-4">
+                            <div class="text-center px-5">
+                                <h3 class="fw-bolder fs-2" style="color: #000000;">{{ __('All Services ') }}</h3>
+                                <div class="div p-3 fs-5">
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum
                                     has
-                                    survived not only five centuries, but also the leap into electronic typesetting,
-                                    remaining
-                                    essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                                    sheets
-                                    containing Lorem Ipsum passages, and more recently with desktop publishing software like
-                                    Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                    been the industry's standard dummy text ever since the 1500s,
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="row d-flex gap-2 justify-content-center mt-3 mb-4">
+                            @forelse ($services as $service)
+                                <div class="col-md-5">
+                                    <div class="card card-service p-1">
+                                        <div class="card-header p-0 service-thumbnail">
+                                            <img width="50%"
+                                                src="
+                                                @if ($service->thumbnails && file_exists(public_path('uploads/serviceimg/' . $service->thumbnails))) {{ asset('uploads/serviceimg/' . $service->thumbnails) }}
+                                                @else
+                                                    {{ asset('uploads/defualt.png') }} @endif
+                                                "
+                                                alt="{{ $service->title }}" class="card-img-top shadow">
+                                        </div>
+                                        <div class="card-body p-2">
+                                            <h3 class="card-title">{{ $service->name }}</h3>
+                                            <div class="card-text fs-5">
+                                                {!! $service->description !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <p>{{ __('No services available') }}</p>
+                            @endforelse
 
-                    <div class="col">
-                        <div class="card">
-                            <img src="/website/service/network.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h2 class="card-title">Solution</h2>
-                                <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting
-                                    industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen book. It
-                                    has
-                                    survived not only five centuries, but also the leap into electronic typesetting,
-                                    remaining
-                                    essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                                    sheets
-                                    containing Lorem Ipsum passages, and more recently with desktop publishing software like
-                                    Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            </div>
+                            {{-- <div class="col-md-6">
+                                <div class="card card-service">
+                                    <div class="card-header p-0 service-thumbnail">
+                                        <img src="\website\servicepage\ser1.png" class="card-img-top" alt="...">
+                                    </div>
+                                    <div class="card-body p-2">
+                                        <h3 class="card-title">{{ __('Iphone 15 Pro Max') }}</h3>
+                                        <div class="card-text fs-5">
+                                            Lorem Ipsum is simply dummy text of theprinting and
+                                            typesetting
+                                            industry.Lorem Lorem Ipsum is simply dummy text of the printing antypesetting
+                                            industry.Lorem
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> --}}
                         </div>
                     </div>
-                    <div class="col-md-10">
-                        <div class="row justify-content-center p-2 mt-5">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="/website/service/network.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h2 class="card-title">Our Services </h2>
-                                <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting
-                                    industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen book. It
-                                    has
-                                    survived not only five centuries, but also the leap into electronic typesetting,
-                                    remaining
-                                    essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                                    sheets
-                                    containing Lorem Ipsum passages, and more recently with desktop publishing software like
-                                    Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="/website/service/network.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h2 class="card-title">Network Solution</h2>
-                                <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting
-                                    industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen book. It
-                                    has
-                                    survived not only five centuries, but also the leap into electronic typesetting,
-                                    remaining
-                                    essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                                    sheets
-                                    containing Lorem Ipsum passages, and more recently with desktop publishing software like
-                                    Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-10">
-                        <div class="row justify-content-center p-2 mt-5">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="/website/service/network.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h2 class="card-title">Camera Services</h2>
-                                <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting
-                                    industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen book. It
-                                    has
-                                    survived not only five centuries, but also the leap into electronic typesetting,
-                                    remaining
-                                    essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                                    sheets
-                                    containing Lorem Ipsum passages, and more recently with desktop publishing software like
-                                    Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="/website/service/network.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h2 class="card-title">Service maintainnace</h2>
-                                <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting
-                                    industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen book. It
-                                    has
-                                    survived not only five centuries, but also the leap into electronic typesetting,
-                                    remaining
-                                    essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                                    sheets
-                                    containing Lorem Ipsum passages, and more recently with desktop publishing software like
-                                    Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-10">
-                        <div class="row justify-content-center p-2 mt-5">
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection

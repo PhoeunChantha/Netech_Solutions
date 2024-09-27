@@ -484,4 +484,100 @@
     #serviceImage {
         border-radius: 20px;
     }
+
+    .about-title {
+        color: #1077B8;
+    }
+
+    /* .container-img>img{
+        width: 100%;
+        height: 10%;
+        object-fit: cover;
+    } */
+    .about-card {
+        max-width: 350px;
+        /* Adjust the card width */
+        /* height: 20rem; */
+        margin: 0 auto;
+        /* Center the card */
+    }
+
+    .about-card-top img {
+        width: 100%;
+        /* Make the image fill the card width */
+        /* height: auto !important; */
+        /* Maintain aspect ratio */
+        object-fit: contain;
+    }
+
+    .about-card-body {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(16, 119, 184);
+        padding: 10px;
+        text-align: center;
+
+    }
+
+    /* our-company */
+    .our-company {
+        padding-right: 15px;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .our-company>.company-title {
+        /* font-size: 25px; */
+        font-weight: 600;
+        color: black;
+    }
+
+    .image-company>img {
+        width: 100%;
+        height: 20rem;
+        object-fit: cover;
+    }
+
+    .company-mission,
+    .company-vision {
+        padding: 30px;
+    }
+
+    .company-mission>.mission-title,
+    .company-vision>.vision-title {
+        font-weight: 600;
+        color: #1077B8;
+    }
+
+    .company-mission>p,
+    .company-vision>p {
+        font-size: 19px !important;
+    }
+
+    .custom-prev-left {
+        color: #F0F2FD !important;
+        background-color: rgba(16, 119, 184, 0.6) !important;
+        left: -29px !important;
+        width: 45px !important;
+        height: 45px !important;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .custom-prev-right {
+        color: #F0F2FD !important;
+        background-color: rgba(16, 119, 184, 0.6) !important;
+        right: -16px !important;
+        width: 45px !important;
+        height: 45px !important;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 </style>

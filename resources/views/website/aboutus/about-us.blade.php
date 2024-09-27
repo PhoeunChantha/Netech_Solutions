@@ -2,7 +2,6 @@
 @section('content')
     @include('website.aboutus.about-us-style')
     <div class="content">
-
         <div class="row mt--3 mx-0 justify-content-center align-content-center">
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -17,68 +16,105 @@
                 </div>
             </div>
         </div>
-
         <div class="text-center p-5">
-            <h1 class="fw-bolder" style="color: #ff0000;">{{ __(' Wanted To Hear Our Story... ') }}</h1>
-            <h1 class="fw-bolder" style="color: #000000;">{{ __(' There Is the better way we build it. ') }}</h1>
+            <h2 class="fw-bolder about-title">{{ __('Our Team Structure') }}</h2>
+            <p class="fw-bolder about-desc">{{ __(' There Is the better way we build it. ') }}</p>
         </div>
+        <div class="col-10 mx-auto">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div style="width: 74rem !important" class="uk-slider-container-offset" uk-slider>
+                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
+                        <div class=" uk-slider-items uk-child-width-1-3@s
+uk-grid">
+                            <div style="padding-left: 0 !important;width: 25rem" class="">
+                                <div class="uk-card about-card uk-card-default about-card">
+                                    <div class="uk-card-media-top about-card-top">
+                                        <img src="{{ asset('website/about-us/img1.png') }}" alt="">
+                                    </div>
+                                    <div class="uk-card-body about-card-body">
+                                        <h3 class="uk-card-title mb-0">Headline</h3>
+                                        <p class="mt-0">District Brand Associate</p>
 
-        <div id="carouselExampleDark" class="carousel carousel-dark slide">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active" >
-                    <img style="width: 20%" src="website/about-us/1.jpg" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>First slide label</h5>
-                        <p>Some representative placeholder content for the first slide.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-left: 0 !important;width: 25rem" class="">
+                                <div class="uk-card about-card uk-card-default about-card">
+                                    <div class="uk-card-media-top about-card-top">
+                                        <img src="{{ asset('website/about-us/img1.png') }}" alt="">
+                                    </div>
+                                    <div class="uk-card-body about-card-body">
+                                        <h3 class="uk-card-title mb-0">Headline</h3>
+                                        <p class="mt-0">District Brand Associate</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-left: 0 !important;width: 25rem" class="">
+                                <div class="uk-card about-card uk-card-default about-card">
+                                    <div class="uk-card-media-top about-card-top">
+                                        <img src="{{ asset('website/about-us/img1.png') }}" alt="">
+                                    </div>
+                                    <div class="uk-card-body about-card-body">
+                                        <h3 class="uk-card-title mb-0">Headline</h3>
+                                        <p class="mt-0">District Brand Associate</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-left: 0 !important;width: 25rem" class="">
+                                <div class="uk-card about-card uk-card-default about-card">
+                                    <div class="uk-card-media-top about-card-top">
+                                        <img src="{{ asset('website/about-us/img1.png') }}" alt="">
+                                    </div>
+                                    <div class="uk-card-body about-card-body">
+                                        <h3 class="uk-card-title mb-0">Headline</h3>
+                                        <p class="mt-0">District Brand Associate</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a class="uk-position-center-left uk-position-small uk-hidden-hover custom-prev-left" href
+                            uk-slidenav-previous uk-slider-item="previous"></a>
+                        <a class="uk-position-center-right uk-position-small uk-hidden-hover custom-prev-right" href
+                            uk-slidenav-next uk-slider-item="next"></a>
                     </div>
                 </div>
-                {{-- <div class="carousel-item" data-bs-interval="2000">
-                    <img src="website/about-us/2.jpg" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Second slide label</h5>
-                        <p>Some representative placeholder content for the second slide.</p>
+            </div>
+        </div>
+        <div class="col-10 mx-auto">
+            <div class="p-2 px-0 my-5 d-flex justify-content-center">
+                <div class="col-6 our-company">
+                    <h2 class="company-title">{{ __('About Our Company') }}</h2>
+                    <p class="mt-0 fs-5  text-left">
+                        {{ __('Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.') }}
+                    </p>
+                </div>
+                <div class="col-5 bg-info">
+                    <div class="image-company">
+                        <img src="{{ asset('website/about-us/image-company.jpg') }}" alt="error" class="img-fluid">
                     </div>
                 </div>
-                <div class="carousel-item">
-                    <img src="website/about-us/3.jpg" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Third slide label</h5>
-                        <p>Some representative placeholder content for the third slide.</p>
-                    </div>
-                </div> --}}
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
-        <div class="row justify-content-center p-2">
-            <div>
-                <p class="text-start">Start aligned text on all viewport sizes.</p>
-                <p class="fw-medium">Medium weight text.</p>
             </div>
         </div>
+        <div class="col-10  mx-auto pb-5">
+            <div class="card px-0   justify-content-center">
+                <div class="col-12 pb-0 company-mission">
+                    <h2 class="mission-title ">{{ __('Mission') }}</h2>
+                    <p class="fs-6  text-left">
+                        {{ __('Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.') }}
+                    </p>
+                </div>
+                <div class="col-12  company-vision">
+                    <h2 class="vision-title">{{ __('Vission') }}</h2>
+                    <p class="fs-6  text-left">
+                        {{ __('Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.') }}
+                    </p>
 
-
-
-
-
-
-
-    </div>
-    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

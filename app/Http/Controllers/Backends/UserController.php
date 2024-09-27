@@ -222,4 +222,24 @@ class UserController extends Controller
 
         return response()->json($output);
     }
+    public function updateStatus(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $user = User::findOrFail($request->id);
+            $user->status = $user->status == 1 ? 0 : 1;
+            $user->save();
+
+            $output = ['status' => 1, 'msg' => __('Status updated')];
+
+            DB::commit();
+        } catch (Exception $e) {
+
+            $output = ['status' => 0, 'msg' => __('Something went wrong')];
+            DB::rollBack();
+        }
+
+        return response()->json($output);
+    }
 }
