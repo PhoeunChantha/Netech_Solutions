@@ -12,6 +12,7 @@ use App\Http\Controllers\Website\AccountController;
 use App\Http\Controllers\Website\DesktopController;
 use App\Http\Controllers\Website\ServiceController;
 use App\Http\Controllers\Backends\ProductController;
+use App\Http\Controllers\Website\CheckoutController;
 use App\Http\Controllers\Backends\CategoryController;
 use App\Http\Controllers\Backends\LanguageController;
 use App\Http\Controllers\Backends\DashboardController;
@@ -82,6 +83,9 @@ Route::middleware(['SetFrontendSession'])->group(function () {
     Route::get('/accessories/{slug}',[AccessoriesController::class, 'index'])->name('accessories.show');
 
     Route::get('/category/{slug}',[ProductCategoryController::class, 'showCategoryProducts'])->name('category.show');
+
+    // checkout route
+    Route::get('/checkout',[CheckoutController::class, 'index'])->name('checkout');
 });
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
 
