@@ -25,4 +25,8 @@ class DesktopController extends Controller
     public function product_detail(){
         return view('website.desktop.product-detail');
     }
+
+    public function shopping_cart(){
+        return view('website.desktop.shopping-cart');
+    }
 }

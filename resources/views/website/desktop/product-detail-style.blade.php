@@ -1,12 +1,7 @@
 <style>
     .sticky-sub-image {
-        /* position: scroll; */
-        /* top: 0;
-        z-index: 1; */
         overflow-y: scroll;
-        height: 65vh;
-
-
+        height: 58vh;
     }
 
     .sticky-sub-image::-webkit-scrollbar {
@@ -46,14 +41,33 @@
         object-fit: contain;
     }
 
+    .description,
+    .Specification {
+        color: #A1A1A1;
+        font-size: 16px;
+    }
+
     .add-cart button {
         border-radius: 9px;
     }
-
+    .list-products .card{
+        border-radius: 15px;
+    }
     .card-image img {
         width: 100%;
-        height: 111px;
+        height: 125px;
         object-fit: cover;
+    }
+    .card-image span{
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 5px 12px;
+        background-color: #B81A10;
+        color: #F0F2FD;
+        font-size: 14px;
     }
 
     .product-body h5 {

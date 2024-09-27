@@ -138,21 +138,22 @@
                         </li>
                     @endforeach
                     <li class="nav-item p-1">
-                        <a class="nav-link text-center {{ Request::is('/service') ? ' active' : '' }}"
-                            href="{{ route('category.showservice') }}">
+                        <a class="nav-link text-center {{ Request::routeIs('service.show') ? ' active' : '' }}"
+                            href="{{ route('service.show') }}">
                             <img class="m-1 fs-5" src="/website/nav/about.png" alt="not found">{{ __('Services') }}
                         </a>
                     </li>
 
                     <li class="nav-item p-1">
-                        <a class="nav-link   text-center {{ Request::is('/about-us') ? ' active' : '' }}"
+                        <a class="nav-link   text-center {{ Request::routeIs('aboutus.show') ? ' active' : '' }}"
                             href="{{ route('aboutus.show') }}">
                             {{-- <i class="fa-solid fa-circle-exclamation px-2" style="color: #ffffff;"></i> --}}
                             <img class="m-1 fs-5" src="\website\nav\about.png" alt="not found">{{ __('ABOUT US') }}
                         </a>
                     </li>
                     <li class="nav-item p-1">
-                        <a class="nav-link   text-center " href="{{ route('services.show') }}">
+                        <a class="nav-link   text-center  {{ Request::routeIs('contact.show') ? ' active' : '' }} "
+                            href="{{ route('contact.show') }}">
                             {{-- <i class="fa-solid fa-user-pen px-2" style="color: #ffffff;"></i> --}}
                             <img class="m-1 fs-5" src="\website\nav\contact.png"
                                 alt="not found">{{ __('Contact Us') }}

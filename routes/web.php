@@ -20,12 +20,14 @@ use App\Http\Controllers\Website\Auth\LoginController;
 use App\Http\Controllers\Backends\NavigationController;
 use App\Http\Controllers\Website\AccessoriesController;
 use App\Http\Controllers\Backends\FileManagerController;
+use App\Http\Controllers\Website\FrontServiceController;
 use App\Http\Controllers\Website\ProductCategoryController;
 use App\Http\Controllers\Backends\BusinessSettingController;
 use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
 use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
 use App\Http\Controllers\Website\AboutUsController as WebsiteAboutUsController;
 use App\Http\Controllers\Website\Auth\LoginController as WebsiteAuthLoginController;
+use App\Http\Controllers\Website\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,23 +74,19 @@ Route::middleware(['SetFrontendSession'])->group(function () {
     Route::put('/account/profile/{id}/update', [AccountController::class, 'profileUpdate'])->name('account.profile.update');
     Route::post('/account/profile/store', [AccountController::class, 'profileStore'])->name('account.profile.store');
 
+    // Route::get('/services', [ServiceController::class, 'index'])->name('services.show');
+    // Route::get('/accessories/{slug}', [AccessoriesController::class, 'index'])->name('accessories.show');
 
-    // //desktop route has start
-    // Route::get('/desktop/{slug}',[DesktopController::class, 'index'])->name('desktop.show');
-    // //laptop route has start
-    // Route::get('/laptop/{slug}', [LaptopController::class, 'index'])->name('laptop.show');
-    // //mac route has start
-    // Route::get('/mac/{slug}',[MacController::class, 'index'])->name('mac.show');
-
-    Route::get('/services', [ServiceController::class, 'index'])->name('services.show');
-    Route::get('/accessories/{slug}', [AccessoriesController::class, 'index'])->name('accessories.show');
-
-    Route::get('/category/{slug}', [ProductCategoryController::class, 'showCategoryProducts'])->name('category.show');
-    Route::get('/service', [ProductCategoryController::class, 'showservice'])->name('category.showservice');
-    Route::get('/product-detail', [DesktopController::class, 'product_detail'])->name('product-detail');
+    Route::get('/category/{slug}', [WebsiteHomeController::class, 'showCategoryProducts'])->name('category.show');
+    Route::get('/service', [FrontServiceController::class, 'index'])->name('service.show');
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact.show');
 
     Route::get('/about-us', [WebsiteAboutUsController::class, 'index'])->name('aboutus.show');
     Route::get('/category', [DesktopController::class, 'showCategory'])->name('allcategory.show');
+
+    Route::get('/product-detail', [DesktopController::class, 'product_detail'])->name('product-detail');
+    Route::get('/shopping-cart', [DesktopController::class, 'shopping_cart'])->name('shopping-cart');
+
 });
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
 

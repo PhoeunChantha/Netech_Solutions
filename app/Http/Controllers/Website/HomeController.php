@@ -36,4 +36,12 @@ class HomeController extends Controller
         }
         return view('website.home.home', compact('desktopProducts', 'laptopProducts', 'accessoriesProducts', 'cctvProducts', 'printerProducts'));
     }
+    public function showCategoryProducts($slug)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
+        $products = Product::where('category_id', $category->id)->get();
+        $productscount = $products->count();
+        // dd($products);
+        return view('website.desktop.desktop', compact('category', 'productscount', 'products'));
+    }
 }

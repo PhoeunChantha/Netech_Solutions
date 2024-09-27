@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Website;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AccessoriesController extends Controller
+class ContactController extends Controller
 {
     public function index()
     {
-        return view('website.accessories.accessories');
+        return view('website.contact.contact');
     }
 }
