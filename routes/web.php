@@ -6,6 +6,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Website\MacController;
+use App\Http\Controllers\website\MapController;
 use App\Http\Controllers\Backends\RoleController;
 use App\Http\Controllers\Backends\UserController;
 use App\Http\Controllers\Backends\BrandController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Website\AccountController;
 use App\Http\Controllers\Website\ContactController;
 use App\Http\Controllers\Website\DesktopController;
 use App\Http\Controllers\Website\ProfileController;
+use App\Http\Controllers\website\PaymentController;
 use App\Http\Controllers\Backends\ProductController;
 use App\Http\Controllers\Backends\ServiceController;
 use App\Http\Controllers\Website\CheckoutController;
@@ -104,6 +106,10 @@ Route::middleware(['SetFrontendSession'])->group(function () {
 
     // checkout route
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    // Tong route
+    Route::get('/checkout',[CheckoutController::class, 'index'])->name('checkout');
+    Route::get('/maps',[MapController::class, 'index'])->name('maps');
+    Route::get('/payment',[PaymentController::class, 'index'])->name('payment');
 });
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
 
