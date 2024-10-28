@@ -1,5 +1,5 @@
 @extends('website.app')
-@section('content')
+@section('contents')
     @include('website.checkout.checkout-style')
 
     <div class="content mt--3">

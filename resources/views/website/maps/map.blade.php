@@ -1,5 +1,5 @@
 @extends('website.app')
-@section('content')
+@section('contents')
     @include('website.maps.map-style')
 
     <div class="content mt--3">

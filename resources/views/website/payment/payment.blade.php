@@ -1,5 +1,5 @@
 @extends('website.app')
-@section('content')
+@section('contents')
     @include('website.payment.payment-style')
     <div class="content mt--3">
         <div class="container overflow-hidden">
