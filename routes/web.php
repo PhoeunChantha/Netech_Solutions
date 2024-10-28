@@ -5,15 +5,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\Website\MacController;
+use App\Http\Controllers\website\MapController;
 use App\Http\Controllers\Backends\RoleController;
 use App\Http\Controllers\Backends\UserController;
 use App\Http\Controllers\Backends\BrandController;
 use App\Http\Controllers\Website\LaptopController;
 use App\Http\Controllers\Website\AccountController;
+use App\Http\Controllers\Website\ContactController;
 use App\Http\Controllers\Website\DesktopController;
+use App\Http\Controllers\website\PaymentController;
 use App\Http\Controllers\Backends\ProductController;
-use App\Http\Controllers\Website\CheckoutController;
 use App\Http\Controllers\Backends\ServiceController;
+use App\Http\Controllers\Website\CheckoutController;
 use App\Http\Controllers\Backends\CategoryController;
 use App\Http\Controllers\Backends\LanguageController;
 use App\Http\Controllers\Backends\DashboardController;
@@ -28,7 +31,6 @@ use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
 use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
 use App\Http\Controllers\Website\AboutUsController as WebsiteAboutUsController;
 use App\Http\Controllers\Website\Auth\LoginController as WebsiteAuthLoginController;
-use App\Http\Controllers\Website\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,8 +92,10 @@ Route::middleware(['SetFrontendSession'])->group(function () {
 
     // Route::get('/category/{slug}',[ProductCategoryController::class, 'showCategoryProducts'])->name('category.show');
 
-    // checkout route
+    // Tong route
     Route::get('/checkout',[CheckoutController::class, 'index'])->name('checkout');
+    Route::get('/maps',[MapController::class, 'index'])->name('maps');
+    Route::get('/payment',[PaymentController::class, 'index'])->name('payment');
 });
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
 

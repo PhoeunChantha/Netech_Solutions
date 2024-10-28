@@ -51,10 +51,10 @@
                                                     class="fa-solid fa-plus"></i> Add Address
                                             </button>
 
-                                            <button class="btn btn-primary dropdown-toggle" type="button"
+                                            <a href="#" class="btn btn-primary dropdown-toggle" type="button"
                                                 id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Save Changes
-                                            </button>
+                                            </a>
                                             <ul class="dropdown-menu dropdown-menu-right"
                                                 aria-labelledby="dropdownMenuButton1">
                                                 <div class="card">

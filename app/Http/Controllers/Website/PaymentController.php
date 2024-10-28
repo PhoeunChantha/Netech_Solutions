@@ -5,10 +5,9 @@ namespace App\Http\Controllers\website;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MapController extends Controller
+class PaymentController extends Controller
 {
-    //
     function index(){
-        return view('website.maps.map');
+        return view('website.payment.payment');
     }
 }
