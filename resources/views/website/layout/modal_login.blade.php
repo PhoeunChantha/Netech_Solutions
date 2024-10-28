@@ -21,8 +21,8 @@
     }
 
     .btn-modal-login:hover {
-          color: #ffffffff ;
-       background-color: #1077B8;
+        color: #ffffffff;
+        background-color: #1077B8;
     }
 
     .modal {
@@ -213,44 +213,46 @@
     </div>
 </div> --}}
 @include('website.layout.modal_register')
-<script>
-    document.getElementById('showRegisterModal').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default link behavior
-        $('#staticBackdrop').modal('hide'); // Hide the current modal
-        $('#modalRegister').modal('show'); // Show the new modal
-    });
-    document.getElementById('showLoginModal').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default link behavior
-        $('#modalRegister').modal('hide'); // Hide the current modal
-        $('#staticBackdrop').modal('show'); // Show the new modal
-    });
-</script>
-<script>
-    function triggerFileInputFront() {
-        document.getElementById('exampleInputFileFront').click();
-    }
-
-    function previewImageFront(event) {
-        var reader = new FileReader();
-        reader.onload = function() {
-            var output = document.getElementById('imagePreviewFront');
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-</script>
-
-<!-- Script to close the modal -->
-<script>
-    $(document).ready(function() {
-        $('.cus-login-close-btn').click(function() {
-            $('#modalRegister').modal('hide');
+@push('js')
+    <script>
+        document.getElementById('showRegisterModal').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            $('#staticBackdrop').modal('hide'); // Hide the current modal
+            $('#modalRegister').modal('show'); // Show the new modal
         });
-    });
-
-    $(document).ready(function() {
-        $('.cus-login-close-btn').click(function() {
-            $('#staticBackdrop').modal('hide');
+        document.getElementById('showLoginModal').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            $('#modalRegister').modal('hide'); // Hide the current modal
+            $('#staticBackdrop').modal('show'); // Show the new modal
         });
-    });
-</script>
+    </script>
+    <script>
+        function triggerFileInputFront() {
+            document.getElementById('exampleInputFileFront').click();
+        }
+
+        function previewImageFront(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById('imagePreviewFront');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+
+    <!-- Script to close the modal -->
+    <script>
+        $(document).ready(function() {
+            $('.cus-login-close-btn').click(function() {
+                $('#modalRegister').modal('hide');
+            });
+        });
+
+        $(document).ready(function() {
+            $('.cus-login-close-btn').click(function() {
+                $('#staticBackdrop').modal('hide');
+            });
+        });
+    </script>
+@endpush

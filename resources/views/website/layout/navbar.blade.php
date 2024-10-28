@@ -42,14 +42,23 @@
         </div>
         @guest
             <div class="btn-login">
-                <a type="button" class="btn btn-login" data-toggle="modal" data-target="#exampleModal">
+                {{-- <a href="{{ route('customer.login') }}" type="button" class="btn btn-login" data-toggle="modal" data-target="#exampleModal">
+                    {{ __('Login') }}
+                </a> --}}
+                <a href="{{ route('customer.login') }}" type="button" class="btn btn-login" >
                     {{ __('Login') }}
                 </a>
             </div>
         @endguest
         @auth
             <div class="dropdown dropdown-profile dropstart text-end btn-login ">
+
                 <a type="button" id="dropdown-toggle" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                    <img width="25px" height="25px"
+                        src="@if (auth()->user()->image && file_exists(public_path('uploads/users/' . auth()->user()->image ))) {{ asset('uploads/users/' .auth()->user()->image ) }}
+                                              @else
+                                                  {{ asset('uploads/default-profile.png') }} @endif"
+                        alt="Preview Image">
                     {{ auth()->user()->name }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-front" style="display: none">

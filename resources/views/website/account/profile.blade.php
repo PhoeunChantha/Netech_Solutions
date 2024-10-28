@@ -1,5 +1,4 @@
 @extends('website.app')
-
 @push('css')
     <style>
         .preview {
@@ -17,9 +16,9 @@
 
         .btn-save {
             /* background: linear-gradient(90deg,
-                    rgba(243, 49, 247, 1) 8%,
-                    rgba(87, 158, 255, 1) 70%) !important; */
-                    background-color: #1077B8;
+                            rgba(243, 49, 247, 1) 8%,
+                            rgba(87, 158, 255, 1) 70%) !important; */
+            background-color: #1077B8;
             color: #ffffffff !important;
         }
 
@@ -72,11 +71,11 @@
     </style>
 @endpush
 
-@section('content')
+@section('contents')
     <div class="col-12 d-flex justify-content-center mt-2">
         <div class="card" style="width: 80%">
             <div class="card-body px-5">
-                <form action="{{ route('account.profile.update', auth()->user()->id) }}" method="POST"
+                <form id="" action="{{ route('account.profile.update', auth()->user()->id) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -197,7 +196,9 @@
             </div>
         </div>
     </div>
+@endsection
 
+@push('js')
     <script>
         function triggerFileInput() {
             $('.custom-file-input').trigger('click');
@@ -217,4 +218,5 @@
             previewImage(e);
         });
     </script>
-@endsection
+
+@endpush

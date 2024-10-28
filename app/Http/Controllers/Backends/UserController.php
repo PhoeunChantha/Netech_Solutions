@@ -72,8 +72,6 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->password = Hash::make($request['password']);
 
-            $role = Role::findOrFail($request->role);
-            $user->assignRole($role->name);
 
             if ($request->hasFile('image')) {
                 $user->image = ImageManager::upload('uploads/users/', $request->image);

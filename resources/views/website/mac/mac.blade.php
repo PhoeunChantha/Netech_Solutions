@@ -1,5 +1,5 @@
 @extends('website.app')
-@section('content')
+@section('contents')
 @include('website.mac.mac-style')
 <div class="content">
 

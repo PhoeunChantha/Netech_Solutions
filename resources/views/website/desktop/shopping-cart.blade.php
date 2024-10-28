@@ -1,5 +1,5 @@
 @extends('website.app')
-@section('content')
+@section('contents')
     @include('website.desktop.shopping-cart-style')
     <div class="container p-0">
         <div class="col-12 p-4 shopping-card shadow-sm mt-5">

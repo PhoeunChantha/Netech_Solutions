@@ -49,7 +49,7 @@
                         <div class="inner text-right">
                             {{-- <h3>{{ App\helpers\AppHelper::dashboardQuery()['total_event'] }}</h3> --}}
                             <h4>5</h4>
-                            <p class="m-0 text-uppercase">{{ __('Total Course') }}</p>
+                            <p class="m-0 text-uppercase">{{ __('Total Orders') }}</p>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         <div class="inner text-right">
                             {{-- <h3>{{ App\helpers\AppHelper::dashboardQuery()['total_both'] }}</h3> --}}
                             <h4>5</h4>
-                            <p class="m-0 text-uppercase">{{ __('Total Lessons') }}</p>
+                            <p class="m-0 text-uppercase">{{ __('Total Products') }}</p>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                         </div>
                         <div class="inner text-right">
                             <h4>5</h4>
-                            <p class="m-0 text-uppercase">{{ __('Total User') }}</p>
+                            <p class="m-0 text-uppercase">{{ __('Total Customers') }}</p>
                         </div>
                     </div>
                 </div>
@@ -173,10 +173,8 @@
                                 <div class="card-body">
                                     <canvas id="bar-chartcountbymonth" style="height: 400px;"></canvas>
                                 </div>
-
                             </div>
                         </div>
-
                     </div>
                 </section> --}}
             </div>

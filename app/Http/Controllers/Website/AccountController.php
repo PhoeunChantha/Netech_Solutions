@@ -20,41 +20,47 @@ class AccountController extends Controller
             return redirect()->route('home');
         }
         $user = auth()->user();
-        return view('website.account.profile', compact('user'));
+        // return view('website.account.profile', compact('user'));
+        return view('website.profile.profile_update', compact('user'));
+    }
+    public function orderHistory()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('home');
+        }
+        // $orders = auth()->user()->orders()->paginate(10);
+        return view('website.profile.order-history');
     }
 
     public function profileUpdate($id, Request $request)
     {
         $rules = [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'first_name' => 'nullable',
+            'last_name' => 'nullable',
+            'phone' => 'nullable',
+            'full_mobile' => 'nullable',
+            'email' => 'nullable|email|unique:users,email,' . $id,
             'password' => 'nullable|min:8|confirmed',
         ];
 
         $validator = Validator::make($request->all(), $rules);
+
         if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput()
-                ->with(['success' => 0, 'msg' => __('Invalid form input')]);
+            return response()->json([
+                'success' => 0,
+                'errors' => $validator->errors()
+            ], 422);
         }
 
         try {
             DB::beginTransaction();
-
-            // dd($request->all());
             $user = User::find($id);
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
-            $user->name = $request->name;
             $user->phone = $request->phone;
             $user->email = $request->email;
-            $user->telegram = $request->telegram;
             if ($request->password) {
-                $user->password = Hash::make($request['password']);
+                $user->password = Hash::make($request->password);
             }
 
             if ($request->hasFile('image')) {
@@ -64,15 +70,19 @@ class AccountController extends Controller
             $user->save();
 
             DB::commit();
-            return redirect()->back()->with(['success' => 1, 'msg' => __('Update successfully')]);
+            return response()->json([
+                'success' => 1,
+                'msg' => __('Update successfully')
+            ]);
         } catch (Exception $e) {
             DB::rollBack();
-            return back()->with([
+            return response()->json([
                 'success' => 0,
                 'msg' => __('Something went wrong.')
-            ]);
+            ], 500);
         }
     }
+
     public function profileStore(Request $request)
     {
         $rules = [

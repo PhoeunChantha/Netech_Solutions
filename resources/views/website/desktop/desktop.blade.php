@@ -1,5 +1,5 @@
 @extends('website.app')
-@section('content')
+@section('contents')
     @include('website.desktop.desktop-style')
     <div class="content">
         <div class="row mt--3 mx-0 justify-content-center align-content-center">
@@ -70,7 +70,7 @@
                     style="background-color: #e3f4ff;border-radius: 15px">
                     <div class="col-md-5 p-4">
                         <h4 class="fw-bold">{{ $category->name }} {{ __('Product') }}</h4>
-                        <span class="text-muted">{{$productscount}} {{ __('items found') }}</span>
+                        <span class="text-muted">{{ $productscount }} {{ __('items found') }}</span>
                     </div>
                     <div class="col-md-5 filters">
                         <!-- Button trigger modal -->
@@ -240,48 +240,7 @@
                             </div>
                         </div>
 
-                        <script>
-                            var lowerSlider = document.querySelector('#lower');
-                            var upperSlider = document.querySelector('#upper');
 
-                            document.querySelector('#two').value = upperSlider.value;
-                            document.querySelector('#one').value = lowerSlider.value;
-
-                            var lowerVal = parseInt(lowerSlider.value);
-                            var upperVal = parseInt(upperSlider.value);
-
-                            upperSlider.oninput = function() {
-                                lowerVal = parseInt(lowerSlider.value);
-                                upperVal = parseInt(upperSlider.value);
-
-                                if (upperVal < lowerVal + 4) {
-                                    lowerSlider.value = upperVal - 4;
-                                    if (lowerVal == lowerSlider.min) {
-                                        upperSlider.value = 4;
-                                    }
-                                }
-                                document.querySelector('#two').value = this.value
-                            };
-
-                            lowerSlider.oninput = function() {
-                                lowerVal = parseInt(lowerSlider.value);
-                                upperVal = parseInt(upperSlider.value);
-                                if (lowerVal > upperVal - 4) {
-                                    upperSlider.value = lowerVal + 4;
-                                    if (upperVal == upperSlider.max) {
-                                        lowerSlider.value = parseInt(upperSlider.max) - 4;
-                                    }
-                                }
-                                document.querySelector('#one').value = this.value
-                            };
-                        </script>
-                        <script>
-                            $('#exampleModal').on('show.bs.modal', event => {
-                                var button = $(event.relatedTarget);
-                                var modal = $(this);
-                                // Use above variables to manipulate the DOM
-                            });
-                        </script>
                     </div>
                 </div>
             </div>
@@ -333,5 +292,8 @@
                 {{-- Product content end --}}
             </div>
         </div>
-        @include('website.desktop.desktop-script')
-    @endsection
+    </div>
+@endsection
+@push('js')
+@include('website.desktop.desktop-script')
+@endpush

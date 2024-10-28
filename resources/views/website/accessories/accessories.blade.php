@@ -1,5 +1,5 @@
 @extends('website.app')
-@section('content')
+@section('contents')
     @include('website.accessories.accessories-style')
     <div class="content">
         <div class="row mt--3 mx-0 justify-content-center align-content-center">
@@ -1140,7 +1140,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>

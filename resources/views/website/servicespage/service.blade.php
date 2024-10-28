@@ -1,5 +1,5 @@
 @extends('website.app')
-@section('content')
+@section('contents')
     @include('website.servicespage.service-style')
     <div class="content">
         <div class="row mt--3 mx-0 justify-content-center align-content-center">

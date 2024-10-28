@@ -1,5 +1,5 @@
 @extends('website.app')
-@section('content')
+@section('contents')
     {{-- @include('website.desktop.categories-style') --}}
     <style>
         body-cate {

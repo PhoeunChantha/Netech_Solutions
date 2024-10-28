@@ -4,16 +4,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Website\MacController;
 use App\Http\Controllers\Backends\RoleController;
 use App\Http\Controllers\Backends\UserController;
 use App\Http\Controllers\Backends\BrandController;
 use App\Http\Controllers\Website\LaptopController;
 use App\Http\Controllers\Website\AccountController;
+use App\Http\Controllers\Website\ContactController;
 use App\Http\Controllers\Website\DesktopController;
+use App\Http\Controllers\Website\ProfileController;
 use App\Http\Controllers\Backends\ProductController;
-use App\Http\Controllers\Website\CheckoutController;
 use App\Http\Controllers\Backends\ServiceController;
+use App\Http\Controllers\Website\CheckoutController;
 use App\Http\Controllers\Backends\CategoryController;
 use App\Http\Controllers\Backends\LanguageController;
 use App\Http\Controllers\Backends\DashboardController;
@@ -28,7 +31,6 @@ use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
 use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
 use App\Http\Controllers\Website\AboutUsController as WebsiteAboutUsController;
 use App\Http\Controllers\Website\Auth\LoginController as WebsiteAuthLoginController;
-use App\Http\Controllers\Website\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,13 +69,24 @@ Route::get('remove_temp_file', [FileManagerController::class, 'removeTempFile'])
 
 Route::middleware(['SetFrontendSession'])->group(function () {
     Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
+
+    Route::get('/web/customer/login', [WebsiteAuthLoginController::class, 'signin'])->name('customer.login');
+    Route::get('/web/customer/signup', [WebsiteAuthLoginController::class, 'signup'])->name('customer.signup');
+    Route::post('/web/customer/register', [WebsiteAuthLoginController::class, 'register'])->name('customer.register');
+    Route::get('/web/customer/recover', [WebsiteAuthLoginController::class, 'recover'])->name('password.request');
+    Route::get('/web/customer/change-password', [WebsiteAuthLoginController::class, 'changePassword'])->name('customer.change-password');
     Route::post('/web/login', [WebsiteAuthLoginController::class, 'login'])->name('web.login');
     Route::get('/web/logout', [WebsiteAuthLoginController::class, 'logout'])->name('web.logout');
+    Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+
+
 
     // Account page
     Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
     Route::put('/account/profile/{id}/update', [AccountController::class, 'profileUpdate'])->name('account.profile.update');
     Route::post('/account/profile/store', [AccountController::class, 'profileStore'])->name('account.profile.store');
+    Route::get('/account/orders', [AccountController::class, 'orderHistory'])->name('account.orderHistory');
 
     // Route::get('/services', [ServiceController::class, 'index'])->name('services.show');
     // Route::get('/accessories/{slug}', [AccessoriesController::class, 'index'])->name('accessories.show');
@@ -88,10 +101,9 @@ Route::middleware(['SetFrontendSession'])->group(function () {
     Route::get('/product-detail', [DesktopController::class, 'product_detail'])->name('product-detail');
     Route::get('/shopping-cart', [DesktopController::class, 'shopping_cart'])->name('shopping-cart');
 
-    // Route::get('/category/{slug}',[ProductCategoryController::class, 'showCategoryProducts'])->name('category.show');
 
     // checkout route
-    Route::get('/checkout',[CheckoutController::class, 'index'])->name('checkout');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 });
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
 

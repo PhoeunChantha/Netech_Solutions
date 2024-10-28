@@ -1,5 +1,5 @@
 @extends('website.app')
-@section('content')
+@section('contents')
     @include('website.desktop.product-detail-style')
     <div class="content">
         <div class="container">
