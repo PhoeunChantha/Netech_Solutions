@@ -33,6 +33,7 @@ use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
 use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
 use App\Http\Controllers\Website\AboutUsController as WebsiteAboutUsController;
 use App\Http\Controllers\Website\Auth\LoginController as WebsiteAuthLoginController;
+use App\Http\Controllers\Website\PolicyAndTermController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,45 +72,51 @@ Route::get('remove_temp_file', [FileManagerController::class, 'removeTempFile'])
 
 Route::middleware(['SetFrontendSession'])->group(function () {
     Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
-
-    Route::get('/web/customer/login', [WebsiteAuthLoginController::class, 'signin'])->name('customer.login');
-    Route::get('/web/customer/signup', [WebsiteAuthLoginController::class, 'signup'])->name('customer.signup');
-    Route::post('/web/customer/register', [WebsiteAuthLoginController::class, 'register'])->name('customer.register');
-    Route::get('/web/customer/recover', [WebsiteAuthLoginController::class, 'recover'])->name('password.request');
-    Route::get('/web/customer/change-password', [WebsiteAuthLoginController::class, 'changePassword'])->name('customer.change-password');
-    Route::post('/web/login', [WebsiteAuthLoginController::class, 'login'])->name('web.login');
-    Route::get('/web/logout', [WebsiteAuthLoginController::class, 'logout'])->name('web.logout');
-    Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
-    Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('auth.google.callback');
-
-
-
+    Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
+        Route::get('/web/login', [WebsiteAuthLoginController::class, 'signin'])->name('web.login');
+        Route::get('/signup', [WebsiteAuthLoginController::class, 'signup'])->name('signup');
+        Route::post('/register', [WebsiteAuthLoginController::class, 'register'])->name('register');
+        Route::get('/recover', [WebsiteAuthLoginController::class, 'recover'])->name('password.request');
+        Route::get('/change-password', [WebsiteAuthLoginController::class, 'changePassword'])->name('change-password');
+        Route::post('/login', [WebsiteAuthLoginController::class, 'login'])->name('login');
+        Route::get('/logout', [WebsiteAuthLoginController::class, 'logout'])->name('logout');
+    });
+    Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('/google', [GoogleController::class, 'redirectToGoogle'])->name('google');
+        Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
+    });
+    // Term and Policy
+    Route::get('/web/privacy_policy', [PolicyAndTermController::class, 'privacy_policy'])->name('privacy_policy');
+    Route::get('/web/term_condition', [PolicyAndTermController::class, 'term_condition'])->name('term_condition');
     // Account page
-    Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
-    Route::put('/account/profile/{id}/update', [AccountController::class, 'profileUpdate'])->name('account.profile.update');
-    Route::post('/account/profile/store', [AccountController::class, 'profileStore'])->name('account.profile.store');
-    Route::get('/account/orders', [AccountController::class, 'orderHistory'])->name('account.orderHistory');
-
+    Route::group(['prefix' => 'account', 'as' => 'account.'], function () {
+        Route::get('/profile', [AccountController::class, 'profile'])->name('profile');
+        Route::put('/profile/{id}/update', [AccountController::class, 'profileUpdate'])->name('profile.update');
+        Route::post('/profile/store', [AccountController::class, 'profileStore'])->name('profile.store');
+        Route::get('/orders', [AccountController::class, 'orderHistory'])->name('orderHistory');
+        Route::get('/orders details', [AccountController::class, 'orderDetails'])->name('orderDetails');
+        Route::get('/rate details', [AccountController::class, 'rateDetails'])->name('rateDetails');
+        Route::get('/customer address', [AccountController::class, 'cusAddress'])->name('address');
+        Route::get('/edit-address', [AccountController::class, 'editAddress'])->name('editAddress');
+    });
     // Route::get('/services', [ServiceController::class, 'index'])->name('services.show');
     // Route::get('/accessories/{slug}', [AccessoriesController::class, 'index'])->name('accessories.show');
 
     Route::get('/category/{slug}', [WebsiteHomeController::class, 'showCategoryProducts'])->name('category.show');
-    Route::get('/service', [FrontServiceController::class, 'index'])->name('service.show');
-    Route::get('/contact', [ContactController::class, 'index'])->name('contact.show');
+    Route::get('/web/service', [FrontServiceController::class, 'index'])->name('service.show');
+    Route::get('/web/contact', [ContactController::class, 'index'])->name('contact.show');
 
-    Route::get('/about-us', [WebsiteAboutUsController::class, 'index'])->name('aboutus.show');
-    Route::get('/category', [DesktopController::class, 'showCategory'])->name('allcategory.show');
+    Route::get('/web/about-us', [WebsiteAboutUsController::class, 'index'])->name('aboutus.show');
+    Route::get('/web/category', [DesktopController::class, 'showCategory'])->name('allcategory.show');
 
-    Route::get('/product-detail', [DesktopController::class, 'product_detail'])->name('product-detail');
-    Route::get('/shopping-cart', [DesktopController::class, 'shopping_cart'])->name('shopping-cart');
+    Route::get('/web/product-detail', [DesktopController::class, 'product_detail'])->name('product-detail');
+    Route::get('/web/shopping-cart', [DesktopController::class, 'shopping_cart'])->name('shopping-cart');
 
 
     // checkout route
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-    // Tong route
-    Route::get('/checkout',[CheckoutController::class, 'index'])->name('checkout');
-    Route::get('/maps',[MapController::class, 'index'])->name('maps');
-    Route::get('/payment',[PaymentController::class, 'index'])->name('payment');
+    Route::get('/web/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::get('/web/maps', [MapController::class, 'index'])->name('maps');
+    Route::get('/web/payment', [PaymentController::class, 'index'])->name('payment');
 });
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
 

@@ -29,7 +29,39 @@ class AccountController extends Controller
             return redirect()->route('home');
         }
         // $orders = auth()->user()->orders()->paginate(10);
-        return view('website.profile.order-history');
+        return view('website.order-history.order-history');
+    }
+    public function orderDetails()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('home');
+        }
+        // $orders = auth()->user()->orders()->paginate(10);
+        return view('website.order-history.order-detail');
+    }
+    public function rateDetails()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('home');
+        }
+        // $orders = auth()->user()->orders()->paginate(10);
+        return view('website.order-history.partials.rate-detail');
+    }
+    public function cusAddress()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('home');
+        }
+        // $orders = auth()->user()->orders()->paginate(10);
+        return view('website.address.cus_address');
+    }
+    public function editAddress()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('home');
+        }
+        // $orders = auth()->user()->orders()->paginate(10);
+        return view('website.address.edit_address');
     }
 
     public function profileUpdate($id, Request $request)

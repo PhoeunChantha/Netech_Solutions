@@ -45,7 +45,7 @@
                 {{-- <a href="{{ route('customer.login') }}" type="button" class="btn btn-login" data-toggle="modal" data-target="#exampleModal">
                     {{ __('Login') }}
                 </a> --}}
-                <a href="{{ route('customer.login') }}" type="button" class="btn btn-login" >
+                <a href="{{ route('customer.web.login') }}" type="button" class="btn btn-login" >
                     {{ __('Login') }}
                 </a>
             </div>
@@ -66,7 +66,7 @@
                         <i class="fa fa-user"></i>
                         {{ __('Profile') }}
                     </a>
-                    <a href="{{ route('web.logout') }}" class="dropdown-item text-danger">
+                    <a href="{{ route('customer.logout') }}" class="dropdown-item text-danger">
                         <i class="fa fa-sign-out-alt"></i>
                         {{ __('Logout') }}
                     </a>
@@ -174,7 +174,7 @@
         </div>
     </div>
 
-    @include('website.layout.modal_login')
+    {{-- @include('website.layout.modal_login') --}}
 </nav>
 @push('js')
     {{-- <script>

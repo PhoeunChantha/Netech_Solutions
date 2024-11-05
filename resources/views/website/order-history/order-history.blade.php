@@ -1,9 +1,9 @@
 @extends('website.profile.index')
 @section('content')
-    <div class="container order-container">
+    <div class="container order-container" >
         <h3>My Order</h3>
         <!-- Order Card 1 -->
-        <a href="http://">
+        <a href="{{ route('account.orderDetails') }}">
             <div class="order-card col-12  mb-3">
                 <div class="row d-flex align-items-center">
                     <div class="col-4 d-flex align-items-center">
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </a>
-        <a href="http://">
+        <a href="{{ route('account.orderDetails') }}">
             <div class="order-card col-12  mb-3">
                 <div class="row d-flex align-items-center">
                     <div class="col-4 d-flex align-items-center">

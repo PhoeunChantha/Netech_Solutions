@@ -38,6 +38,8 @@
                 <div class="col-3 px-1 text-special text-start mt-2 mx-auto">
                     <a href="">{{ __('Best selling') }}</a><br>
                     <a href="">{{ __('Latest Product') }}</a>
+                    <a href="{{ route('privacy_policy') }}">{{ __('Privacy Policy') }}</a>
+                    <a href="{{ route('term_condition') }}">{{ __('TermsCondition') }}</a>
                 </div>
                 <div class="email">
                     <hr style="border: 1.2px solid;">

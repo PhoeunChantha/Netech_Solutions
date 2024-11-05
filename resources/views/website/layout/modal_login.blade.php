@@ -1,5 +1,5 @@
 {{-- <link rel="stylesheet" href="{{ asset('backend/login-form/css/style.css') }}"> --}}
-<style>
+{{-- <style>
     .modal-header .close {
         padding: 1rem 1rem !important;
         margin: -1rem -1rem -1rem auto !important;
@@ -13,9 +13,9 @@
     }
 
     .btn-modal-login {
-        /* background: linear-gradient(90deg,
+        background: linear-gradient(90deg,
                 rgba(243, 49, 247, 1) 8%,
-                rgba(87, 158, 255, 1) 70%) !important; */
+                rgba(87, 158, 255, 1) 70%) !important;
         background-color: #1077B8;
         color: #ffffffff !important;
     }
@@ -89,9 +89,9 @@
         width: 100%;
         border-radius: 50%;
     }
-</style>
+</style> --}}
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content border-0">
 
@@ -103,7 +103,7 @@
             </div>
 
             <div class="modal-body bg-style-1">
-                <form action="{{ route('web.login') }}" method="POST" class="form-login">
+                <form action="{{ route('customer.login') }}" method="POST" class="form-login">
                     @csrf
                     <div class="form-group mb-3">
                         <label class="label" for="email">{{ __('Email') }}</label>
@@ -149,7 +149,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 {{-- <div class="modal fade modal-login" id="staticBackdrop" tabindex="-1" role="dialog"
     aria-labelledby="gridSystemModalLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog login-dialog px-2 px-md-4">

@@ -1,8 +1,8 @@
-<style>
+{{-- <style>
     .btn-save-register {
-        /* background: linear-gradient(90deg,
+        background: linear-gradient(90deg,
                 rgba(243, 49, 247, 1) 8%,
-                rgba(87, 158, 255, 1) 70%); */
+                rgba(87, 158, 255, 1) 70%);
         background-color: #1077B8;
         color: #f4f4f4 !important;
         border-radius: 10px;
@@ -20,7 +20,7 @@
         margin-bottom: 0 !important;
     }
 
-</style>
+</style> --}}
 <!-- website/layout/modal_register.blade.php -->
 <div class="modal modal-register m-0 fade modal-login" id="modalRegister" tabindex="-1" role="dialog"
     aria-labelledby="gridSystemModalLabel" data-backdrop="static" data-keyboard="false">

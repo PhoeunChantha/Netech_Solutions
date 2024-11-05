@@ -1,10 +1,10 @@
 @extends('website.app')
 @section('contents')
     @include('website.profile.profile_style')
-    <div class="container" style="min-height: 100vh;">
-        <div class="container-fluid ">
-            <div class="row mt-4 mb-4">
-                <div class="col-4">
+    <div class="container">
+        <div class="container-fluid " style="min-height: 100vh;">
+            <div class="row">
+                <div class="col-3 mt-4">
                     <div class="profile-card">
                         <ul class="profile-menu">
                             <!-- Profile Link -->
@@ -27,7 +27,7 @@
 
                             <!-- My Address Link -->
                             <li class="profile-item">
-                                <a href="#" class="unactive">
+                                <a href="{{ route('account.address') }}" class="{{ request()->routeIs('account.address') ? 'active' : 'unactive' }}">
                                     <i class="fas fa-map-marker-alt"></i>
                                     <span>{{ __('My Address') }}</span>
                                 </a>
@@ -36,7 +36,7 @@
 
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col-9 mt-4" style="min-height: 100vh;">
                     @yield('content')
                 </div>
             </div>

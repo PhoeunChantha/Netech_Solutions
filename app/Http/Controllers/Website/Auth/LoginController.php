@@ -92,7 +92,6 @@ class LoginController extends Controller
             'response' => $recaptchaResponse,
             'remoteip' => $request->ip(),
         ]);
-
         $verificationResult = $response->json();
         if (!$verificationResult['success']) {
             return redirect()->back()->with(['warning' => 1, 'msg' => __('reCAPTCHA verification failed!')]);
@@ -124,7 +123,6 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-
         return redirect()->back();
     }
 }

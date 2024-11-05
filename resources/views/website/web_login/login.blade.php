@@ -6,7 +6,7 @@
     <div class="container vh-100 d-flex justify-content-center align-items-center">
         <div class="login-card">
             <h2 class="text-center">Sign In</h2>
-            <form action="{{ route('web.login') }}" method="post">
+            <form action="{{ route('customer.login') }}" method="post">
                 @csrf
                 <div class="form-group mb-3">
                     <label for="signin_phone">Phone Number</label>
@@ -41,7 +41,7 @@
                         <input type="checkbox" id="rememberMe" name="rememberMe" value="1">
                         <label for="rememberMe">Remember Me</label>
                     </div>
-                    <a href="{{ route('password.request') }}">Forgot Password?</a>
+                    <a href="{{ route('customer.password.request') }}">Forgot Password?</a>
                 </div>
 
                 <div class="recaptcha-container">
