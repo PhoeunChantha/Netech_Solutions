@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('discount_value')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->string('status')->nullable();
+            $table->boolean('status')->default(1);
             $table->string('quantity_limited')->nullable();
             $table->foreignId('product_id')->constrained('products')->nullable();
             $table->foreignId('created_by')->constrained('users')->nullable();

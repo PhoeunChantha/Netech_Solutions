@@ -15,7 +15,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
         rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('backend/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- flag-icon-css -->
@@ -50,9 +50,91 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 
-    @stack('css')
 </head>
+<style>
+    /* input[type="radio"], */
+    input[type="checkbox"] {
+        cursor: pointer;
+        outline-style: none;
+        position: relative;
+        -webkit-appearance: none;
+        height: 20px;
+        width: 20px;
+        /* margin-bottom: -0.25em; */
+        /* margin-right: 1px; */
+        vertical-align: top;
+    }
 
+
+    input[type="checkbox"] {
+        background-color: #fff;
+        border: 1px solid gray;
+        border-radius: 4px;
+        color: #484848;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+    }
+
+    input[type="radio"] {
+        background-color: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: 50px;
+        color: #484848;
+        outline-style: none;
+        -webkit-border-radius: 50px;
+        -moz-border-radius: 50px;
+    }
+
+
+    input[type="checkbox"]:checked:after
+
+    /* input[type="radio"]:checked:after */
+        {
+        background: #060E9F;
+        border: solid 1px #060E9F;
+        color: #ffffff;
+        font-weight: bold;
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+
+    }
+
+    input[type="checkbox"]:checked:after {
+        border-radius: 3px;
+        content: "✓";
+        /* font-size: 0.7em; */
+        line-height: 1.1;
+    }
+
+    /* input[type="radio"]:disabled, */
+    input[type="checkbox"]:disabled {
+        background: #F2F6F9;
+        border: solid 1px #e8e8e8;
+        pointer-events: none;
+    }
+
+    .Checkbox-parent {
+        height: 24px;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .Accordion-panel {
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+
+    .Accordion-panel:last-of-type {
+        /* border-bottom: solid 1px #e8e8e8; */
+        /* padding-bottom: 16px; */
+    }
+</style>
 <style type="text/css">
     * {
         font-family: "Kantumruy Pro", sans-serif;
@@ -139,3 +221,4 @@
         height: calc(4.9rem + 1px) !important;
     }
 </style>
+@stack('css')

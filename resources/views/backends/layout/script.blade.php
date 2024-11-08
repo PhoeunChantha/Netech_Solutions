@@ -56,7 +56,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
 {{ Session::has('message') }}
 
 <script>
@@ -150,7 +150,7 @@
         $('.datepicker').datepicker({
             language: "es",
             autoclose: true,
-            format: "dd-mm-yyyy"
+            format: "yyyy-mm-dd",
         });
 
 
@@ -207,6 +207,62 @@
     });
 </script>
 
+<script>
+    $(".Checkbox-parent input").on('click', function() {
+        var _parent = $(this);
+        var nextli = $(this).parent().next().children().children();
 
+        if (_parent.prop('checked')) {
+            console.log('Checkbox-parent checked');
+            nextli.each(function() {
+                $(this).children().prop('checked', true);
+            });
+
+        } else {
+            console.log('Checkbox-parent un checked');
+            nextli.each(function() {
+                $(this).children().prop('checked', false);
+            });
+
+        }
+    });
+
+    $(".Checkbox-child input").on('click', function() {
+
+        var ths = $(this);
+        var parentinput = ths.closest('div').prev().children();
+        var sibblingsli = ths.closest('ul').find('li');
+
+        if (ths.prop('checked')) {
+            console.log('Checkbox-child checked');
+            parentinput.prop('checked', true);
+        } else {
+            console.log('Checkbox-child unchecked');
+            var status = true;
+            sibblingsli.each(function() {
+                console.log('sibb');
+                if ($(this).children().prop('checked')) status = false;
+            });
+            if (status) parentinput.prop('checked', false);
+        }
+    });
+
+    // show hide accordion
+
+    var acc = document.getElementsByClassName("Accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("Accordion--active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>
 
 @stack('js')

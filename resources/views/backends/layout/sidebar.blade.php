@@ -62,6 +62,15 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.discount.index') }}"
+                        class="nav-link @if (request()->routeIs('admin.discount*')) active @endif">
+                       <i class="nav-icon fas fa-percentage"></i>
+                        <p>
+                            {{ __('Discount') }}
+                        </p>
+                    </a>
+                </li>
                 @if (auth()->user()->can('banner.view'))
                 @endif
                 <li class="nav-item @if (request()->routeIs('admin.product.*') || request()->routeIs('admin.product-category.*')) menu-is-opening menu-open @endif">

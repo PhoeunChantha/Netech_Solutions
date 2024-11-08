@@ -3,21 +3,27 @@
 namespace App\Models;
 
 use App\helpers\AppHelper;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use PhpParser\Node\Expr\Cast;
 
-class Product extends Model
+class Discount extends Model
 {
     use HasFactory;
-
-    use SoftDeletes;
-
-    protected $guarded = ['id'];
-
+    protected $guarded = [];
+    protected $casts = [
+        'product_ids' => 'array',
+    ];
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
     public function getNameAttribute($name)
     {
         if (strpos(url()->current(), '/admin')) {
@@ -32,28 +38,6 @@ class Product extends Model
         }
         return $this->translations[1]->value ?? $description;
     }
-
-    public function brand()
-    {
-        return $this->belongsTo(Brand::class, 'brand_id');
-    }
-
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-    public function discount()
-    {
-        return $this->belongsTo(Discount::class);
-    }
-
-
     public function translations()
     {
         return $this->morphMany(Translation::class, 'translationable');
@@ -72,18 +56,4 @@ class Product extends Model
             }]);
         });
     }
-    // protected static function booted()
-    // {
-    //     parent::boot();
-
-    //     static::creating(function ($model) {
-    //         if (empty($model->code)) {
-    //             do {
-    //                 $code = strtoupper(Str::random(10)); // Generate a 10 character random string
-    //             } while (self::where('code', $code)->exists()); // Ensure it's unique
-
-    //             $model->code = $code;
-    //         }
-    //     });
-    // }
 }

@@ -4,6 +4,7 @@
             <tr>
                 <th>#</th>
                 <th>{{ __('Code') }}</th>
+                <th>{{ __('Thumbnail') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Brand') }}</th>
                 <th>{{ __('Price') }}</th>
@@ -32,6 +33,7 @@
                             {{ $product->name }}
                         </span> --}}
                     </td>
+                    <td>{{ $product->name }}</td>
                     <td>{{ $product->brand->name ?? 'null' }}</td>
                     <td>{{ $product->price}}</td>
                     <td>{{ $product->quantity }}</td>

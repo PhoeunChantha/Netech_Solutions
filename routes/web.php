@@ -31,9 +31,13 @@ use App\Http\Controllers\Website\ProductCategoryController;
 use App\Http\Controllers\Backends\BusinessSettingController;
 use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
 use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
+use App\Http\Controllers\Backends\CustomerController;
+use App\Http\Controllers\Backends\DiscountController;
+use App\Http\Controllers\Backends\SliderController;
 use App\Http\Controllers\Website\AboutUsController as WebsiteAboutUsController;
 use App\Http\Controllers\Website\Auth\LoginController as WebsiteAuthLoginController;
 use App\Http\Controllers\Website\PolicyAndTermController;
+use App\Models\Discount;
 
 /*
 |--------------------------------------------------------------------------
@@ -160,6 +164,10 @@ Route::middleware(['auth', 'CheckUserLogin', 'SetSessionData'])->group(function 
         Route::resource('header', NavigationController::class);
 
         Route::resource('product', ProductController::class);
+        Route::get('discount/update_status', [DiscountController::class, 'updateStatus'])->name('discount.update_status');
+        Route::resource('discount', DiscountController::class);
+        Route::resource('slider', SliderController::class);
+        Route::resource('customer', CustomerController::class);
 
         Route::get('service/update_status', [ServiceController::class, 'updateStatus'])->name('service.update_status');
         Route::resource('service', ServiceController::class);
@@ -171,8 +179,6 @@ Route::middleware(['auth', 'CheckUserLogin', 'SetSessionData'])->group(function 
         Route::resource('banner', BackendsBannerController::class);
 
         Route::resource('brand', BrandController::class);
-
-
         //header
         Route::get('/header', [DashboardController::class, 'header']);
     });
