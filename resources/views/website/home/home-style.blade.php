@@ -7,7 +7,8 @@
     .main-card {
         background-color: #EBF7FF;
     }
-     .shadow-hover-cate {
+
+    .shadow-hover-cate {
         position: absolute;
         right: 1rem;
         top: 2.3rem;
@@ -213,7 +214,7 @@
 
     .latest-product .col-5 span {
         /* float: right; */
-        font-size: 20px;
+        font-size: 25px;
         font-weight: 700;
         margin-right: 2em;
         margin-top: 0.5em;
@@ -221,9 +222,13 @@
         color: #FFFFFF;
     }
 
+    .no-discount {
+        height: 23%;
+    }
+
     .latest-product .col-5 .price {
         /* float: right; */
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 800;
         margin-right: 2em;
         margin-top: 0.5em;
@@ -236,11 +241,11 @@
         font-size: 15px;
         text-decoration: none;
         border-radius: 15px;
-        padding: 4px 11px;
+        padding: 4px 15px;
         background-color: #008E06;
         float: right;
         top: 3em;
-        margin-right: 5em;
+        margin-right: 6em;
     }
 
 
@@ -258,7 +263,7 @@
     .main-text {
         position: absolute;
         top: 20px;
-        left: 2em;
+        left: -2em;
         text-align: center;
         margin-right: 10px;
     }
@@ -294,6 +299,7 @@
     }
 
     .main-text .text-pro {
+        width: 60%;
         font-size: 20px;
         font-weight: 800;
         /* margin-right: 2em; */
@@ -308,7 +314,7 @@
     .main-text span {
         color: #1077B8;
         font-weight: 700;
-        font-size: 18px;
+        font-size: 22px;
 
     }
 
@@ -324,8 +330,8 @@
         margin: 0;
         position: relative;
         overflow: hidden;
-        width: 25vh;
-        height: 24vh;
+        width: 168px;
+        height: 156px;
         box-sizing: border-box;
         border: none;
         /* height: 10em; */
@@ -341,8 +347,7 @@
         height: 100%;
         margin: 0;
         padding: 0;
-
-
+        object-fit: cover;
     }
 
     .card-img:hover {
@@ -382,7 +387,8 @@
 
     .text-price h6 {
         margin: 0;
-        font-size: 14px;
+        font-size: 16px;
+        color: #ffffff;
     }
 
     .text-price span {
@@ -416,8 +422,20 @@
         object-fit: contain;
     }
 
+    .discount-amount {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 16px;
+        color: #ffffff;
+        padding: 4px 14px;
+        border-top-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
     .home-desktop {
         transition: transform 0.3s ease-in-out;
+        width: 286px;
         /* width: 18em;
         height: 20em; */
     }
@@ -433,7 +451,6 @@
 
     .item {
         overflow-x: auto;
-        /* white-space: nowrap; */
         display: flex;
         gap: 20px;
         border-radius: 5px;
@@ -489,7 +506,7 @@
         background-position: center;
         background-repeat: no-repeat;
         filter: blur(2px);
-        height: 33em;
+        height: 32em;
         width: 100%;
         transition: background-image 0.3s ease-in-out;
     }
@@ -556,10 +573,12 @@
     .card-service {
         background-color: rgba(255, 255, 255, 0.9);
         overflow: hidden;
+        margin: 17px 17px;
     }
 
     #contentContainer {
         transition: opacity 0.5s ease-in-out;
+        height: 29.1rem;
     }
 
     .fade-out {
@@ -641,12 +660,21 @@
         top: 0;
         z-index: 1000;
         overflow: auto !important;
+        width: 100%;
+        margin-top: 12px;
+        /* height: 125px; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
 
     #serviceImage {
         width: 100%;
         border-radius: 20px;
+        /* margin-top: 12px; */
+        object-fit: cover;
+        height: 466px;
     }
 
     .video-container {
@@ -662,6 +690,7 @@
     }
 
     .btn-video {
+        display: flex;
         justify-content: center;
         align-content: center;
         align-items: center;

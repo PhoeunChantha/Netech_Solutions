@@ -51,7 +51,7 @@
             <div class="row d-flex justify-content-center ">
                 <h2 class="term-heading mb-4">Terms & Conditions</h2>
                 <div class="card border-0 shadow mb-5">
-                    <div class="term-section ">
+                    {{-- <div class="term-section ">
                         <h3 class="term-title">Term</h3>
                         <p class="term-content">
                             Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to
@@ -62,33 +62,9 @@
                             State Prison 2008.
                             <span class="see-more" aria-label="See more about Privacy">See more</span>
                         </p>
-                    </div>
+                    </div> --}}
 
-                    <div class="term-section ">
-                        <h3 class="term-title">Condition</h3>
-                        <p class="term-content">
-                            Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to
-                            combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of
-                            prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008. We installed Purex
-                            dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring
-                            Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin
-                            State Prison 2008.
-                            <span class="see-more" aria-label="See more about term">See more</span>
-                        </p>
-                    </div>
-
-                    <div class="term-section mb-4">
-                        <h3 class="term-title">{{ __('Company Policy') }}</h3>
-                        <p class="term-content">
-                           Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to
-                            combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of
-                            prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008. We installed Purex
-                            dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring
-                            Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin
-                            State Prison 2008.
-                            <span class="see-more" aria-label="See more about Company term">See more</span>
-                        </p>
-                    </div>
+                      {!! $term_condition !!}
                 </div>
             </div>
         </div>

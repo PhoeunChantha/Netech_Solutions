@@ -4,7 +4,7 @@
     </td>
     <td>
         <input type="file" class="d-none social_media_icon_input_{{ $key }}" name="social_media[icon][]">
-        <img src="{{ asset('uploads/image/default.png') }}" height="auto" width="60px" style="margin-bottom: 6px; cursor:pointer; border:none !important" alt="" class="avatar border social_media_icon social_media_icon_{{ $key }}">
+        <img src="{{ asset('uploads/defualt.png') }}" height="auto" width="60px" style="margin-bottom: 6px; cursor:pointer; border:none !important" alt="" class="avatar border social_media_icon social_media_icon_{{ $key }}">
 
         <input type="hidden" name="social_media[old_icon][]" value="">
     </td>

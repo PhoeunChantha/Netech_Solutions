@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Service;
 use App\Models\Category;
 use App\Models\Translation;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\helpers\ImageManager;
 use App\Models\BusinessSetting;
@@ -90,6 +91,7 @@ class ServiceController extends Controller
             // dd($request->all());
             $service = new Service();
             $service->name = $request->name[array_search('en', $request->lang)];
+            $service->slug = Str::slug($request->name[array_search('en', $request->lang)]);
             $service->description = $request->description[array_search('en', $request->lang)];
             $service->category_id = $request->category_id;
             if ($request->hasFile('thumbnails')) {
@@ -208,6 +210,7 @@ class ServiceController extends Controller
             $service = Service::findOrFail($id);
             $service->name = $request->name[array_search('en', $request->lang)];
             $service->description = $request->description[array_search('en', $request->lang)];
+            $service->slug = Str::slug($request->name[array_search('en', $request->lang)]);
             $service->category_id = $request->category_id;
             if ($request->hasFile('thumbnails')) {
                 $oldImage = $service->thumbnails;

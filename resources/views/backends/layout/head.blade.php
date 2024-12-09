@@ -49,7 +49,6 @@
     <link rel="stylesheet" href="{{ asset('backend/custom/css/app.css') }}">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
-
 </head>
 <style>
     /* input[type="radio"], */

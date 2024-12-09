@@ -9,6 +9,7 @@ use App\helpers\ImageManager;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -51,10 +52,10 @@ class NavigationController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $admin = Admin::findOrFail($id);
         $roles = Role::select('name', 'id')
             ->pluck('name', 'id');
-        return view('backends.user.update_profile', compact('user', 'roles'));
+        return view('backends.user.update_profile', compact('admin', 'roles'));
     }
 
     /**

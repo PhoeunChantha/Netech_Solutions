@@ -78,12 +78,11 @@
                                 </div>
                                 {{-- <span class="badge bg-warning total-count">{{ $grades->total() }}</span> --}}
                                 <div class="col-sm-6">
-                                    @if (auth()->user()->can('product.create'))
-                                        <a class="btn btn-primary float-right" href="{{ route('admin.product.create') }}">
-                                            <i class=" fa fa-plus-circle"></i>
-                                            {{ __('Add New') }}
-                                        </a>
-                                    @endif
+                                    <a class="btn btn-primary float-right" href="{{ route('admin.product.create') }}">
+                                        <i class=" fa fa-plus-circle"></i>
+                                        {{ __('Add New') }}
+                                    </a>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -210,7 +209,7 @@
             console.log($(this).data('id'));
             $.ajax({
                 type: "get",
-                url: "{{ route('admin.product-category.update_status') }}",
+                url: "{{ route('admin.product.update_status') }}",
                 data: {
                     "id": $(this).data('id')
                 },

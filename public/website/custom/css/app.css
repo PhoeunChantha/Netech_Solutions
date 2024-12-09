@@ -2,13 +2,14 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Nunito";
+  font-family: "Poppins", sans-serif;
 }
-@font-face {
+
+/* @font-face {
   font-family: "Nunito";
   src: url(https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDLshdTA3j77e.woff2)
     format("woff2");
-}
+} */
 body {
   background-color: #f2f6ff;
 }
@@ -145,15 +146,15 @@ body {
   background-color: #1577ff;
 }
 .nav-rightside {
-  font-family: "Nunito";
+  font-family: "Poppins", sans-serif;
 }
 .nav-link {
   border-radius: 10px;
   color: #1577ff;
   border: none;
   font-size: 1.1rem;
-  font-weight: 700;
-  font-family: "Nunito";
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
 }
 .nav-link {
   color: #ffffff; /* Set text color to white */
@@ -186,12 +187,31 @@ body {
   width: 20px;
   color: #f4f4f4;
 }
+h1 {
+  font-family: "Poppins", sans-serif !important;
+}
+h2 {
+  font-family: "Poppins", sans-serif !important;
+}
+h3 {
+  font-family: "Poppins", sans-serif !important;
+}
+h4 {
+  font-family: "Poppins", sans-serif !important;
+}
+h5 {
+  font-family: "Poppins", sans-serif !important;
+}
+h6 {
+  font-family: "Poppins", sans-serif !important;
+}
 
 /* footer */
 .main-footer {
   background-color: #1077b8;
   color: #f4f4f4;
-  font-family: "Nunito";
+  font-family: "Poppins", sans-serif;
+
   /* bottom:fixed; */
 }
 .logo-circle {

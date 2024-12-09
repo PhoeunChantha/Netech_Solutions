@@ -31,8 +31,7 @@
                             <i class="fas fa-pencil-alt"></i>
                             {{ __('Edit') }}
                         </a>
-                        @if (auth()->user()->can('brand.edit'))
-                        @endif
+
                         <form action="{{ route('admin.brand.destroy', $brand->id) }}"
                             class="d-inline-block form-delete-{{ $brand->id }}">
                             @csrf
@@ -44,9 +43,7 @@
                                 {{ __('Delete') }}
                             </button>
                         </form>
-                        @if (auth()->user()->can('brand.delete'))
-                        @endif
-
+                       
                     </td>
                 </tr>
             @endforeach

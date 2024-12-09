@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Discount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
@@ -10,34 +11,41 @@ use App\Http\Controllers\website\MapController;
 use App\Http\Controllers\Backends\RoleController;
 use App\Http\Controllers\Backends\UserController;
 use App\Http\Controllers\Backends\BrandController;
+use App\Http\Controllers\Backends\VideoController;
 use App\Http\Controllers\Website\LaptopController;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Backends\SliderController;
 use App\Http\Controllers\Website\AccountController;
 use App\Http\Controllers\Website\ContactController;
 use App\Http\Controllers\Website\DesktopController;
-use App\Http\Controllers\Website\ProfileController;
 use App\Http\Controllers\website\PaymentController;
+use App\Http\Controllers\Website\ProfileController;
 use App\Http\Controllers\Backends\ProductController;
 use App\Http\Controllers\Backends\ServiceController;
 use App\Http\Controllers\Website\CheckoutController;
 use App\Http\Controllers\Backends\CategoryController;
+use App\Http\Controllers\Backends\CustomerController;
+use App\Http\Controllers\Backends\DiscountController;
+use App\Http\Controllers\Backends\EmployeeController;
 use App\Http\Controllers\Backends\LanguageController;
 use App\Http\Controllers\Backends\DashboardController;
 use App\Http\Controllers\Website\Auth\LoginController;
 use App\Http\Controllers\Backends\NavigationController;
 use App\Http\Controllers\Website\AccessoriesController;
+use App\Http\Controllers\Backends\EmailConfigController;
 use App\Http\Controllers\Backends\FileManagerController;
 use App\Http\Controllers\Website\FrontServiceController;
+use App\Http\Controllers\Website\PolicyAndTermController;
+use App\Http\Controllers\Backends\TermAndPolicyController;
 use App\Http\Controllers\Website\ProductCategoryController;
 use App\Http\Controllers\Backends\BusinessSettingController;
+use App\Http\Controllers\Backends\EmailConfigurationController;
 use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
 use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
-use App\Http\Controllers\Backends\CustomerController;
-use App\Http\Controllers\Backends\DiscountController;
-use App\Http\Controllers\Backends\SliderController;
 use App\Http\Controllers\Website\AboutUsController as WebsiteAboutUsController;
+use App\Http\Controllers\Backends\ContactController as BackendsContactController;
 use App\Http\Controllers\Website\Auth\LoginController as WebsiteAuthLoginController;
-use App\Http\Controllers\Website\PolicyAndTermController;
-use App\Models\Discount;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +83,7 @@ Route::get('remove_temp_file', [FileManagerController::class, 'removeTempFile'])
 // Route::redirect('/', '/admin/dashboard');
 
 Route::middleware(['SetFrontendSession'])->group(function () {
+    // Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
     Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
         Route::get('/web/login', [WebsiteAuthLoginController::class, 'signin'])->name('web.login');
@@ -82,9 +91,17 @@ Route::middleware(['SetFrontendSession'])->group(function () {
         Route::post('/register', [WebsiteAuthLoginController::class, 'register'])->name('register');
         Route::get('/recover', [WebsiteAuthLoginController::class, 'recover'])->name('password.request');
         Route::get('/change-password', [WebsiteAuthLoginController::class, 'changePassword'])->name('change-password');
-        Route::post('/login', [WebsiteAuthLoginController::class, 'login'])->name('login');
-        Route::get('/logout', [WebsiteAuthLoginController::class, 'logout'])->name('logout');
+        Route::post('/login', [WebsiteAuthLoginController::class, 'login'])->name('userlogin');
+        Route::get('/logout', [WebsiteAuthLoginController::class, 'userLogout'])->name('logout');
     });
+    Route::post('/send-forget-password', [WebsiteAuthLoginController::class, 'sendForgetPassword'])->name('send-forget-password');
+    Route::get('/verify-otp-form', [WebsiteAuthLoginController::class, 'showVerifyOtpForm'])->name('verifyOtp-Form');
+    Route::post('/verify-otp', [WebsiteAuthLoginController::class, 'verifyOtp'])->name('verifyOtp');
+    Route::get('/reset-password-otp', [WebsiteAuthLoginController::class, 'resetPasswordOtp'])->name('resetPasswordOtp');
+    Route::post('/resend-otp', [WebsiteAuthLoginController::class, 'sendForgetPassword'])->name('resend-Otp');
+    Route::post('/otp-new-password', [WebsiteAuthLoginController::class, 'otpNewPassword'])->name('otp-new-password');
+
+
     Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('/google', [GoogleController::class, 'redirectToGoogle'])->name('google');
         Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
@@ -109,12 +126,20 @@ Route::middleware(['SetFrontendSession'])->group(function () {
     Route::get('/category/{slug}', [WebsiteHomeController::class, 'showCategoryProducts'])->name('category.show');
     Route::get('/web/service', [FrontServiceController::class, 'index'])->name('service.show');
     Route::get('/web/contact', [ContactController::class, 'index'])->name('contact.show');
+    Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
 
     Route::get('/web/about-us', [WebsiteAboutUsController::class, 'index'])->name('aboutus.show');
     Route::get('/web/category', [DesktopController::class, 'showCategory'])->name('allcategory.show');
 
-    Route::get('/web/product-detail', [DesktopController::class, 'product_detail'])->name('product-detail');
+    Route::get('/products/search', [DesktopController::class, 'search'])->name('products.search');
+    Route::get('/web/product-detail/{id}', [DesktopController::class, 'product_detail'])->name('product-detail');
+    Route::get('/product-details/{id}', [DesktopController::class, 'getProductDetails'])->name('product.getDetails');
+
     Route::get('/web/shopping-cart', [DesktopController::class, 'shopping_cart'])->name('shopping-cart');
+    // web.php (routes file)
+    Route::get('/filter-products', [DesktopController::class, 'filterProducts'])->name('filter-products');
+    Route::get('/clear-filters', [DesktopController::class, 'clearFilters'])->name('clear-filters');
+
 
 
     // checkout route
@@ -131,15 +156,21 @@ Route::post('save_temp_file', [FileManagerController::class, 'saveTempFile'])->n
 Route::get('remove_temp_file', [FileManagerController::class, 'removeTempFile'])->name('remove_temp_file');
 
 // back-end
-Route::middleware(['auth', 'CheckUserLogin', 'SetSessionData'])->group(function () {
+Route::middleware('SetSessionData')->group(function () {
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+        Route::get('login', [AdminLoginController::class, 'adminLoginPage'])->name('login');
+        Route::post('login', [AdminLoginController::class, 'storeLogin'])->name('store-login');
+        Route::get('logout', [AdminLoginController::class, 'adminLogout'])->name('admin-logout');
+
+
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         // setting
         Route::group(['prefix' => 'setting', 'as' => 'setting.'], function () {
             Route::get('/', [BusinessSettingController::class, 'index'])->name('index');
             Route::put('/update', [BusinessSettingController::class, 'update'])->name('update');
+
 
             // language setup
             Route::group(['prefix' => 'language', 'as' => 'language.'], function () {
@@ -157,13 +188,21 @@ Route::middleware(['auth', 'CheckUserLogin', 'SetSessionData'])->group(function 
             });
         });
 
+        Route::get('/term and condition', [TermAndPolicyController::class, 'termAndCondition'])->name('term_and_condition');
+        Route::put('/update/term', [TermAndPolicyController::class, 'updateterm'])->name('update-term');
+
+        Route::get('/policy', [TermAndPolicyController::class, 'policy'])->name('policy');
+        Route::put('/update/policy', [TermAndPolicyController::class, 'updatepolicy'])->name('update-policy');
+
         Route::get('user/update_status', [UserController::class, 'updateStatus'])->name('user.update_status');
         Route::resource('user', UserController::class);
 
         Route::resource('role', RoleController::class);
         Route::resource('header', NavigationController::class);
 
+        Route::get('product/update_status', [ProductController::class, 'updateStatus'])->name('product.update_status');
         Route::resource('product', ProductController::class);
+
         Route::get('discount/update_status', [DiscountController::class, 'updateStatus'])->name('discount.update_status');
         Route::resource('discount', DiscountController::class);
         Route::resource('slider', SliderController::class);
@@ -179,11 +218,26 @@ Route::middleware(['auth', 'CheckUserLogin', 'SetSessionData'])->group(function 
         Route::resource('banner', BackendsBannerController::class);
 
         Route::resource('brand', BrandController::class);
+
+        Route::get('video/update_status', [VideoController::class, 'updateStatus'])->name('video.update_status');
+        Route::resource('video', VideoController::class);
+        Route::get('employee/update_status', [EmployeeController::class, 'updateStatus'])->name('employee.update_status');
+        Route::resource('employee', EmployeeController::class);
+
+        Route::get('/contact-us', [BackendsContactController::class, 'index'])->name('contact.index');
+        //click reply sms//
+        Route::get('/contact-us/{id}', [BackendsContactController::class, 'show'])->name('contact.replysms');
+        //sent sms//
+        Route::post('/contact-us/sent-sms', [BackendsContactController::class, 'replycustomer'])->name('messages.sendReply');
+        Route::delete('/contact-us/delete/{id}', [BackendsContactController::class, 'destroy'])->name('contact.destroy');
+
+        //Config Mail//
+        Route::get('/email-config', [EmailConfigController::class, 'showForm'])->name('email_config_form');
+        Route::post('/update-email-config', [EmailConfigController::class, 'updateConfig'])->name('update_email_config');
+        //email configuration//
+        Route::get('email-configuration', [EmailConfigurationController::class, 'index'])->name('email-configuration');
+        Route::put('update-email-configuraion', [EmailConfigurationController::class, 'update'])->name('update-email-configuraion');
         //header
         Route::get('/header', [DashboardController::class, 'header']);
     });
-});
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });

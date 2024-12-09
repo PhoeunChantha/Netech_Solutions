@@ -80,8 +80,8 @@
                                                             <div class="form-group col-md-12">
                                                                 <label
                                                                     for="description_{{ $lang['code'] }}">{{ __('Description') }}({{ strtoupper($lang['code']) }})</label>
-                                                                <textarea type="text" id="description_{{ $lang['code'] }}"
-                                                                    class="form-control summernote @error('description') is-invalid @enderror" name="description[]"
+                                                                <textarea rows="4" type="text" id="description_{{ $lang['code'] }}"
+                                                                    class="form-control  @error('description') is-invalid @enderror" name="description[]"
                                                                     placeholder="{{ __('Enter Description') }}" value="">{{ $translate[$lang['code']]['description'] ?? $service['description'] }}</textarea>
 
                                                                 @error('description')

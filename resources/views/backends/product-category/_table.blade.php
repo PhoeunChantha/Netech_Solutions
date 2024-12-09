@@ -37,28 +37,24 @@
                     </td>
                     <td>
 
-                        @if (auth()->user()->can('pro_category.edit'))
-                            <a href="#" data-href="{{ route('admin.product-category.edit', $cate->id) }}"
-                                class="btn btn-info btn-sm btn-modal btn-edit" data-toggle="modal"
-                                data-container=".modal_form">
-                                <i class="fas fa-pencil-alt"></i>
-                                {{ __('Edit') }}
-                            </a>
-                        @endif
-
-                        @if (auth()->user()->can('pro_category.delete'))
-                            <form action="{{ route('admin.product-category.destroy', $cate->id) }}"
-                                class="d-inline-block form-delete-{{ $cate->id }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" data-id="{{ $cate->id }}"
-                                    data-href="{{ route('admin.product-category.destroy', $cate->id) }}"
-                                    class="btn btn-danger btn-sm btn-delete">
-                                    <i class="fa fa-trash-alt"></i>
-                                    {{ __('Delete') }}
-                                </button>
-                            </form>
-                        @endif
+                        <a href="#" data-href="{{ route('admin.product-category.edit', $cate->id) }}"
+                            class="btn btn-info btn-sm btn-modal btn-edit" data-toggle="modal"
+                            data-container=".modal_form">
+                            <i class="fas fa-pencil-alt"></i>
+                            {{ __('Edit') }}
+                        </a>
+                     
+                        <form action="{{ route('admin.product-category.destroy', $cate->id) }}"
+                            class="d-inline-block form-delete-{{ $cate->id }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" data-id="{{ $cate->id }}"
+                                data-href="{{ route('admin.product-category.destroy', $cate->id) }}"
+                                class="btn btn-danger btn-sm btn-delete">
+                                <i class="fa fa-trash-alt"></i>
+                                {{ __('Delete') }}
+                            </button>
+                        </form>
 
                         {{-- <a href="#" data-href="{{ route('admin.product-category.edit', $category->id) }}"
                             class="btn btn-info btn-sm btn-modal btn-edit" data-toggle="modal"

@@ -86,10 +86,10 @@
                             aria-labelledby="modelTitleId" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-slideout" role="document">
                                 <div class="modal-content">
-                                    <div class="modal-header d-flex gap-2 justify-content-center align-items-center">
+                                    <div class="modal-header d-flex gap-2 justify-content-between align-items-center">
                                         <img width="8%" src="{{ asset('website/desktop/icon-filter.png') }}"
                                             alt="">
-                                        <h5 class="modal-title">{{ __('Filter') }}</h5>
+                                        <h5 class="modal-title m-0">{{ __('Filter') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -97,6 +97,7 @@
                                     <div class="modal-body  modal-body-filter">
                                         <div class="container-fluid">
                                             <div class="div">
+                                                <!-- Sort By -->
                                                 <div class="row container-filter">
                                                     <button class="btn w-100" type="button" data-toggle="collapse"
                                                         data-target="#collapseExample" aria-expanded="false"
@@ -106,59 +107,22 @@
                                                 </div>
                                                 <div class="collapse mt-1" id="collapseExample">
                                                     <div class="form-check">
-                                                        <input class="check-input" type="radio" name="flexRadioDefault"
-                                                            id="flexRadioDefault1">
-                                                        <label class="check-label" for="flexRadioDefault1">
-                                                            {{ __('Lastest Product') }}
-                                                        </label>
+                                                        <input class="check-input" type="radio" name="sort"
+                                                            value="latest" id="latest">
+                                                        <label class="check-label"
+                                                            for="latest">{{ __('Latest Product') }}</label>
                                                     </div>
                                                     <hr class="m-0">
                                                     <div class="form-check">
-                                                        <input class="check-input" type="radio" name="flexRadioDefault"
-                                                            id="flexRadioDefault1">
-                                                        <label class="check-label" for="flexRadioDefault1">
-                                                            {{ __('Best Promotion Product') }}
-                                                        </label>
+                                                        <input class="check-input" type="radio" name="sort"
+                                                            value="best_promotion" id="best_promotion">
+                                                        <label class="check-label"
+                                                            for="best_promotion">{{ __('Best Promotion Product') }}</label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="div mt-2">
-                                                <div class="row container-filter">
-                                                    <button class="btn w-100" type="button" data-toggle="collapse"
-                                                        data-target="#Categories" aria-expanded="false"
-                                                        aria-controls="Categories">
-                                                        {{ __('Categories') }}
-                                                    </button>
-                                                </div>
-                                                <div class="collapse mt-1" id="Categories">
-                                                    <div class="row">
-                                                        <button class="btn w-100" type="button" data-toggle="collapse"
-                                                            data-target="#subcategories" aria-expanded="false"
-                                                            aria-controls="subcategories">
-                                                            {{ __('Desktop') }}
-                                                        </button>
-                                                    </div>
-                                                    <div class="collapse mt-1" id="subcategories">
-                                                        <div class="form-check">
-                                                            <input class="check-input" type="radio"
-                                                                name="flexRadioDefault" id="flexRadioDefault1">
-                                                            <label class="check-label" for="flexRadioDefault1">
-                                                                {{ __('Lastest Product') }}
-                                                            </label>
-                                                        </div>
-                                                        <hr class="m-0">
-                                                        <div class="form-check">
-                                                            <input class="check-input" type="radio"
-                                                                name="flexRadioDefault" id="flexRadioDefault1">
-                                                            <label class="check-label" for="flexRadioDefault1">
-                                                                {{ __('Best Promotion Product') }}
-                                                            </label>
-                                                        </div>
-                                                    </div>
 
-                                                </div>
-                                            </div>
-
+                                            <!-- Brand Filter -->
                                             <div class="div mt-2">
                                                 <div class="row container-filter">
                                                     <button class="btn w-100" type="button" data-toggle="collapse"
@@ -168,28 +132,16 @@
                                                     </button>
                                                 </div>
                                                 <div class="collapse mt-1 gap-1" id="brand-filter">
-                                                    <div class="form-check">
-                                                        <input class="check-input" type="radio" name="flexRadioDefault"
-                                                            id="flexRadioDefault1">
-                                                        <label class="check-label" for="flexRadioDefault1">
-                                                            {{ __('Acer') }}
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="check-input" type="radio" name="flexRadioDefault"
-                                                            id="flexRadioDefault1">
-                                                        <label class="check-label" for="flexRadioDefault1">
-                                                            {{ __('Asus') }}
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="check-input" type="radio" name="flexRadioDefault"
-                                                            id="flexRadioDefault1">
-                                                        <label class="check-label" for="flexRadioDefault1">
-                                                            {{ __('Apple') }}
-                                                        </label>
-                                                    </div>
-
+                                                    @forelse ($brands as $brand)
+                                                        <div class="form-check">
+                                                            <input class="check-input" type="radio" name="brand_id"
+                                                                value="{{ $brand->id }}" id="{{ $brand->id }}">
+                                                            <label class="check-label"
+                                                                for="{{ $brand->id }}">{{ $brand->name }}</label>
+                                                        </div>
+                                                    @empty
+                                                        <p>{{ __('No brands found') }}</p>
+                                                    @endforelse
                                                 </div>
                                             </div>
 
@@ -224,18 +176,26 @@
                                                             </div>
                                                         </fieldset>
                                                     </div>
-
                                                 </div>
                                             </div>
 
                                         </div>
                                     </div>
                                     <div class="modal-footer modal-footer-filter">
+                                        <!-- Clear Filters Button -->
                                         <button style="background-color: red;" type="button"
-                                            class="btn btn-secondary w-50">{{ __('Clear') }}</button>
+                                            class="btn btn-secondary w-50 clearFilters">
+                                            {{ __('Clear') }}
+                                        </button>
+
+                                        <!-- Apply Filter Button -->
                                         <button style="background-color: #1077B8;" type="button"
-                                            class="btn btn-primary w-50">{{ __('Apply filter') }}</button>
+                                            class="btn btn-primary w-50 applyFilter">
+                                            {{ __('Apply filter') }}
+                                        </button>
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -256,37 +216,9 @@
                                 </h5>
                             </div>
                         </div>
-                        @forelse ($products as $item)
-                            <div class="col-sm-6 col-md-4 col-lg-3 product-item"
-                                data-brand-name="{{ $item->brand->name }}">
-                                <div class="card home-desktop mt-5 border-0 shadow-lg">
-                                    <div class="card-header head-img border-1 justify-content-center">
-                                        <img src="{{ asset('uploads/products/' . $item->thumbnail) }}" alt="not found">
-                                    </div>
-                                    <div class="card-body desktop-body">
-                                        <h6 class="card-title fw-bold" style="color: #1077B8;">
-                                            {{ $item->name }}
-                                        </h6>
-                                        <p class="card-text fw-bold" style="margin-bottom: 0;color:#008E06">
-                                            ${{ $item->price }}
-                                        </p>
-                                        <div class="rate">
-                                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                            <span>(5)</span>
-                                            <div class="addcard float-end">
-                                                <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <p class="no-products-message">{{ __('No products available') }}</p>
-                        @endforelse
+                        <div class="row" id="product-list">
+                            @include('website.desktop.partials.product_list')
+                        </div>
                     </div>
                 </div>
                 {{-- Product content end --}}
@@ -295,5 +227,119 @@
     </div>
 @endsection
 @push('js')
-@include('website.desktop.desktop-script')
+    <script>
+        let filters = {
+            category_id: '{{ $category->id }}',
+            sortBy: null,
+            brand: null,
+            priceRange: {
+                min: parseInt($('#lower').val()),
+                max: parseInt($('#upper').val())
+            }
+        };
+
+        function applyFilters() {
+            $.ajax({
+                url: '{{ route('filter-products') }}',
+                method: 'GET',
+                data: filters,
+                success: function(response) {
+                    $('#product-list').html(response);
+                },
+                error: function(error) {
+                    console.error('Error fetching products:', error);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $('input[name="sort"]').on('change', function() {
+                filters.sortBy = $(this).val();
+            });
+
+            $('input[name="brand_id"]').on('change', function() {
+                filters.brand = $(this).val();
+            });
+
+            $('#upper').on('input', function() {
+                let lowerVal = parseInt($('#lower').val());
+                let upperVal = parseInt($('#upper').val());
+                if (upperVal < lowerVal + 4) {
+                    $('#lower').val(upperVal - 4);
+                }
+                $('#two').val(upperVal);
+                filters.priceRange.max = upperVal;
+            });
+
+            $('#lower').on('input', function() {
+                let lowerVal = parseInt($('#lower').val());
+                let upperVal = parseInt($('#upper').val());
+                if (lowerVal > upperVal - 4) {
+                    $('#upper').val(lowerVal + 4);
+                }
+                $('#one').val(lowerVal);
+                filters.priceRange.min = lowerVal;
+            });
+
+            $('.applyFilter').on('click', function() {
+                applyFilters();
+            });
+
+            // $('.clearFilters').on('click', function() {
+            //     filters = {
+            //         sortBy: null,
+            //         brand: null,
+            //         priceRange: {
+            //             min: parseInt($('#lower').attr('min')),
+            //             max: parseInt($('#upper').attr('max'))
+            //         }
+            //         // category_id: "{{ $category->id }}"
+            //     };
+            //     $('#lower').val(filters.priceRange.min);
+            //     $('#upper').val(filters.priceRange.max);
+            //     $('#one').val(filters.priceRange.min);
+            //     $('#two').val(filters.priceRange.max);
+            //     $('input[name="sort"]').prop('checked', false);
+            //     $('input[name="brand_id"]').prop('checked', false);
+            //     filters.category_id = "{{ $category->id }}";
+            //     applyFilters();
+            // });
+            // Clear Filters AJAX
+            $('.clearFilters').on('click', function() {
+                filters = {
+                    category_id: '{{ $category->id }}',
+                    sortBy: null,
+                    brand: null,
+                    priceRange: {
+                        min: parseInt($('#lower').attr('min')),
+                        max: parseInt($('#upper').attr('max'))
+                    }
+                    // category_id: "{{ $category->id }}"
+                };
+                $('#lower').val(filters.priceRange.min);
+                $('#upper').val(filters.priceRange.max);
+                $('#one').val(filters.priceRange.min);
+                $('#two').val(filters.priceRange.max);
+                $('input[name="sort"]').prop('checked', false);
+                $('input[name="brand_id"]').prop('checked', false);
+                $.ajax({
+                    url: '{{ route('clear-filters') }}',
+                    method: 'GET',
+                    data: {
+                        category_slug: "{{ $category->slug }}"
+                    },
+                    success: function(response) {
+                        $('#product-list').html(response);
+                    },
+                    error: function(error) {
+                        console.error('Error clearing filters:', error);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+    @include('website.desktop.desktop-script')
 @endpush

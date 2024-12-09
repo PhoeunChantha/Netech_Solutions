@@ -18,6 +18,7 @@ class Brand extends Model
         return $this->hasMany(Product::class);
     }
 
+
     public function getNameAttribute($name)
     {
         if (strpos(url()->current(), '/admin')) {

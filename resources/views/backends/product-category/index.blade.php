@@ -44,14 +44,13 @@
                                     <i class=" fa fa-plus-circle"></i>
                                     {{ __('Add New') }}
                                 </a> --}}
-                                    @if (auth()->user()->can('pro_category.create'))
-                                        <a class="btn btn-primary btn-modal float-right" href="#"
-                                            data-href="{{ route('admin.product-category.create') }}" data-toggle="modal"
-                                            data-container=".modal_form">
-                                            <i class=" fa fa-plus-circle"></i>
-                                            {{ __('Add New') }}
-                                        </a>
-                                    @endif
+                                <a class="btn btn-primary btn-modal float-right" href="#"
+                                    data-href="{{ route('admin.product-category.create') }}" data-toggle="modal"
+                                    data-container=".modal_form">
+                                    <i class=" fa fa-plus-circle"></i>
+                                    {{ __('Add New') }}
+                                </a>
+                                  
 
                                 </div>
                             </div>

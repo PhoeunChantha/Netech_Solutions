@@ -10,32 +10,32 @@
                         <p class="text-muted mt-0">We’re a full service agency with experts ready to help. We’ll get in touch
                             within 24 hours.</p>
                     </div>
-                    <form action="" method="post">
+                    <form action="{{ route('contact.store') }}" method="post">
                         @csrf
                         <div class="row">
                             <div class="form-group col-6">
                                 <label for="first_name">{{ __('First name') }}</label>
-                                <input type="text" name="first_name" id="contact_first_name" class="form-control"
+                                <input type="text" name="first_name" id="contact_first_name" class="form-control" value="{{old('first_name')}}"
                                     placeholder="First name">
                             </div>
                             <div class="form-group col-6 mt-1">
                                 <label for="last_name">{{ __('Last name') }}</label>
-                                <input type="text" name="last_name" id="contact_last_name" class="form-control"
+                                <input type="text" name="last_name" id="contact_last_name" class="form-control" value="{{old('last_name')}}"
                                     placeholder="Last name">
                             </div>
                             <div class="form-group col-12 mt-1">
                                 <label for="email">{{ __('Email') }}</label>
-                                <input type="email" name="email" id="contact_email" class="form-control"
+                                <input type="email" name="email" id="contact_email" class="form-control" value="{{old('email')}}"
                                     placeholder="Email" required>
                             </div>
                             <div class="form-group col-12 mt-1">
                                 <label for="phone">{{ __('Phone') }}</label>
-                                <input type="text" name="phone" id="contact_phone" class="form-control"
+                                <input type="text" name="phone" id="contact_phone" class="form-control" value="{{old('phone')}}"
                                     placeholder="Phone number">
                             </div>
                             <div class="form-group col-12 mt-1">
                                 <label for="message">{{ __('Message') }}</label>
-                                <textarea name="message" id="contact_message" rows="3" class="form-control" placeholder="Message" required></textarea>
+                                <textarea name="message" id="contact_message" rows="3" value="{{old('message')}}" class="form-control" placeholder="Message" required></textarea>
                             </div>
                             <div class="form-group sent-message mt-2 col-12">
                                 <button type="submit" class="btn py-3 fw-bold text-white w-100"

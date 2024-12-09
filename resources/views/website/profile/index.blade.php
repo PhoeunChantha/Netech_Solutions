@@ -3,8 +3,8 @@
     @include('website.profile.profile_style')
     <div class="container">
         <div class="container-fluid " style="min-height: 100vh;">
-            <div class="row">
-                <div class="col-3 mt-4">
+            <div class="row d-flex justify-content-center align-items-center">
+                {{-- <div class="col-3 mt-4">
                     <div class="profile-card">
                         <ul class="profile-menu">
                             <!-- Profile Link -->
@@ -35,8 +35,8 @@
                         </ul>
 
                     </div>
-                </div>
-                <div class="col-9 mt-4" style="min-height: 100vh;">
+                </div> --}}
+                <div class="col-10 mt-4" style="min-height: 100vh;">
                     @yield('content')
                 </div>
             </div>

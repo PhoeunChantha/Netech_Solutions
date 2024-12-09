@@ -42,10 +42,6 @@
                             <i class="fas fa-pencil-alt"></i>
                             {{ __('Edit') }}
                         </a>
-                        @if (auth()->user()->can('banner.edit'))
-                        @endif
-                        @if (auth()->user()->can('banner.delete'))
-                        @endif
                         <form action="{{ route('admin.banner.destroy', $banner->id) }}"
                             class="d-inline-block form-delete-{{ $banner->id }}">
                             @csrf

@@ -1,13 +1,20 @@
-<tbody class="tbody">
+<tbody class="social-media-tbody tbody">
     @if ($social_medias)
         @foreach (json_decode($social_medias, true) as $key => $row)
             <tr>
                 <td>
                     <input type="text" class="form-control" name="social_media[title][]" value="{{ $row['title'] ?? null }}">
+                    {{-- <select name="social_media[title][]" class="form-control" id="">
+                        <option value="fab fa-facebook" @if($row['title'] == 'fab fa-facebook') selected @endif>Facebook</option>
+                        <option value="fab fa-twitter" @if($row['title'] == 'fab fa-twitter') selected @endif>Twitter</option>
+                        <option value="fab fa-instagram" @if($row['title'] == 'fab fa-instagram') selected @endif>Instagram</option>
+                        <option value="fab fa-youtube" @if($row['title'] == 'fab fa-youtube') selected @endif>Youtube</option>
+                        <option value="fab fa-linkedin" @if($row['title'] == 'fab fa-linkedin') selected @endif>Linkedin</option>
+                    </select> --}}
                 </td>
                 <td>
                     <input type="file" class="d-none social_media_icon_input_{{ $key }}" name="social_media[icon][]">
-                    <img src="{{ $row['icon'] ? $row['icon'] : asset('uploads/image/default.png') }}" height="auto" width="60px" style="margin-bottom: 6px; cursor:pointer; border:none !important" alt="" class="avatar border social_media_icon social_media_icon_{{ $key }}">
+                    <img src="{{ $row['icon'] ? asset('uploads/social_media/'. $row['icon']) : asset('uploads/image/default.png') }}" height="auto" width="60px" style="margin-bottom: 6px; cursor:pointer; border:none !important" alt="" class="avatar border social_media_icon social_media_icon_{{ $key }}">
 
                     <input type="hidden" name="social_media[old_icon][]" value="{{ $row['icon'] ?? null }}">
                 </td>
@@ -49,7 +56,7 @@
                                 toastr.error('{{ __('Cannot remove all row') }}');
                                 return;
                             } else if (numRows >= 2) {
-                                
+
                                 $(this).closest('tr').remove();
                             }
                         });

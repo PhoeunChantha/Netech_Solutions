@@ -13,8 +13,14 @@
                     <div class="card">
                         <div class="card-header border-0 d-flex justify-content-center">
                             <img width="50%"
-                                src="@if ($product->thumbnail && file_exists(public_path('uploads/products/' . $product->thumbnail))) {{ asset('uploads/products/' . $product->thumbnail) }} @else {{ asset('/uploads/defualt.png') }} @endif"
-                                alt="" class="">
+                                src="@if (
+                                    $product->thumbnail &&
+                                        is_array($product->thumbnail) &&
+                                        file_exists(public_path('uploads/products/' . $product->thumbnail[0]))) {{ asset('uploads/products/' . $product->thumbnail[0]) }}
+                                    @else
+                                        {{ asset('/uploads/defualt.png') }} @endif"
+                                                            alt="" class="">
+
                         </div>
                         <div class="title text-center mt-1">
                             <h5 class="">{{ $product->name }}</h5>

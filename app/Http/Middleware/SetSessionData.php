@@ -17,11 +17,11 @@ class SetSessionData
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->session()->has('user')) {
+        if (!$request->session()->has('admin')) {
 
-            $user = Auth::user();
+            $admin = Auth::guard('admin')->user();
 
-            $session_data = $user;
+            $session_data = $admin;
 
             $business = new BusinessSetting;
 

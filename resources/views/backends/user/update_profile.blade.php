@@ -19,7 +19,7 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <!-- /.card-header -->
-                        <form method="POST" action="{{ route('admin.header.update', $user->id) }}"
+                        <form method="POST" action="{{ route('admin.header.update', $admin->id) }}"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -28,7 +28,7 @@
                                     <div class="form-group col-md-6 ">
                                         <label class="required_lable">{{ __('First Name') }}</label>
                                         <input type="name" class="form-control @error('first_name') is-invalid @enderror"
-                                            value="{{ old('first_name', $user->first_name) }}" name="first_name"
+                                            value="{{ old('first_name', $admin->first_name) }}" name="first_name"
                                             placeholder="{{ __('Enter First Name') }}">
                                         @error('first_name')
                                             <span class="invalid-feedback" role="alert">
@@ -39,7 +39,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="required_lable">{{ __('Last Name') }}</label>
                                         <input type="name" class="form-control @error('last_name') is-invalid @enderror"
-                                            value="{{ old('last_name', $user->last_name) }}" name="last_name"
+                                            value="{{ old('last_name', $admin->last_name) }}" name="last_name"
                                             placeholder="{{ __('Enter Last Name') }}">
                                         @error('last_name')
                                             <span class="invalid-feedback" role="alert">
@@ -50,7 +50,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="required_lable">{{ __('Username') }}</label>
                                         <input type="name" class="form-control @error('username') is-invalid @enderror"
-                                            value="{{ old('username', $user->name) }}" name="username"
+                                            value="{{ old('username', $admin->name) }}" name="username"
                                             placeholder="{{ __('Enter Username') }}">
                                         @error('username')
                                             <span class="invalid-feedback" role="alert">
@@ -61,7 +61,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="required_lable">{{ __('User ID') }}</label>
                                         <input type="name" class="form-control @error('user_id') is-invalid @enderror"
-                                            value="{{ old('user_id', $user->user_id) }}" name="user_id"
+                                            value="{{ old('user_id', $admin->user_id) }}" name="user_id"
                                             placeholder="{{ __('Enter User ID') }}">
                                         @error('user_id')
                                             <span class="invalid-feedback" role="alert">
@@ -79,7 +79,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="required_lable">{{ __('Phone Number') }}</label>
                                         <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                            value="{{ old('phone', $user->phone) }}" name="phone"
+                                            value="{{ old('phone', $admin->phone) }}" name="phone"
                                             placeholder="{{ __('Enter Phone Number') }}">
                                         @error('phone')
                                             <span class="invalid-feedback" role="alert">
@@ -90,7 +90,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="required_lable">{{ __('Telegram Number') }}</label>
                                         <input type="text" class="form-control @error('telegram') is-invalid @enderror"
-                                            value="{{ old('telegram', $user->telegram) }}" name="telegram"
+                                            value="{{ old('telegram', $admin->telegram) }}" name="telegram"
                                             placeholder="{{ __('Enter Telegram Number') }}">
                                         @error('telegram')
                                             <span class="invalid-feedback" role="alert">
@@ -101,7 +101,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="required_lable">{{ __('Email') }}</label>
                                         <input type="text" class="form-control @error('email') is-invalid @enderror"
-                                            value="{{ old('email', $user->email) }}" name="email"
+                                            value="{{ old('email', $admin->email) }}" name="email"
                                             placeholder="{{ __('Enter Email') }}">
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
@@ -127,7 +127,7 @@
                                             <option value="">{{ __('Please select role') }}</option>
                                             @foreach ($roles as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ $user->roles->first()->id == $id ? 'selected' : '' }}>
+                                                    {{ $admin->roles->id ?? '' == $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>
                                             @endforeach
                                         </select>
@@ -152,12 +152,12 @@
                                                     <input type="file" class="custom-file-input" id="exampleInputFile"
                                                         name="image">
                                                     <label class="custom-file-label"
-                                                        for="exampleInputFile">{{ $user->image ?? __('Choose file') }}</label>
+                                                        for="exampleInputFile">{{ $admin->image ?? __('Choose file') }}</label>
                                                 </div>
                                             </div>
                                             <div class="preview text-center border rounded mt-2" style="height: 150px">
                                                 <img src="
-                                                    @if ($user->image && file_exists(public_path('uploads/users/' . $user->image))) {{ asset('uploads/users/' . $user->image) }}
+                                                    @if ($admin->image && file_exists(public_path('uploads/users/' . $admin->image))) {{ asset('uploads/users/' . $admin->image) }}
                                                     @else
                                                         {{ asset('uploads/default-profile.png') }} @endif
                                                     "

@@ -67,12 +67,24 @@
                         </span>
                     @enderror
                 </div>
-                <div class="form-group mb-2">
+                {{-- <div class="form-group mb-2">
                     <label for="signup_phone">Phone Number</label>
                     <div class="input-group">
                         <input id="signup_phone" class="form-control @error('signup_phone') is-invalid  @enderror"
                             type="tel" name="signup_phone" placeholder="Enter mobile number">
                         @error('signup_phone')
+                            <span class="invalid-feedback" role="alert">
+                              {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                </div> --}}
+                <div class="form-group mb-2">
+                    <label for="signup_email">Email</label>
+                    <div class="input-group">
+                        <input id="signup_email" class="form-control @error('signup_email') is-invalid  @enderror"
+                            type="email" name="signup_email" placeholder="Enter Email">
+                        @error('signup_email')
                             <span class="invalid-feedback" role="alert">
                               {{ $message }}
                             </span>
@@ -114,7 +126,7 @@
                 </div>
 
                 <div class="footer">
-                    <p>Enjoy New Experience <a href="{{ route('customer.login') }}">Login</a></p>
+                    <p>Enjoy New Experience <a href="{{ route('customer.web.login') }}">Login</a></p>
                 </div>
             </form>
         </div>

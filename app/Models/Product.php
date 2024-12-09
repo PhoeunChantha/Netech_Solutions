@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use PhpParser\Node\Expr\Cast;
 
 class Product extends Model
 {
@@ -17,6 +18,23 @@ class Product extends Model
     use SoftDeletes;
 
     protected $guarded = ['id'];
+    protected $casts = ['thumbnail' => 'array'];
+    // In your Product model (e.g., Product.php)
+
+    public function getDiscountedPriceAttribute()
+    {
+        // Assume the `discount` relation or logic to fetch discount exists here.
+        $discount = Discount::where('status', 1)
+        ->whereJsonContains('product_ids', $this->id)
+            ->first();
+
+        if ($discount) {
+            return $this->price - ($this->price * ($discount->discount_value / 100));
+        }
+
+        return $this->price;
+    }
+
 
     public function getNameAttribute($name)
     {

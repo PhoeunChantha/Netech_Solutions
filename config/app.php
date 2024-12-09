@@ -112,7 +112,7 @@ return [
         'ភាសាខ្មែរ'   => 'kh',
         'Chinese'  => 'cn',
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | Faker Locale
@@ -197,6 +197,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        App\Providers\CustomTranslationServiceProvider::class,
 
         /*
          * Package Service Providers...

@@ -18,7 +18,7 @@
         </div>
         <div class="text-center p-5">
             <h2 class="fw-bolder about-title">{{ __('Our Team Structure') }}</h2>
-            <p class="fw-bolder about-desc">{{ __(' There Is the better way we build it. ') }}</p>
+            {{-- <p class="fw-bolder about-desc">{{ __(' There Is the better way we build it. ') }}</p> --}}
         </div>
         <div class="col-10 mx-auto">
             <div class="row d-flex justify-content-center align-items-center">
@@ -26,54 +26,25 @@
                     <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
                         <div class=" uk-slider-items uk-child-width-1-3@s
 uk-grid">
-                            <div style="padding-left: 0 !important;width: 25rem" class="">
-                                <div class="uk-card about-card uk-card-default about-card">
-                                    <div class="uk-card-media-top about-card-top">
-                                        <img src="{{ asset('website/about-us/img1.png') }}" alt="">
-                                    </div>
-                                    <div class="uk-card-body about-card-body">
-                                        <h3 class="uk-card-title mb-0">Headline</h3>
-                                        <p class="mt-0">District Brand Associate</p>
+                            @forelse ($teams as $team)
+                                <div style="padding-left: 0 !important;width: 25rem" class="">
+                                    <div class="uk-card about-card uk-card-default about-card">
+                                        <div class="uk-card-media-top about-card-top">
+                                            <img src="  @if ($team->image && file_exists(public_path('uploads/employee/' . $team->image))) {{ asset('uploads/employee/' . $team->image) }}
+                                                    @else
+                                                        {{ asset('uploads/defualt.png') }} @endif"
+                                                alt="not found">
+                                        </div>
+                                        <div class="uk-card-body about-card-body">
+                                            <h3 class="uk-card-title mb-0">{{ $team->name }}</h3>
+                                            <p class="mt-0">{{ $team->position }}</p>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div style="padding-left: 0 !important;width: 25rem" class="">
-                                <div class="uk-card about-card uk-card-default about-card">
-                                    <div class="uk-card-media-top about-card-top">
-                                        <img src="{{ asset('website/about-us/img1.png') }}" alt="">
-                                    </div>
-                                    <div class="uk-card-body about-card-body">
-                                        <h3 class="uk-card-title mb-0">Headline</h3>
-                                        <p class="mt-0">District Brand Associate</p>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="padding-left: 0 !important;width: 25rem" class="">
-                                <div class="uk-card about-card uk-card-default about-card">
-                                    <div class="uk-card-media-top about-card-top">
-                                        <img src="{{ asset('website/about-us/img1.png') }}" alt="">
-                                    </div>
-                                    <div class="uk-card-body about-card-body">
-                                        <h3 class="uk-card-title mb-0">Headline</h3>
-                                        <p class="mt-0">District Brand Associate</p>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="padding-left: 0 !important;width: 25rem" class="">
-                                <div class="uk-card about-card uk-card-default about-card">
-                                    <div class="uk-card-media-top about-card-top">
-                                        <img src="{{ asset('website/about-us/img1.png') }}" alt="">
-                                    </div>
-                                    <div class="uk-card-body about-card-body">
-                                        <h3 class="uk-card-title mb-0">Headline</h3>
-                                        <p class="mt-0">District Brand Associate</p>
-
-                                    </div>
-                                </div>
-                            </div>
+                            @empty
+                                <p>{{ __('No team available') }}</p>
+                            @endforelse
                         </div>
 
                         <a class="uk-position-center-left uk-position-small uk-hidden-hover custom-prev-left" href
@@ -87,14 +58,17 @@ uk-grid">
         <div class="col-10 mx-auto">
             <div class="p-2 px-0 my-5 d-flex justify-content-center">
                 <div class="col-6 our-company">
-                    <h2 class="company-title">{{ __('About Our Company') }}</h2>
+                    {{-- <h2 class="company-title">{{ __('About Our Company') }}</h2> --}}
                     <p class="mt-0 fs-5  text-left">
-                        {{ __('Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.') }}
+                        {!! $about_company !!}
                     </p>
                 </div>
                 <div class="col-5 bg-info">
                     <div class="image-company">
-                        <img src="{{ asset('website/about-us/image-company.jpg') }}" alt="error" class="img-fluid">
+                        <img src=" @if ($about_company_image && file_exists('uploads/business_settings/' . $about_company_image)) {{ asset('uploads/business_settings/' . $about_company_image) }}
+                                                            @else
+                                                                {{ asset('uploads/defualt.png') }} @endif"
+                            alt="error" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -102,18 +76,18 @@ uk-grid">
         <div class="col-10  mx-auto pb-5">
             <div class="card px-0   justify-content-center">
                 <div class="col-12 pb-0 company-mission">
-                    <h2 class="mission-title ">{{ __('Mission') }}</h2>
+                    {{-- <h2 class="mission-title ">{{ __('Mission') }}</h2> --}}
                     <p class="fs-6  text-left">
-                        {{ __('Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.') }}
+                        {!! $mission_and_vision !!}
                     </p>
                 </div>
-                <div class="col-12  company-vision">
+                {{-- <div class="col-12  company-vision">
                     <h2 class="vision-title">{{ __('Vission') }}</h2>
                     <p class="fs-6  text-left">
                         {{ __('Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.') }}
                     </p>
 
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

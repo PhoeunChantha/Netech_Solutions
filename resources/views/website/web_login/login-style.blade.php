@@ -98,14 +98,15 @@
         width: 21rem !important;
     }
 
-   
+
 
     /* recover password */
     .forgot-password-container {
         width: 100%;
-        max-width: 40rem;
-        margin: 50px auto;
-        padding: 20px;
+        height: 24rem;
+        max-height: 51rem;
+        max-width: 50rem;
+        padding: 60px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
         text-align: center;
@@ -148,6 +149,7 @@
         background-color: #fff;
         text-align: center;
     }
+
     .create-password-form {
         width: 23rem;
     }
@@ -156,5 +158,15 @@
         background-color: #1e88e5;
         border: none;
         width: 100%;
+    }
+
+    /* card-verify-code */
+    .card-verify-code {
+        width: 35rem;
+        height: 30rem;
+        padding: 26px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        background-color: #fff;
     }
 </style>

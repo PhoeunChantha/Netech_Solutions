@@ -6,15 +6,27 @@
     <div class="container vh-100 d-flex justify-content-center align-items-center">
         <div class="login-card">
             <h2 class="text-center">Sign In</h2>
-            <form action="{{ route('customer.login') }}" method="post">
+            <form action="{{ route('customer.userlogin') }}" method="post">
                 @csrf
-                <div class="form-group mb-3">
+                {{-- <div class="form-group mb-3">
                     <label for="signin_phone">Phone Number</label>
                     <div class="input-group">
                         <input id="signin_phone" class="form-control" type="tel" name="signin_phone"
                             placeholder="Enter mobile number">
                     </div>
                     @error('signin_phone')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div> --}}
+                <div class="form-group mb-3">
+                    <label for="signin_email">Email</label>
+                    <div class="input-group">
+                        <input id="signin_email" class="form-control" type="email" name="signin_email"
+                            placeholder="Enter Email">
+                    </div>
+                    @error('signin_email')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

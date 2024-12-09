@@ -89,7 +89,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label class="required_lable" for="brand">{{ __('Type') }}</label>
+                                        <label class="required_lable" for="brand">{{ __('Discount Type') }}</label>
                                         <select name="discount_type" id="brand"
                                             class="form-control select2 @error('discount_type') is-invalid @enderror">
                                             <option value="">{{ __('Select type') }}</option>
@@ -104,7 +104,8 @@
                                     </div>
 
                                     <div class="form-group col-md-6 ">
-                                        <label class="required_lable" for="discount_value">{{ __('Value') }}</label>
+                                        <label class="required_lable"
+                                            for="discount_value">{{ __('Discount Amount') }}</label>
                                         <input type="number" name="discount_value" id="discount_value"
                                             class="form-control @error('discount_value') is-invalid @enderror"
                                             step="any" value="{{ old('discount_value', 0) }}"
@@ -116,8 +117,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6 ">
-                                        <label class="required_lable"
-                                            for="quantity_limited">{{ __('Quantity Limit') }}</label>
+                                        <label class="required_lable" for="quantity_limited">{{ __('Quantity') }}</label>
                                         <input type="number" name="quantity_limited" id="quantity_limited"
                                             class="form-control @error('quantity_limited') is-invalid @enderror"
                                             value="">
@@ -128,7 +128,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label class="required_label" for="start_date">{{ __('Start Date') }}</label>
+                                        <label class="required_lable" for="start_date">{{ __('Start Date') }}</label>
                                         <input type="text" name="start_date" id="start_date"
                                             class="form-control datepicker @error('start_date') is-invalid @enderror"
                                             value="{{ old('start_date') }}">
@@ -139,7 +139,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label class="required_label" for="end_date">{{ __('End Date') }}</label>
+                                        <label class="required_lable" for="end_date">{{ __('End Date') }}</label>
                                         <input type="text" name="end_date" id="end_date"
                                             class="form-control datepicker @error('end_date') is-invalid @enderror"
                                             value="{{ old('end_date') }}">
@@ -151,47 +151,89 @@
                                     </div>
                                     <div class="form-group col-md-6"></div>
                                     <div class="form-group col-md-6">
-                                       <label for="Only Apply Discount to">{{ __('Apply Discount to') }}</label>
-                                       <div class="card mb-1">
-                                           <div class="card-body" style="padding: 1rem;">
-                                               <section class="Wrapper">
-                                                   @foreach ($brands as $brand)
-                                                       <div class="Checkbox-parent Accordion d-flex align-items-center"
-                                                           style="margin-bottom: 3px; cursor: pointer;">
-                                                           <i class="fas fa-caret-down mt-0"></i>
-                                                           <span
-                                                               style="margin-left: 2% !important; font-weight: 400; font-size: 15px;">
-                                                               {{ $brand->name }}
-                                                           </span>
-                                                           <input id="apply_discount_to_{{ $brand->id }}"
-                                                               name="apply_discount_to"
-                                                               class="material-icons ml-auto @error('apply_discount_to') is-invalid @enderror"
-                                                               type="checkbox" />
-                                                       </div>
-                                                       <div id="Accordion-panel" class="Accordion-panel">
-                                                           <ul class="Checkbox-child pl-4">
-                                                               @foreach ($brand->products as $product)
-                                                                   <li
-                                                                       class="d-flex align-items-center justify-content-between">
-                                                                       <span
-                                                                           style="font-weight: 400; font-size: 15px; margin-bottom: 3px;">
-                                                                           {{ $product->name }}
-                                                                       </span>
-                                                                       <input value="{{ $product->id }}"
-                                                                           name="product_id[]" class="material-icons"
-                                                                           type="checkbox" />
-                                                                   </li>
-                                                               @endforeach
-                                                           </ul>
-                                                       </div>
-                                                   @endforeach
-                                               </section>
-                                           </div>
-                                       </div>
-                                       @error('product_id')
-                                           <span class="text-danger" role="alert" style="font-size: 0.75rem">
-                                           @enderror
-                                   </div>
+                                        <label class="required_lable"
+                                            for="Only Apply Discount to">{{ __('Apply Discount to') }}</label>
+                                        <div class="card mb-1">
+                                            <div class="card-body" style="padding: 1rem;">
+                                                {{-- <section class="Wrapper">
+                                                    @foreach ($brands as $brand)
+                                                        <div class="Checkbox-parent Accordion d-flex align-items-center"
+                                                            style="margin-bottom: 3px; cursor: pointer;">
+                                                            <i class="fas fa-caret-down mt-0"></i>
+                                                            <span
+                                                                style="margin-left: 2% !important; font-weight: 400; font-size: 15px;">
+                                                                {{ $brand->name }}
+                                                            </span>
+                                                            <input id="apply_discount_to_{{ $brand->id }}"
+                                                                name="apply_discount_to"
+                                                                class="material-icons ml-auto @error('apply_discount_to') is-invalid @enderror"
+                                                                type="checkbox" />
+                                                        </div>
+                                                        <div id="Accordion-panel" class="Accordion-panel">
+                                                            <ul class="Checkbox-child pl-4">
+                                                                @foreach ($brand->products as $product)
+                                                                    <li
+                                                                        class="d-flex align-items-center justify-content-between">
+                                                                        <span
+                                                                            style="font-weight: 400; font-size: 15px; margin-bottom: 3px;">
+                                                                            {{ $product->name }}
+                                                                        </span>
+                                                                        <input value="{{ $product->id }}"
+                                                                            name="product_ids[]" class="material-icons"
+                                                                            type="checkbox" />
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endforeach
+                                                </section> --}}
+                                                <section class="Wrapper">
+                                                    @foreach ($brands as $brand)
+                                                        @if ($brand->products->isNotEmpty())
+                                                            <!-- Only display brands with non-discounted products -->
+                                                            <div class="Checkbox-parent Accordion d-flex align-items-center"
+                                                                style="margin-bottom: 3px; cursor: pointer;">
+                                                                <i class="fas fa-caret-down mt-0"></i>
+                                                                <span
+                                                                    style="margin-left: 2% !important; font-weight: 400; font-size: 15px;">
+                                                                    {{ $brand->name }}
+                                                                </span>
+                                                                <input id="apply_discount_to_{{ $brand->id }}"
+                                                                    name="apply_discount_to"
+                                                                    class="material-icons ml-auto @error('apply_discount_to') is-invalid @enderror"
+                                                                    type="checkbox" />
+                                                            </div>
+                                                            <div id="Accordion-panel-{{ $brand->id }}"
+                                                                class="Accordion-panel">
+                                                                <ul class="Checkbox-child pl-4">
+                                                                    @foreach ($brand->products as $product)
+                                                                        <li
+                                                                            class="d-flex align-items-center justify-content-between">
+                                                                            <span
+                                                                                style="font-weight: 400; font-size: 15px; margin-bottom: 3px;">
+                                                                                {{ $product->name }}
+                                                                            </span>
+                                                                            <input value="{{ $product->id }}"
+                                                                                name="product_ids[]"
+                                                                                class="material-icons" type="checkbox" />
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                </section>
+
+
+
+
+
+                                            </div>
+                                        </div>
+                                        @error('product_id')
+                                            <span class="text-danger" role="alert" style="font-size: 0.75rem">
+                                            @enderror
+                                    </div>
                                     <div class="form-group col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputFile">{{ __('Image') }}</label>
@@ -221,6 +263,7 @@
                                     </button>
                                 </div>
                             </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -240,7 +283,7 @@
                 var files = Compress.convertBase64ToFile(output[0].data, output[0].ext);
                 var formData = new FormData();
 
-                var thumbnails_hidden = $(this).closest('.custom-file').find('input[type=hidden]');
+                var images_hidden = $(this).closest('.custom-file').find('input[type=hidden]');
                 var container = $(this).closest('.form-group').find('.preview');
                 if (container.find('img').attr('src') === `{{ asset('uploads/defualt.png') }}`) {
                     container.empty();

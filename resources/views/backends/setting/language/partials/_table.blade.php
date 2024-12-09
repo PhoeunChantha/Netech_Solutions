@@ -33,35 +33,31 @@
                         </td>
                         <td>
                             @if ($row->code != 'en')
-                                @if (auth()->user()->can('setting.edit'))
-                                    <a class="btn btn-success btn-sm btn-modal" href="#"
-                                        data-href="{{ route('admin.setting.language.edit', ['id' => $row->id]) }}"
-                                        data-toggle="modal" data-container=".modal_form">
-                                        <i class=" fa fa-pencil-alt"></i>
-                                        {{ __('Edit') }}
-                                    </a>
-                                @endif
-                                @if (auth()->user()->can('setting.translate'))
-                                    <a class="btn btn-info btn-sm"
-                                        href="{{ route('admin.setting.language.translate', ['code' => $row->code]) }}">
-                                        {{-- <i class=" fa fa-tr"></i> --}}
-                                        {{ __('Translate') }}
-                                    </a>
-                                @endif
-                                @if (auth()->user()->can('setting.delete'))
-                                    <form
-                                        action="{{ route('admin.setting.language.delete', ['id' => $row->id, 'code' => $row->code]) }}"
-                                        class="d-inline-block form-delete-{{ $row->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" data-id="{{ $row->id }}"
-                                            data-href="{{ route('admin.setting.language.delete', ['id' => $row->id, 'code' => $row->code]) }}"
-                                            class="btn btn-danger btn-sm btn-delete">
-                                            <i class="fas fa-trash-alt"></i>
-                                            {{ __('Delete') }}
-                                        </button>
-                                    </form>
-                                @endif
+                            <a class="btn btn-success btn-sm btn-modal" href="#"
+                                data-href="{{ route('admin.setting.language.edit', ['id' => $row->id]) }}"
+                                data-toggle="modal" data-container=".modal_form">
+                                <i class=" fa fa-pencil-alt"></i>
+                                {{ __('Edit') }}
+                            </a>
+                              
+                                <a class="btn btn-info btn-sm"
+                                    href="{{ route('admin.setting.language.translate', ['code' => $row->code]) }}">
+                                    {{-- <i class=" fa fa-tr"></i> --}}
+                                    {{ __('Translate') }}
+                                </a>
+
+                                <form
+                                    action="{{ route('admin.setting.language.delete', ['id' => $row->id, 'code' => $row->code]) }}"
+                                    class="d-inline-block form-delete-{{ $row->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" data-id="{{ $row->id }}"
+                                        data-href="{{ route('admin.setting.language.delete', ['id' => $row->id, 'code' => $row->code]) }}"
+                                        class="btn btn-danger btn-sm btn-delete">
+                                        <i class="fas fa-trash-alt"></i>
+                                        {{ __('Delete') }}
+                                    </button>
+                                </form>
                             @endif
                         </td>
                     </tr>

@@ -25,7 +25,7 @@ class ProductController extends Controller
     {
 
         $categories = Category::all();
-        $products = Product::when($request->category_id, function ($query) use ($request) {
+        $products = Product::with('discount')->when($request->category_id, function ($query) use ($request) {
             $query->where('category_id', $request->category_id);
         })->latest('id')->paginate(10);
 
@@ -63,10 +63,8 @@ class ProductController extends Controller
             'name' => 'required',
             'category_id' => 'required',
             'brand_id' => 'required|exists:brands,id',
-            // 'operating' => 'required',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         if (is_null($request->name[array_search('en', $request->lang)])) {
@@ -101,13 +99,17 @@ class ProductController extends Controller
             $product->description = $request->description[array_search('en', $request->lang)];
             $product->code = strtoupper(Str::random(5));
             $product->category_id = $request->category_id;
+            $product->specification = $request->specification;
             $product->brand_id = $request->brand_id;
-            // $product->operating_system = $request->operating;
             $product->price = $request->price;
             $product->quantity = $request->quantity;
             $product->created_by = auth()->user()->id;
             if ($request->hasFile('thumbnail')) {
-                $product->thumbnail = ImageManager::upload('uploads/products/', $request->thumbnail);
+                $uploadedThumbnails = [];
+                foreach ($request->file('thumbnail') as $file) {
+                    $uploadedThumbnails[] = ImageManager::upload('uploads/products/', $file);
+                }
+                $product->thumbnail = $uploadedThumbnails;
             }
 
             $product->save();
@@ -230,6 +232,7 @@ class ProductController extends Controller
             $product->description = $request->description[array_search('en', $request->lang)];
             // $product->code = strtoupper(Str::random(5));
             $product->category_id = $request->category_id;
+            $product->specification = $request->specification;
             $product->brand_id = $request->brand_id;
             // $product->operating_system = $request->operating;
             $product->price = $request->price;
@@ -285,6 +288,25 @@ class ProductController extends Controller
         }
 
         return redirect()->route('admin.product.index')->with($output);
+    }
+    public function updateStatus(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $product = Product::findOrFail($request->id);
+            $product->status = $product->status == 1 ? 0 : 1;
+            $product->save();
+
+            $output = ['status' => 1, 'msg' => __('Status updated')];
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            $output = ['status' => 0, 'msg' => __('Something went wrong')];
+        }
+
+        return response()->json($output);
     }
 
     /**

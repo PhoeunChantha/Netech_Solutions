@@ -16,9 +16,9 @@ class Discount extends Model
     protected $casts = [
         'product_ids' => 'array',
     ];
-    public function product()
+    public function products()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsToMany(Product::class, 'product_id');
     }
     public function createdBy()
     {

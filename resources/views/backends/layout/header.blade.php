@@ -93,13 +93,21 @@
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 {{-- <img src="{{ asset('uploads/default-profile.png') }}" class="user-image img-circle elevation-2"
                     alt="User Image"> --}}
-                @if (Auth::user()->image)
+                {{-- @if (Auth::user()->image)
                     <img class="user-image img-circle elevation-2 object-fit-cover "
                         src="{{ asset('uploads/users/' . Auth::user()->image) }}" alt="User Image">
                 @else
                     <img class=" user-image img-circle elevation-2 object-fit-cover "
                         src="{{ asset('uploads/default-profile.png') }}" alt="Default Profile Image">
+                @endif --}}
+                @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->image)
+                    <img class="user-image img-circle elevation-2 object-fit-cover"
+                        src="{{ asset('uploads/users/' . Auth::guard('admin')->user()->image) }}" alt="User Image">
+                @else
+                    <img class="user-image img-circle elevation-2 object-fit-cover"
+                        src="{{ asset('uploads/default-profile.png') }}" alt="Default Profile Image">
                 @endif
+
                 {{-- <span class="d-none d-md-inline">veha</span> --}}
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
@@ -107,31 +115,44 @@
                 <li class="user-header bg-primary">
                     {{-- <img src="{{ asset('uploads/default-profile.png') }}" class="img-circle elevation-2"
                         alt="User Image"> --}}
-                    @if (Auth::user()->image)
+                    {{-- @if (Auth::user()->image)
                         <img class="img-circle elevation-2 object-fit-cover"
                             src="{{ asset('uploads/users/' . Auth::user()->image) }}" alt="User Image">
                     @else
                         <img class="img-circle elevation-2" src="{{ asset('uploads/default-profile.png') }}"
                             alt="Default Profile Image">
+                    @endif --}}
+                    @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->image)
+                        <img class="user-image img-circle elevation-2 object-fit-cover"
+                            src="{{ asset('uploads/users/' . Auth::guard('admin')->user()->image) }}" alt="User Image">
+                    @elseif (Auth::guard('admin')->check())
+                        <img class="user-image img-circle elevation-2 object-fit-cover"
+                            src="{{ asset('uploads/default-profile.png') }}" alt="Default Profile Image">
+                    @else
+                        <img class="user-image img-circle elevation-2 object-fit-cover"
+                            src="{{ asset('uploads/default-profile.png') }}" alt="Default Profile Image">
                     @endif
+
 
                     <p class="justify-content-center">
                         {{-- {{ Session::get('current_user')->name }} --}}
-                    <h6>{{ Auth::user()->name }} | <small>Role :
-                            {{ implode(', ', Auth::user()->roles()->pluck('name')->toArray()) }}</small></h6>
-                    {{-- <small>Member since {{ Auth::user()->created_at->format('d-M-Y') }}</small> --}}
+                        {{-- <h6>{{ Auth::user()->name }} | <small>Role :
+                            {{ implode(', ', Auth::user()->roles()->pluck('name')->toArray()) }}</small></h6> --}}
+                        {{-- <small>Member since {{ Auth::user()->created_at->format('d-M-Y') }}</small> --}}
                     </p>
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">
-                    @if (auth()->user() && auth()->user()->can('user.edit'))
-                        <a href="{{ route('admin.header.edit', auth()->user()->id) }}"
-                            class="btn btn-primary btn-flat float-left">
-                            <i class="fas fa-pencil-alt"></i>
-                            {{ __('Edit') }}
-                        </a>
-                    @endif
-                    <a href="{{ route('logout') }}"
+                    <a href="{{ Auth::guard('admin')->check() ? route('admin.header.edit', Auth::guard('admin')->user()->id) : route('admin.login') }}"
+                        class="btn btn-primary btn-flat float-left">
+                        <i class="fas fa-pencil-alt"></i>
+                        {{ __('Edit') }}
+                    </a>
+
+
+                    {{-- @if (auth()->user() && auth()->user()->can('user.edit'))
+                    @endif --}}
+                    <a href="{{ route('admin.admin-logout') }}"
                         class="btn btn-default btn-flat float-right">{{ __('Sign out') }}</a>
                 </li>
             </ul>

@@ -14,52 +14,46 @@ use Illuminate\Support\Facades\Validator;
 
 class AccountController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:user');
+    }
     public function profile()
     {
-        if (!Auth::check()) {
+        if (!Auth::guard('user')->check()) {
             return redirect()->route('home');
         }
-        $user = auth()->user();
+        $user = Auth::guard('user')->user();
         // return view('website.account.profile', compact('user'));
         return view('website.profile.profile_update', compact('user'));
     }
     public function orderHistory()
     {
-        if (!Auth::check()) {
-            return redirect()->route('home');
-        }
+
         // $orders = auth()->user()->orders()->paginate(10);
         return view('website.order-history.order-history');
     }
     public function orderDetails()
     {
-        if (!Auth::check()) {
-            return redirect()->route('home');
-        }
+
         // $orders = auth()->user()->orders()->paginate(10);
         return view('website.order-history.order-detail');
     }
     public function rateDetails()
     {
-        if (!Auth::check()) {
-            return redirect()->route('home');
-        }
+
         // $orders = auth()->user()->orders()->paginate(10);
         return view('website.order-history.partials.rate-detail');
     }
     public function cusAddress()
     {
-        if (!Auth::check()) {
-            return redirect()->route('home');
-        }
+
         // $orders = auth()->user()->orders()->paginate(10);
         return view('website.address.cus_address');
     }
     public function editAddress()
     {
-        if (!Auth::check()) {
-            return redirect()->route('home');
-        }
+       
         // $orders = auth()->user()->orders()->paginate(10);
         return view('website.address.edit_address');
     }

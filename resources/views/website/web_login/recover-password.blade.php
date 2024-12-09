@@ -3,27 +3,34 @@
     @include('website.web_login.login-style')
 @endpush
 @section('contents')
-<div class="container vh-100">
-    <div class="forgot-password-container">
-        <h2>Forgot Password</h2>
-        <p>Please enter your registered Mobile Number so that we can help you to recover your password</p>
+    <div class="container vh-100">
         <div class="row d-flex justify-content-center">
-            <form class="recover-form" action="#" method="post">
-                <div class="form-group mb-3 text-start">
-                    <label for="signin_phone">Phone Number</label>
-                    <div class="input-group">
-                        <input id="signin_phone" class="form-control" type="tel" name="signin_phone"
-                            placeholder="Enter mobile number">
-                    </div>
+            <div class="forgot-password-container mt-5 align-items-center">
+                <h2>{{ __('Forgot Password') }}</h2>
+                <p>{{ __('Please enter your email so that we can help you to recover your password') }}</p>
+                <div class="row d-flex justify-content-center align-items-center">
+                    <form class="recover-form" action="{{ route('send-forget-password') }}" method="post">
+                        @csrf
+                        <div class="form-group mb-3 text-start">
+                            <label for="recover_email">{{ __('Email') }}</label>
+                            <div class="input-group">
+                                <input id="recover_email" class="form-control" type="email" name="email"
+                                    value="" placeholder="{{ __('Enter Email') }}">
+                            </div>
+                            @if ($errors->has('email'))
+                                <span class="text-danger">{{ $errors->first('email') }}</span>
+                            @endif
+                        </div>
+                        <button type="submit" class="btn text-white btn-next mt-3">{{ __('Next') }}</button>
+                    </form>
+
                 </div>
-                <a href="{{ route('customer.change-password') }}" type="submit" class="btn text-white btn-next mt-3">Next</a>
-            </form>
+            </div>
         </div>
     </div>
-</div>
 @endsection
 @push('js')
-    <script>
+    {{-- <script>
         function togglePasswordVisibility() {
             var passwordField = document.getElementById("signin_password");
             var eyeIcon = document.getElementById("eyeIcon");
@@ -38,8 +45,8 @@
                 eyeIcon.classList.add("fa-eye");
             }
         }
-    </script>
-    <script>
+    </script> --}}
+    {{-- <script>
         $(document).ready(function() {
             var input = document.querySelector("#signin_phone");
             var iti = window.intlTelInput(input, {
@@ -58,7 +65,7 @@
                 console.log(fullNumber);
             });
         });
-    </script>
+    </script> --}}
     <script>
         $(document).ready(function() {
             $('.upload-icon').on('click', function() {
@@ -70,9 +77,9 @@
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        $('.profile-pic').attr('src', e.target.result); // Display the selected image
+                        $('.profile-pic').attr('src', e.target.result);
                     };
-                    reader.readAsDataURL(file); // Read the image file
+                    reader.readAsDataURL(file);
                 }
             });
         });

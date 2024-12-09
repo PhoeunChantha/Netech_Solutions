@@ -70,10 +70,10 @@
         font-size: 14px;
     }
 
-    .product-body h5 {
+    .product-body h5 a{
         color: #1077B8;
-        font-size: 23px;
-        font-weight: 500;
+        font-size: 19px;
+        font-weight: 600;
     }
 
     .card-shop {

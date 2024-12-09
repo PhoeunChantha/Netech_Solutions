@@ -81,7 +81,7 @@
                                                                 <label
                                                                     for="description_{{ $lang['code'] }}">{{ __('Description') }}({{ strtoupper($lang['code']) }})</label>
                                                                 <textarea type="text" id="description_{{ $lang['code'] }}"
-                                                                    class="form-control summernote @error('description') is-invalid @enderror" name="description[]"
+                                                                    class="form-control  @error('description') is-invalid @enderror" name="description[]"
                                                                     placeholder="{{ __('Enter Description') }}" value="">{{ $translate[$lang['code']]['description'] ?? $product['description'] }}</textarea>
 
                                                                 @error('description')
@@ -94,7 +94,6 @@
                                                     </div>
                                                 @endif
                                             @endforeach
-
                                         </div>
                                     </div>
                                 </div>
@@ -187,27 +186,49 @@
                                             </span>
                                         @enderror
                                     </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="specification">{{ __('Specification') }}</label>
+                                        <textarea class="form-control summernote" id="specification" name="specification" rows="3"
+                                            placeholder="{{ __('Enter Specification') }}" >{{$product->specification}}</textarea>
+                                        @error('specification')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                     <div class="form-group col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
+                                                    <!-- Allow multiple image files to be selected -->
                                                     <input type="file" class="custom-file-input" id="exampleInputFile"
-                                                        name="thumbnail">
-                                                    <label class="custom-file-label"
-                                                        for="exampleInputFile">{{ $product->thumbnail ?? __('Choose file') }}</label>
+                                                        name="thumbnail[]" accept="image/png, image/jpeg" multiple>
+                                                    <label class="custom-file-label" for="exampleInputFile">
+                                                        @if (is_array($product->thumbnail) && count($product->thumbnail) > 0)
+                                                            {{ implode(', ', array_map('basename', $product->thumbnail)) }}
+                                                        @else
+                                                            {{ __('Choose file') }}
+                                                        @endif
+                                                    </label>
                                                 </div>
                                             </div>
-                                            <div class="preview text-center border rounded mt-2" style="height: 150px">
-                                                <img src="
-                                                    @if ($product->thumbnail && file_exists(public_path('uploads/products/' . $product->thumbnail))) {{ asset('uploads/products/' . $product->thumbnail) }}
-                                                    @else
-                                                        {{ asset('uploads/image/default.png') }} @endif
-                                                    "
-                                                    alt="" height="100%">
+                                            <div class="preview text-center border rounded mt-2"
+                                                style="height: 150px; display: flex; flex-wrap: wrap; gap: 5px;">
+                                                @if (is_array($product->thumbnail))
+                                                    @foreach ($product->thumbnail as $thumbnail)
+                                                        <img src="{{ asset('uploads/products/' . $thumbnail) }}"
+                                                            alt="Existing Image" style="height: 100%; width: auto;">
+                                                    @endforeach
+                                                @else
+                                                    <img src="{{ asset('uploads/defualt.png') }}" alt=""
+                                                        height="100%">
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -229,6 +250,26 @@
 @endsection
 
 @push('js')
+    <script>
+        document.getElementById('exampleInputFile').addEventListener('change', function(event) {
+            let previewContainer = document.querySelector('.preview');
+            previewContainer.innerHTML = ''; // Clear existing previews
+
+            // Loop through each selected file
+            Array.from(event.target.files).forEach(file => {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.height = '100%';
+                    img.style.width = 'auto';
+                    img.style.margin = '5px';
+                    previewContainer.appendChild(img); // Add each image preview to the container
+                };
+                reader.readAsDataURL(file); // Read file as data URL
+            });
+        });
+    </script>
     <script>
         $('.custom-file-input').change(function(e) {
             var reader = new FileReader();

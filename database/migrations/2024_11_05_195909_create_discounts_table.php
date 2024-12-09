@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('description')->nullable();
             $table->string('discount_type')->nullable();
-            $table->string('discount_value')->nullable();
+            $table->decimal('discount_value', 15, 2)->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->boolean('status')->default(1);
+            $table->integer('status')->default(1);
             $table->string('quantity_limited')->nullable();
             $table->foreignId('product_id')->constrained('products')->nullable();
             $table->foreignId('created_by')->constrained('users')->nullable();

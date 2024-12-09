@@ -41,25 +41,22 @@
                     </td>
                     <td>{{ $user->created_at->format('d M Y h:i A') }}</td>
                     <td>
-                        @if (auth()->user()->can('user.edit'))
-                            <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-info btn-sm btn-edit">
-                                <i class="fas fa-pencil-alt"></i>
-                                {{ __('Edit') }}
-                            </a>
-                        @endif
-                        @if (auth()->user()->can('user.delete'))
-                            <form action="{{ route('admin.user.destroy', $user->id) }}"
-                                class="d-inline-block form-delete-{{ $user->id }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" data-id="{{ $user->id }}"
-                                    data-href="{{ route('admin.user.destroy', $user->id) }}"
-                                    class="btn btn-danger btn-sm btn-delete">
-                                    <i class="fa fa-trash-alt"></i>
-                                    {{ __('Delete') }}
-                                </button>
-                            </form>
-                        @endif
+                        <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-info btn-sm btn-edit">
+                            <i class="fas fa-pencil-alt"></i>
+                            {{ __('Edit') }}
+                        </a>
+                       
+                        <form action="{{ route('admin.user.destroy', $user->id) }}"
+                            class="d-inline-block form-delete-{{ $user->id }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" data-id="{{ $user->id }}"
+                                data-href="{{ route('admin.user.destroy', $user->id) }}"
+                                class="btn btn-danger btn-sm btn-delete">
+                                <i class="fa fa-trash-alt"></i>
+                                {{ __('Delete') }}
+                            </button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

@@ -29,8 +29,6 @@
                                         <i class=" fa fa-plus-circle"></i>
                                         {{ __('Add New') }}
                                     </a>
-                                    @if (auth()->user()->can('banner.create'))
-                                    @endif
                                 </div>
                             </div>
                         </div>

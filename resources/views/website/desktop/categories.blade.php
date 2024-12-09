@@ -25,7 +25,7 @@
 
         .img-container img {
             /* width: 12em;
-                                                                                                        height: 11em; */
+                                                                                                                height: 11em; */
             object-fit: cover;
             display: block;
             border-radius: 5px;
@@ -46,7 +46,7 @@
 
         .text-overlay {
             /* text-align: left;
-                                                                                                        width: 100%; */
+                                                                                                                width: 100%; */
             /* height: -webkit-fill-available; */
             position: absolute;
             top: 5%;
@@ -103,29 +103,31 @@
         </div>
         <div class="col-md-10 mx-auto">
             <div class="row card-body  mb-5 body-cate justify-content-center mt-5">
-                {{-- <div class="row justify-content-center"> --}}
-                {{-- <div class="row d-flex  justify-content-center gap-5"> --}}
                 @forelse ($cate as $cates)
-                    <div class="col-6 col-sm-4 col-md-3 col-lg-3 all-category text-center mb-4  ">
-                        <div class="img-container">
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-3 all-category text-center mb-4">
+                        <div class="img-container position-relative">
                             <img src="
-                            @if ($cates->thumbnails && file_exists(public_path('uploads/category/' . $cates->thumbnails))) {{ asset('uploads/category/' . $cates->thumbnails) }}
-                            @else
-                                {{ asset('uploads/default.png') }} @endif
-                            "
-                                alt="" class="img-fluid">
-                            <div class="main-text-overlay">
-                                <div class="text-overlay">
-                                    <h5>{{ $cates->name }}</h5>
-                                    <span>{{ $cates->products_count }} products</span>
+                                @if ($cates->thumbnails && file_exists(public_path('uploads/category/' . $cates->thumbnails))) {{ asset('uploads/category/' . $cates->thumbnails) }}
+                                @else
+                                    {{ asset('uploads/default.png') }} @endif
+                                "
+                                alt="{{ $cates->name }}" class="img-fluid">
+
+                            <div
+                                class="main-text-overlay position-absolute w-100 h-100 d-flex justify-content-center align-items-center">
+                                <div class="text-overlay text-center">
+                                    <a href="{{ route('category.show', ['slug' => $cates->slug]) }}"
+                                        class="{{ Request::routeIs('category.show') && Request::route('slug') == $cates->slug ? 'active' : '' }}">
+                                        <h5 class="mb-2">{{ $cates->name }}</h5>
+                                    </a>
+                                    <span>{{ $cates->products_count }} {{ __('products') }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <p class="no-products-message">{{ __('No categories available') }}</p>
+                    <p class="no-products-message text-center">{{ __('No categories available') }}</p>
                 @endforelse
-                {{-- </div> --}}
             </div>
 
 

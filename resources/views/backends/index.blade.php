@@ -69,8 +69,7 @@
                             </div>
                         </div>
                         <div class="inner text-right">
-                            {{-- <h3>{{ App\helpers\AppHelper::dashboardQuery()['total_both'] }}</h3> --}}
-                            <h4>5</h4>
+                            <h4>{{ $products->count() }}</h4>
                             <p class="m-0 text-uppercase">{{ __('Total Products') }}</p>
                         </div>
                     </div>
@@ -90,8 +89,8 @@
                             </div>
                         </div>
                         <div class="inner text-right">
-                            <h4>5</h4>
-                            <p class="m-0 text-uppercase">{{ __('Total Customers') }}</p>
+                            <h4>{{$employees->count()}}</h4>
+                            <p class="m-0 text-uppercase">{{ __('Total Employees') }}</p>
                         </div>
                     </div>
                 </div>
@@ -124,7 +123,7 @@
                             </div>
                         </div>
                         <div class="inner text-right">
-                            <h4>5</h4>
+                            <h4>{{$contacts->count()}}</h4>
                             <p class="m-0 text-uppercase">{{ __('Contact Us') }}</p>
                         </div>
                     </div>

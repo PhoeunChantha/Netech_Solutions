@@ -13,8 +13,8 @@
             </div>
             <div class="col-2">
                 <strong class="footer-title">{{ __('Contact Us') }}</strong>
-                <div class="icon d-flex gap-2">
-                    <a href="http://">
+                <div class="icon d-flex flex-wrap">
+                    {{-- <a href="http://">
                         <img src="\website\upload\telegram.png" alt="not found">
                     </a>
                     <a href="http://">
@@ -22,7 +22,15 @@
                     </a>
                     <a href="http://">
                         <img src="\website\upload\call.png" alt="not found">
-                    </a>
+                    </a> --}}
+                    @foreach (json_decode($data['social_media'], true) as $social_media)
+                        @if ($social_media['status'] == 1)
+                            <a href="{{ $social_media['link'] }}" target="_blank" class="m-2">
+                                <img src="{{ asset('uploads/social_media/' . $social_media['icon']) }}" alt="not found"
+                                    width="45px">
+                            </a>
+                        @endif
+                    @endforeach
                 </div>
                 <div class="conversation">
                     <span>{{ __('Start Conversation') }}</span>
@@ -37,7 +45,7 @@
                 <strong class="footer-title">{{ __('SPECIAL') }}</strong>
                 <div class="col-3 px-1 text-special text-start mt-2 mx-auto">
                     <a href="">{{ __('Best selling') }}</a><br>
-                    <a href="">{{ __('Latest Product') }}</a>
+                    <a href="{{ route('category.show', ['slug' => 'desktop']) }}">{{ __('Latest Product') }}</a>
                     <a href="{{ route('privacy_policy') }}">{{ __('Privacy Policy') }}</a>
                     <a href="{{ route('term_condition') }}">{{ __('TermsCondition') }}</a>
                 </div>
@@ -54,10 +62,12 @@
             <div class="col-3 text-center">
                 <strong class="footer-title">{{ __('Categories') }}</strong>
                 <div class="col-3 px-1 text-category text-start  mt-2 mx-auto">
-                    <a href="">{{ __('Desktop') }}</a><br>
-                    <a href="">{{ __('Laptop') }}</a><br>
-                    <a href="">{{ __('Accessories') }}</a><br>
-                    <a href="">{{ __('Services') }}</a>
+                    @forelse ($categories as $category)
+                        <a
+                            href="{{ route('allcategory.show', ['slug' => $category->slug]) }}">{{ $category->name }}</a><br>
+                    @empty
+                        <p>{{ __('No categories available') }}</p>
+                    @endforelse
                 </div>
                 <div class="address">
                     <div class="flex-row">

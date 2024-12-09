@@ -37,7 +37,7 @@
                                         </div>
                                     </div>
                                     <br>
-                                    <form method="POST" action="{{ route('login') }}" class="signin-form">
+                                    <form method="POST" action="{{ route('admin.store-login') }}" class="signin-form">
                                         @csrf
                                         <div class="form-group mb-3">
                                             <label class="label" for="name">Email</label>

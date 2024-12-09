@@ -8,7 +8,11 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
+    {{-- <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'> --}}
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap"
+        rel="stylesheet">
+
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
     {{-- bootstrap5 --}}
     <link rel="stylesheet" href="{{ asset('website/bootstrap/css/bootstrap.min.css') }}">
@@ -30,6 +34,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap"
         rel="stylesheet">
 
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+
+
+    <!-- Fancybox CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.11/dist/css/uikit.min.css" />
     {{-- tel input --}}
@@ -162,5 +175,16 @@
 
         a {
             text-decoration: none !important;
+        }
+
+        .discount-amount {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 16px;
+            color: #ffffff;
+            padding: 4px 14px;
+            border-top-left-radius: 5px;
+            border-bottom-right-radius: 5px;
         }
     </style>

@@ -15,10 +15,10 @@
         </div>
         <div class="col-md-5 search-container">
             <div class="row">
-                <form action="#">
+                <form action="{{ route('products.search') }}" method="GET">
                     <div class="input-group">
-                        <input type="search" id="searchs" class="form-control search"
-                            placeholder="Search product here">
+                        <input type="search" name="query" id="searchs" class="form-control search"
+                            placeholder="Search product here" value="{{ request('query') }}">
                         <div class="input-group-append btn-search">
                             <button type="submit" class="btn">
                                 <i class="fa fa-search" style="color: #ffffff"></i>
@@ -28,7 +28,8 @@
                 </form>
             </div>
         </div>
-        <div class="checkin p-1 justify-content-center align-items-center">
+
+        {{-- <div class="checkin p-1 justify-content-center align-items-center">
             <a href="#">
                 <i class="fa-solid fa-cart-shopping fa-lg" style="color: #ffffff"></i>
                 <span class="badge bg-danger badge-small">0</span>
@@ -39,27 +40,31 @@
                 <img src="{{ asset('/website/nav/bag.png') }}" alt="bag">
                 <span class="badge bg-danger badge-small">0</span>
             </a>
-        </div>
-        @guest
+        </div> --}}
+        @guest('user')
             <div class="btn-login">
                 {{-- <a href="{{ route('customer.login') }}" type="button" class="btn btn-login" data-toggle="modal" data-target="#exampleModal">
                     {{ __('Login') }}
                 </a> --}}
-                <a href="{{ route('customer.web.login') }}" type="button" class="btn btn-login" >
+                <a href="{{ route('customer.web.login') }}" type="button" class="btn btn-login">
                     {{ __('Login') }}
                 </a>
             </div>
         @endguest
-        @auth
+        @auth('user')
+            <div class="checkin p-1 justify-content-center align-items-center">
+                <img width="25px" height="25px"
+                    src="@if (Auth::guard('user')->user()->image &&
+                            file_exists(public_path('uploads/users/' . Auth::guard('user')->user()->image))) {{ asset('uploads/users/' . Auth::guard('user')->user()->image) }}
+                                              @else
+                                                  {{ asset('uploads/default-profile.png') }} @endif"
+                    alt="Preview Image">
+            </div>
             <div class="dropdown dropdown-profile dropstart text-end btn-login ">
 
                 <a type="button" id="dropdown-toggle" class="btn dropdown-toggle" data-bs-toggle="dropdown">
-                    <img width="25px" height="25px"
-                        src="@if (auth()->user()->image && file_exists(public_path('uploads/users/' . auth()->user()->image ))) {{ asset('uploads/users/' .auth()->user()->image ) }}
-                                              @else
-                                                  {{ asset('uploads/default-profile.png') }} @endif"
-                        alt="Preview Image">
-                    {{ auth()->user()->name }}
+
+                    {{ Auth::guard('user')->user()->name }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-front" style="display: none">
                     <a href="{{ route('account.profile') }}" class="dropdown-item">
@@ -115,25 +120,38 @@
             <div class="row">
                 {{-- <div class="col-md-12"> --}}
                 <ul class="nav d-flex align-items-center justify-content-center gap-4">
+                    <li class="nav-item dropdown " style="margin-right: 25rem">
+                        <a class="nav-link dropdown-toggle fs-5" href="#" id="categoriesDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-bars"></i> ALL CATEGORIES
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                            @foreach ($categories as $item)
+                                <a class="dropdown-item d-flex align-items-center gap-1 {{ Request::routeIs('category.show') && Request::route('slug') == $item->slug ? 'active' : '' }}"
+                                    href="{{ route('category.show', $item->slug) }}">
+                                    <img src="
+                                    @if ($item->icon_images && file_exists(public_path('uploads/category/' . $item->icon_images))) {{ asset('uploads/category/' . $item->icon_images) }}
+                                    @else
+                                        {{ asset('uploads/default.png') }} @endif"
+                                        alt="{{ $item->name }}" class="mr-2" style="width: 20px; height: 20px;">
+                                    {{ $item->name }}
+                                </a>
+                            @endforeach
+                            <a class="dropdown-item {{ Request::routeIs('service.show') ? 'active' : '' }}"
+                                href="{{ route('service.show') }}">
+                                <img class="mr-2" src="/website/nav/about.png" alt="Service Icon"
+                                    style="width: 20px; height: 20px;">
+                                {{ __('Services') }}
+                            </a>
+                        </div>
+                    </li>
+
                     <li class="nav-item p-1">
                         <a class="nav-link text-center fs-5 {{ Request::is('/') ? ' active' : '' }}"
                             aria-current="page" href="{{ route('home') }}"> <i
                                 class="fas fa-home m-1"></i>{{ __('Home') }}</a>
                     </li>
                     {{-- @foreach ($categories as $item)
-                        <li class="nav-item">
-                            <a class="nav-link text-center fs-5 {{ Request::routeIs($item->slug . '.show') ? 'active' : '' }}"
-                                href="{{ route($item->slug . '.show', $item->slug) }}">
-                                <img src="
-                            @if ($item->icon_images && file_exists(public_path('uploads/category/' . $item->icon_images))) {{ asset('uploads/category/' . $item->icon_images) }}
-                            @else
-                                {{ asset('uploads/default.png') }} @endif"
-                                    alt="{{ $item->name }}">
-                                {{ $item->name }}
-                            </a>
-                        </li>
-                    @endforeach --}}
-                    @foreach ($categories as $item)
                         <li class="nav-item ">
                             <a class="nav-link gap-1 d-flex justify-content-center align-items-center text-center fs-5 {{ Request::routeIs('category.show') && Request::route('slug') == $item->slug ? 'active' : '' }}"
                                 href="{{ route('category.show', $item->slug) }}">
@@ -145,13 +163,16 @@
                                 {{ $item->name }}
                             </a>
                         </li>
-                    @endforeach
-                    <li class="nav-item p-1">
+                    @endforeach --}}
+
+
+
+                    {{-- <li class="nav-item p-1">
                         <a class="nav-link text-center {{ Request::routeIs('service.show') ? ' active' : '' }}"
                             href="{{ route('service.show') }}">
                             <img class="m-1 fs-5" src="/website/nav/about.png" alt="not found">{{ __('Services') }}
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li class="nav-item p-1">
                         <a class="nav-link   text-center {{ Request::routeIs('aboutus.show') ? ' active' : '' }}"

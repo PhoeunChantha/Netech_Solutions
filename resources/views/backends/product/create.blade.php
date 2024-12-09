@@ -65,7 +65,7 @@
                                                                     ({{ strtoupper($lang['code']) }})
                                                                 </label>
                                                                 <textarea type="text" id="description_{{ $lang['code'] }}"
-                                                                    class="form-control summernote   @error('description') is-invalid @enderror" name="description[]"
+                                                                    class="form-control    @error('description') is-invalid @enderror" name="description[]"
                                                                     placeholder="{{ __('Enter Description') }}" value=""></textarea>
                                                                 @error('description')
                                                                     <span class="invalid-feedback" role="alert">
@@ -176,35 +176,45 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input type="hidden" name="thumbnails" class="thumbnails_hidden">
-                                                    <input type="file" class="custom-file-input" id="exampleInputFile"
-                                                        name="thumbnail" accept="image/png, image/jpeg">
-                                                    <label class="custom-file-label"
-                                                        for="exampleInputFile">{{ __('Choose file') }}</label>
-                                                </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="specification">{{ __('Specification') }}</label>
+                                        <textarea class="form-control summernote" id="specification" name="specification" rows="3"
+                                            placeholder="{{ __('Enter Specification') }}" value=""></textarea>
+                                        @error('specification')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="hidden" name="thumbnails" class="thumbnails_hidden">
+                                                <input type="file" class="custom-file-input" id="exampleInputFile"
+                                                    name="thumbnail[]" accept="image/png, image/jpeg" multiple>
+                                                <label class="custom-file-label"
+                                                    for="exampleInputFile">{{ __('Choose files') }}</label>
                                             </div>
-                                            <div class="preview preview-multiple text-center border rounded mt-2"
-                                                style="height: 150px">
-                                                <img src="{{ asset('uploads/defualt.png') }}" alt=""
-                                                    height="100%">
-                                            </div>
+                                        </div>
+                                        <div class=" preview preview-multiple text-center border rounded mt-2"
+                                            style="height: 170px; display: flex; flex-wrap: wrap;">
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-12 form-group">
-                                    <button type="submit" class="btn btn-primary float-right">
-                                        <i class="fa fa-save"></i>
-                                        {{ __('Save') }}
-                                    </button>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <button type="submit" class="btn btn-primary float-right">
+                                    <i class="fa fa-save"></i>
+                                    {{ __('Save') }}
+                                </button>
                             </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -214,7 +224,7 @@
 @endsection
 
 @push('js')
-    <script>
+    {{-- <script>
         const compressor = new window.Compress();
         $('.custom-file-input').change(function(e) {
             compressor.compress([...e.target.files], {
@@ -260,6 +270,68 @@
                 });
             });
         });
+
+        $(document).on('click', '.nav-tabs .nav-link', function(e) {
+            if ($(this).data('lang') != 'en') {
+                $('.no_translate_wrapper').addClass('d-none');
+            } else {
+                $('.no_translate_wrapper').removeClass('d-none');
+            }
+        });
+    </script> --}}
+    <script>
+        const compressor = new window.Compress();
+        $('.custom-file-input').change(function(e) {
+            const container = $(this).closest('.form-group').find('.preview');
+            const thumbnails_hidden = $(this).closest('.custom-file').find('input[type=hidden]');
+            const files = [...e.target.files]; // All selected files
+
+            files.forEach((file, index) => {
+                compressor.compress([file], {
+                    size: 4, // Max size in MB
+                    quality: 0.75,
+                }).then((output) => {
+                    const compressedFile = Compress.convertBase64ToFile(output[0].data, output[0]
+                        .ext);
+                    const formData = new FormData();
+                    formData.append('image', compressedFile);
+
+                    $.ajax({
+                        url: "{{ route('save_temp_file') }}",
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            if (response.status == 1) {
+                                const tempFileName = response.temp_files;
+                                const imgContainer = $('.preview-multiple');
+                                const img = $('<img>').attr('src',
+                                    "{{ asset('uploads/temp') }}" + '/' +
+                                    tempFileName).css({
+                                    width: '165px',
+                                    height: '165px',
+                                    objectFit: 'cover',
+                                });
+
+                                imgContainer.append(img);
+                                container.append(imgContainer);
+
+                                // Update hidden input with selected file names (for later storage)
+                                let currentFiles = thumbnails_hidden.val() ?
+                                    thumbnails_hidden.val().split(',') : [];
+                                currentFiles.push(tempFileName);
+                                thumbnails_hidden.val(currentFiles.join(','));
+                            } else {
+                                toastr.error(response.msg);
+                            }
+                        }
+                    });
+                });
+            });
+        });
+
+
 
         $(document).on('click', '.nav-tabs .nav-link', function(e) {
             if ($(this).data('lang') != 'en') {

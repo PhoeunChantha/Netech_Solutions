@@ -23,14 +23,13 @@
                                 <div class="col-6 col-xs-6 col-sm-6">
                                     <h3 class="card-title">{{ __('User role list') }}</h3>
                                 </div>
-                                @if (auth()->user()->can('role.create'))
-                                    <div class="col-6 col-xs-6 col-sm-6">
-                                        <a class="btn btn-primary float-right" href="{{ route('admin.role.create') }}">
-                                            <i class=" fa fa-plus-circle"></i>
-                                            {{ __('Add New') }}
-                                        </a>
-                                    </div>
-                                @endif
+                                <div class="col-6 col-xs-6 col-sm-6">
+                                    <a class="btn btn-primary float-right" href="{{ route('admin.role.create') }}">
+                                        <i class=" fa fa-plus-circle"></i>
+                                        {{ __('Add New') }}
+                                    </a>
+                                </div>
+                               
 
                             </div>
                         </div>

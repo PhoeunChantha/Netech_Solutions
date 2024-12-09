@@ -16,7 +16,7 @@
             <div class="row">
                 <!-- left column -->
                 <div class="col-md-12">
-                    <form method="POST" action="{{ route('admin.product.update', $product->id) }}"
+                    <form method="POST" action="{{ route('admin.discount.update', $discount->id) }}"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -45,9 +45,9 @@
                                             @foreach (json_decode($language, true) as $lang)
                                                 @if ($lang['status'] == 1)
                                                     <?php
-                                                    if (count($product['translations'])) {
+                                                    if (count($discount['translations'])) {
                                                         $translate = [];
-                                                        foreach ($product['translations'] as $t) {
+                                                        foreach ($discount['translations'] as $t) {
                                                             if ($t->locale == $lang['code'] && $t->key == 'name') {
                                                                 $translate[$lang['code']]['name'] = $t->value;
                                                             }
@@ -69,7 +69,7 @@
                                                                 <input type="name" id="name_{{ $lang['code'] }}"
                                                                     class="form-control @error('name') is-invalid @enderror"
                                                                     name="name[]" placeholder="{{ __('Enter Name') }}"
-                                                                    value="{{ $translate[$lang['code']]['name'] ?? $product['name'] }}">
+                                                                    value="{{ $translate[$lang['code']]['name'] ?? $discount['name'] }}">
 
                                                                 @error('name')
                                                                     <span class="invalid-feedback" role="alert">
@@ -82,8 +82,7 @@
                                                                     for="description_{{ $lang['code'] }}">{{ __('Description') }}({{ strtoupper($lang['code']) }})</label>
                                                                 <textarea type="text" id="description_{{ $lang['code'] }}"
                                                                     class="form-control summernote @error('description') is-invalid @enderror" name="description[]"
-                                                                    placeholder="{{ __('Enter Description') }}" value="">{{ $translate[$lang['code']]['description'] ?? $product['description'] }}</textarea>
-
+                                                                    placeholder="{{ __('Enter Description') }}" value="">{{ $translate[$lang['code']]['description'] ?? $discount['description'] }}</textarea>
                                                                 @error('description')
                                                                     <span class="invalid-feedback" role="alert">
                                                                         <strong>{{ $message }}</strong>
@@ -107,102 +106,144 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label class="required_lable" for="category">{{ __('Category') }}</label>
-                                        <select name="category_id" id="category_id"
-                                            class="form-control select2 @error('category_id') is-invalid @enderror">
-                                            <option value="">{{ __('Select category') }}</option>
-                                            @foreach ($categories as $category)
-                                                <option
-                                                    value="{{ $category->id }}"{{ $product->category_id == $category->id ? 'selected' : '' }}>
-                                                    {{ $category->name }}</option>
-                                            @endforeach
+                                        <label class="required_lable" for="brand">{{ __('Discount Type') }}</label>
+                                        <select name="discount_type" id="brand"
+                                            class="form-control select2 @error('discount_type') is-invalid @enderror">
+                                            <option value="">{{ __('Select type') }}</option>
+                                            <option value="percentage"
+                                                {{ old('discount_type', $discount->discount_type) == 'percentage' ? 'selected' : '' }}>
+                                                {{ __('Percentage') }}
+                                            </option>
+                                            <option value="fixed"
+                                                {{ old('discount_type', $discount->discount_type) == 'fixed' ? 'selected' : '' }}>
+                                                {{ __('Fixed') }}
+                                            </option>
                                         </select>
-                                        @error('category_id')
+
+                                        @error('discount_type')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
                                     </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label class="required_lable" for="brand">{{ __('Brand') }}</label>
-                                        <select name="brand_id" id="brand"
-                                            class="form-control select2 @error('brand_id') is-invalid @enderror">
-                                            <option value="">{{ __('Select brand') }}</option>
-                                            @foreach ($brands as $brand)
-                                                <option
-                                                    value="{{ $brand->id }}"{{ $product->brand_id == $brand->id ? 'selected' : '' }}>
-                                                    {{ $brand->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('brand_id')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-
-                                    {{-- <div class="form-group col-md-6">
-                                        <label class="required_label" for="operating">{{ __('Operating System') }}</label>
-                                        <select name="operating" id="operating"
-                                            class="form-control select2 @error('operating') is-invalid @enderror">
-                                            <option value="">{{ __('Select Operating System') }}</option>
-                                            <option value="window"
-                                                {{ $product->operating_system == 'window' ? 'selected' : '' }}>
-                                                {{ __('Window') }}
-                                            </option>
-                                            <option value="apple"
-                                                {{ $product->operating_system == 'apple' ? 'selected' : '' }}>
-                                                {{ __('Apple') }}
-                                            </option>
-                                        </select>
-                                        @error('operating')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div> --}}
-
-                                    <div class="form-group col-md-6">
-                                        <label class="required_label" for="price">{{ __('Price') }}</label>
-                                        <input type="text" name="price" id="price"
-                                            class="form-control @error('price') is-invalid @enderror"
-                                            value="{{ old('price', $product->price ?? 0) }}"
-                                            oninput="handlePriceInput(this)">
-                                        @error('price')
+                                    <div class="form-group col-md-6 ">
+                                        <label class="required_lable"
+                                            for="discount_value">{{ __('Discount Amount') }}</label>
+                                        <input type="number" name="discount_value" id="discount_value"
+                                            class="form-control @error('discount_value') is-invalid @enderror"
+                                            step="any"
+                                            value="{{ old('discount_value', $discount->discount_value ?? 0) }}"
+                                            oninput="validateQuantity(this)">
+                                        @error('discount_value')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6 ">
-                                        <label class="required_lable" for="quantity">{{ __('Quantity') }}</label>
-                                        <input type="number" name="quantity" id="quantity"
-                                            class="form-control @error('quantity') is-invalid @enderror" step="any"
-                                            value="{{ old('quantity', $product->quantity ?? 0) }}"
-                                            oninput="handlePriceInput(this)">
-                                        @error('quantity')
+                                        <label class="required_lable" for="quantity_limited">{{ __('Quantity') }}</label>
+                                        <input type="number" name="quantity_limited" id="quantity_limited"
+                                            class="form-control @error('quantity_limited') is-invalid @enderror"
+                                            value="{{ old('quantity_limited', $discount->quantity_limited ?? 0) }}">
+                                        @error('quantity_limited')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6">
+                                        <label class="required_lable" for="start_date">{{ __('Start Date') }}</label>
+                                        <input type="text" name="start_date" id="start_date"
+                                            class="form-control datepicker @error('start_date') is-invalid @enderror"
+                                            value="{{ old('start_date', $discount->start_date ?? '') }}">
+                                        @error('start_date')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="required_lable" for="end_date">{{ __('End Date') }}</label>
+                                        <input type="text" name="end_date" id="end_date"
+                                            class="form-control datepicker @error('end_date') is-invalid @enderror"
+                                            value="{{ old('end_date', $discount->end_date ?? '') }}">
+                                        @error('end_date')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group col-md-6"></div>
+                                    <div class="form-group col-md-6">
+                                        <label class="required_lable"
+                                            for="Only Apply Discount to">{{ __('Apply Discount to') }}</label>
+                                        <div class="card mb-1">
+                                            <div class="card-body" style="padding: 1rem;">
+                                                <section class="Wrapper">
+                                                    @foreach ($brands as $brand)
+                                                        <div class="Checkbox-parent Accordion d-flex align-items-center"
+                                                            style="margin-bottom: 3px; cursor: pointer;">
+                                                            <i class="fas fa-caret-down mt-0"></i>
+                                                            <span
+                                                                style="margin-left: 2% !important; font-weight: 400; font-size: 15px;">
+                                                                {{ $brand->name }}
+                                                            </span>
+                                                            <input id="apply_discount_to_{{ $brand->id }}"
+                                                                name="apply_discount_to[]"
+                                                                class="material-icons ml-auto @error('apply_discount_to') is-invalid @enderror"
+                                                                type="checkbox" />
+                                                        </div>
+                                                        <div id="Accordion-panel" class="Accordion-panel">
+                                                            <ul class="Checkbox-child pl-4">
+                                                                @foreach ($brand->products as $product)
+                                                                    @php
+                                                                        $product_ids = is_string($discount->product_ids)
+                                                                            ? json_decode($discount->product_ids, true)
+                                                                            : $discount->product_ids;
+                                                                        $product_ids = $product_ids ?? [];
+                                                                    @endphp
+                                                                    <li
+                                                                        class="d-flex align-items-center justify-content-between">
+                                                                        <span
+                                                                            style="font-weight: 400; font-size: 15px; margin-bottom: 3px;">
+                                                                            {{ $product->name }}
+                                                                        </span>
+                                                                        <input value="{{ $product->id }}"
+                                                                            name="product_ids[]" class="material-icons"
+                                                                            type="checkbox"
+                                                                            data-brand-id="{{ $brand->id }}"
+                                                                            {{ in_array($product->id, $product_ids) ? 'checked' : '' }} />
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endforeach
+                                                </section>
+
+                                            </div>
+                                        </div>
+                                        @error('product_id')
+                                            <span class="text-danger" role="alert" style="font-size: 0.75rem">
+                                            @enderror
+                                    </div>
+                                    <div class="form-group col-md-6">
                                         <div class="form-group">
-                                            <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                                            <label for="exampleInputFile">{{ __('Image') }}</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="file" class="custom-file-input" id="exampleInputFile"
-                                                        name="thumbnail">
+                                                        name="image" accept="image/png, image/jpeg">
                                                     <label class="custom-file-label"
-                                                        for="exampleInputFile">{{ $product->thumbnail ?? __('Choose file') }}</label>
+                                                        for="exampleInputFile">{{ __('Choose file') }}</label>
                                                 </div>
                                             </div>
-                                            <div class="preview text-center border rounded mt-2" style="height: 150px">
+                                            <div class="preview preview-multiple text-center border rounded mt-2"
+                                                style="height: 150px">
                                                 <img src="
-                                                    @if ($product->thumbnail && file_exists(public_path('uploads/products/' . $product->thumbnail))) {{ asset('uploads/products/' . $product->thumbnail) }}
+                                                    @if ($discount->image && file_exists(public_path('uploads/discounts/' . $discount->image))) {{ asset('uploads/discounts/' . $discount->image) }}
                                                     @else
-                                                        {{ asset('uploads/image/default.png') }} @endif
+                                                        {{ asset('uploads/defualt.png') }} @endif
                                                     "
                                                     alt="" height="100%">
                                             </div>
@@ -210,13 +251,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 form-group">
-                                <button type="submit" class="btn btn-primary float-right">
-                                    <i class="fa fa-save"></i>
-                                    {{ __('Save') }}
-                                </button>
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <button type="submit" class="btn btn-primary float-right">
+                                        <i class="fa fa-save"></i>
+                                        {{ __('Save') }}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -257,5 +298,29 @@
                 input.value = '0';
             }
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const brandCheckboxes = document.querySelectorAll('input[name="apply_discount_to[]"]');
+            const productCheckboxes = document.querySelectorAll('input[name="product_ids[]"]');
+
+            function updateBrandCheckboxes() {
+                productCheckboxes.forEach(productCheckbox => {
+                    if (productCheckbox.checked) {
+                        const brandId = productCheckbox.getAttribute('data-brand-id');
+                        const brandCheckbox = document.getElementById(`apply_discount_to_${brandId}`);
+                        if (brandCheckbox) {
+                            brandCheckbox.checked = true;
+                        }
+                    }
+                });
+            }
+
+            updateBrandCheckboxes();
+
+            productCheckboxes.forEach(productCheckbox => {
+                productCheckbox.addEventListener('change', updateBrandCheckboxes);
+            });
+        });
     </script>
 @endpush

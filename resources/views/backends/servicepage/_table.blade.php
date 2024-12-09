@@ -44,10 +44,7 @@
                             <i class="fas fa-pencil-alt"></i>
                             {{ __('Edit') }}
                         </a>
-                        @if (auth()->user()->can('service.edit'))
-                        @endif
-                        @if (auth()->user()->can('service.delete'))
-                        @endif
+                       
                         <form action="{{ route('admin.service.destroy', $service->id) }}"
                             class="d-inline-block form-delete-{{ $service->id }}">
                             @csrf
