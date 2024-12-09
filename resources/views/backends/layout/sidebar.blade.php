@@ -62,6 +62,7 @@
                         </p>
                     </a>
                 </li>
+               
                 <li class="nav-item">
                     <a href="{{ route('admin.discount.index') }}"
                         class="nav-link @if (request()->routeIs('admin.discount*')) active @endif">
