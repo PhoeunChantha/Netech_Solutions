@@ -62,7 +62,7 @@
                         </p>
                     </a>
                 </li>
-               
+
                 <li class="nav-item">
                     <a href="{{ route('admin.discount.index') }}"
                         class="nav-link @if (request()->routeIs('admin.discount*')) active @endif">
@@ -117,6 +117,17 @@
                         <i class="nav-icon fa-solid fa-layer-group"></i>
                         <p>
                             {{ __('Service') }}
+                        </p>
+                    </a>
+                </li>
+
+                {{-- pos --}}
+                <li class="nav-item">
+                    <a href="{{ route('pos') }}"
+                        class="nav-link ">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>
+                            {{ __('POS') }}
                         </p>
                     </a>
                 </li>
