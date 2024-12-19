@@ -8,6 +8,7 @@ use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Website\MacController;
 use App\Http\Controllers\website\MapController;
+use App\Http\Controllers\Backends\PosController;
 use App\Http\Controllers\Backends\RoleController;
 use App\Http\Controllers\Backends\UserController;
 use App\Http\Controllers\Backends\BrandController;
@@ -150,7 +151,8 @@ Route::middleware(['SetFrontendSession'])->group(function () {
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
 
 
-
+// pos
+Route::get('/pos',[PosController::class, 'index'])->name('pos');
 
 Route::post('save_temp_file', [FileManagerController::class, 'saveTempFile'])->name('save_temp_file');
 Route::get('remove_temp_file', [FileManagerController::class, 'removeTempFile'])->name('remove_temp_file');
