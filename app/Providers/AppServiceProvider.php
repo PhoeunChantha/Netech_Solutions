@@ -5,15 +5,16 @@ namespace App\Providers;
 use App\Models\Brand;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Helpers\MailHelper;
 use App\Models\BusinessSetting;
+use Illuminate\Support\Facades\App;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\App;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -119,6 +120,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user instanceof \App\Models\Admin ? true : null;
         });
+        MailHelper::setMailConfig();
 
     }
 }

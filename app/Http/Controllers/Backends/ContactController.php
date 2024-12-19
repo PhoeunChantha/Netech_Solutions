@@ -50,29 +50,7 @@ class ContactController extends Controller
 
     public function replycustomer(Request $request)
     {
-        // try {
-        //     // $data["title"] = 'Reply from ' . Auth::guard('admin')->user()->name;
-        //     $data["title"] = 'Reply Message ';
-        //     $data['message'] = $request->replymessage;
-        //     $data['email'] = $request->customerEmail;
-
-        //     Mail::send([], [], function ($message) use ($data) {
-        //         $message->to($data['email'])
-        //             ->subject($data["title"])
-        //             ->html($data["message"]);
-        //     });
-
-        //     $output = [
-        //         'success' => 1,
-        //         'msg' => __('Your message has been sent!')
-        //     ];
-        // } catch (\Exception $e) {
-        //     dd($e);
-        //     $output = [
-        //         'success' => 0,
-        //         'msg' => __('Something went wrong')
-        //     ];
-        // }
+      
         try {
             // Prepare the email template data
             $template = [
@@ -80,7 +58,7 @@ class ContactController extends Controller
                 'message' => $request->replymessage,
                 'email' => $request->customerEmail,
             ];
-
+            
             // Use the AdminReplyContact mailable class
             Mail::to($template['email'])->send(new AdminReplyContact($template));
 

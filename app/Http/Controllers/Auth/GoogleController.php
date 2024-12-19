@@ -36,7 +36,7 @@ class GoogleController extends Controller
                     'name' => $googleUser->name ?? 'No Name',
                     'email' => $googleUser->email,
                     'google_id' => $googleUser->id,
-                    'status' => 1, // Set status to active
+                    'status' => 1, 
                     'password' => bcrypt(Str::random(24)),
                 ]);
             }

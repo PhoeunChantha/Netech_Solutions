@@ -191,7 +191,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ route('admin.email-configuration') }}"
                                 class="nav-link treeview-link @if (request()->routeIs('admin.email-configuration')) active @endif">
                                 <i class="nav-icon fas fa-cog"></i>
@@ -199,7 +199,7 @@
                                     {{ __('Email Configuration Mail') }}
                                 </p>
                             </a>
-                        </li>
+                        </li> --}}
 
                     </ul>
                 </li>
