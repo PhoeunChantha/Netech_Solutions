@@ -59,12 +59,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                @if (auth()->user()->can('product.edit'))
                     <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-info btn-sm btn-edit">
                         <i class="fas fa-pencil-alt"></i>
                         {{ __('Edit') }}
                     </a>
-                @endif
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

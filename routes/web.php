@@ -153,6 +153,9 @@ Route::middleware(['SetFrontendSession'])->group(function () {
 
 // pos
 Route::get('/pos',[PosController::class, 'index'])->name('pos');
+Route::post('/pos-create-customer', [PosController::class, 'pos_customer_store'])->name('pos_customer_store');
+Route::get('/pos/filter', [PosController::class, 'posfilterProducts'])->name('pos-filter-products');
+
 
 Route::post('save_temp_file', [FileManagerController::class, 'saveTempFile'])->name('save_temp_file');
 Route::get('remove_temp_file', [FileManagerController::class, 'removeTempFile'])->name('remove_temp_file');
@@ -208,6 +211,8 @@ Route::middleware('SetSessionData')->group(function () {
         Route::get('discount/update_status', [DiscountController::class, 'updateStatus'])->name('discount.update_status');
         Route::resource('discount', DiscountController::class);
         Route::resource('slider', SliderController::class);
+
+        Route::get('customer/update_status', [CustomerController::class, 'updateStatus'])->name('customer.update_status');
         Route::resource('customer', CustomerController::class);
 
         Route::get('service/update_status', [ServiceController::class, 'updateStatus'])->name('service.update_status');

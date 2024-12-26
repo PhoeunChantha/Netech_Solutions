@@ -125,7 +125,7 @@
                 <li class="nav-item">
                     <a href="{{ route('pos') }}"
                         class="nav-link ">
-                        <i class="fas fa-shopping-cart"></i>
+                        <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
                             {{ __('POS') }}
                         </p>
@@ -137,6 +137,15 @@
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             {{ __('Employee') }}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.customer.index') }}"
+                        class="nav-link @if (request()->routeIs('admin.customer*')) active @endif">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            {{ __('Customer') }}
                         </p>
                     </a>
                 </li>

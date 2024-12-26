@@ -62,102 +62,102 @@ class DiscountController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'description' => 'required',
-            'product_ids' => 'required|array',
-            'product_ids.*' => 'numeric',
-            'discount_type' => 'required|in:percentage,fixed',
-            'discount_value' => 'required|numeric|min:0',
-            'quantity_limited' => 'required',
-            'start_date' => 'required|date|before_or_equal:end_date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-        ]);
-        // dd($validator);
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'description' => 'required',
+                'product_ids' => 'required|array',
+                'product_ids.*' => 'numeric',
+                'discount_type' => 'required|in:percentage,fixed',
+                'discount_value' => 'required|numeric|min:0',
+                'quantity_limited' => 'required',
+                'start_date' => 'required|date|before_or_equal:end_date',
+                'end_date' => 'required|date|after_or_equal:start_date',
+            ]);
+            // dd($validator);
 
-        if (is_null($request->name[array_search('en', $request->lang)])) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'name',
-                    'Name field is required!'
-                );
-            });
-        }
-        if (is_null($request->description[array_search('en', $request->lang)])) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'description',
-                    'Description field is required!'
-                );
-            });
-        }
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput()
-                ->with(['success' => 0, 'msg' => __('Invalid form input')]);
-        }
-
-        try {
-            DB::beginTransaction();
-
-            $discount = new Discount();
-            $discount->name = $request->name[array_search('en', $request->lang)];
-            $discount->description = $request->description[array_search('en', $request->lang)];
-            $discount->product_ids = $request->product_ids;
-            $discount->discount_type = $request->discount_type;
-            $discount->discount_value = $request->discount_value;
-            $discount->quantity_limited = $request->quantity_limited;
-            $discount->start_date = $request->start_date;
-            $discount->end_date = $request->end_date;
-            $discount->created_by = auth()->user()->id;
-            if ($request->hasFile('image')) {
-                $discount->image = ImageManager::upload('uploads/discounts/', $request->image);
+            if (is_null($request->name[array_search('en', $request->lang)])) {
+                $validator->after(function ($validator) {
+                    $validator->errors()->add(
+                        'name',
+                        'Name field is required!'
+                    );
+                });
+            }
+            if (is_null($request->description[array_search('en', $request->lang)])) {
+                $validator->after(function ($validator) {
+                    $validator->errors()->add(
+                        'description',
+                        'Description field is required!'
+                    );
+                });
             }
 
-            $discount->save();
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput()
+                    ->with(['success' => 0, 'msg' => __('Invalid form input')]);
+            }
 
-            $data = [];
-            foreach ($request->lang as $index => $key) {
-                if (isset($request->name[$index]) && $key != 'en') {
-                    $data[] = [
-                        'translationable_type' => 'App\Models\Discount',
-                        'translationable_id' => $discount->id,
-                        'locale' => $key,
-                        'key' => 'name',
-                        'value' => $request->name[$index],
-                    ];
+            try {
+                DB::beginTransaction();
+
+                $discount = new Discount();
+                $discount->name = $request->name[array_search('en', $request->lang)];
+                $discount->description = $request->description[array_search('en', $request->lang)];
+                $discount->product_ids = $request->product_ids;
+                $discount->discount_type = $request->discount_type;
+                $discount->discount_value = $request->discount_value;
+                $discount->quantity_limited = $request->quantity_limited;
+                $discount->start_date = $request->start_date;
+                $discount->end_date = $request->end_date;
+                $discount->created_by = auth()->user()->id;
+                if ($request->hasFile('image')) {
+                    $discount->image = ImageManager::upload('uploads/discounts/', $request->image);
                 }
-            }
 
-            foreach ($request->lang as $index => $key) {
-                if (isset($request->description[$index]) && $key != 'en') {
-                    $data[] = [
-                        'translationable_type' => 'App\Models\Discount',
-                        'translationable_id' => $discount->id,
-                        'locale' => $key,
-                        'key' => 'description',
-                        'value' => $request->description[$index],
-                    ];
+                $discount->save();
+
+                $data = [];
+                foreach ($request->lang as $index => $key) {
+                    if (isset($request->name[$index]) && $key != 'en') {
+                        $data[] = [
+                            'translationable_type' => 'App\Models\Discount',
+                            'translationable_id' => $discount->id,
+                            'locale' => $key,
+                            'key' => 'name',
+                            'value' => $request->name[$index],
+                        ];
+                    }
                 }
-            }
-            Translation::insert($data);
-            DB::commit();
 
-            $output = [
-                'success' => 1,
-                'msg' => ('Create successfully'),
-            ];
-        } catch (Exception $e) {
-            dd($e);
-            // DB::rollBack();
-            // $output = [
-            //     'success' => 0,
-            //     'msg' => __('Something went wrong'),
-            // ];
-        }
-        return redirect()->route('admin.discount.index')->with($output);
+                foreach ($request->lang as $index => $key) {
+                    if (isset($request->description[$index]) && $key != 'en') {
+                        $data[] = [
+                            'translationable_type' => 'App\Models\Discount',
+                            'translationable_id' => $discount->id,
+                            'locale' => $key,
+                            'key' => 'description',
+                            'value' => $request->description[$index],
+                        ];
+                    }
+                }
+                Translation::insert($data);
+                DB::commit();
+
+                $output = [
+                    'success' => 1,
+                    'msg' => ('Create successfully'),
+                ];
+            } catch (Exception $e) {
+                dd($e);
+                // DB::rollBack();
+                // $output = [
+                //     'success' => 0,
+                //     'msg' => __('Something went wrong'),
+                // ];
+            }
+            return redirect()->route('admin.discount.index')->with($output);
     }
 
     /**

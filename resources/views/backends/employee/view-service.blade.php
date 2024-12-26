@@ -41,8 +41,7 @@
                     <i class="fas fa-pencil-alt"></i>
                     {{ __('Edit') }}
                 </a>
-                @if (auth()->user()->can('service.edit'))
-                @endif
+               
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
