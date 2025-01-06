@@ -4,12 +4,13 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6 d-flex flex-column">
+                <div class="col-md-6">
+                    {{-- <form action=""> --}}
                     <div class="mt-1">
                         <div class="row mt-3">
                             <div>
                                 <select class="form-control select2" name="" style="width: 450px;">
-                                    <option value="walk-in">Walk In Customer</option>
+                                    <option value="walk-in">{{ __('Walk In Customer') }}</option>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}">
                                             {{ $customer->first_name }} {{ $customer->last_name }} -
@@ -20,21 +21,20 @@
                             </div>
                             <div>
                                 <button class="btn btn-primary ml-2" data-toggle="modal" data-target="#create_customer"
-                                    style="height: 37px">Add Customer</button>
+                                    style="height: 37px">{{ __('Add Customer') }}</button>
                             </div>
-
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <div class="row">
+                    <div class="mt-4 table-order">
+                        <div class="row table-container">
                             <table class="table table-hover">
                                 <thead class="table-primary">
                                     <tr>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Unit Price</th>
-                                        <th>Subtotal</th>
-                                        <th>Actions</th>
+                                        <th>{{ __('Product') }}</th>
+                                        <th>{{ __('Quantity') }}</th>
+                                        <th>{{ __('Unit Price') }}</th>
+                                        <th>{{ __('Subtotal') }}</th>
+                                        <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody id="product-table">
@@ -42,45 +42,50 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="pay col-md-12">
-                            <div class="card w-100">
-                                <div class="container text-center">
-                                    <div class="row">
-                                        <div class="col-md-9">
-                                            <div class="d-flex">
-                                                <div class="p-2 col-md-6">Subtotal</div>
-                                                <div class="p-2 col-md-6 subtotal-container">0.00$</div>
-                                                <input type="hidden" class="" name="subtotal" value="">
-                                            </div>
-
-                                            <div class="d-flex line w-100">
-                                                <div class="p-2 col-md-6">Discount</div>
-                                                <div class="p-2 col-md-6 discount-container">0.00$</div>
-                                                <input type="hidden" class="" name="discount" value="">
-                                            </div>
-
-                                            <div class="d-flex line w-100">
-                                                <div class="p-2 col-md-6">Total</div>
-                                                <div class="p-2 col-md-6 total-container">0.00$</div>
-                                                <input type="hidden" class="" name="total" value="">
-                                            </div>
+                    </div>
+                    <div class="pay">
+                        <div class="card w-100">
+                            <div class="container text-center">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="d-flex">
+                                            <div class="p-2 col-md-6">{{ __('Subtotal') }}</div>
+                                            <div class="p-2 col-md-6 subtotal-container">0.00$</div>
+                                            <input id="subtotal" type="hidden" class="" name="subtotal"
+                                                value="">
                                         </div>
 
-                                        <div class="col-md-3">
-                                            <button class="btn btn-primary w-75 m-3">Discount</button>
-                                            <button class="btn btn-primary w-75 ">Total</button>
+                                        <div class="d-flex line w-100">
+                                            <div class="p-2 col-md-6">{{ __('Discount') }}</div>
+                                            <div class="p-2 col-md-6 discount-container">0.00$</div>
+                                            <input id="discount" type="hidden" class="" name="discount"
+                                                value="">
                                         </div>
+
+                                        <div class="d-flex line w-100">
+                                            <div class="p-2 col-md-6">{{ __('Total') }}</div>
+                                            <div class="p-2 col-md-6 total-container">0.00$</div>
+                                            <input id="finaltotal" type="hidden" class="" name="total"
+                                                value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <button
+                                            class="btn btn-primary w-75 m-3 discount-price"><img class="mr-2" src="{{ asset('svgs/pos_discount.svg') }}" alt="">{{ __('Discount') }}</button>
+                                        <button class="btn btn-primary w-75 btn-pay-price">{{ __('Pay') }}</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {{-- </form> --}}
                 </div>
                 <!-- Cart Section -->
                 <div class="col-md-6 mt-3">
                     <div class="category-tabs">
                         <div class="category-card" onclick="filterProducts('all')">
-                            <img src="laptop.png" alt="Laptop">
+                            <img src="{{ asset('uploads/all-product.png') }}" alt="all" class="">
                             <p>All</p>
                         </div>
 
@@ -115,81 +120,24 @@
         </div>
     </section>
     @include('backends.POS.create_customer')
+    @include('backends.POS.discount_item_modal')
+    @include('backends.POS.calculator')
 @endsection
 @push('js')
-    {{-- <script>
-        $(document).ready(function() {
-            const productGrid = document.querySelector('.product-grid');
-            let scrollDirection = 1; 
-            let scrollSpeed = 2; 
-
-            function autoScroll() {
-                productGrid.scrollTop += scrollDirection * scrollSpeed;
-
-                if (productGrid.scrollTop + productGrid.clientHeight >= productGrid.scrollHeight) {
-                    scrollDirection = -1; 
-                } else if (productGrid.scrollTop <= 0) {
-                    scrollDirection = 1; 
-                }
-            }
-
-            setInterval(autoScroll, 30); 
-        });
-    </script> --}}
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const table = document.getElementById('product-table');
-
-            table.addEventListener('click', (e) => {
-                const button = e.target;
-                const row = button.closest('tr');
-                const productId = row.dataset.productId;
-                const quantityElement = row.querySelector('.quantity');
-                const unitPriceElement = row.querySelector('.unit-price');
-                const subtotalElement = row.querySelector('.subtotal');
-                const quantityInput = row.querySelector('.quantity-input');
-                const totalInput = row.querySelector('.total-input');
-
-                if (button.classList.contains('increase')) {
-                    let quantity = parseInt(quantityElement.textContent);
-                    quantity++;
-                    quantityElement.textContent = quantity;
-                    quantityInput.value = quantity;
-
-                    const unitPrice = parseFloat(unitPriceElement.textContent.replace('$', ''));
-                    const subtotal = (quantity * unitPrice).toFixed(2);
-                    subtotalElement.textContent = `${subtotal}$`;
-                    totalInput.value = subtotal;
-                } else if (button.classList.contains('decrease')) {
-                    let quantity = parseInt(quantityElement.textContent);
-                    if (quantity > 1) {
-                        quantity--;
-                        quantityElement.textContent = quantity;
-                        quantityInput.value = quantity;
-
-                        const unitPrice = parseFloat(unitPriceElement.textContent.replace('$', ''));
-                        const subtotal = (quantity * unitPrice).toFixed(2);
-                        subtotalElement.textContent = `${subtotal}$`;
-                        totalInput.value = subtotal;
-                    }
-                }
-            });
-        });
-    </script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const table = document.getElementById('product-table');
-            const subtotalElement = document.querySelector('.subtotal-container'); // Subtotal element
-            const subtotalInput = document.querySelector('input[name="subtotal"]'); // Subtotal hidden input
-            const discountElement = document.querySelector('.discount-container'); // Discount element
-            const discountInput = document.querySelector('input[name="discount"]'); // Discount hidden input
-            const totalElement = document.querySelector('.total-container'); // Total element
-            const totalInput = document.querySelector('input[name="total"]'); // Total hidden input
+            const subtotalElement = document.querySelector('.subtotal-container');
+            const subtotalInput = document.querySelector('input[name="subtotal"]');
+            const discountElement = document.querySelector('.discount-container');
+            const discountInput = document.querySelector('input[name="discount"]');
+            const totalElement = document.querySelector('.total-container');
+            const totalInput = document.querySelector('input[name="total"]');
 
             table.addEventListener('click', (e) => {
                 const button = e.target;
                 const row = button.closest('tr');
-                if (!row) return; // Guard clause for clicks outside table rows
+                if (!row) return;
 
                 const quantityElement = row.querySelector('.quantity');
                 const unitPriceElement = row.querySelector('.unit-price');
@@ -227,20 +175,15 @@
                 const discount = parseFloat(discountElement.textContent.replace('$', '')) || 0;
                 const finalTotal = (total - discount).toFixed(2);
 
-                // Update displayed values
                 subtotalElement.textContent = `${total.toFixed(2)}$`;
                 totalElement.textContent = `${finalTotal}$`;
 
-                // Update hidden input values
                 subtotalInput.value = total.toFixed(2);
                 discountInput.value = discount.toFixed(2);
                 totalInput.value = finalTotal;
             }
         });
     </script>
-
-
-
     <script>
         function filterProducts(categoryId) {
             $('.category-card').removeClass('selected');
@@ -253,31 +196,46 @@
                     category_id: categoryId
                 },
                 success: function(response) {
-                    console.log(response); 
+                    console.log(response);
                     if (response.success) {
                         let productGrid = $('.product-grid');
                         productGrid.empty();
 
                         if (response.products.length > 0) {
                             response.products.forEach(product => {
-                                const stockStatus = product.quantity > 0 
-                                    ? '<span class="instock">In stock</span>' 
-                                    : '<span class="out-stock">Out of stock</span>';
+                                // Check if product has a discount and calculate discounted price
+                                const hasDiscount = product.discount && product.discount.discount_value;
+                                const discountValue = hasDiscount ?
+                                    `<span class="discount-amount text-white bg-danger text-left">${product.discount.discount_value}% OFF</span>` :
+                                    '';
+
+                                // Calculate discounted price if a discount exists, otherwise use the original price
+                                const discountedPrice = hasDiscount ?
+                                    (product.price - (product.price * (product.discount.discount_value /
+                                        100))).toFixed(2) :
+                                    parseFloat(product.price).toFixed(2);
+
+                                const stockStatus = product.quantity > 0 ?
+                                    '<span class="instock">In stock</span>' :
+                                    '<span class="out-stock">Out of stock</span>';
+
+                                // Append product card
                                 productGrid.append(`
-                            <div class="product-card" data-product-id="${product.id}">
-                                <img src="${product.thumbnail}" alt="${product.name}">
-                                <p class="product-title">${product.name}</p>
-                                <div class="div-price">
-                                    <p class="product-price">$${parseFloat(product.price).toFixed(2)}</p>
-                                    ${stockStatus}
-                                </div>
-                            </div>
-                        `);
+                                    <div class="product-card" data-product-id="${product.id}">
+                                        ${discountValue}
+                                        <img src="${product.thumbnail}" alt="${product.name}">
+                                        <p class="product-title">${product.name}</p>
+                                        <div class="div-price">
+                                            <p class="product-price mb-0 text-bold">$${discountedPrice}</p>
+                                            ${hasDiscount ? `<p class="product-price text-decoration-line-through mb-0">$${parseFloat(product.price).toFixed(2)}</p>` : ''}
+                                        </div>
+                                         ${stockStatus}
+                                    </div>
+                                `);
                             });
                         } else {
                             productGrid.append('<p>No products found.</p>');
                         }
-                        
                     }
                 },
                 error: function() {
@@ -318,7 +276,6 @@
                     <td class="unit-price">${productPrice}$</td>
                     <td class="subtotal">${subtotal}$</td>
                     <td class="action-buttons">
-                        <button class="btn btn-discount"><img src="{{ asset('svgs/pos_discount.svg') }}" alt=""></button>
                         <button class="btn btn-delete"><i class="fas fa-trash fa-lg" style="color: #ed0c0c;"></i></button>
                     </td>
                 </tr>
@@ -341,8 +298,53 @@
             $('input[name="total"]').val(total.toFixed(2));
         }
     </script>
+    <script>
+        $(document).on('click', '.discount-price', function() {
+            const subtotal = parseFloat($('#subtotal').val() || 0);
+            if (subtotal <= 0) {
+                toastr.error('Please add products to cart before applying discount.');
+                return;
+            }
+            $('#discount_modal').modal('show');
+            $('#unit-price').val(`${subtotal.toFixed(2)}$`);
+        });
 
+        $('#apply-discount').on('click', function() {
+            const discountPercent = parseFloat($('#discount-percent').val() || 0);
 
+            if (!discountPercent || discountPercent < 0 || discountPercent > 100) {
+                toastr.error('Please enter a valid discount percent (0-100).');
+                return;
+            }
+
+            const subtotal = parseFloat($('#subtotal').val() || 0);
+            const discountAmount = (subtotal * discountPercent) / 100;
+            const total = subtotal - discountAmount;
+
+            $('.discount-container').text(`${discountAmount.toFixed(2)}$`);
+            $('.total-container').text(`${total.toFixed(2)}$`);
+            $('#discount').val(discountAmount.toFixed(2));
+            $('#finaltotal').val(total.toFixed(2));
+
+            toastr.success(`Discount of ${discountPercent}% applied successfully!`);
+
+            $('#discount_modal').modal('hide');
+        });
+    </script>
+    <script>
+        $(document).on('click', '.btn-pay-price', function() {
+            const total = parseFloat($('#finaltotal').val() || 0);
+            if (total <= 0) {
+                toastr.error('Please add products to cart before proceeding to payment.');
+                return;
+            }
+
+            $('#payment_modal').modal('show');
+            const displayAmount = total.toFixed(2);
+            $('#payment_display').text(displayAmount);
+            $('#hidden_payment_display').val(total.toFixed(2));
+        });
+    </script>
     <script>
         $(document).on('submit', 'form', function(e) {
             e.preventDefault();

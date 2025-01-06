@@ -83,7 +83,7 @@
                          $discountedPrice = $item->price;
 
                          if ($discountValue > 0) {
-                             $discountedPrice = $item->price - $item->price * ($discountValue / 100); // Apply discount
+                             $discountedPrice = $item->price - $item->price * ($discountValue / 100); 
                          }
                      @endphp
 

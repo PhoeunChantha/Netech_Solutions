@@ -131,80 +131,12 @@
                                                 @else
                                                     <span class="stock badge bg-success">{{ __('In stock') }}</span>
                                                 @endif
-                                                {{-- <div class="rate-promotion">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                                    @endfor
-                                                    <span>({{ $product->rating ?? 5 }})</span>
-
-                                                    <div class="addcard float-end">
-                                                        <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-                                                    </div>
-                                                </div> --}}
+                                               
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
-                                {{-- @foreach ($productdiscounted as $product)
-                                    @if (!empty($product->discount) && $product->discount->start_date && $product->discount->end_date)
-                                        <div class="col-md-3 product-card"
-                                            data-discount-start="{{ $product->discount->start_date }}"
-                                            data-discount-end="{{ $product->discount->end_date }}">
-                                            <div class="card card-promotion border-0 shadow-lg">
-                                                <div class="card-header head-img">
-                                                    @if (!empty($product->thumbnail) && is_array($product->thumbnail) && isset($product->thumbnail[0]))
-                                                        <img src="{{ asset('uploads/products/' . $product->thumbnail[0]) }}"
-                                                            alt="not found">
-                                                    @else
-                                                        <img src="{{ asset('uploads/default.png') }}" alt="not found">
-                                                    @endif
-                                                </div>
-                                                <div class="card-body promotion-body">
-                                                    <h5 class="card-title fw-bold" style="color: #1077B8;">
-                                                        <a href="#">{{ $product->name }}</a>
-                                                    </h5>
-                                                    <div class="row d-flex">
-                                                        <div class="col-12 d-flex gap-4">
-                                                            @php
-                                                                $discountValue = $discountMapping[$product->id] ?? 0;
-                                                                $discountedPrice = $product->price;
-
-                                                                if ($discountValue > 0) {
-                                                                    $discountedPrice =
-                                                                        $product->price -
-                                                                        $product->price * ($discountValue / 100);
-                                                                }
-                                                            @endphp
-                                                            @if ($discountedPrice < $product->price)
-                                                                <p class="card-text fw-bold"
-                                                                    style="margin-bottom: 0; color:#008E06">
-                                                                    ${{ number_format($discountedPrice, 2) }}
-                                                                </p>
-                                                            @endif
-                                                            <p
-                                                                class="p-0 m-0 text-decoration-line-through text-secondary text-opacity-50">
-                                                                ${{ number_format($product->price, 2) }}
-                                                            </p>
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="rate-promotion">
-                                                        @for ($i = 1; $i <= 5; $i++)
-                                                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                                        @endfor
-                                                        <span>({{ $product->rating ?? 5 }})</span>
-
-                                                        <div class="addcard float-end">
-                                                            <a href="#"><i
-                                                                    class="fa-solid fa-cart-shopping"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach --}}
+                              
                             </div>
                         </div>
                     </div>

@@ -285,25 +285,6 @@
                 applyFilters();
             });
 
-            // $('.clearFilters').on('click', function() {
-            //     filters = {
-            //         sortBy: null,
-            //         brand: null,
-            //         priceRange: {
-            //             min: parseInt($('#lower').attr('min')),
-            //             max: parseInt($('#upper').attr('max'))
-            //         }
-            //         // category_id: "{{ $category->id }}"
-            //     };
-            //     $('#lower').val(filters.priceRange.min);
-            //     $('#upper').val(filters.priceRange.max);
-            //     $('#one').val(filters.priceRange.min);
-            //     $('#two').val(filters.priceRange.max);
-            //     $('input[name="sort"]').prop('checked', false);
-            //     $('input[name="brand_id"]').prop('checked', false);
-            //     filters.category_id = "{{ $category->id }}";
-            //     applyFilters();
-            // });
             // Clear Filters AJAX
             $('.clearFilters').on('click', function() {
                 filters = {

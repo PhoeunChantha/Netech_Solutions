@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="{{ asset('backend/login-form/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 </head>
 
 <body>
@@ -40,7 +42,7 @@
                                     <form method="POST" action="{{ route('admin.store-login') }}" class="signin-form">
                                         @csrf
                                         <div class="form-group mb-3">
-                                            <label class="label" for="name">Email</label>
+                                            <label class="label" for="name">{{ __('Email') }}</label>
                                             <input id="email" type="email"
                                                 class="form-control @error('email') is-invalid @enderror" name="email"
                                                 value="{{ old('email') }}" required autocomplete="Email" autofocus>
@@ -51,7 +53,7 @@
                                             @enderror
                                         </div>
                                         <div class="form-group mb-3">
-                                            <label class="label" for="password">Password</label>
+                                            <label class="label" for="password">{{ __('Password') }}</label>
                                             <input id="password" type="password"
                                                 class="form-control @error('password') is-invalid @enderror"
                                                 name="password" required autocomplete="current-password">
@@ -61,11 +63,12 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                        <span>Please enter your email & passwod for login </span>
+                                        <span>{{ __('Please enter your email & passwod for login') }}</span>
 
                                         <div class="form-group d-md-flex">
                                             <div class="w-50 text-left">
-                                                <label class="checkbox-wrap checkbox-primary mb-0">Remember Me
+                                                <label
+                                                    class="checkbox-wrap checkbox-primary mb-0">{{ __('Remember Me') }}
                                                     <input type="checkbox" name="remember" id="remember"
                                                         {{ old('remember') ? 'checked' : '' }}>
                                                     <span class="checkmark"></span>
@@ -75,7 +78,7 @@
 
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-block btn-primary rounded float-right"
-                                                style="margin-bottom: 20px;">Log In</button>
+                                                style="margin-bottom: 20px;">{{ __('Login') }}</button>
                                         </div>
                                         <br>
 
@@ -89,11 +92,47 @@
 
         </div>
     </section>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var success_audio = "{{ URL::asset('sound/success.wav') }}";
+            var error_audio = "{{ URL::asset('sound/error.wav') }}";
+            var success = new Audio(success_audio);
+            var error = new Audio(error_audio);
+            const Confirmation = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            });
 
+            @if (Session::has('msg'))
+                @if (Session::get('success') == true)
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true
+                    }
+                    toastr.success("{{ Session::get('msg') }}");
+                    success.play();
+                @else
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true
+                    }
+                    toastr.error("{{ Session::get('msg') }}");
+                    error.play();
+                @endif
+            @endif
+
+        });
+    </script>
     <script src="{{ asset('backend/login-form/js/jquery.min.js') }}"></script>
     <script src="{{ asset('backend/login-form/js/popper.js') }}"></script>
     <script src="{{ asset('backend/login-form/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('backend/login-form/js/main.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </body>
 

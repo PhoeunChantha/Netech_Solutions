@@ -45,18 +45,13 @@
         }
 
         .text-overlay {
-            /* text-align: left;
-                                                                                                                width: 100%; */
-            /* height: -webkit-fill-available; */
             position: absolute;
             top: 5%;
             left: 1em;
-            /* transform: translate(-50%, -50%); */
             color: white;
             text-align: center;
             border-radius: 5px;
             font-size: 15px;
-            /* background-color: rgba(161, 161, 161, 0.5); */
         }
 
         .text-overlay h5,
@@ -129,43 +124,6 @@
                     <p class="no-products-message text-center">{{ __('No categories available') }}</p>
                 @endforelse
             </div>
-
-
-
-            {{-- <div class="col-2 all-category text-center">
-                <div class="img-container">
-                    <img src="/website/upload/image1.jpg" alt="not found">
-                    <div class="main-text-overlay">
-                        <div class="text-overlay">
-                            <h5>Laptop</h5>
-                            <span>250 products</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-2 all-category text-center">
-                <div class="img-container">
-                    <img src="\website\upload\p1.png" alt="not found">
-                    <div class="main-text-overlay">
-                        <div class="text-overlay">
-                            <h5>Accessories</h5>
-                            <span>120 products</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-2 all-category text-center">
-                <div class="img-container">
-                    <img src="\website\upload\img4.png" alt="not found">
-                    <div class="main-text-overlay">
-                        <div class="text-overlay">
-                            <h5 class="">Service</h5>
-                            <span>500 products</span>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-            {{-- </div> --}}
         </div>
     </div>
 @endsection

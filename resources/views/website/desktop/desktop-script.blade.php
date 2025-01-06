@@ -52,32 +52,7 @@
         filterProducts('all');
     });
 </script>
-{{-- <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          const productContainer = document.querySelector(".product");
-          const images = productContainer.querySelectorAll("img");
-          const numberOfImages = images.length;
 
-          // Duplicate the images to create a seamless loop
-          for (let i = 0; i < numberOfImages; i++) {
-              const clone = images[i].cloneNode(true);
-              productContainer.appendChild(clone);
-          }
-
-          let scrollAmount = 0;
-
-          function scrollImages() {
-              scrollAmount -= 1; // Adjust this value to control the speed
-              if (scrollAmount <= -productContainer.scrollWidth / 2) {
-                  scrollAmount = 0;
-              }
-              productContainer.style.transform = `translateX(${scrollAmount}px)`;
-              requestAnimationFrame(scrollImages);
-          }
-
-          scrollImages();
-      });
-  </script> --}}
 <script>
     var lowerSlider = document.querySelector('#lower');
     var upperSlider = document.querySelector('#upper');
@@ -117,6 +92,5 @@
     $('#exampleModal').on('show.bs.modal', event => {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        // Use above variables to manipulate the DOM
     });
 </script>

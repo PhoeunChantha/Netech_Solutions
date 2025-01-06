@@ -39,7 +39,6 @@ class AdminLoginController extends Controller
     public function storeLogin(Request $request)
     {
         try {
-            // Validate input
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email',
                 'password' => 'required',
@@ -52,7 +51,6 @@ class AdminLoginController extends Controller
                     ->with(['success' => 0, 'msg' => 'Invalid form input']);
             }
 
-            // Check if admin exists
             $admin = Admin::where('email', $request->email)->first();
             if (!$admin) {
                 return redirect()->back()->with([
@@ -61,7 +59,6 @@ class AdminLoginController extends Controller
                 ]);
             }
 
-            // Verify password
             if (!Hash::check($request->password, $admin->password)) {
                 return redirect()->back()->with([
                     'success' => 0,
@@ -69,7 +66,6 @@ class AdminLoginController extends Controller
                 ]);
             }
 
-            // Attempt login
             $credentials = $request->only('email', 'password');
             if (Auth::guard('admin')->attempt($credentials, $request->remember)) {
                 return redirect()->route('admin.dashboard')->with([
@@ -77,17 +73,11 @@ class AdminLoginController extends Controller
                     'msg' => 'Login successfully',
                 ]);
             }
-
-            // Fallback error (e.g., if authentication fails for an unknown reason)
             return redirect()->back()->with([
                 'success' => 0,
                 'msg' => 'Failed to login',
             ]);
         } catch (\Exception $e) {
-            // Log the error for debugging
-            \Log::error('Login error: ' . $e->getMessage());
-
-            // Redirect back with a generic error message
             return redirect()->back()->with([
                 'success' => 0,
                 'msg' => 'An unexpected error occurred. Please try again later.',

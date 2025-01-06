@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\Discount;
 use App\Models\Translation;
 use Illuminate\Http\Request;
 use App\helpers\ImageManager;
@@ -25,7 +26,7 @@ class PosController extends Controller
         $language = $language->value ?? null;
         $default_lang = 'en';
         $default_lang = json_decode($language, true)[0]['code'];
-        return view('backends.pos.create', compact('language', 'default_lang', 'categories_pos','customers'));
+        return view('backends.pos.create', compact('language', 'default_lang', 'categories_pos', 'customers'));
     }
     public function pos_customer_store(Request $request)
     {
@@ -120,28 +121,72 @@ class PosController extends Controller
             );
         }
     }
+   
     public function posfilterProducts(Request $request)
     {
         $categoryId = $request->input('category_id');
-
+    
+        $discountedProducts = Discount::where('status', 1)
+            ->whereDate('start_date', '<=', now())
+            ->whereDate('end_date', '>=', now())
+            ->get();
+    
         if ($categoryId === 'all') {
-            $products = Product::where('status', 1)->get();
+            $products = Product::where('status', 1)->get()->map(function ($product) use ($discountedProducts) {
+                $productDiscount = $discountedProducts->first(function ($discount) use ($product) {
+                    $productIds = $discount->product_ids;
+    
+                    if (is_string($productIds)) {
+                        $productIds = json_decode($productIds, true);
+                    }
+    
+                    return is_array($productIds) && in_array($product->id, $productIds);
+                });
+    
+                $product->discount = $productDiscount;
+                return $product;
+            });
         } else {
-            $products = Product::where('category_id', $categoryId)->where('status', 1)->get();
+            $products = Product::where('category_id', $categoryId)
+                ->where('status', 1)
+                ->get()
+                ->map(function ($product) use ($discountedProducts) {
+                    $productDiscount = $discountedProducts->first(function ($discount) use ($product) {
+                        $productIds = $discount->product_ids;
+    
+                        if (is_string($productIds)) {
+                            $productIds = json_decode($productIds, true);
+                        }
+    
+                        return is_array($productIds) && in_array($product->id, $productIds);
+                    });
+    
+                    $product->discount = $productDiscount;
+                    $product->discountedPrice = $productDiscount 
+                        ? $product->price - $product->price * ($productDiscount->discount_value / 100)
+                        : $product->price;
+                    return $product;
+                });
         }
+    
         $formattedProducts = $products->map(function ($product) {
             return [
                 'id' => $product->id,
                 'name' => $product->name,
                 'price' => $product->price,
-                'thumbnail' => $product->thumbnail[0] ? asset('uploads/products/' . $product->thumbnail[0]) : asset('uploads/default-product.png'),
-                'quantity' => $product->quantity, 
+                'thumbnail' => isset($product->thumbnail[0]) 
+                    ? asset('uploads/products/' . $product->thumbnail[0]) 
+                    : asset('uploads/default-product.png'),
+                'quantity' => $product->quantity,
+                'discount' => $product->discount,
+                'discountedPrice' => $product->discountedPrice,
             ];
         });
-
+    
         return response()->json([
             'success' => true,
             'products' => $formattedProducts,
         ]);
     }
+    
 }
