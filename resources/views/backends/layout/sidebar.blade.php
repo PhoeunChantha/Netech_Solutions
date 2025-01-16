@@ -43,6 +43,16 @@
                         </p>
                     </a>
                 </li>
+                 {{-- pos --}}
+                 <li class="nav-item">
+                    <a href="{{ route('admin.pos') }}"
+                        class="nav-link @if (request()->routeIs('admin.pos')) active @endif">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            {{ __('POS') }}
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.banner.index') }}"
                         class="nav-link @if (request()->routeIs('admin.banner*')) active @endif">
@@ -121,16 +131,7 @@
                     </a>
                 </li>
 
-                {{-- pos --}}
-                <li class="nav-item">
-                    <a href="{{ route('pos') }}"
-                        class="nav-link ">
-                        <i class="nav-icon fas fa-shopping-cart"></i>
-                        <p>
-                            {{ __('POS') }}
-                        </p>
-                    </a>
-                </li>
+               
                 <li class="nav-item">
                     <a href="{{ route('admin.employee.index') }}"
                         class="nav-link @if (request()->routeIs('admin.employee*')) active @endif">

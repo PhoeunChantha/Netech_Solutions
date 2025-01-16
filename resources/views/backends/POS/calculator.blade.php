@@ -1,99 +1,120 @@
  <!-- Payment Modal -->
  <div class="modal" tabindex="-1" id="payment_modal">
-     <div class="modal-dialog modal-xl modal-dialog-centered">
+     <div class="modal-dialog modal-xl modal-dialog-centered ">
          <div class="modal-content">
              <div class="modal-header">
-                 <h5 class="modal-title">{{__('Payment')}}</h5>
+                 <h5 class="modal-title">{{ __('Payment') }}</h5>
                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true">&times;</span>
                  </button>
              </div>
-             <div class="modal-body">
-                 <!-- Calculator Section -->
-                 <div class="col-md-9">
-                     <div class="row d-flex justify-content-center">
-                         <div class="col-md-6 payment-calculator">
-                             <div class="form-group">
-                                 <label for="receiveAmount">{{__('Receive Amount')}}*</label>
-                                 <div class="input-group">
-                                     <div class="input-group-prepend">
-                                         <span class="input-group-text"><i class="fas fa-money-bill-alt"></i></span>
+             <form id="order_form" method="post">
+                 <div class="modal-body">
+                     <input type="hidden" id="customer_id" name="customer_id" value="">
+                     <div class="col-md-12">
+                         <table class="table table-bordered">
+                             <thead>
+                                 <tr>
+                                     <th>{{ __('Product') }}</th>
+                                     <th>{{ __('Quantity') }}</th>
+                                     <th>{{ __('Subtotal') }}</th>
+                                 </tr>
+                             </thead>
+                             <tbody id="order-details-body">
+                                 <!-- Order details will be appended here -->
+                             </tbody>
+                         </table>
+                     </div>
+                     <!-- Calculator Section -->
+                     <div class="col-md-9">
+                         <div class="row d-flex justify-content-center">
+                             <div class="col-md-6 payment-calculator">
+                                 <div class="form-group">
+                                     <label for="receiveAmount">{{ __('Receive Amount') }}*</label>
+                                     <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-money-bill-alt"></i></span>
+                                         </div>
+                                         <input type="text" name="recieve_amount" id="recieve_amount"
+                                             class="form-control" value="">
                                      </div>
-                                     <input type="text" id="recieve_amount" class="form-control" value="">
+                                 </div>
+                                 <div class="calc-buttons d-flex flex-wrap">
+                                     <!-- Calculator Buttons -->
+                                     <button class="btn btn-light">7</button>
+                                     <button class="btn btn-light">8</button>
+                                     <button class="btn btn-light">9</button>
+                                     <button class="btn btn-light">100</button>
+                                     <button class="btn btn-light">500</button>
+
+                                     <button class="btn btn-light">4</button>
+                                     <button class="btn btn-light">5</button>
+                                     <button class="btn btn-light">6</button>
+                                     <button class="btn btn-light">50</button>
+                                     <button class="btn btn-light">1000</button>
+
+                                     <button class="btn btn-light">1</button>
+                                     <button class="btn btn-light">2</button>
+                                     <button class="btn btn-light">3</button>
+                                     <button class="btn btn-light">20</button>
+                                     <button class="btn btn-light">2000</button>
+
+                                     <button class="btn btn-light">0</button>
+                                     <button class="btn btn-light">.</button>
+                                     <button class="btn btn-danger">Clear</button>
+                                     <button class="btn btn-light">10</button>
+                                     <button class="btn btn-light">5000</button>
                                  </div>
                              </div>
-                             <div class="calc-buttons d-flex flex-wrap">
-                                 <!-- Calculator Buttons -->
-                                 <button class="btn btn-light">7</button>
-                                 <button class="btn btn-light">8</button>
-                                 <button class="btn btn-light">9</button>
-                                 <button class="btn btn-light">100</button>
-                                 <button class="btn btn-light">500</button>
+                             <div class="col-md-6 payment-calculator">
+                                 <div class="form-group">
+                                     <label for="paymentMethod">{{ __('Payment Method') }}*</label>
+                                     <select id="paymentMethod" name="payment_method" class="form-control">
+                                         <option value="Cash">Cash</option>
+                                         <option value="Bank">Bank transfer</option>
+                                     </select>
+                                 </div>
 
-                                 <button class="btn btn-light">4</button>
-                                 <button class="btn btn-light">5</button>
-                                 <button class="btn btn-light">6</button>
-                                 <button class="btn btn-light">50</button>
-                                 <button class="btn btn-light">1000</button>
-
-                                 <button class="btn btn-light">1</button>
-                                 <button class="btn btn-light">2</button>
-                                 <button class="btn btn-light">3</button>
-                                 <button class="btn btn-light">20</button>
-                                 <button class="btn btn-light">2000</button>
-
-                                 <button class="btn btn-light">0</button>
-                                 <button class="btn btn-light">.</button>
-                                 <button class="btn btn-danger">X</button>
-                                 <button class="btn btn-light">10</button>
-                                 <button class="btn btn-light">5000</button>
+                                 <div class="form-group mt-5">
+                                     <label for="paymentNotes">{{ __('Payment Notes') }}</label>
+                                     <textarea id="paymentNotes" name="payment_notes" class="form-control" rows="3" placeholder="Note"></textarea>
+                                 </div>
+                                 <button type="button" id="confirm-payment-btn"
+                                     class="btn-done mt-2">{{ __('Done') }}</button>
                              </div>
                          </div>
-                         <div class="col-md-6 payment-calculator">
-                             <div class="form-group">
-                                 <label for="paymentMethod">{{__('Payment Method')}}*</label>
-                                 <select id="paymentMethod" class="form-control">
-                                     <option value="Cash">Cash</option>
-                                     <option value="Bank">Bank transfer</option>
-                                 </select>
+                     </div>
+                     <div class="col-md-3">
+                         <!-- Summary Section -->
+                         <div class="payment-summary">
+                             <div class="summary-item">
+                                 {{ __('Total Amount') }}: <span class="text-danger" id="payment_display">4.00$</span>
+                                 <input type="text" id="hidden_payment_display" name="hidden_payment_display"
+                                     value="">
                              </div>
-
-                             <div class="form-group mt-5">
-                                 <label for="paymentNotes">{{__('Payment Notes')}}</label>
-                                 <textarea id="paymentNotes" class="form-control" rows="3" placeholder="Note"></textarea>
+                             <div class="summary-item">
+                                 {{ __('Recieve Amount') }}: <span class="text-success"
+                                     id="recieve_display">0.00$</span>
+                                 <input type="text" id="hidden_recieve_display" name="hidden_recieve_display"
+                                     value="0.00$">
                              </div>
-                             <button class="btn-done mt-2">{{__('Done')}}</button>
+                             <div class="summary-item">
+                                 {{ __('Change Return') }}: <span class="text-success" id="change_return">0.00$</span>
+                                 <input type="text" id="hidden_change_return" name="hidden_change_return"
+                                     value="0.00$">
+                             </div>
+                             <div class="due-amount">
+                                 {{ __('Due Amount') }}: <span class="text-danger" id="due_amount">0.00$</span>
+                                 <input type="text" id="hidden_due_amount" name="hidden_due_amount"
+                                     value="0.00$">
+                             </div>
                          </div>
                      </div>
                  </div>
-                 <div class="col-md-3">
-                     <!-- Summary Section -->
-                     <div class="payment-summary">
-                         <div class="summary-item">
-                             {{ __('Total Amount') }}: <span class="text-danger" id="payment_display">4.00$</span>
-                             <input type="text" id="hidden_payment_display" name="hidden_payment_display"
-                                 value="">
-                         </div>
-                         <div class="summary-item">
-                             {{ __('Recieve Amount') }}: <span class="text-success" id="recieve_display">0.00$</span>
-                             <input type="text" id="hidden_recieve_display" name="hidden_recieve_display"
-                                 value="0.00$">
-                         </div>
-                         <div class="summary-item">
-                             {{ __('Change Return') }}: <span class="text-success" id="change_return">0.00$</span>
-                             <input type="text" id="hidden_change_return" name="hidden_change_return" value="0.00$">
-                         </div>
-                         <div class="due-amount">
-                             {{ __('Due Amount') }}: <span class="text-danger" id="due_amount">0.00$</span>
-                             <input type="text" id="hidden_due_amount" name="hidden_due_amount" value="0.00$">
-                         </div>
-                     </div>
-                 </div>
-             </div>
+             </form>
          </div>
      </div>
  </div>
- @include('backends.POS.payment_modal')
  @push('js')
      <script>
          $(document).ready(function() {
@@ -194,11 +215,49 @@
          });
      </script>
      <script>
-         $(document).ready(function() {
-             $('#paymentMethod').on('change', function() {
-                 let option = $(this).val();
-                 if (option === 'Bank') {
-                     $('#paymentmodal').modal('show');
+         $('#confirm-payment-btn').on('click', function() {
+
+             const totalAmount = $('#hidden_payment_display').val();
+             const recieveAmount = $('#hidden_recieve_display').val();
+             const changeReturn = $('#hidden_change_return').val();
+             const dueAmount = $('#hidden_due_amount').val();
+             const paymentMethod = $('#paymentMethod').val();
+             const paymentNotes = $('#paymentNotes').val();
+             const customerId = $('#customer_id').val();
+
+             const productOrders = [];
+
+             $('#product-table tr').each(function() {
+                 productOrders.push({
+                     product_id: $(this).data('product-id'),
+                     quantity: $(this).find('.quantity').text(),
+                     subtotal: $(this).find('.subtotal').text().replace('$', '')
+                 });
+             });
+
+             $.ajax({
+                 url: '{{ route('admin.pos_store') }}',
+                 method: 'POST',
+                 data: {
+                     customer_id: customerId,
+                     payment_method: paymentMethod,
+                     payment_notes: paymentNotes,
+                     change_return: changeReturn,
+                     due_amount: dueAmount,
+                     recieve_amount: recieveAmount,
+                     orders: productOrders,
+                     total: totalAmount,
+                     _token: $('meta[name="csrf-token"]').attr('content')
+                 },
+                 success: function(response) {
+                     toastr.success('Order placed successfully!');
+                     $('#payment_modal').modal('hide');
+                     setTimeout(function() {
+                         location.reload();
+                     }, 5000);
+                 },
+                 error: function() {
+                     toastr.error('Failed to place order. Please try again.');
                  }
              });
          });

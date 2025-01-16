@@ -319,8 +319,5 @@
             });
         });
     </script>
-
-
-
     @include('website.desktop.desktop-script')
 @endpush

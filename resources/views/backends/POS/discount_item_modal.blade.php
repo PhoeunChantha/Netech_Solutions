@@ -20,7 +20,7 @@
                         </div>
                         <div class="form-group col-md-12">
                             <label for="discount-percent" class="font-weight-bold">{{ __('Discount Percent') }}</label>
-                            <input type="number" class="form-control" id="discount-percent" name="discount_percent" value="10" placeholder="Enter discount percent">
+                            <input type="number" class="form-control" id="discount-percent" name="discount_percent" value="" placeholder="Enter discount percent">
                         </div>
                     </div>
                 </form>

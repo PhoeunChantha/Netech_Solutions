@@ -32,19 +32,8 @@
                 <div class="col-lg-3 col-sm-6">
                     <div
                         class="small-box bg-white d-flex p-3 justify-content-between align-items-center dashboard_summary_box dashboard_shadow">
-                        <div class="rounded-circle bg-light p-2" style="height: 70px; width: 70px;">
-                            <div style="padding:13px;">
-                                <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-                                <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="none" stroke="#579EFF" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" stroke-miterlimit="10" d="M1 2h16v11H1z" />
-                                    <path fill="none" stroke="#579EFF" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-miterlimit="10"
-                                        d="M4 5.5v5s3-1 5 0v-5s-2-2-5 0zM9 5.5v5s3-1 5 0v-5s-2-2-5 0z" />
-                                    <path fill="#579EFF" stroke="#579EFF" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" stroke-miterlimit="10" d="M8.5 14l-3 3h7l-3-3z" />
-                                </svg>
-                            </div>
+                        <div class="rounded-circle bg-light p-2 d-flex" style="height: 70px; width: 70px;">
+                            <img src="{{ asset('svgs/total_order.svg') }}" alt="not found">
                         </div>
                         <div class="inner text-right">
                             {{-- <h3>{{ App\helpers\AppHelper::dashboardQuery()['total_event'] }}</h3> --}}
@@ -56,8 +45,8 @@
                 <div class="col-lg-3 col-sm-6">
                     <div
                         class="small-box bg-white d-flex p-3 justify-content-between align-items-center dashboard_summary_box dashboard_shadow">
-                        <div class="rounded-circle bg-light p-2" style="height: 70px; width: 70px;">
-                            <div style="padding:12px;">
+                        <div class="rounded-circle bg-light p-2 d-flex" style="height: 70px; width: 70px;">
+                            {{-- <div style="padding:12px;">
                                 <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -66,7 +55,8 @@
                                     <path d="M13 2V14L16.8182 11L20 14V5" stroke="#579EFF" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                            </div>
+                            </div> --}}
+                            <img src="{{ asset('svgs/total_product.svg') }}" alt="not found">
                         </div>
                         <div class="inner text-right">
                             <h4>{{ $products->count() }}</h4>
@@ -78,15 +68,16 @@
                 <div class="col-lg-3 col-sm-6">
                     <div
                         class="small-box bg-white d-flex p-3 justify-content-between align-items-center dashboard_summary_box dashboard_shadow">
-                        <div class="rounded-circle bg-light p-1" style="height: 70px; width: 70px;">
-                            <div style="padding: 10px">
+                        <div class="rounded-circle bg-light p-1 d-flex" style="height: 70px; width: 70px;">
+                            {{-- <div style="padding: 10px">
                                 <svg viewBox="0 0 24 24" x="0px" y="0px" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="12" cy="6" r="4" stroke="#579EFF" stroke-width="1" />
                                     <path
                                         d="M19.9975 18C20 17.8358 20 17.669 20 17.5C20 15.0147 16.4183 13 12 13C7.58172 13 4 15.0147 4 17.5C4 19.9853 4 22 12 22C14.231 22 15.8398 21.8433 17 21.5634"
                                         stroke="#579EFF" stroke-width="1" stroke-linecap="round" />
                                 </svg>
-                            </div>
+                            </div> --}}
+                            <img src="{{ asset('svgs/total_employee.svg') }}" alt="not found">
                         </div>
                         <div class="inner text-right">
                             <h4>{{$employees->count()}}</h4>
@@ -98,8 +89,8 @@
                 <div class="col-lg-3 col-sm-6">
                     <div
                         class="small-box bg-white d-flex p-3 justify-content-between align-items-center dashboard_summary_box dashboard_shadow">
-                        <div class="rounded-circle bg-light p-2" style="height: 70px; width: 70px;">
-                            <div style="padding:10px;">
+                        <div class="rounded-circle bg-light p-2 d-flex" style="height: 70px; width: 70px;">
+                            {{-- <div style="padding:10px;">
                                 <?xml version="1.0" encoding="utf-8"?>
 
                                 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
@@ -120,7 +111,8 @@
                                         </g>
                                     </g>
                                 </svg>
-                            </div>
+                            </div> --}}
+                            <img src="{{ asset('svgs/total_contact.svg') }}" alt="not found">
                         </div>
                         <div class="inner text-right">
                             <h4>{{$contacts->count()}}</h4>

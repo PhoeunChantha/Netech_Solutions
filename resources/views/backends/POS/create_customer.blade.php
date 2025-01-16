@@ -8,7 +8,7 @@
                      <span aria-hidden="true">&times;</span>
                  </button>
              </div>
-             <form method="POST" enctype="multipart/form-data">
+             <form id="create_customer_form" method="POST" enctype="multipart/form-data">
                  @csrf
                  <div class="modal-body">
                      <div class="col-12">

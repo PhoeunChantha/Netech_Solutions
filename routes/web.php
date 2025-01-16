@@ -151,10 +151,7 @@ Route::middleware(['SetFrontendSession'])->group(function () {
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
 
 
-// pos
-Route::get('/pos',[PosController::class, 'index'])->name('pos');
-Route::post('/pos-create-customer', [PosController::class, 'pos_customer_store'])->name('pos_customer_store');
-Route::get('/pos/filter', [PosController::class, 'posfilterProducts'])->name('pos-filter-products');
+
 
 
 Route::post('save_temp_file', [FileManagerController::class, 'saveTempFile'])->name('save_temp_file');
@@ -244,6 +241,13 @@ Route::middleware('SetSessionData')->group(function () {
         //email configuration//
         Route::get('email-configuration', [EmailConfigurationController::class, 'index'])->name('email-configuration');
         Route::put('update-email-configuraion', [EmailConfigurationController::class, 'update'])->name('update-email-configuraion');
+
+        // pos
+        Route::get('/pos', [PosController::class, 'index'])->name('pos');
+        Route::post('/pos-create-customer', [PosController::class, 'pos_customer_store'])->name('pos_customer_store');
+        Route::get('/pos/filter', [PosController::class, 'posfilterProducts'])->name('pos-filter-products');
+        Route::post('/pos/store', [PosController::class, 'store'])->name('pos_store');
+        Route::post('/pos/search', [PosController::class, 'search'])->name('pos_search_products');
         //header
         Route::get('/header', [DashboardController::class, 'header']);
     });
