@@ -41,10 +41,12 @@ use App\Http\Controllers\Backends\TermAndPolicyController;
 use App\Http\Controllers\Website\ProductCategoryController;
 use App\Http\Controllers\Backends\BusinessSettingController;
 use App\Http\Controllers\Backends\EmailConfigurationController;
+use App\Http\Controllers\Backends\InvoiceController;
 use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
 use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
 use App\Http\Controllers\Website\AboutUsController as WebsiteAboutUsController;
 use App\Http\Controllers\Backends\ContactController as BackendsContactController;
+
 use App\Http\Controllers\Website\Auth\LoginController as WebsiteAuthLoginController;
 
 
@@ -150,8 +152,13 @@ Route::middleware(['SetFrontendSession'])->group(function () {
 });
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
 
+//tong invoice
+Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice');
 
-
+// pos
+Route::get('/pos', [PosController::class, 'index'])->name('pos');
+Route::post('/pos-create-customer', [PosController::class, 'pos_customer_store'])->name('pos_customer_store');
+Route::get('/pos/filter', [PosController::class, 'posfilterProducts'])->name('pos-filter-products');
 
 
 Route::post('save_temp_file', [FileManagerController::class, 'saveTempFile'])->name('save_temp_file');
