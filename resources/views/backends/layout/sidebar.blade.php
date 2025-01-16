@@ -54,6 +54,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('invoice') }}"
+                        class="nav-link @if (request()->routeIs('invoice')) active @endif">
+                        <i class="nav-icon fas fa-file-invoice"></i>
+                        <p>
+                            {{ __('invoice') }}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin.banner.index') }}"
                         class="nav-link @if (request()->routeIs('admin.banner*')) active @endif">
                         {{-- <i class="nav-icon fa-baner"></i> --}}
@@ -130,17 +139,8 @@
                         </p>
                     </a>
                 </li>
-
                
-                <li class="nav-item">
-                    <a href="{{ route('invoice') }}"
-                        class="nav-link ">
-                        <i class="fas fa-file-invoice"></i>
-                        <p>
-                            {{ __('invoice') }}
-                        </p>
-                    </a>
-                </li>
+               
                 <li class="nav-item">
                     <a href="{{ route('admin.employee.index') }}"
                         class="nav-link @if (request()->routeIs('admin.employee*')) active @endif">
