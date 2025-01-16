@@ -132,6 +132,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('invoice') }}"
+                        class="nav-link ">
+                        <i class="fas fa-file-invoice"></i>
+                        <p>
+                            {{ __('invoice') }}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin.employee.index') }}"
                         class="nav-link @if (request()->routeIs('admin.employee*')) active @endif">
                         <i class="nav-icon fas fa-users"></i>
