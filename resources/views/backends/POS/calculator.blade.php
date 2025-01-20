@@ -11,6 +11,7 @@
              <form id="order_form" method="post">
                  <div class="modal-body">
                      <input type="hidden" id="customer_id" name="customer_id" value="">
+                     <input type="hidden" id="totaldiscount" name="totaldiscount" value="">
                      <div class="col-md-12">
                          <table class="table table-bordered">
                              <thead>
@@ -70,8 +71,8 @@
                                  <div class="form-group">
                                      <label for="paymentMethod">{{ __('Payment Method') }}*</label>
                                      <select id="paymentMethod" name="payment_method" class="form-control">
-                                         <option value="Cash">Cash</option>
-                                         <option value="Bank">Bank transfer</option>
+                                         <option value="Cash">{{ __('Cash') }}</option>
+                                         <option value="Bank">{{ __('Bank transfer') }}</option>
                                      </select>
                                  </div>
 
@@ -87,26 +88,26 @@
                      <div class="col-md-3">
                          <!-- Summary Section -->
                          <div class="payment-summary">
-                             <div class="summary-item">
+                             <div class="summary-item ">
                                  {{ __('Total Amount') }}: <span class="text-danger" id="payment_display">4.00$</span>
-                                 <input type="text" id="hidden_payment_display" name="hidden_payment_display"
+                                 <input type="hidden" id="hidden_payment_display" name="hidden_payment_display"
                                      value="">
                              </div>
                              <div class="summary-item">
                                  {{ __('Recieve Amount') }}: <span class="text-success"
                                      id="recieve_display">0.00$</span>
-                                 <input type="text" id="hidden_recieve_display" name="hidden_recieve_display"
-                                     value="0.00$">
+                                 <input type="hidden" id="hidden_recieve_display" name="hidden_recieve_display"
+                                     value="">
                              </div>
                              <div class="summary-item">
                                  {{ __('Change Return') }}: <span class="text-success" id="change_return">0.00$</span>
-                                 <input type="text" id="hidden_change_return" name="hidden_change_return"
-                                     value="0.00$">
+                                 <input type="hidden" id="hidden_change_return" name="hidden_change_return"
+                                     value="">
                              </div>
-                             <div class="due-amount">
+                             <div class="due-amount summary-item">
                                  {{ __('Due Amount') }}: <span class="text-danger" id="due_amount">0.00$</span>
-                                 <input type="text" id="hidden_due_amount" name="hidden_due_amount"
-                                     value="0.00$">
+                                 <input type="hidden" id="hidden_due_amount" name="hidden_due_amount"
+                                     value="">
                              </div>
                          </div>
                      </div>
@@ -218,12 +219,20 @@
          $('#confirm-payment-btn').on('click', function() {
 
              const totalAmount = $('#hidden_payment_display').val();
-             const recieveAmount = $('#hidden_recieve_display').val();
+             const recieveAmount = parseFloat($('#hidden_recieve_display').val());
+             if (!recieveAmount || isNaN(recieveAmount)) {
+                 toastr.error('Please enter the payment amount.');
+                 return;
+             } else if (recieveAmount < totalAmount) {
+                 toastr.error('Payment amount should be greater than or equal to the total amount.');
+                 return;
+             }
              const changeReturn = $('#hidden_change_return').val();
              const dueAmount = $('#hidden_due_amount').val();
              const paymentMethod = $('#paymentMethod').val();
              const paymentNotes = $('#paymentNotes').val();
              const customerId = $('#customer_id').val();
+             const totaldiscount = $('#totaldiscount').val();
 
              const productOrders = [];
 
@@ -245,6 +254,7 @@
                      change_return: changeReturn,
                      due_amount: dueAmount,
                      recieve_amount: recieveAmount,
+                     totaldiscount: totaldiscount,
                      orders: productOrders,
                      total: totalAmount,
                      _token: $('meta[name="csrf-token"]').attr('content')
@@ -252,9 +262,16 @@
                  success: function(response) {
                      toastr.success('Order placed successfully!');
                      $('#payment_modal').modal('hide');
-                     setTimeout(function() {
-                         location.reload();
-                     }, 5000);
+                     const invoiceUrl = `{{ route('invoice') }}?order_id=${response.order_id}`;
+
+                     const printWindow = window.open(invoiceUrl, '_blank');
+
+                     printWindow.onload = function() {
+                         printWindow.print();
+                     };
+                     //  setTimeout(function() {
+                     //      location.reload();
+                     //  }, 2000);
                  },
                  error: function() {
                      toastr.error('Failed to place order. Please try again.');

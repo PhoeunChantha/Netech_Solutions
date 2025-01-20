@@ -277,7 +277,7 @@ class PosController extends Controller
             $order->order_number = 'ORD' . time();
             $order->total_amount = $request->total;
             $order->user_id = auth()->guard('admin')->user()->id ?? null;
-            $order->discount_amount = $request->discount ?? 0;
+            $order->discount_amount = $request->totaldiscount ?? 0;
             $order->payment_method = $request->payment_method;
             $order->payment_mote = $request->payment_notes ?? '';
             $order->save();
@@ -313,6 +313,7 @@ class PosController extends Controller
             DB::commit();
         
             return response()->json([
+                'order_id' => $order->id,
                 'success' => 1,
                 'msg' => __('Order placed successfully'),
             ]);

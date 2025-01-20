@@ -70,7 +70,10 @@ class Product extends Model
     {
         return $this->belongsTo(Discount::class);
     }
-
+    public function orderdetail()
+    {
+        return $this->belongsTo(OrderDetail::class);
+    }
 
     public function translations()
     {

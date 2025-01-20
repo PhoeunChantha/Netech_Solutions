@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Backends;
 
-use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class InvoiceController extends Controller
 {
     //
-    function index()
+    function index(Request $request)
     {
-        return view('backends.invoice.invoice');
+        $orderId = $request->query('order_id');
+        $invoice = Order::with(['user', 'orderdetails'])->findOrFail($orderId);
+
+        return view('backends.invoice.invoice', compact('invoice'));
     }
 }

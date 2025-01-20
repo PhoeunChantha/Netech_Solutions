@@ -15,8 +15,8 @@
                             <span id="product-name" class="form-control-plaintext">{{__('Dell Desktop')}}</span>
                         </div>
                         <div class="form-group col-md-12">
-                            <label for="unit-price" class="font-weight-bold">{{ __('Unit Price') }}</label>
-                            <input type="text" class="form-control" id="unit-price" name="unit_price" value="1.00$" readonly>
+                            <label for="unit-price" class="font-weight-bold">{{ __('Total Price') }}</label>
+                            <input type="text"  class="form-control" id="unit-price" name="unit_price" value="" readonly>
                         </div>
                         <div class="form-group col-md-12">
                             <label for="discount-percent" class="font-weight-bold">{{ __('Discount Percent') }}</label>

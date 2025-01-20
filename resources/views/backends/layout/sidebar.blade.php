@@ -45,7 +45,7 @@
                 </li>
                  {{-- pos --}}
                  <li class="nav-item">
-                    <a href="{{ route('admin.pos') }}"
+                    <a href="{{ route('admin.pos') }}" target="_blank"
                         class="nav-link @if (request()->routeIs('admin.pos')) active @endif">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
@@ -60,7 +60,7 @@
                         <p>
                             {{ __('invoice') }}
                         </p>
-                    </a>
+                      </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.banner.index') }}"

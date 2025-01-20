@@ -208,6 +208,8 @@
 
         $('#product-table').on('click', '.btn-delete', function() {
             $(this).closest('tr').remove();
+            $('.discount-container').text('0.00$');
+            $('#discount').val('');
             updateTotals();
         });
 
@@ -221,6 +223,7 @@
             const productId = product.data('product-id');
             const productName = product.find('.product-title').text();
             const stock = product.find('input[name="stock"]').data('stock');
+
 
             const originalPriceElement = product.find('.product-price.text-decoration-line-through');
             let originalPrice = 0;
@@ -252,6 +255,10 @@
                 }
                 quantity = updateExistingRow(existingRow, quantityLimited, originalPrice, discountedPrice);
             } else {
+                if (stock === 0) {
+                    toastr.error('No stock available');
+                    return;
+                }
                 addNewRow(productId, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock);
             }
             updateTotals();
@@ -325,8 +332,9 @@
 
         function addNewRow(productId, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock) {
             const subtotal = calculateSubtotal(quantity, quantityLimited, originalPrice, discountedPrice);
-            const priceToUse = quantity > quantityLimited ? originalPrice : discountedPrice;
-
+            // const priceToUse = quantity > quantityLimited ? originalPrice : discountedPrice;
+            const priceToUse = originalPrice;
+            const priceToUseformat = (priceToUse).toFixed(2);
             const row = `
             <tr data-product-id="${productId}" data-original-price="${originalPrice}" data-discounted-price="${discountedPrice}" data-quantity-limited="${quantityLimited}" data-stock="${stock}">
                 <td>${productName}</td>
@@ -340,7 +348,7 @@
                     <input type="hidden" class="quantity-input" name="quantity_order" value="${quantity}">
                     <input type="hidden" class="total-input" data-subtotal="${productId}" name="total" value="${subtotal}">
                 </td>
-                <td class="unit-price">${priceToUse}$</td>
+                <td class="unit-price">${priceToUseformat}$</td>
                 <td class="subtotal">${subtotal}$</td>
                 <td class="action-buttons">
                     <button class="btn btn-delete"><i class="fas fa-trash fa-lg" style="color: #ed0c0c;"></i></button>
@@ -374,16 +382,30 @@
             $('input[name="subtotal"]').val(total.toFixed(2));
             $('.total-container').text(`${total.toFixed(2)}$`);
             $('input[name="total"]').val(total.toFixed(2));
+
         }
+        $(window).on('beforeunload', function(e) {
+            if ($('#product-table tr').length > 0) {
+                var confirmationMessage = 'Are you sure you want to leave?';
+                (e.originalEvent || e).returnValue = confirmationMessage;
+                e.preventDefault();
+                return '';
+            }
+        });
     </script>
     <!-- Apply discount modal -->
     <script>
         $(document).on('click', '.discount-price', function() {
             const subtotal = parseFloat($('#subtotal').val() || 0);
+            // const discountexisting = parseFloat($('#discount').val());
             if (subtotal <= 0) {
                 toastr.error('Please add products to cart before applying discount.');
                 return;
             }
+            // if (discountexisting > 0) {
+            //     toastr.error('Discount already applied.');
+            //     return;
+            // }
             $('#discount_modal').modal('show');
             $('#unit-price').val(`${subtotal.toFixed(2)}$`);
         });
@@ -415,6 +437,7 @@
         $(document).on('click', '.btn-pay-price', function() {
             const total = parseFloat($('#finaltotal').val() || 0);
             const customer_id = $('#customer_id').val();
+            const totaldiscount = parseFloat($('#discount').val() || 0);
 
             const productOrders = [];
             if (total <= 0) {
@@ -452,6 +475,7 @@
             $('#payment_display').text(total.toFixed(2));
             $('#hidden_payment_display').val(total.toFixed(2));
             $('#payment_modal #customer_id').val(customer_id);
+            $('#payment_modal #totaldiscount').val(totaldiscount);
 
             $('#payment_modal').modal('show');
         });

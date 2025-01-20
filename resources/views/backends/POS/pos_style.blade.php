@@ -305,6 +305,9 @@
     .summary-item {
         font-size: 16px;
         margin-bottom: 10px;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
     }
 
     .summary-item span {
