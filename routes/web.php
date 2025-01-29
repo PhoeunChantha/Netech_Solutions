@@ -42,6 +42,7 @@ use App\Http\Controllers\Website\ProductCategoryController;
 use App\Http\Controllers\Backends\BusinessSettingController;
 use App\Http\Controllers\Backends\EmailConfigurationController;
 use App\Http\Controllers\Backends\InvoiceController;
+use App\Http\Controllers\Backends\ReportController;
 use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
 use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
 use App\Http\Controllers\Website\AboutUsController as WebsiteAboutUsController;
@@ -154,6 +155,9 @@ Route::middleware(['SetFrontendSession'])->group(function () {
 
 //tong invoice
 Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice');
+
+//tong report
+Route::get('/report', [ReportController::class, 'index'])->name('report');
 
 // pos
 Route::get('/pos', [PosController::class, 'index'])->name('pos');
