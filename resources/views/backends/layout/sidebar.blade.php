@@ -53,6 +53,17 @@
                         </p>
                     </a>
                 </li>
+               
+                <li class="nav-item">
+                    <a href="{{ route('report') }}"
+                        class="nav-link @if (request()->routeIs('report')) active @endif">
+                        <i class="fa-light fa-chart-simple"></i>
+                        <p>
+                            {{ __('report') }}
+                        </p>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a href="{{ route('admin.banner.index') }}"
                         class="nav-link @if (request()->routeIs('admin.banner*')) active @endif">
@@ -130,8 +141,8 @@
                         </p>
                     </a>
                 </li>
-               
-               
+
+
                 <li class="nav-item">
                     <a href="{{ route('admin.employee.index') }}"
                         class="nav-link @if (request()->routeIs('admin.employee*')) active @endif">
