@@ -289,6 +289,7 @@ class PosController extends Controller
                     $orderDetails->order_id = $order->id;
                     $orderDetails->product_id = $product['product_id'];
                     $orderDetails->quantity = $product['quantity'];
+                    $orderDetails->unit_price = $product['unit_price'];
                     $orderDetails->price = $product['subtotal'];
                     $orderDetails->discount = $request->discount ?? 0;
                     $orderDetails->save();

@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 class InvoiceController extends Controller
 {
-    //
+
     function index(Request $request)
     {
         $orderId = $request->query('order_id');
@@ -16,4 +16,5 @@ class InvoiceController extends Controller
 
         return view('backends.invoice.invoice', compact('invoice'));
     }
+   
 }

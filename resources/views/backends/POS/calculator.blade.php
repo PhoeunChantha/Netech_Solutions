@@ -240,6 +240,7 @@
                  productOrders.push({
                      product_id: $(this).data('product-id'),
                      quantity: $(this).find('.quantity').text(),
+                     unit_price: $(this).find('.unit-price').text().replace('$', ''),
                      subtotal: $(this).find('.subtotal').text().replace('$', '')
                  });
              });
@@ -262,16 +263,31 @@
                  success: function(response) {
                      toastr.success('Order placed successfully!');
                      $('#payment_modal').modal('hide');
+                     $('#product-table tr').empty();
+                     $('.discount-container').text('0.00$');
+                     $('.subtotal-container').text('0.00$');
+                     $('#subtotal').val('');
+                     $('.total-container').text('0.00$');
+                     $('#finaltotal').val('');
+                     $('#discount').val('');
+
                      const invoiceUrl = `{{ route('invoice') }}?order_id=${response.order_id}`;
 
-                     const printWindow = window.open(invoiceUrl, '_blank');
+                     $.ajax({
+                         url: invoiceUrl,
+                         success: function(invoiceHtml) {
+                             $('#invoiceModal .modal-body').html(invoiceHtml);
+                             $('#invoiceModal').modal('show');
+                         },
+                         error: function() {
+                             toastr.error('Failed to load invoice.');
+                         }
+                     });
 
-                     printWindow.onload = function() {
-                         printWindow.print();
-                     };
-                     //  setTimeout(function() {
-                     //      location.reload();
-                     //  }, 2000);
+                    //  setTimeout(function() {
+                    //      //   location.reload();
+                    //      $('#invoiceModal').modal('show');
+                    //  }, 2000);
                  },
                  error: function() {
                      toastr.error('Failed to place order. Please try again.');

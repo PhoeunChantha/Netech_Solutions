@@ -54,15 +54,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('invoice') }}"
-                        class="nav-link @if (request()->routeIs('invoice')) active @endif">
-                        <i class="nav-icon fas fa-file-invoice"></i>
-                        <p>
-                            {{ __('invoice') }}
-                        </p>
-                      </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{ route('admin.banner.index') }}"
                         class="nav-link @if (request()->routeIs('admin.banner*')) active @endif">
                         {{-- <i class="nav-icon fa-baner"></i> --}}
@@ -230,7 +221,6 @@
                                 </p>
                             </a>
                         </li> --}}
-
                     </ul>
                 </li>
                 <li class="nav-item @if (request()->routeIs('admin.policy') || request()->routeIs('admin.term_and_condition')) menu-is-opening menu-open @endif">

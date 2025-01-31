@@ -60,7 +60,13 @@
 
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->price }}</td>
-                    <td>{{ $product->quantity }}</td>
+                    <td>
+                        @if ($product->quantity > 0)
+                            {{ $product->quantity }}
+                        @else
+                            <span class="badge badge-danger">{{ __('Out of Stock') }}</span>
+                        @endif
+                    </td>
                     <td>{{ $product->brand->name ?? 'null' }}</td>
                     <td>{{ $product->category->name ?? 'null' }}</td>
                     <td>{{ $product->createdBy->name }}</td>
@@ -90,7 +96,7 @@
                                     class="dropdown-item btn-edit">
                                     <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
                                 </a>
-                               
+
                                 <form action="{{ route('admin.product.destroy', $product->id) }}"
                                     class="d-inline-block form-delete-{{ $product->id }}" method="POST">
                                     @csrf
