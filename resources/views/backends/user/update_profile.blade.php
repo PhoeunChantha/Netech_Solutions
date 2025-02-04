@@ -127,8 +127,9 @@
                                             <option value="">{{ __('Please select role') }}</option>
                                             @foreach ($roles as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ $admin->roles->id ?? '' == $id ? 'selected' : '' }}>
-                                                    {{ $name }}</option>
+                                                    {{ $admin->roles->first()->id ?? null == $id ? 'selected' : '' }}>
+                                                    {{ $name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         @error('role')
@@ -136,8 +137,8 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
-
                                     </div>
+
                                     {{-- <div class="form-group col-md-6">
                                             <label>{{__('Address')}}</label>
                                             <input type="text" class="form-control" value="{{ old('address') }}"

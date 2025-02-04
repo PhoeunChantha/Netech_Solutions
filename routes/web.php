@@ -169,7 +169,7 @@ Route::post('save_temp_file', [FileManagerController::class, 'saveTempFile'])->n
 Route::get('remove_temp_file', [FileManagerController::class, 'removeTempFile'])->name('remove_temp_file');
 
 // back-end
-Route::middleware('SetSessionData')->group(function () {
+Route::middleware(['CheckUserLogin', 'SetSessionData'])->group(function () {
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('login', [AdminLoginController::class, 'adminLoginPage'])->name('login');
@@ -263,3 +263,4 @@ Route::middleware('SetSessionData')->group(function () {
         Route::get('/header', [DashboardController::class, 'header']);
     });
 });
+

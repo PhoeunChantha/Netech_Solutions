@@ -100,9 +100,9 @@
                     <img class=" user-image img-circle elevation-2 object-fit-cover "
                         src="{{ asset('uploads/default-profile.png') }}" alt="Default Profile Image">
                 @endif --}}
-                @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->image)
+                @if (auth()->check() && auth()->user()->image)
                     <img class="user-image img-circle elevation-2 object-fit-cover"
-                        src="{{ asset('uploads/users/' . Auth::guard('admin')->user()->image) }}" alt="User Image">
+                        src="{{ asset('uploads/users/' . auth()->user()->image) }}" alt="User Image">
                 @else
                     <img class="user-image img-circle elevation-2 object-fit-cover"
                         src="{{ asset('uploads/default-profile.png') }}" alt="Default Profile Image">
@@ -122,10 +122,10 @@
                         <img class="img-circle elevation-2" src="{{ asset('uploads/default-profile.png') }}"
                             alt="Default Profile Image">
                     @endif --}}
-                    @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->image)
+                    @if (auth()->check() && auth()->user()->image)
                         <img class="user-image img-circle elevation-2 object-fit-cover"
-                            src="{{ asset('uploads/users/' . Auth::guard('admin')->user()->image) }}" alt="User Image">
-                    @elseif (Auth::guard('admin')->check())
+                            src="{{ asset('uploads/users/' . auth()->user()->image) }}" alt="User Image">
+                    @elseif (auth()->check())
                         <img class="user-image img-circle elevation-2 object-fit-cover"
                             src="{{ asset('uploads/default-profile.png') }}" alt="Default Profile Image">
                     @else
@@ -143,13 +143,11 @@
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">
-                    <a href="{{ Auth::guard('admin')->check() ? route('admin.header.edit', Auth::guard('admin')->user()->id) : route('admin.login') }}"
+                    <a href="{{ auth('user')->check() ? route('admin.header.edit', auth('user')->user()->id) : route('admin.login') }}"
                         class="btn btn-primary btn-flat float-left">
                         <i class="fas fa-pencil-alt"></i>
                         {{ __('Edit') }}
                     </a>
-
-
                     {{-- @if (auth()->user() && auth()->user()->can('user.edit'))
                     @endif --}}
                     <a href="{{ route('admin.admin-logout') }}"

@@ -12,6 +12,7 @@ use App\helpers\ImageManager;
 use App\Models\BusinessSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class ServiceController extends Controller
@@ -42,6 +43,9 @@ class ServiceController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('service.create')) {
+            abort(403);
+        }
         $services = Service::with('category')->get();
         $categories = Category::all();
         $language = BusinessSetting::where('type', 'language')->first();
@@ -157,6 +161,9 @@ class ServiceController extends Controller
      */
     public function edit($id)
     {
+        if (!Gate::allows('service.edit')) {
+            abort(403);
+        }
         $categories = Category::all();
         $service = Service::withoutGlobalScopes()->with('translations')->with('category')->findOrFail($id);
         $language = BusinessSetting::where('type', 'language')->first();

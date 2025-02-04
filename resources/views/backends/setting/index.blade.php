@@ -221,37 +221,6 @@
                                                 <h3 class="card-title">{{ __('Website and system setup') }}</h3>
                                             </div>
                                             <div class="card-body">
-                                                {{-- <div class="row">
-                                                    <div class="col-4">
-                                                        <div class="form-group">
-                                                            <label for="timezone">{{ __('Timezone') }}</label>
-                                                            <select name="timezone" id="timezone"
-                                                                class="form-control select2">
-                                                                <option value="">{{ __('Please Select') }}</option>
-                                                                @foreach (config('list.all_timezone') as $value => $name)
-                                                                    <option value="{{ $value }}"
-                                                                        {{ $timezone == $value ? 'selected' : '' }}>
-                                                                        {{ $name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <div class="form-group">
-                                                            <label for="currency">{{ __('Currency') }}</label>
-                                                            <select name="currency" id="currency"
-                                                                class="form-control select2">
-                                                                <option value="">{{ __('Please Select') }}</option>
-                                                                @foreach (config('list.currency_list') as $item)
-                                                                    <option value="{{ $item['code'] }}"
-                                                                        {{ $item['code'] == $currency ? 'selected' : '' }}>
-                                                                        {{ $item['symbol'] . ' - ' . $item['name'] }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <div class="form-group">
@@ -317,24 +286,21 @@
 
                                         <div class="row">
                                             <div class="col-12 mb-3">
-                                                <button type="submit" class="btn btn-primary float-right">
-                                                    <i class="fas fa-save"></i>
-                                                    {{ __('Save') }}
-                                                </button>
-                                               
-
+                                                @if (auth()->user()->can('setting.update'))
+                                                    <button type="submit" class="btn btn-primary float-right">
+                                                        <i class="fas fa-save"></i>
+                                                        {{ __('Save') }}
+                                                    </button>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </section>
     <div class="modal fade modal_form" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>

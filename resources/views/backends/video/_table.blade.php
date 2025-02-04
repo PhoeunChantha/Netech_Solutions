@@ -24,14 +24,13 @@
                         @if (!empty($video->video_id))
                             <div>
                                 <iframe width="150" height="100"
-                                    src="https://www.youtube.com/embed/{{$video->video_id}}"
+                                    src="https://www.youtube.com/embed/{{ $video->video_id }}"
                                     style="pointer-events: none;">
                                 </iframe>
                             </div>
                         @endif
                     </td>
                     <td>{{ $video->createdBy->name ?? 'null' }}</td>
-
                     <td>
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input switcher_input status"
@@ -41,26 +40,7 @@
                         </div>
                     </td>
                     <td>
-                        {{-- <a href="{{ route('admin.video.edit', $video->id) }}" class="btn btn-info btn-sm btn-edit">
-                            <i class="fas fa-pencil-alt"></i>
-                            {{ __('Edit') }}
-                        </a>
-                        @if (auth()->user()->can('video.edit'))
-                        @endif
-                        @if (auth()->user()->can('video.delete'))
-                        @endif
-                        <form action="{{ route('admin.video.destroy', $video->id) }}"
-                            class="d-inline-block form-delete-{{ $video->id }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" data-id="{{ $video->id }}"
-                                data-href="{{ route('admin.video.destroy', $video->id) }}"
-                                class="btn btn-danger btn-sm btn-delete">
-                                <i class="fa fa-trash-alt"></i>
-                                {{ __('Delete') }}
-                            </button>
-                        </form> --}}
-                         <div class="btn-group dropleft">
+                        <div class="btn-group dropleft">
                             <button class="btn btn-info btn-sm dropdown-toggle" type="button"
                                 id="actionDropdown{{ $video->id }}" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
@@ -69,21 +49,24 @@
                             <!-- Add dropdown-menu-left to align the menu to the left side -->
                             <div class="dropdown-menu dropdown-menu-left"
                                 aria-labelledby="actionDropdown{{ $video->id }}">
-                                <a href="{{ route('admin.video.edit', $video->id) }}"
-                                    class="dropdown-item btn-edit">
-                                    <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
-                                </a>
-                            
-                                <form action="{{ route('admin.video.destroy', $video->id) }}"
-                                    class="d-inline-block form-delete-{{ $video->id }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" data-id="{{ $video->id }}"
-                                        data-href="{{ route('admin.video.destroy', $video->id) }}"
-                                        class="dropdown-item btn-delete">
-                                        <i class="fa fa-trash-alt"></i> {{ __('Delete') }}
-                                    </button>
-                                </form>
+                                @if (auth()->user()->can('video.edit'))
+                                    <a href="{{ route('admin.video.edit', $video->id) }}"
+                                        class="dropdown-item btn-edit">
+                                        <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
+                                    </a>
+                                @endif
+                                @if (auth()->user()->can('video.delete'))
+                                    <form action="{{ route('admin.video.destroy', $video->id) }}"
+                                        class="d-inline-block form-delete-{{ $video->id }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" data-id="{{ $video->id }}"
+                                            data-href="{{ route('admin.video.destroy', $video->id) }}"
+                                            class="dropdown-item btn-delete">
+                                            <i class="fa fa-trash-alt"></i> {{ __('Delete') }}
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     </td>

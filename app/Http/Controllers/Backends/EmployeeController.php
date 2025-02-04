@@ -10,6 +10,7 @@ use App\helpers\ImageManager;
 use App\Models\BusinessSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
@@ -28,6 +29,9 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('employee.create')) {
+            abort(403);
+        }
         $language = BusinessSetting::where('type', 'language')->first();
         $language = $language->value ?? null;
         $default_lang = 'en';
@@ -138,6 +142,9 @@ class EmployeeController extends Controller
      */
     public function edit(string $id)
     {
+        if (!Gate::allows('employee.edit')) {
+            abort(403);
+        }
         $employee = Employee::findOrFail($id);
         $language = BusinessSetting::where('type', 'language')->first();
         $language = $language->value ?? null;

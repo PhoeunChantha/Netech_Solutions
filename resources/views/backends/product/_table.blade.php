@@ -71,12 +71,14 @@
                     <td>{{ $product->category->name ?? 'null' }}</td>
                     <td>{{ $product->createdBy->name }}</td>
                     <td>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input switcher_input status"
-                                id="status_{{ $product->id }}" data-id="{{ $product->id }}"
-                                {{ $product->status == 1 ? 'checked' : '' }} name="status">
-                            <label class="custom-control-label" for="status_{{ $product->id }}"></label>
-                        </div>
+                        @if (auth()->user()->can('product.edit'))
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input switcher_input status"
+                                    id="status_{{ $product->id }}" data-id="{{ $product->id }}"
+                                    {{ $product->status == 1 ? 'checked' : '' }} name="status">
+                                <label class="custom-control-label" for="status_{{ $product->id }}"></label>
+                            </div>
+                        @endif
                     </td>
                     <td>
                         <div class="btn-group dropleft">
@@ -88,25 +90,30 @@
                             <!-- Add dropdown-menu-left to align the menu to the left side -->
                             <div class="dropdown-menu dropdown-menu-left"
                                 aria-labelledby="actionDropdown{{ $product->id }}">
-                                <a href="#" class="dropdown-item btn-view" data-toggle="modal"
-                                    data-target="#view-product{{ $product->id }}">
-                                    <i class="fas fa-eye"></i> {{ __('View') }}
-                                </a>
-                                <a href="{{ route('admin.product.edit', $product->id) }}"
-                                    class="dropdown-item btn-edit">
-                                    <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
-                                </a>
-
-                                <form action="{{ route('admin.product.destroy', $product->id) }}"
-                                    class="d-inline-block form-delete-{{ $product->id }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" data-id="{{ $product->id }}"
-                                        data-href="{{ route('admin.product.destroy', $product->id) }}"
-                                        class="dropdown-item btn-delete">
-                                        <i class="fa fa-trash-alt"></i> {{ __('Delete') }}
-                                    </button>
-                                </form>
+                                @if (auth()->user()->can('product.edit'))
+                                    <a href="#" class="dropdown-item btn-view" data-toggle="modal"
+                                        data-target="#view-product{{ $product->id }}">
+                                        <i class="fas fa-eye"></i> {{ __('View') }}
+                                    </a>
+                                @endif
+                                @if (auth()->user()->can('product.edit'))
+                                    <a href="{{ route('admin.product.edit', $product->id) }}"
+                                        class="dropdown-item btn-edit">
+                                        <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
+                                    </a>
+                                @endif
+                                @if (auth()->user()->can('product.delete'))
+                                    <form action="{{ route('admin.product.destroy', $product->id) }}"
+                                        class="d-inline-block form-delete-{{ $product->id }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" data-id="{{ $product->id }}"
+                                            data-href="{{ route('admin.product.destroy', $product->id) }}"
+                                            class="dropdown-item btn-delete">
+                                            <i class="fa fa-trash-alt"></i> {{ __('Delete') }}
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     </td>

@@ -30,12 +30,14 @@
                     <td>{{ $cust->phone }}</td>
                     <td>{{ $cust->address }}</td>
                     <td>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input switcher_input status"
-                                id="status_{{ $cust->id }}" data-id="{{ $cust->id }}"
-                                {{ $cust->status == 1 ? 'checked' : '' }} name="status">
-                            <label class="custom-control-label" for="status_{{ $cust->id }}"></label>
-                        </div>
+                        @if (auth()->user()->can('customer.edit'))
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input switcher_input status"
+                                    id="status_{{ $cust->id }}" data-id="{{ $cust->id }}"
+                                    {{ $cust->status == 1 ? 'checked' : '' }} name="status">
+                                <label class="custom-control-label" for="status_{{ $cust->id }}"></label>
+                            </div>
+                        @endif
                     </td>
                     <td>
                         {{-- <a href="#" class="btn btn-info btn-sm btn-view" data-toggle="modal"
@@ -43,23 +45,26 @@
                             <i class="fas fa-eye"></i>
                             {{ __('View') }}
                         </a> --}}
-                        <a href="{{ route('admin.customer.edit', $cust->id) }}" class="btn btn-info btn-sm btn-edit">
-                            <i class="fas fa-pencil-alt"></i>
-                            {{ __('Edit') }}
-                        </a>
-                       
-                        <form action="{{ route('admin.customer.destroy', $cust->id) }}"
-                            class="d-inline-block form-delete-{{ $cust->id }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" data-id="{{ $cust->id }}"
-                                data-href="{{ route('admin.customer.destroy', $cust->id) }}"
-                                class="btn btn-danger btn-sm btn-delete">
-                                <i class="fa fa-trash-alt"></i>
-                                {{ __('Delete') }}
-                            </button>
-                        </form>
-
+                        @if (auth()->user()->can('customer.edit'))
+                            <a href="{{ route('admin.customer.edit', $cust->id) }}"
+                                class="btn btn-info btn-sm btn-edit">
+                                <i class="fas fa-pencil-alt"></i>
+                                {{ __('Edit') }}
+                            </a>
+                        @endif
+                        @if (auth()->user()->can('customer.delete'))
+                            <form action="{{ route('admin.customer.destroy', $cust->id) }}"
+                                class="d-inline-block form-delete-{{ $cust->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" data-id="{{ $cust->id }}"
+                                    data-href="{{ route('admin.customer.destroy', $cust->id) }}"
+                                    class="btn btn-danger btn-sm btn-delete">
+                                    <i class="fa fa-trash-alt"></i>
+                                    {{ __('Delete') }}
+                                </button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
                 {{-- @include('backends.servicepage.view-service') --}}
@@ -71,7 +76,8 @@
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
                 <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
-                    {{ __('Showing') }} {{ $customers->firstItem() }} {{ __('to') }} {{ $customers->lastItem() }}
+                    {{ __('Showing') }} {{ $customers->firstItem() }} {{ __('to') }}
+                    {{ $customers->lastItem() }}
                     {{ __('of') }} {{ $customers->total() }} {{ __('entries') }}
                 </div>
                 <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $customers->links() }}</div>

@@ -11,6 +11,7 @@ use App\helpers\ImageManager;
 use App\Models\BusinessSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
@@ -29,6 +30,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('product_category.create')) {
+            abort(403);
+        }
         $language = BusinessSetting::where('type', 'language')->first();
         $language = $language->value ?? null;
         $default_lang = 'en';
@@ -125,7 +129,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        // dd($id);
+        if (!Gate::allows('product_category.edit')) {
+            abort(403);
+        }
         $category = Category::withoutGlobalScopes()->with('translations')->findOrFail($id);
 
         $language = BusinessSetting::where('type', 'language')->first();

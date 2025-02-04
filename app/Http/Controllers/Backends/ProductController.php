@@ -14,6 +14,7 @@ use App\helpers\ImageManager;
 use App\Models\BusinessSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -44,6 +45,9 @@ class ProductController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('product.create')) {
+            abort(403);
+        }
         $products = Product::with('category', 'brand')->get();
         $categories = Category::all();
         $brands = Brand::all();
@@ -172,6 +176,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        if (!Gate::allows('product.edit')) {
+            abort(403);
+        }
         $categories = Category::all();
         $brands = Brand::all();
         $product = Product::withoutGlobalScopes()->with('translations')->with('category', 'brand')->findOrFail($id);

@@ -12,10 +12,10 @@ class OrderDetail extends Model
     protected $table = 'orderdetails';
     public function order()
     {
-        return $this->belongsTo(Order::class, 'order_id', 'id');
+        return $this->belongsTo(Order::class, 'order_id');
     }
-    public function products()
+    public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id', 'id');
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

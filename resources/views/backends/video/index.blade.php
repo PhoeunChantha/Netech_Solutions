@@ -25,11 +25,12 @@
                                     <h3 class="card-title">{{ __('Video List') }}</h3>
                                 </div>
                                 <div class="col-sm-6">
+                                    @if (auth()->user()->can('video.create'))
                                     <a class="btn btn-primary float-right" href="{{ route('admin.video.create') }}">
                                         <i class=" fa fa-plus-circle"></i>
                                         {{ __('Add New') }}
                                     </a>
-                                
+                                    @endif
                                 </div>
                             </div>
                         </div>

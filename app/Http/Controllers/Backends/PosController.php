@@ -276,7 +276,7 @@ class PosController extends Controller
             $order->receive_amount = $request->recieve_amount ?? 0;
             $order->order_number = 'ORD' . time();
             $order->total_amount = $request->total;
-            $order->user_id = auth()->guard('admin')->user()->id ?? null;
+            $order->user_id = auth()->user()->id ?? null;
             $order->discount_amount = $request->totaldiscount ?? 0;
             $order->payment_method = $request->payment_method;
             $order->payment_mote = $request->payment_notes ?? '';

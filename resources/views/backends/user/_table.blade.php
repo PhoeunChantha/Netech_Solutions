@@ -32,31 +32,36 @@
                     <td>{{ $user->phone }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input switcher_input status"
-                                id="status_{{ $user->id }}" data-id="{{ $user->id }}"
-                                {{ $user->status == 1 ? 'checked' : '' }} name="status">
-                            <label class="custom-control-label" for="status_{{ $user->id }}"></label>
-                        </div>
+                        @if (auth()->user()->can('user.edit'))
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input switcher_input status"
+                                    id="status_{{ $user->id }}" data-id="{{ $user->id }}"
+                                    {{ $user->status == 1 ? 'checked' : '' }} name="status">
+                                <label class="custom-control-label" for="status_{{ $user->id }}"></label>
+                            </div>
+                        @endif
                     </td>
                     <td>{{ $user->created_at->format('d M Y h:i A') }}</td>
                     <td>
-                        <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-info btn-sm btn-edit">
-                            <i class="fas fa-pencil-alt"></i>
-                            {{ __('Edit') }}
-                        </a>
-                       
-                        <form action="{{ route('admin.user.destroy', $user->id) }}"
-                            class="d-inline-block form-delete-{{ $user->id }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" data-id="{{ $user->id }}"
-                                data-href="{{ route('admin.user.destroy', $user->id) }}"
-                                class="btn btn-danger btn-sm btn-delete">
-                                <i class="fa fa-trash-alt"></i>
-                                {{ __('Delete') }}
-                            </button>
-                        </form>
+                        @if (auth()->user()->can('user.edit'))
+                            <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-info btn-sm btn-edit">
+                                <i class="fas fa-pencil-alt"></i>
+                                {{ __('Edit') }}
+                            </a>
+                        @endif
+                        @if (auth()->user()->can('user.delete'))
+                            <form action="{{ route('admin.user.destroy', $user->id) }}"
+                                class="d-inline-block form-delete-{{ $user->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" data-id="{{ $user->id }}"
+                                    data-href="{{ route('admin.user.destroy', $user->id) }}"
+                                    class="btn btn-danger btn-sm btn-delete">
+                                    <i class="fa fa-trash-alt"></i>
+                                    {{ __('Delete') }}
+                                </button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
             @endforeach

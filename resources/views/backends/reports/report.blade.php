@@ -1,6 +1,17 @@
 @extends('backends.master')
 @include('backends.reports.report_style')
 @section('contents')
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h3>{{ __('Report') }}</h3>
+                </div>
+                <div class="col-sm-6" style="text-align: right">
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="content">
         <div class="container-fluid mt-4">
             <!-- Filters Section -->
@@ -37,21 +48,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-3">
-                            <label class="visually-hidden" for="specificSizeSelect">Business Location</label>
-                            <div class="input-group">
-                                <div class="input-group-text">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                </div>
-                                <select class="custom-select" id="specificSizeSelect">
-                                    <option selected>Choose...</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
 
-                        </div>
                         <div class="col-sm-3">
                             <label class="visually-hidden" for="specificSizeInputGroupDatetime">Date and Time</label>
                             <div class="input-group">
@@ -72,9 +69,7 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="#">Report List</a>
                         </li>
-
                     </ul>
-
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <!-- Show / Entries section -->
                         <div class="d-flex justify-content-between align-items-center">
@@ -106,43 +101,37 @@
                             <form>
                                 <div class="d-flex">
                                     <button class="btn btn-primary mr-2">Search</button>
-                                    <input type="text" class="form-control" placeholder="Search ..." style="width: 200px" />
+                                    <input type="text" class="form-control" placeholder="Search ..."
+                                        style="width: 200px" />
                                 </div>
                             </form>
                         </div>
                     </div>
-
                     <div class="table-responsive mt-3">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Product</th>
-
                                     <th>Customer Name</th>
-
                                     <th>Invoice No.</th>
                                     <th>Date</th>
                                     <th>Quantity</th>
-                                    <th>Unit</th>
                                     <th>Unit Price</th>
                                     <th>Discount Amount</th>
-                                    <th>Price Inc</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Example Product</td>
-                                    
-                                    <td>John Doe</td>
-
-                                    <td>INV-001</td>
-                                    <td>01-01-2025</td>
-                                    <td>10</td>
-                                    <td>PCS</td>
-                                    <td>$50</td>
-                                    <td>$45</td>
-                                    <td>$47</td>
-                                </tr>
+                                @foreach ($reports as $report)
+                                    <tr>
+                                        <td>Example Product</td>
+                                        <td>{{ $report->customer_id}}</td>
+                                        <td>{{ $report->order_number }}</td>
+                                        <td>{{ $report->created_at->format('Y-m-d') }}</td>
+                                        <td>10</td>
+                                        <td>$50</td>
+                                        <td>$45</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

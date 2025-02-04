@@ -13,19 +13,16 @@ use App\Models\BusinessSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 
 class DiscountController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:admin');
-    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $discounts = Discount::where('status', 1)->latest('id')->paginate(10);
+        $discounts = Discount::latest('id')->paginate(10);
         $discountProducts = [];
         foreach ($discounts as $discount) {
             if (!empty($discount->product_ids)) {
@@ -41,11 +38,13 @@ class DiscountController extends Controller
      */
     public function create()
     {
-        // $brands = Brand::with('products')->get();
+        if (!Gate::allows('discount.create')) {
+            abort(403);
+        }
         $discountedProductIds = Discount::pluck('product_ids')
-        ->flatten()           // Flatten to ensure a single array
-            ->unique()            // Remove duplicates if any
-            ->toArray();          // Convert to a plain array
+        ->flatten()          
+            ->unique()           
+            ->toArray();       
 
         $brands = Brand::with(['products' => function ($query) use ($discountedProductIds) {
             $query->whereNotIn('id', $discountedProductIds);
@@ -174,6 +173,9 @@ class DiscountController extends Controller
      */
     public function edit(string $id)
     {
+     if (!Gate::allows('discount.edit')) {
+            abort(403);
+        }
         $discount = Discount::findOrFail($id);
         $brands = Brand::with('products')->get();
         $language = BusinessSetting::where('type', 'language')->first();

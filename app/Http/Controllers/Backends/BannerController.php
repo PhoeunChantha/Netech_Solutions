@@ -10,6 +10,7 @@ use App\helpers\ImageManager;
 use App\Models\BusinessSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class BannerController extends Controller
@@ -28,6 +29,9 @@ class BannerController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('banner.create')) {
+            abort(403);
+        }
         $language = BusinessSetting::where('type', 'language')->first();
         $language = $language->value ?? null;
         $default_lang = 'en';
@@ -135,7 +139,9 @@ class BannerController extends Controller
      */
     public function edit($id)
     {
-        // dd($id);
+        if (!Gate::allows('banner.edit')) {
+            abort(403);
+        }
         $banner = Banner::withoutGlobalScopes()->with('translations')->findOrFail($id);
         $language = BusinessSetting::where('type', 'language')->first();
         $language = $language->value ?? null;

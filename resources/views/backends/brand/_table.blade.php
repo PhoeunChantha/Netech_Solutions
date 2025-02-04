@@ -27,11 +27,13 @@
                     </td>
                     <td>{{ $brand->description }}</td>
                     <td>
+                        @if (auth()->user()->can('brand.edit'))
                         <a href="{{ route('admin.brand.edit', $brand->id) }}" class="btn btn-info btn-sm btn-edit">
                             <i class="fas fa-pencil-alt"></i>
                             {{ __('Edit') }}
                         </a>
-
+                        @endif
+                        @if (auth()->user()->can('brand.delete'))
                         <form action="{{ route('admin.brand.destroy', $brand->id) }}"
                             class="d-inline-block form-delete-{{ $brand->id }}">
                             @csrf
@@ -43,6 +45,7 @@
                                 {{ __('Delete') }}
                             </button>
                         </form>
+                        @endif
                        
                     </td>
                 </tr>

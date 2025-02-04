@@ -27,35 +27,43 @@
                     <td>{{ $service->name }}</td>
                     <td>{{ $service->category->name ?? 'null' }}</td>
                     <td>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input switcher_input status"
-                                id="status_{{ $service->id }}" data-id="{{ $service->id }}"
-                                {{ $service->status == 1 ? 'checked' : '' }} name="status">
-                            <label class="custom-control-label" for="status_{{ $service->id }}"></label>
-                        </div>
+                        @if (auth()->user()->can('service.edit'))
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input switcher_input status"
+                                    id="status_{{ $service->id }}" data-id="{{ $service->id }}"
+                                    {{ $service->status == 1 ? 'checked' : '' }} name="status">
+                                <label class="custom-control-label" for="status_{{ $service->id }}"></label>
+                            </div>
+                        @endif
                     </td>
                     <td>
-                        <a href="#" class="btn btn-info btn-sm btn-view" data-toggle="modal"
-                            data-target="#view-service{{ $service->id }}">
-                            <i class="fas fa-eye"></i>
-                            {{ __('View') }}
-                        </a>
-                        <a href="{{ route('admin.service.edit', $service->id) }}" class="btn btn-info btn-sm btn-edit">
-                            <i class="fas fa-pencil-alt"></i>
-                            {{ __('Edit') }}
-                        </a>
-                       
-                        <form action="{{ route('admin.service.destroy', $service->id) }}"
-                            class="d-inline-block form-delete-{{ $service->id }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" data-id="{{ $service->id }}"
-                                data-href="{{ route('admin.service.destroy', $service->id) }}"
-                                class="btn btn-danger btn-sm btn-delete">
-                                <i class="fa fa-trash-alt"></i>
-                                {{ __('Delete') }}
-                            </button>
-                        </form>
+                        @if (auth()->user()->can('service.edit'))
+                            <a href="#" class="btn btn-info btn-sm btn-view" data-toggle="modal"
+                                data-target="#view-service{{ $service->id }}">
+                                <i class="fas fa-eye"></i>
+                                {{ __('View') }}
+                            </a>
+                        @endif
+                        @if (auth()->user()->can('service.edit'))
+                            <a href="{{ route('admin.service.edit', $service->id) }}"
+                                class="btn btn-info btn-sm btn-edit">
+                                <i class="fas fa-pencil-alt"></i>
+                                {{ __('Edit') }}
+                            </a>
+                        @endif
+                        @if (auth()->user()->can('service.delete'))
+                            <form action="{{ route('admin.service.destroy', $service->id) }}"
+                                class="d-inline-block form-delete-{{ $service->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" data-id="{{ $service->id }}"
+                                    data-href="{{ route('admin.service.destroy', $service->id) }}"
+                                    class="btn btn-danger btn-sm btn-delete">
+                                    <i class="fa fa-trash-alt"></i>
+                                    {{ __('Delete') }}
+                                </button>
+                            </form>
+                        @endif
 
                     </td>
                 </tr>

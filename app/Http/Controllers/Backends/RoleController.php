@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
@@ -26,6 +27,9 @@ class RoleController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('role.create')) {
+            abort(403);
+        }
         return view('backends.role.create');
     }
 
@@ -55,7 +59,7 @@ class RoleController extends Controller
 
         $output = [
             'success' => 1,
-            'msg' => __("user.role_add_successfully")
+            'msg' => __("Admin role created successfully")
         ];
 
         return redirect()->route('admin.role.index')->with($output);
@@ -74,8 +78,10 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+        if (!Gate::allows('role.edit')) {
+            abort(403);
+        }
         $role = Role::with('permissions')->findOrFail($id);
-
         $role_permissions = $role->permissions->pluck('name')->toArray();
 
         return view('backends.role.edit', compact('role', 'role_permissions'));
@@ -109,7 +115,7 @@ class RoleController extends Controller
 
         $output = [
             'success' => 1,
-            'msg' => __("user.role_update_successfully")
+            'msg' => __("Admin role updated successfully")
         ];
 
         return redirect()->route('admin.role.index')->with($output);
@@ -129,7 +135,7 @@ class RoleController extends Controller
         foreach ($non_existing_permissions as $new_permission) {
             Permission::create([
                 'name' => $new_permission,
-                'guard_name' => 'web'
+                'guard_name' => 'user'
             ]);
         }
     }

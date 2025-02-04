@@ -39,10 +39,12 @@
                                 </div>
                                 {{-- <span class="badge bg-warning total-count">{{ $grades->total() }}</span> --}}
                                 <div class="col-sm-6">
+                                    @if (auth()->user()->can('brand.create'))
                                     <a class="btn btn-primary float-right" href="{{ route('admin.brand.create') }}">
                                         <i class=" fa fa-plus-circle"></i>
                                         {{ __('Add New') }}
                                     </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>

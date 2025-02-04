@@ -52,7 +52,8 @@ class NavigationController extends Controller
      */
     public function edit($id)
     {
-        $admin = Admin::findOrFail($id);
+        $admin = User::findOrFail($id);
+        // dd($admin);
         $roles = Role::select('name', 'id')
             ->pluck('name', 'id');
         return view('backends.user.update_profile', compact('admin', 'roles'));
@@ -95,7 +96,6 @@ class NavigationController extends Controller
             $user->phone = $request->phone;
             $user->telegram = $request->telegram ?? null;
             $user->email = $request->email;
-
             $role_id        = $request->role;
             $user_role      = $user->roles->first();
             $previous_role  = !empty($user_role->id) ? $user_role->id : 0;

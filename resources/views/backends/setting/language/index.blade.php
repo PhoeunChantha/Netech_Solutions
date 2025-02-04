@@ -47,14 +47,14 @@
                                                     <h3 class="card-title">{{ __('Language') }}</h3>
                                                 </div>
                                                 <div class="col-6">
+                                                    @if (auth()->user()->can('language.create'))
                                                     <a class="btn btn-primary btn-modal float-right" href="#"
                                                         data-href="{{ route('admin.setting.language.create') }}"
                                                         data-toggle="modal" data-container=".modal_form">
                                                         <i class=" fa fa-plus-circle"></i>
                                                         {{ __('Add New') }}
                                                     </a>
-                                                    
-
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

@@ -9,6 +9,7 @@ use App\helpers\ImageManager;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,6 +34,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('user.create')) {
+            abort(403);
+        }
         $roles = Role::select('name', 'id')
             ->pluck('name', 'id');
 
@@ -107,7 +111,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        // dd($id);
+        if (!Gate::allows('user.edit')) {
+            abort(403);
+        }
         $user = User::findOrFail($id);
         $roles = Role::select('name', 'id')
             ->pluck('name', 'id');
@@ -170,11 +176,10 @@ class UserController extends Controller
             }
 
             $user->save();
-
             DB::commit();
             $output = [
                 'success' => 1,
-                'msg' => __('Created successfully')
+                'msg' => __('Updated successfully')
             ];
         } catch (Exception $e) {
             dd($e);
@@ -207,7 +212,7 @@ class UserController extends Controller
             $output = [
                 'status' => 1,
                 'view'  => $view,
-                'msg' => __('User Deleted successfully')
+                'msg' => __('Deleted successfully')
             ];
         } catch (Exception $e) {
             DB::rollBack();

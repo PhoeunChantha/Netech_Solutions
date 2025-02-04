@@ -60,7 +60,7 @@
         }
 
     </style>
-</head>\
+</head>
 
 <body>
     <section class="ftco-section " >

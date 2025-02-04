@@ -55,30 +55,36 @@
                     <td>{{ $discount->quantity_limited }}</td>
                     <td>{{ $discount->createdBy->name ?? 'null' }}</td>
                     <td>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input switcher_input status"
-                                id="status_{{ $discount->id }}" data-id="{{ $discount->id }}"
-                                {{ $discount->status == 1 ? 'checked' : '' }} name="status">
-                            <label class="custom-control-label" for="status_{{ $discount->id }}"></label>
-                        </div>
+                        @if (auth()->user()->can('discount.edit'))
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input switcher_input status"
+                                    id="status_{{ $discount->id }}" data-id="{{ $discount->id }}"
+                                    {{ $discount->status == 1 ? 'checked' : '' }} name="status">
+                                <label class="custom-control-label" for="status_{{ $discount->id }}"></label>
+                            </div>
+                        @endif
                     </td>
                     <td>
-                        <a href="{{ route('admin.discount.edit', $discount->id) }}"
-                            class="btn btn-info btn-sm btn-edit">
-                            <i class="fas fa-pencil-alt"></i>
-                            {{ __('Edit') }}
-                        </a>
-                        <form action="{{ route('admin.discount.destroy', $discount->id) }}"
-                            class="d-inline-block form-delete-{{ $discount->id }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" data-id="{{ $discount->id }}"
-                                data-href="{{ route('admin.discount.destroy', $discount->id) }}"
-                                class="btn btn-danger btn-sm btn-delete">
-                                <i class="fa fa-trash-alt"></i>
-                                {{ __('Delete') }}
-                            </button>
-                        </form>
+                        @if (auth()->user()->can('discount.edit'))
+                            <a href="{{ route('admin.discount.edit', $discount->id) }}"
+                                class="btn btn-info btn-sm btn-edit">
+                                <i class="fas fa-pencil-alt"></i>
+                                {{ __('Edit') }}
+                            </a>
+                        @endif
+                        @if (auth()->user()->can('discount.delete'))
+                            <form action="{{ route('admin.discount.destroy', $discount->id) }}"
+                                class="d-inline-block form-delete-{{ $discount->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" data-id="{{ $discount->id }}"
+                                    data-href="{{ route('admin.discount.destroy', $discount->id) }}"
+                                    class="btn btn-danger btn-sm btn-delete">
+                                    <i class="fa fa-trash-alt"></i>
+                                    {{ __('Delete') }}
+                                </button>
+                            </form>
+                        @endif
 
                     </td>
                 </tr>

@@ -28,12 +28,14 @@
                     <td>{{ $emp->email }}</td>
                     <td>{{ $emp->position }}</td>
                     <td>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input switcher_input status"
-                                id="status_{{ $emp->id }}" data-id="{{ $emp->id }}"
-                                {{ $emp->status == 1 ? 'checked' : '' }} name="status">
-                            <label class="custom-control-label" for="status_{{ $emp->id }}"></label>
-                        </div>
+                        @if (auth()->user()->can('employee.edit'))
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input switcher_input status"
+                                    id="status_{{ $emp->id }}" data-id="{{ $emp->id }}"
+                                    {{ $emp->status == 1 ? 'checked' : '' }} name="status">
+                                <label class="custom-control-label" for="status_{{ $emp->id }}"></label>
+                            </div>
+                        @endif
                     </td>
                     <td>
                         {{-- <a href="#" class="btn btn-info btn-sm btn-view" data-toggle="modal"
@@ -41,22 +43,26 @@
                             <i class="fas fa-eye"></i>
                             {{ __('View') }}
                         </a> --}}
-                        <a href="{{ route('admin.employee.edit', $emp->id) }}" class="btn btn-info btn-sm btn-edit">
-                            <i class="fas fa-pencil-alt"></i>
-                            {{ __('Edit') }}
-                        </a>
-                       
-                        <form action="{{ route('admin.employee.destroy', $emp->id) }}"
-                            class="d-inline-block form-delete-{{ $emp->id }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" data-id="{{ $emp->id }}"
-                                data-href="{{ route('admin.employee.destroy', $emp->id) }}"
-                                class="btn btn-danger btn-sm btn-delete">
-                                <i class="fa fa-trash-alt"></i>
-                                {{ __('Delete') }}
-                            </button>
-                        </form>
+                        @if (auth()->user()->can('employee.edit'))
+                            <a href="{{ route('admin.employee.edit', $emp->id) }}"
+                                class="btn btn-info btn-sm btn-edit">
+                                <i class="fas fa-pencil-alt"></i>
+                                {{ __('Edit') }}
+                            </a>
+                        @endif
+                        @if (auth()->user()->can('employee.delete'))
+                            <form action="{{ route('admin.employee.destroy', $emp->id) }}"
+                                class="d-inline-block form-delete-{{ $emp->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" data-id="{{ $emp->id }}"
+                                    data-href="{{ route('admin.employee.destroy', $emp->id) }}"
+                                    class="btn btn-danger btn-sm btn-delete">
+                                    <i class="fa fa-trash-alt"></i>
+                                    {{ __('Delete') }}
+                                </button>
+                            </form>
+                        @endif
 
                     </td>
                 </tr>
@@ -69,7 +75,8 @@
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
                 <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
-                    {{ __('Showing') }} {{ $employees->firstItem() }} {{ __('to') }} {{ $employees->lastItem() }}
+                    {{ __('Showing') }} {{ $employees->firstItem() }} {{ __('to') }}
+                    {{ $employees->lastItem() }}
                     {{ __('of') }} {{ $employees->total() }} {{ __('entries') }}
                 </div>
                 <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $employees->links() }}</div>

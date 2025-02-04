@@ -25,10 +25,12 @@
                                     <h3 class="card-title">{{ __('Banner List') }}</h3>
                                 </div>
                                 <div class="col-sm-6">
-                                    <a class="btn btn-primary float-right" href="{{ route('admin.banner.create') }}">
-                                        <i class=" fa fa-plus-circle"></i>
-                                        {{ __('Add New') }}
-                                    </a>
+                                    @if (auth()->user()->can('banner.create'))
+                                        <a class="btn btn-primary float-right" href="{{ route('admin.banner.create') }}">
+                                            <i class=" fa fa-plus-circle"></i>
+                                            {{ __('Add New') }}
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>

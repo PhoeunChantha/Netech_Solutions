@@ -10,6 +10,7 @@ use App\helpers\ImageManager;
 use App\Models\BusinessSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class BrandController extends Controller
@@ -28,6 +29,9 @@ class BrandController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('brand.create')) {
+            abort(403);
+        }
         $language = BusinessSetting::where('type', 'language')->first();
         $language = $language->value ?? null;
         $default_lang = 'en';
@@ -130,6 +134,9 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
+        if (!Gate::allows('brand.edit')) {
+            abort(403);
+        }
         $brand = Brand::withoutGlobalScopes()->with('translations')->findOrFail($id);
         $language = BusinessSetting::where('type', 'language')->first();
         $language = $language->value ?? null;

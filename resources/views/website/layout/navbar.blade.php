@@ -41,21 +41,18 @@
                 <span class="badge bg-danger badge-small">0</span>
             </a>
         </div> --}}
-        @guest('user')
+        {{-- @guest
             <div class="btn-login">
-                {{-- <a href="{{ route('customer.login') }}" type="button" class="btn btn-login" data-toggle="modal" data-target="#exampleModal">
-                    {{ __('Login') }}
-                </a> --}}
                 <a href="{{ route('customer.web.login') }}" type="button" class="btn btn-login">
                     {{ __('Login') }}
                 </a>
             </div>
         @endguest
-        @auth('user')
+        @auth
             <div class="checkin p-1 justify-content-center align-items-center">
                 <img width="25px" height="25px"
-                    src="@if (Auth::guard('user')->user()->image &&
-                            file_exists(public_path('uploads/users/' . Auth::guard('user')->user()->image))) {{ asset('uploads/users/' . Auth::guard('user')->user()->image) }}
+                    src="@if (auth()->user()->image &&
+                            file_exists(public_path('uploads/users/' . auth()->user()->image))) {{ asset('uploads/users/' . auth()->user()->image) }}
                                               @else
                                                   {{ asset('uploads/default-profile.png') }} @endif"
                     alt="Preview Image">
@@ -64,7 +61,7 @@
 
                 <a type="button" id="dropdown-toggle" class="btn dropdown-toggle" data-bs-toggle="dropdown">
 
-                    {{ Auth::guard('user')->user()->name }}
+                    {{ auth()->user()->name }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-front" style="display: none">
                     <a href="{{ route('account.profile') }}" class="dropdown-item">
@@ -77,7 +74,7 @@
                     </a>
                 </ul>
             </div>
-        @endauth
+        @endauth --}}
         <div class="dropdown align-content-center text-center">
             <a class="nav-link flag-country p-1 dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="flag-icon flag-icon-{{ $current_locale == 'en' ? 'gb' : $current_locale }}"></i>
@@ -151,28 +148,6 @@
                             aria-current="page" href="{{ route('home') }}"> <i
                                 class="fas fa-home m-1"></i>{{ __('Home') }}</a>
                     </li>
-                    {{-- @foreach ($categories as $item)
-                        <li class="nav-item ">
-                            <a class="nav-link gap-1 d-flex justify-content-center align-items-center text-center fs-5 {{ Request::routeIs('category.show') && Request::route('slug') == $item->slug ? 'active' : '' }}"
-                                href="{{ route('category.show', $item->slug) }}">
-                                <img src="
-                                    @if ($item->icon_images && file_exists(public_path('uploads/category/' . $item->icon_images))) {{ asset('uploads/category/' . $item->icon_images) }}
-                                    @else
-                                        {{ asset('uploads/default.png') }} @endif"
-                                    alt="{{ $item->name }}">
-                                {{ $item->name }}
-                            </a>
-                        </li>
-                    @endforeach --}}
-
-
-
-                    {{-- <li class="nav-item p-1">
-                        <a class="nav-link text-center {{ Request::routeIs('service.show') ? ' active' : '' }}"
-                            href="{{ route('service.show') }}">
-                            <img class="m-1 fs-5" src="/website/nav/about.png" alt="not found">{{ __('Services') }}
-                        </a>
-                    </li> --}}
 
                     <li class="nav-item p-1">
                         <a class="nav-link   text-center {{ Request::routeIs('aboutus.show') ? ' active' : '' }}"
@@ -198,33 +173,5 @@
     {{-- @include('website.layout.modal_login') --}}
 </nav>
 @push('js')
-    {{-- <script>
-        $(document).ready(function() {
-            $('#dropdown-toggle').on('click', function() {
-                $(this).next('.dropdown-menu').toggle();
-            });
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-            const darkToggle = document.querySelector('.dark-toggle');
-            const body = document.body;
-
-            darkToggle.addEventListener('click', function() {
-                body.classList.toggle('dark');
-            });
-        });
-
-        window.onscroll = function() {
-            myFunction()
-        };
-        var navbar = document.getElementById("sticky2");
-        var sticky = navbar.offsetTop;
-
-        function myFunction() {
-            if (window.pageYOffset >= sticky) {
-                navbar.classList.add("sticky");
-            } else {
-                navbar.classList.remove("sticky");
-            }
-        }
-    </script> --}}
+  
 @endpush

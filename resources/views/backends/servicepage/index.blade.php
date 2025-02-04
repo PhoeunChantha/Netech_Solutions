@@ -78,11 +78,12 @@
                                 </div>
                                 {{-- <span class="badge bg-warning total-count">{{ $grades->total() }}</span> --}}
                                 <div class="col-sm-6">
-                                   
-                                    <a class="btn btn-primary float-right" href="{{ route('admin.service.create') }}">
-                                        <i class=" fa fa-plus-circle"></i>
-                                        {{ __('Add New') }}
-                                    </a>
+                                    @if (auth()->user()->can('service.create'))
+                                        <a class="btn btn-primary float-right" href="{{ route('admin.service.create') }}">
+                                            <i class=" fa fa-plus-circle"></i>
+                                            {{ __('Add New') }}
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>

@@ -28,20 +28,25 @@
                     </td>
                     <td>{{ $banner->description }}</td>
                     <td>
+                        @if (auth()->user()->can('banner.edit'))
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input switcher_input status"
                                 id="status_{{ $banner->id }}" data-id="{{ $banner->id }}"
                                 {{ $banner->status == 1 ? 'checked' : '' }} name="status">
                             <label class="custom-control-label" for="status_{{ $banner->id }}"></label>
                         </div>
+                        @endif
                     </td>
 
 
                     <td>
+                        @if (auth()->user()->can('banner.edit'))
                         <a href="{{ route('admin.banner.edit', $banner->id) }}" class="btn btn-info btn-sm btn-edit">
                             <i class="fas fa-pencil-alt"></i>
                             {{ __('Edit') }}
                         </a>
+                        @endif
+                        @if (auth()->user()->can('banner.delete'))
                         <form action="{{ route('admin.banner.destroy', $banner->id) }}"
                             class="d-inline-block form-delete-{{ $banner->id }}">
                             @csrf
@@ -53,6 +58,7 @@
                                 {{ __('Delete') }}
                             </button>
                         </form>
+                        @endif
 
                     </td>
                 </tr>
