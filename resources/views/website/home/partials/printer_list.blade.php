@@ -1,7 +1,7 @@
- <div class="owl-carousel owl-theme">
+ <div class="owl-carousel owl-carousel-printer owl-theme" data-product-count="{{ $printerProducts->count() }}">
      @foreach ($printerProducts as $item)
          <div class="item">
-             <div class="card home-desktop border-0 shadow-lg">
+            <div class="card home-desktop border-0 shadow-lg product-card" data-product-id="{{ $item->id }}">
                  <div class="card-header head-img justify-content-center">
                      {{-- Discount Badge --}}
                      @if (

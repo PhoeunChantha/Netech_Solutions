@@ -32,12 +32,14 @@
                     </td>
                     <td>{{ $video->createdBy->name ?? 'null' }}</td>
                     <td>
+                        @if (auth()->user()->can('video.edit'))
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input switcher_input status"
                                 id="status_{{ $video->id }}" data-id="{{ $video->id }}"
                                 {{ $video->status == 1 ? 'checked' : '' }} name="status">
                             <label class="custom-control-label" for="status_{{ $video->id }}"></label>
                         </div>
+                        @endif
                     </td>
                     <td>
                         <div class="btn-group dropleft">

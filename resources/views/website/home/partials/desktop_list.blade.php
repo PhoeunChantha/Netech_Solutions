@@ -47,10 +47,10 @@
          </div>
      @endforeach
  </div> --}}
- <div class="owl-carousel owl-theme p-3">
+ <div class="owl-carousel owl-carousel-desktop owl-theme p-3" data-product-count="{{ $desktopProducts->count() }}">
      @foreach ($desktopProducts as $item)
          <div class="item">
-             <div class="card home-desktop border-0 shadow-lg">
+             <div class="card home-desktop border-0 shadow-lg product-card" data-product-id="{{ $item->id }}">
                  <div class="card-header head-img justify-content-center">
                      {{-- Discount Badge --}}
                      @if (
@@ -71,6 +71,7 @@
                      <img src="{{ asset('uploads/products/' . ($item->thumbnail[0] ?? 'default.png')) }}"
                          alt="{{ $item->name }}">
                  </div>
+        
                  <div class="card-body desktop-body">
                      <h5 class="card-title fw-bold" style="color: #1077B8;">
                          <a href="{{ route('product-detail', $item->id) }}">

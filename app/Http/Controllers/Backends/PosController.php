@@ -23,6 +23,7 @@ class PosController extends Controller
     //
     public function index()
     {
+        // dd(1);
         $customers = Customer::where('status', 1)->get();
         $categories_pos = Category::where('status', 1)->get();
         $language = BusinessSetting::where('type', 'language')->first();
@@ -274,12 +275,13 @@ class PosController extends Controller
             $order = new Order();
             $order->customer_id = $request->customer_id;
             $order->receive_amount = $request->recieve_amount ?? 0;
-            $order->order_number = 'ORD' . time();
+            $order->order_number = $request->order_number;
             $order->total_amount = $request->total;
             $order->user_id = auth()->user()->id ?? null;
             $order->discount_amount = $request->totaldiscount ?? 0;
             $order->payment_method = $request->payment_method;
             $order->payment_mote = $request->payment_notes ?? '';
+            $order->total_before_discount = $request->sub_total_before_discount ?? '';
             $order->save();
         
             // Save order details
@@ -291,7 +293,7 @@ class PosController extends Controller
                     $orderDetails->quantity = $product['quantity'];
                     $orderDetails->unit_price = $product['unit_price'];
                     $orderDetails->price = $product['subtotal'];
-                    $orderDetails->discount = $request->discount ?? 0;
+                    $orderDetails->discount = $product['discount'];
                     $orderDetails->save();
 
                     $productModel = Product::find($product['product_id']);
@@ -327,7 +329,5 @@ class PosController extends Controller
             //     'msg' => __('Something went wrong. Please try again.'),
             // ], 500);
         }
-        
-        
     }
 }

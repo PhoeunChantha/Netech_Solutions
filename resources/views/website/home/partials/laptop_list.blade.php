@@ -1,7 +1,7 @@
-  <div class="owl-carousel owl-theme p-3">
+  <div class="owl-carousel owl-carousel-laptop owl-theme p-3" data-product-count="{{ $laptopProducts->count() }}">
       @forelse ($laptopProducts as $item)
           <div class="item">
-              <div class="card home-desktop border-0 shadow-lg">
+                <div class="card home-desktop border-0 shadow-lg product-card" data-product-id="{{ $item->id }}">
                   <div class="card-header head-img justify-content-center">
                        @if (
                          $item->discount &&

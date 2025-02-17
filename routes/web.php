@@ -13,7 +13,6 @@ use App\Http\Controllers\Backends\RoleController;
 use App\Http\Controllers\Backends\UserController;
 use App\Http\Controllers\Backends\BrandController;
 use App\Http\Controllers\Backends\VideoController;
-use App\Http\Controllers\Website\LaptopController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Backends\SliderController;
 use App\Http\Controllers\Website\AccountController;
@@ -32,7 +31,6 @@ use App\Http\Controllers\Backends\LanguageController;
 use App\Http\Controllers\Backends\DashboardController;
 use App\Http\Controllers\Website\Auth\LoginController;
 use App\Http\Controllers\Backends\NavigationController;
-use App\Http\Controllers\Website\AccessoriesController;
 use App\Http\Controllers\Backends\EmailConfigController;
 use App\Http\Controllers\Backends\FileManagerController;
 use App\Http\Controllers\Website\FrontServiceController;
@@ -48,7 +46,6 @@ use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
 use App\Http\Controllers\Website\AboutUsController as WebsiteAboutUsController;
 use App\Http\Controllers\Backends\ContactController as BackendsContactController;
 
-use App\Http\Controllers\Website\Auth\LoginController as WebsiteAuthLoginController;
 
 
 /*
@@ -85,25 +82,30 @@ Route::get('remove_temp_file', [FileManagerController::class, 'removeTempFile'])
 //     return view('login');
 // });
 // Route::redirect('/', '/admin/dashboard');
+// website
+Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
+    Route::get('/web/login', [LoginController::class, 'signin'])->name('web.login')->middleware('guest:web');
+    Route::post('/login', [LoginController::class, 'login'])->name('userlogin')->middleware('guest:web');
 
-Route::middleware(['SetFrontendSession'])->group(function () {
+    Route::get('/signup', [LoginController::class, 'signup'])->name('signup')->middleware('guest:web');
+    Route::post('/register', [LoginController::class, 'register'])->name('register')->middleware('guest:web');
+
+    Route::get('/recover', [LoginController::class, 'recover'])->name('password.request')->middleware('guest:web');
+    Route::get('/change-password', [LoginController::class, 'changePassword'])->name('change-password')->middleware('guest:web');
+});
+Route::middleware(['CheckUserLogin', 'SetFrontendSession'])->group(function () {    
     // Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
     Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
-        Route::get('/web/login', [WebsiteAuthLoginController::class, 'signin'])->name('web.login');
-        Route::get('/signup', [WebsiteAuthLoginController::class, 'signup'])->name('signup');
-        Route::post('/register', [WebsiteAuthLoginController::class, 'register'])->name('register');
-        Route::get('/recover', [WebsiteAuthLoginController::class, 'recover'])->name('password.request');
-        Route::get('/change-password', [WebsiteAuthLoginController::class, 'changePassword'])->name('change-password');
-        Route::post('/login', [WebsiteAuthLoginController::class, 'login'])->name('userlogin');
-        Route::get('/logout', [WebsiteAuthLoginController::class, 'userLogout'])->name('logout');
+        
+        Route::get('/logout', [LoginController::class, 'userLogout'])->name('logout');
     });
-    Route::post('/send-forget-password', [WebsiteAuthLoginController::class, 'sendForgetPassword'])->name('send-forget-password');
-    Route::get('/verify-otp-form', [WebsiteAuthLoginController::class, 'showVerifyOtpForm'])->name('verifyOtp-Form');
-    Route::post('/verify-otp', [WebsiteAuthLoginController::class, 'verifyOtp'])->name('verifyOtp');
-    Route::get('/reset-password-otp', [WebsiteAuthLoginController::class, 'resetPasswordOtp'])->name('resetPasswordOtp');
-    Route::post('/resend-otp', [WebsiteAuthLoginController::class, 'sendForgetPassword'])->name('resend-Otp');
-    Route::post('/otp-new-password', [WebsiteAuthLoginController::class, 'otpNewPassword'])->name('otp-new-password');
+    Route::post('/send-forget-password', [LoginController::class, 'sendForgetPassword'])->name('send-forget-password');
+    Route::get('/verify-otp-form', [LoginController::class, 'showVerifyOtpForm'])->name('verifyOtp-Form');
+    Route::post('/verify-otp', [LoginController::class, 'verifyOtp'])->name('verifyOtp');
+    Route::get('/reset-password-otp', [LoginController::class, 'resetPasswordOtp'])->name('resetPasswordOtp');
+    Route::post('/resend-otp', [LoginController::class, 'sendForgetPassword'])->name('resend-Otp');
+    Route::post('/otp-new-password', [LoginController::class, 'otpNewPassword'])->name('otp-new-password');
 
 
     Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
@@ -158,6 +160,7 @@ Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice');
 
 //tong report
 Route::get('/report', [ReportController::class, 'index'])->name('report');
+Route::get('/report/report-detail/{id}', [ReportController::class, 'reportDetail'])->name('report.report-detail');
 
 // pos
 Route::get('/pos', [PosController::class, 'index'])->name('pos');
@@ -168,12 +171,18 @@ Route::get('/pos/filter', [PosController::class, 'posfilterProducts'])->name('po
 Route::post('save_temp_file', [FileManagerController::class, 'saveTempFile'])->name('save_temp_file');
 Route::get('remove_temp_file', [FileManagerController::class, 'removeTempFile'])->name('remove_temp_file');
 
+
 // back-end
-Route::middleware(['CheckUserLogin', 'SetSessionData'])->group(function () {
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('login', [AdminLoginController::class, 'adminLoginPage'])->name('login')->middleware('guest:user'); 
+    Route::post('login', [AdminLoginController::class, 'storeLogin'])->name('store-login')->middleware('guest:user'); 
+});
+Route::middleware(['auth:user', 'CheckUserLogin', 'SetSessionData'])->group(function () {
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-        Route::get('login', [AdminLoginController::class, 'adminLoginPage'])->name('login');
-        Route::post('login', [AdminLoginController::class, 'storeLogin'])->name('store-login');
+        // Route::get('login', [AdminLoginController::class, 'adminLoginPage'])->name('login');
+        // Route::post('login', [AdminLoginController::class, 'storeLogin'])->name('store-login');
         Route::get('logout', [AdminLoginController::class, 'adminLogout'])->name('admin-logout');
 
 

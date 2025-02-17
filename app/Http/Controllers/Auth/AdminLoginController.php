@@ -19,7 +19,8 @@ class AdminLoginController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest')->except('adminLogout');
+        $this->middleware('guest:user')->only(['adminLoginPage', 'storeLogin']);
+        $this->middleware('auth:user')->only(['adminLogout']);
     }
 
     public function adminLoginPage()
@@ -29,49 +30,36 @@ class AdminLoginController extends Controller
 
     public function storeLogin(Request $request)
     {
+        // Validate request first
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
         try {
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email',
-                'password' => 'required',
-            ]);
-
-            if ($validator->fails()) {
-                return redirect()->back()
-                    ->withErrors($validator)
-                    ->withInput()
-                    ->with(['success' => 0, 'msg' => 'Invalid form input']);
+            // Attempt login using Auth::attempt()
+            if (Auth::guard('user')->attempt([
+                'email' => $request->email,
+                'password' => $request->password,
+            ], $request->has('remember'))) {
+                return redirect()->route('admin.dashboard')->with(['success' => 1, 'msg' => 'Admin login successful']);
             }
 
-            $user = User::where('email', $request->email)->first();
-
-            if (!$user) {
-                return redirect()->back()->with(['success' => 0, 'msg' => 'Invalid Email']);
-            }
-
-            if ($user) {
-                if (!Hash::check($request->password, $user->password)) {
-                    return redirect()->back()->with(['success' => 0, 'msg' => 'Invalid Password']);
-                }
-
-                if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                    return redirect()->route('admin.dashboard')->with(['success' => 1, 'msg' => 'Admin login successful']);
-                }
-            }
-
-            return redirect()->back()->with(['success' => 0, 'msg' => 'Failed to login']);
+            return redirect()->back()->with(['success' => 0, 'msg' => 'Invalid Email or Password'])->withInput();
         } catch (\Exception $e) {
-            return redirect()->back()->with(['success' => 0, 'msg' => 'Please try again later.']);
+            \Log::error('Admin Login Error: ' . $e->getMessage());
+            return redirect()->back()->with(['success' => 0, 'msg' => 'An unexpected error occurred. Please try again later.']);
         }
     }
 
     protected function guard()
     {
-        return Auth::guard();
+        return Auth::guard('user');
     }
 
     public function adminLogout()
     {
-        Auth::logout();
+        Auth::guard('user')->logout();
         return redirect()->route('admin.login')->with('success', __('Logged out successfully.'));
     }
 }

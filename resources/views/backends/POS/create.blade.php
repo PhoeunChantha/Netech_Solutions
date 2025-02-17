@@ -1,5 +1,5 @@
 @extends('backends.master')
-@include('backends.POS.pos_style');
+@include('backends.POS.pos_style')
 @section('contents')
     <section class="content">
         <div class="container-fluid">
@@ -8,7 +8,7 @@
                     {{-- <form id="pos_form" method="POST">
                         @csrf --}}
                     <div class="mt-1">
-                        <div class="row mt-3">
+                        <div class="row mt-2">
                             <div>
                                 <select class="form-control select2" id="customer_id" name="customer_id" style="width: 450px;">
                                     <option value="walk-in">{{ __('Walk In Customer') }}</option>
@@ -88,13 +88,15 @@
                     @include('backends.POS.create_customer')
                 </div>
                 <!-- Cart Section -->
-                <div class="col-md-6 mt-3">
+                <div class="col-md-6 mt-2">
                     <div class="category-tabs">
-                        <div class="category-card" onclick="filterProducts('all')">
-                            <img src="{{ asset('uploads/all-product.png') }}" alt="all" class="">
+                        <!-- "All" Category Button -->
+                        <div class="category-card selected" onclick="filterProducts('all')" data-category-id="all">
+                            <img src="{{ asset('uploads/all-product.png') }}" alt="all">
                             <p>All</p>
                         </div>
 
+                        <!-- Loop Through Categories -->
                         @forelse ($categories_pos as $cate_pos)
                             <div class="category-card" onclick="filterProducts('{{ $cate_pos->id }}')"
                                 data-category-id="{{ $cate_pos->id }}">
@@ -103,13 +105,14 @@
                                 @else
                                     {{ asset('uploads/default.png') }} @endif
                                 "
-                                    alt="{{ $cate_pos->name }}" class="">
+                                    alt="{{ $cate_pos->name }}">
                                 <p>{{ $cate_pos->name }}</p>
                             </div>
                         @empty
                             <p>{{ __('No categories available') }}</p>
                         @endforelse
                     </div>
+
                     <div class="product-search mt-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -137,11 +140,19 @@
 
         function filterProducts(categoryId) {
             $('.category-card').removeClass('selected');
-            $(`[data-category-id="${categoryId}"]`).addClass('selected');
-            currentCategory = categoryId;
-            $('#product-search').val('');
+
+            if (categoryId === 'all') {
+                currentCategory = 'all';
+                $('#product-search').val('');
+                $('.category-card[data-category-id="all"]').addClass('selected');
+            } else {
+                currentCategory = categoryId;
+                $(`[data-category-id="${categoryId}"]`).addClass('selected');
+            }
+
             searchProducts();
         }
+
         // searchProducts
         function searchProducts() {
             const searchTerm = $('#product-search').val();
@@ -181,7 +192,7 @@
                                 productGrid.append(`
                             <div class="product-card" data-product-id="${product.id}">
                                 ${hasDiscount ? `<span class="discount-amount text-white bg-danger text-left">${discount}% OFF</span>` : ''}
-                                <input type="hidden" data-discount="${discount}" name="discount" value="${discount}">
+                                <input type="hidden" class="discount_value" data-discount="${discount}" name="discount" value="${discount}">
                                 <input type="hidden" data-quantity_limited="${quantityLimited}" name="quantity_limited" value="${quantityLimited}">
                                 <input type="hidden" name="stock" data-stock="${product.quantity}" value="${product.quantity}">
                                 <img src="${product.thumbnail}" alt="${product.name}">
@@ -223,7 +234,7 @@
             const productId = product.data('product-id');
             const productName = product.find('.product-title').text();
             const stock = product.find('input[name="stock"]').data('stock');
-
+            const discount_value = product.find('.discount_value').attr('data-discount');
 
             const originalPriceElement = product.find('.product-price.text-decoration-line-through');
             let originalPrice = 0;
@@ -242,12 +253,6 @@
             const quantityLimited = parseInt(product.find('input[name="quantity_limited"]').val());
             const existingRow = $(`#product-table tr[data-product-id="${productId}"]`);
 
-
-            console.log('productId', productId);
-            console.log('originalPrice', originalPrice);
-            console.log('discountedPrice', discountedPrice);
-            console.log('quantityLimited', quantityLimited);
-
             if (existingRow.length > 0) {
                 if (parseInt(existingRow.find('.quantity').text()) >= stock) {
                     toastr.error('Product out of stock!');
@@ -259,7 +264,8 @@
                     toastr.error('No stock available');
                     return;
                 }
-                addNewRow(productId, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock);
+                addNewRow(productId, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock,
+                    discount_value);
             }
             updateTotals();
 
@@ -330,13 +336,14 @@
             return quantity;
         }
 
-        function addNewRow(productId, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock) {
+        function addNewRow(productId, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock,
+            discount_value) {
             const subtotal = calculateSubtotal(quantity, quantityLimited, originalPrice, discountedPrice);
             // const priceToUse = quantity > quantityLimited ? originalPrice : discountedPrice;
             const priceToUse = originalPrice;
             const priceToUseformat = (priceToUse).toFixed(2);
             const row = `
-            <tr data-product-id="${productId}" data-original-price="${originalPrice}" data-discounted-price="${discountedPrice}" data-quantity-limited="${quantityLimited}" data-stock="${stock}">
+            <tr data-product-id="${productId}" data-original-price="${originalPrice}" data-discounted-price="${discountedPrice}" data-quantity-limited="${quantityLimited}" data-stock="${stock}" data-discount="${discount_value}">
                 <td>${productName}</td>
                 <td class="button-limit">
                     <input type="hidden" name="product_id" value="${productId}">
@@ -438,7 +445,7 @@
             const total = parseFloat($('#finaltotal').val() || 0);
             const customer_id = $('#customer_id').val();
             const totaldiscount = parseFloat($('#discount').val() || 0);
-
+            const subtotalbeforeDiscount = parseFloat($('#subtotal').val() || 0);
             const productOrders = [];
             if (total <= 0) {
                 toastr.error('Please add products to cart before proceeding to payment.');
@@ -451,12 +458,15 @@
                 const productName = row.find('td:first').text().trim();
                 const quantity = parseInt(row.find('.quantity').text());
                 const subtotal = parseFloat(row.find('.subtotal').text().replace('$', ''));
+                const productDiscount = parseFloat(row.attr('data-discount') || 0);
+
 
                 productOrders.push({
                     productId,
                     productName,
                     quantity,
-                    subtotal
+                    subtotal,
+                    productDiscount
                 });
             });
 
@@ -466,6 +476,7 @@
                     <tr>
                         <td>${order.productName}</td>
                         <td>${order.quantity}</td>
+                        <td>%${order.productDiscount.toFixed(2)}</td>
                         <td>${order.subtotal.toFixed(2)}$</td>
                     </tr>
                 `;
@@ -476,40 +487,12 @@
             $('#hidden_payment_display').val(total.toFixed(2));
             $('#payment_modal #customer_id').val(customer_id);
             $('#payment_modal #totaldiscount').val(totaldiscount);
+            $('#payment_modal #subtotal_before_discount').val(subtotalbeforeDiscount);
 
             $('#payment_modal').modal('show');
         });
     </script>
-    {{-- create new customer --}}
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '.create_customer', function(e) {
-                e.preventDefault();
-                const form = document.getElementById('create_customer_form');
-                const formData = new FormData(form);
 
-                // AJAX request
-                $.ajax({
-                    url: '{{ route('admin.pos_customer_store') }}',
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        if (response.success) {
-                            $('#create_customer').modal('hide');
-                            toastr.success(response.msg);
-                        } else {
-                            toastr.error(response.msg);
-                        }
-                    },
-                    error: function(xhr) {
-                        toastr.error('Something went wrong!');
-                    }
-                });
-            });
-        });
-    </script>
     <script>
         const compressor = new window.Compress();
         $('.custom-file-input').change(function(e) {

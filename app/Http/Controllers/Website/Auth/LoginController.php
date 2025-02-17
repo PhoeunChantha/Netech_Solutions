@@ -25,7 +25,7 @@ class LoginController extends Controller
     protected $redirectTo = '/';
     public function __construct()
     {
-        $this->middleware('guest:user')->except('userLogout');
+        $this->middleware('guest:web')->except('userLogout');
     }
 
     public function signin()
@@ -51,7 +51,7 @@ class LoginController extends Controller
         ]);
 
         $verificationResult = $response->json();
-        if (!$verificationResult['success']) {
+        if (!isset($verificationResult['success']) || !$verificationResult['success']) {
             return redirect()->back()->with([
                 'warning' => 1,
                 'msg' => __('reCAPTCHA verification failed!'),
@@ -59,27 +59,13 @@ class LoginController extends Controller
         }
 
         try {
-            $user = User::where('email', $request->signin_email)->first();
-            if (!$user) {
-                return redirect()->back()->with([
-                    'success' => 0,
-                    'msg' => 'Invalid Email',
-                ])->withInput();
-            }
+            // Attempt login directly using Auth::attempt
+            $credentials = $request->only('signin_email', 'signin_password');
 
-            if (!Hash::check($request->signin_password, $user->password)) {
-                return redirect()->back()->with([
-                    'success' => 0,
-                    'msg' => 'Invalid Password',
-                ])->withInput();
-            }
-
-            // Attempt login
-            $credentials = [
-                'email' => $request->signin_email,
-                'password' => $request->signin_password,
-            ];
-            if (Auth::guard('user')->attempt($credentials, $request->remember)) {
+            if (Auth::guard('web')->attempt([
+                'email' => $credentials['signin_email'],
+                'password' => $credentials['signin_password']
+            ], $request->has('remember'))) {
                 return redirect()->route('home')->with([
                     'success' => 1,
                     'msg' => 'Login successful',
@@ -88,15 +74,14 @@ class LoginController extends Controller
 
             return redirect()->back()->with([
                 'success' => 0,
-                'msg' => 'Failed to login',
+                'msg' => 'Invalid Email or Password',
             ])->withInput();
         } catch (\Exception $e) {
-            dd($e);
             \Log::error('Login error: ' . $e->getMessage());
-            // return redirect()->back()->with([
-            //     'success' => 0,
-            //     'msg' => 'An unexpected error occurred. Please try again later.',
-            // ])->withInput();
+            return redirect()->back()->with([
+                'success' => 0,
+                'msg' => 'An unexpected error occurred. Please try again later.',
+            ])->withInput();
         }
     }
 
@@ -249,7 +234,7 @@ class LoginController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'password' => 'required|min:8|confirmed',
-        ],[
+        ], [
             'password.required' => 'Password is required',
             'password.min' => 'Password must be at least 8 characters',
             'password.confirmed' => 'Confirm password does not match',
@@ -284,10 +269,16 @@ class LoginController extends Controller
         return view('website.web_login.new-password');
     }
 
+    protected function guard()
+    {
+        return Auth::guard('web');
+    }
 
     public function userLogout()
     {
-        Auth::guard('user')->logout();
+        Auth::guard('web')->logout();
+        session()->invalidate();
+        session()->regenerateToken();
         return redirect()->route('customer.web.login');
     }
 }

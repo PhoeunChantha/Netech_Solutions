@@ -63,7 +63,7 @@
                 <div class="social-login text-center">
                     <p>Or Continue With</p>
                     <a href="{{ route('auth.google') }}"><img src="{{ asset('website/login/google.png') }}" alt="Google"></a>
-                    <a href="#"><img src="{{ asset('website/login/iphone.png') }}" alt="Apple"></a>
+                    {{-- <a href="#"><img src="{{ asset('website/login/iphone.png') }}" alt="Apple"></a> --}}
                 </div>
 
                 <div class="footer">

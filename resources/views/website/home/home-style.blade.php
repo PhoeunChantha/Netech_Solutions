@@ -7,6 +7,9 @@
     .main-card {
         background-color: #EBF7FF;
     }
+    .category-item,.product-card{
+        cursor: pointer;
+    }
 
     .shadow-hover-cate {
         position: absolute;
@@ -436,8 +439,14 @@
     .home-desktop {
         transition: transform 0.3s ease-in-out;
         width: 286px;
-        /* width: 18em;
-        height: 20em; */
+        /* width: 18em; */
+        height: 350px;
+    }
+    .videos .home-desktop {
+        transition: transform 0.3s ease-in-out;
+        width: 286px;
+        /* width: 18em; */
+        height: 390px;
     }
 
     .home-desktop:hover {
@@ -709,5 +718,11 @@
 
     .show-video {
         padding: 0.5em !important;
+    }
+    .stock.bg-danger{
+        border-radius: 2px !important;
+    }
+    .stock.bg-success{
+        border-radius: 2px !important;
     }
 </style>

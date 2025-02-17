@@ -132,7 +132,7 @@
             console.log($(this).data('id'));
             $.ajax({
                 type: "get",
-                url: "{{ route('admin.banner.update_status') }}",
+                url: "{{ route('admin.video.update_status') }}",
                 data: {
                     "id": $(this).data('id')
                 },

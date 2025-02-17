@@ -515,10 +515,18 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: rgba(16, 119, 184);
+        background-color: rgb(77 169 227);
+        /* background: transparent !important; */
         padding: 10px;
         text-align: center;
 
+    }
+    .about-card-body p {
+      color: white;
+    }
+    .about-card-body h3 {
+      /* color: white; */
+      /* font-weight: 500; */
     }
 
     /* our-company */

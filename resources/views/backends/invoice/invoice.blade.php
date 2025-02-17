@@ -176,94 +176,74 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
     </script>
-    <!-- Invoice Modal -->
-    <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="invoiceModalLabel">Invoice</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <div class="layout-container">
+        <!-- Invoice Content -->
+        <div class="invoice-container">
+            <!-- Logo and Company Name -->
+            <div class="text-center">
+                <img class="logo" src="{{ asset('svgs/invoice-profile.svg') }}" alt="Logo">
+                <h2 class="store-name text-center">Netteach Solution Store</h2>
+                <h3 class="invoice-title text-center">Invoice</h3>
+            </div>
+
+            <!-- Invoice Details -->
+            <div class="invoice-header">
+                <div>
+                    <p style="margin-bottom: 5px;">
+                        <strong style="color: rgb(0, 157, 255)">Invoice ID:</strong>
+                        <span style="margin-left: 10px;">{{ $invoice->order_number ?? '' }}</span>
+                    </p>
+                    <p style="margin-bottom: 0;">
+                        <strong style="color: rgb(0, 157, 255)">Date:</strong>
+                        <span style="margin-left: 42px;">{{ $invoice->created_at->format('d/m/Y') }}</span>
+                    </p>
                 </div>
-                <div class="modal-body">
-                    <div class="layout-container">
-                        <!-- Invoice Content -->
-                        <div class="invoice-container">
-                            <!-- Logo and Company Name -->
-                            <div class="text-center">
-                                <img class="logo" src="{{ asset('svgs/invoice-profile.svg') }}" alt="Logo">
-                                <h2 class="store-name text-center">Netteach Solution Store</h2>
-                                <h3 class="invoice-title text-center">Invoice</h3>
-                            </div>
-
-                            <!-- Invoice Details -->
-                            <div class="invoice-header">
-                                <div>
-                                    <p style="margin-bottom: 5px;">
-                                        <strong style="color: rgb(0, 157, 255)">Invoice ID:</strong>
-                                        <span style="margin-left: 10px;">{{ $invoice->order_number ?? '' }}</span>
-                                    </p>
-                                    <p style="margin-bottom: 0;">
-                                        <strong style="color: rgb(0, 157, 255)">Date:</strong>
-                                        <span
-                                            style="margin-left: 42px;">{{ $invoice->created_at->format('d/m/Y') }}</span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <p style="margin-bottom: 0;">
-                                        <strong style="color: rgb(0, 157, 255)">Customer:</strong>
-                                        <span style="margin-left: 10px;">
-                                            {{ $invoice->user ? $invoice->user->first_name . ' ' . $invoice->user->last_name : 'Walk-in Customer' }}
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- Invoice Table -->
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 10%">QTY</th>
-                                        <th style="width: 50%">Description</th>
-                                        <th style="width: 20%">Unit Price</th>
-                                        <th style="width: 20%">Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($invoice->orderdetails as $item)
-                                        <tr>
-                                            <td>{{ $item->quantity ?? '' }}</td>
-                                            <td>{{ $item->products->name ?? '' }}</td>
-                                            <td>{{ number_format($item->products->price, 2) ?? '' }}$</td>
-                                            <td>{{ number_format($item->price, 2) ?? '' }}$</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-
-                            <!-- Total Section -->
-                            <div class="total-section">
-                                <div class="total-row">
-                                    <span class="total-label">Subtotal:</span>
-                                    <span>{{ number_format($invoice->total_amount, 2) ?? '' }}$</span>
-                                </div>
-                                <div class="total-row">
-                                    <span class="total-label">Discount:</span>
-                                    <span>{{ number_format($invoice->discount_amount, 2) ?? '' }}$</span>
-                                </div>
-                                <div class="total-row">
-                                    <span class="total-label total">Total:</span>
-                                    <span class="total">{{ number_format($invoice->total_amount, 2) ?? '' }}$</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <p style="margin-bottom: 0;">
+                        <strong style="color: rgb(0, 157, 255)">Customer:</strong>
+                        <span style="margin-left: 10px;">
+                            {{ $invoice->user ? $invoice->user->first_name . ' ' . $invoice->user->last_name : 'Walk-in Customer' }}
+                        </span>
+                    </p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="printInvoiceBtn">Print Invoice</button>
+            </div>
+
+            <!-- Invoice Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th style="width: 10%">QTY</th>
+                        <th style="width: 50%">Description</th>
+                        <th style="width: 20%">Unit Price</th>
+                        <th style="width: 20%">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($invoice->orderdetails as $item)
+                        <tr>
+                            <td>{{ $item->quantity ?? '' }}</td>
+                            <td>{{ $item->product->name ?? '' }}</td>
+                            <td>{{ number_format(optional($item->product)->price, 2) ?? 'N/A' }}$</td>
+                            <td>{{ number_format($item->price, 2) ?? '' }}$</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <!-- Total Section -->
+            <div class="total-section">
+                <div class="total-row">
+                    <span class="total-label">Subtotal:</span>
+                    <span>{{ number_format($invoice->total_amount, 2) ?? '' }}$</span>
+                </div>
+                <div class="total-row">
+                    <span class="total-label">Discount:</span>
+                    <span>{{ number_format($invoice->discount_amount, 2) ?? '' }}$</span>
+                </div>
+                <div class="total-row">
+                    <span class="total-label total">Total:</span>
+                    <span class="total">{{ number_format($invoice->total_amount, 2) ?? '' }}$</span>
                 </div>
             </div>
         </div>

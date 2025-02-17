@@ -1,3 +1,11 @@
+<style>
+    .flag-country {
+        border: 2px solid #1077B8;
+        color: #1077B8 !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+</style>
 <nav class="navbar bg-body-tertiary" style="background-color: white">
     <div class="container-fluid sticky1 justify-content-around p-2">
         <div class="nav-leftside text-center col-md-2">
@@ -51,7 +59,7 @@
         @auth
             <div class="checkin p-1 justify-content-center align-items-center">
                 <img width="25px" height="25px"
-                    src="@if (auth()->user()->image &&
+                    src="@if (auth()->->user()->image &&
                             file_exists(public_path('uploads/users/' . auth()->user()->image))) {{ asset('uploads/users/' . auth()->user()->image) }}
                                               @else
                                                   {{ asset('uploads/default-profile.png') }} @endif"
@@ -75,6 +83,39 @@
                 </ul>
             </div>
         @endauth --}}
+        {{-- @guest('web')
+            <div class="btn-login">
+                <a href="{{ route('customer.web.login') }}" type="button" class="btn btn-login">
+                    {{ __('Login') }}
+                </a>
+            </div>
+        @endguest
+        @auth('web') 
+            <div class="checkin p-1 justify-content-center align-items-center">
+                <img width="25px" height="25px"
+                    src="@if (auth()->guard('web')->user()->image &&
+                            file_exists(public_path('uploads/users/' . auth()->guard('web')->user()->image))) 
+                        {{ asset('uploads/users/' . auth()->guard('web')->user()->image) }}
+                    @else
+                        {{ asset('uploads/default-profile.png') }} 
+                    @endif"
+                    alt="Preview Image">
+            </div>
+            <div class="dropdown dropdown-profile dropstart text-end btn-login">
+                <a type="button" id="dropdown-toggle" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                    {{ auth()->guard('web')->user()->name }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-front" style="display: none">
+                    <a href="{{ route('account.profile') }}" class="dropdown-item">
+                        <i class="fa fa-user"></i> {{ __('Profile') }}
+                    </a>
+                    <a href="{{ route('customer.logout') }}" class="dropdown-item text-danger">
+                        <i class="fa fa-sign-out-alt"></i> {{ __('Logout') }}
+                    </a>
+                </ul>
+            </div>
+        @endauth --}}
+
         <div class="dropdown align-content-center text-center">
             <a class="nav-link flag-country p-1 dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="flag-icon flag-icon-{{ $current_locale == 'en' ? 'gb' : $current_locale }}"></i>
@@ -101,14 +142,7 @@
             </div>
         </div>
 
-        <style>
-            .flag-country {
-                border: 2px solid #1077B8;
-                color: #1077B8 !important;
-                padding-left: 10px !important;
-                padding-right: 10px !important;
-            }
-        </style>
+        
         {{-- <div class="nav-rightside justify-content-center col-md-10 d-flex gap-3 hidden" id="">
         </div> --}}
     </div>
@@ -117,25 +151,27 @@
             <div class="row">
                 {{-- <div class="col-md-12"> --}}
                 <ul class="nav d-flex align-items-center justify-content-center gap-4">
-                    <li class="nav-item dropdown " style="margin-right: 25rem">
+                    <li class="nav-item dropdown" style="margin-right: 25rem">
                         <a class="nav-link dropdown-toggle fs-5" href="#" id="categoriesDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa-solid fa-bars"></i> ALL CATEGORIES
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                        <div class="dropdown-menu dropdown-menu-categories" aria-labelledby="categoriesDropdown">
                             @foreach ($categories as $item)
-                                <a class="dropdown-item d-flex align-items-center gap-1 {{ Request::routeIs('category.show') && Request::route('slug') == $item->slug ? 'active' : '' }}"
-                                    href="{{ route('category.show', $item->slug) }}">
+                                <a class="dropdown-item d-flex align-items-center gap-1 category-link"
+                                    href="{{ route('category.show', $item->slug) }}"
+                                    data-slug="{{ $item->slug }}">
                                     <img src="
-                                    @if ($item->icon_images && file_exists(public_path('uploads/category/' . $item->icon_images))) {{ asset('uploads/category/' . $item->icon_images) }}
+                                    @if ($item->icon_images && file_exists(public_path('uploads/category/' . $item->icon_images))) 
+                                        {{ asset('uploads/category/' . $item->icon_images) }}
                                     @else
-                                        {{ asset('uploads/default.png') }} @endif"
+                                        {{ asset('uploads/default.png') }} 
+                                    @endif"
                                         alt="{{ $item->name }}" class="mr-2" style="width: 20px; height: 20px;">
                                     {{ $item->name }}
                                 </a>
                             @endforeach
-                            <a class="dropdown-item {{ Request::routeIs('service.show') ? 'active' : '' }}"
-                                href="{{ route('service.show') }}">
+                            <a class="dropdown-item category-link" href="{{ route('service.show') }}">
                                 <img class="mr-2" src="/website/nav/about.png" alt="Service Icon"
                                     style="width: 20px; height: 20px;">
                                 {{ __('Services') }}
@@ -173,5 +209,29 @@
     {{-- @include('website.layout.modal_login') --}}
 </nav>
 @push('js')
-  
+  <script>
+     $(document).ready(function() {
+        $('.dropdown-toggle').dropdown();
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+        let activeCategory = sessionStorage.getItem('activeCategory');
+        if (activeCategory) {
+            $(".category-link").each(function () {
+                if ($(this).data("slug") === activeCategory) {
+                    $(this).addClass("active");
+                }
+            });
+        }
+
+        $(".category-link").click(function () {
+            $(".category-link").removeClass("active");
+
+            $(this).addClass("active");
+
+            sessionStorage.setItem('activeCategory', $(this).data("slug"));
+        });
+    });
+</script>
 @endpush

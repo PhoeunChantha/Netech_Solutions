@@ -42,9 +42,13 @@ return [
     //     ],
     // ],
     'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'website_users',
+        ],
         'user' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'system_users',
         ],
         'admin' => [
             'driver' => 'session',
@@ -78,7 +82,11 @@ return [
     //     ],
     // ],
     'providers' => [
-        'users' => [
+        'website_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+        'system_users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],

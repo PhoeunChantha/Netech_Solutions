@@ -178,7 +178,7 @@
         overflow-x: hidden;
         gap: 1rem;
         height: 440px;
-        padding: 1rem;
+        padding: 1rem 5px;
         scroll-behavior: smooth;
         scrollbar-width: thin;
         scrollbar-color: #888 #ddd;
@@ -202,7 +202,7 @@
         /* display: flex; */
         overflow-x: auto;
         overflow-y: hidden;
-        gap: 1rem;
+        /* gap: 1rem; */
         padding: 0.5rem;
         scroll-behavior: smooth;
         scrollbar-width: thin;

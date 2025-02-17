@@ -1,28 +1,23 @@
+<style>
+    .main-footer strong{
+        font-weight: 500 !important;
+    }
+</style>
 <footer class="main-footer text-start position-absolute bottom-auto w-100 px-5 pt-5 pb-3">
     {{-- <strong>{{ session()->get('copy_right_text') }}</strong> --}}
     <div class="col-12">
         <div class="row  justify-content-center">
             <div class="col-3 logo-circle">
                 <div class="logo-container">
-                    {{-- <img src="\website\upload\image 307.png" alt="not found" class="logo-footer"> --}}
                     <img src="@if (session()->has('app_icon') && file_exists('uploads/business_settings/' . session()->get('app_icon'))) {{ asset('uploads/business_settings/' . session()->get('app_icon')) }} @else {{ asset('uploads/image/default.png') }} @endif"
                         alt="" width="60%" class="logo-footer">
                 </div>
-                {{-- <strong>NETTECH SOLUTION STORE</strong> --}}
                 <strong>{{ session()->get('app_name') }}</strong>
             </div>
             <div class="col-2">
                 <strong class="footer-title">{{ __('Contact Us') }}</strong>
                 <div class="icon d-flex flex-wrap">
-                    {{-- <a href="http://">
-                        <img src="\website\upload\telegram.png" alt="not found">
-                    </a>
-                    <a href="http://">
-                        <img src="\website\upload\facebook.png" alt="not found">
-                    </a>
-                    <a href="http://">
-                        <img src="\website\upload\call.png" alt="not found">
-                    </a> --}}
+                  
                     @foreach (json_decode($data['social_media'], true) as $social_media)
                         @if ($social_media['status'] == 1)
                             <a href="{{ $social_media['link'] }}" target="_blank" class="m-2">
@@ -37,13 +32,12 @@
                     <p>
                         <i class="fa fa-phone" style="color: #FFFFFF"></i>
                         <strong>+{{ session()->get('phone') }}</strong>
-                        {{-- +85592290584 --}}
                     </p>
                 </div>
             </div>
             <div class="col-4 text-center">
                 <strong class="footer-title">{{ __('SPECIAL') }}</strong>
-                <div class="col-3 px-1 text-special text-start mt-2 mx-auto">
+                <div class="col-3  text-special text-start mt-2 mx-auto">
                     <a href="">{{ __('Best selling') }}</a><br>
                     <a href="{{ route('category.show', ['slug' => 'desktop']) }}">{{ __('Latest Product') }}</a>
                     <a href="{{ route('privacy_policy') }}">{{ __('Privacy Policy') }}</a>
@@ -54,14 +48,13 @@
                     <span>
                         <i class="fa fa-envelope" aria-hidden="true"></i>
                         <strong>{{ session()->get('email') }}</strong>
-                        {{-- {{ __('phoeunchantha@gmail.com') }} --}}
                     </span>
                 </div>
             </div>
 
             <div class="col-3 text-center">
                 <strong class="footer-title">{{ __('Categories') }}</strong>
-                <div class="col-3 px-1 text-category text-start  mt-2 mx-auto">
+                <div class="col-3 text-category text-start  mt-2 mx-auto">
                     @forelse ($categories as $category)
                         <a
                             href="{{ route('allcategory.show', ['slug' => $category->slug]) }}">{{ $category->name }}</a><br>

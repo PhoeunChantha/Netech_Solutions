@@ -1,6 +1,4 @@
 <!-- jQuery -->
-
-
 <script src="{{ asset('backend/plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('backend/sweetalert2/js/sweetalert2@10.js') }}"></script>
 <script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>

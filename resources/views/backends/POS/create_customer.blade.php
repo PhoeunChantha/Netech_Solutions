@@ -8,7 +8,7 @@
                      <span aria-hidden="true">&times;</span>
                  </button>
              </div>
-             <form id="create_customer_form" method="POST" enctype="multipart/form-data">
+             <form id="create_customer_form" enctype="multipart/form-data">
                  @csrf
                  <div class="modal-body">
                      <div class="col-12">
@@ -146,9 +146,48 @@
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary create_customer">Save</button>
+                     <button type="button" class="btn btn-primary create_customer">Save</button>
                  </div>
              </form>
          </div>
      </div>
  </div>
+ @push('js')
+     {{-- create new customer --}}
+     <script>
+         $(document).ready(function() {
+             $(document).on('click', '.create_customer', function(e) {
+                 e.preventDefault();
+                 const form = document.getElementById('create_customer_form');
+                 const formData = new FormData(form);
+
+                 $.ajax({
+                     url: '{{ route('admin.pos_customer_store') }}',
+                     method: 'POST',
+                     data: formData,
+                     processData: false,
+                     contentType: false,
+                     success: function(response) {
+                         if (response.success) {
+                             $('#create_customer').modal('hide');
+                             toastr.success(response.msg);
+                         } else {
+                             toastr.error(response.msg);
+                         }
+                     },
+                     error: function(xhr) {
+                         let errors = xhr.responseJSON;
+                         if (errors && errors.errors) {
+                             $.each(errors.errors, function(key, value) {
+                                 toastr.error(value[
+                                 0]); // Show first error message for each field
+                             });
+                         } else {
+                             toastr.error('Something went wrong!');
+                         }
+                     }
+                 });
+             });
+         });
+     </script>
+ @endpush

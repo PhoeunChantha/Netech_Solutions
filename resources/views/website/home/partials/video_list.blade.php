@@ -1,6 +1,6 @@
-<div class="owl-carousel owl-theme p-2">
+<div class="owl-carousel owl-carousel-video owl-theme p-2" data-video-count="{{ $videos->count() }}">
     @forelse ($videos as $singleVideo)
-        <div class="item">
+        <div class="item videos">
             <div class="card home-desktop border-0 shadow-lg">
                 <div class="card-header head-video justify-content-center">
                     <img src="@if ($singleVideo->thumbnail && file_exists(public_path('uploads/videos/' . $singleVideo->thumbnail))) {{ asset('uploads/videos/' . $singleVideo->thumbnail) }}

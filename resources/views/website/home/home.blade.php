@@ -34,26 +34,33 @@
                         </div>
                         <div class="card-body body-cate">
                             @forelse ($categories as $category)
-                                <div class="col-3 all-category text-center">
+                                <div class="col-3 all-category text-center category-item"
+                                    data-category-id="{{ $category->id }}" data-category-slug="{{ $category->slug }}">
                                     <div class="img-container">
-                                        <img src="@if ($category->thumbnails && file_exists(public_path('uploads/category/' . $category->thumbnails))) {{ asset('uploads/category/' . $category->thumbnails) }}
-                                            @else
-                                                {{ asset('uploads/default.png') }} @endif"
-                                            alt="not found">
+                                        @php
+                                            $imagePath =
+                                                $category->thumbnails &&
+                                                file_exists(public_path('uploads/category/' . $category->thumbnails))
+                                                    ? asset('uploads/category/' . $category->thumbnails)
+                                                    : asset('uploads/default.png');
+                                        @endphp
+
+                                        <img src="{{ $imagePath }}" alt="Category Image">
+
                                         <div class="main-text-overlay">
                                             <div class="text-overlay">
-                                                <a href="http://">
+                                                <a href="   ">
                                                     <h5>{{ $category->name }}</h5>
                                                 </a>
                                                 <span>{{ $category->products->count() }} products</span>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             @empty
                                 <p>{{ __('No categories available') }}</p>
                             @endforelse
+
                         </div>
                     </div>
                 </div>
@@ -131,12 +138,12 @@
                                                 @else
                                                     <span class="stock badge bg-success">{{ __('In stock') }}</span>
                                                 @endif
-                                               
+
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
-                              
+
                             </div>
                         </div>
                     </div>
@@ -162,7 +169,7 @@
                                         </div>
 
                                         <div class="col-5 main-price">
-                                            @if (!empty($product->discount) && !empty($product->discount->image))
+                                            @if (!empty($product->discount->image))
                                                 <img class="best-price"
                                                     src="{{ file_exists(public_path('uploads/discounts/' . $product->discount->image))
                                                         ? asset('uploads/discounts/' . $product->discount->image)
@@ -406,13 +413,183 @@
     @push('js')
         <script>
             $(document).ready(function() {
-                $(".owl-carousel").owlCarousel({
-                    loop: true,
+                $('.category-item').on('click', function() {
+                    let categorySlug = $(this).data('category-slug');
+
+                    window.location.href = "/category/" + categorySlug;
+                });
+            });
+            $(document).ready(function() {
+                $('.product-card').on('click', function(e) {
+                    if (!$(e.target).closest('.product-link').length) {
+                        let productId = $(this).data('product-id');
+
+                        window.location.href = "web/product-detail/" +
+                            productId;
+                    }
+                });
+            });
+        </script>
+        <script>
+            // $(document).ready(function() {
+            //     $(".owl-carousel").owlCarousel({
+            //         loop: true,
+            //         margin: 20,
+            //         nav: true,
+            //         navText: ["<i class='fa fa-chevron-left'></i>",
+            //             "<i class='fa fa-chevron-right'></i>"
+            //         ],
+            //         responsive: {
+            //             0: {
+            //                 items: 1
+            //             },
+            //             600: {
+            //                 items: 2
+            //             },
+            //             1000: {
+            //                 items: 4
+            //             }
+            //         }
+            //     });
+            // });
+            $(document).ready(function() {
+                let productCount = $(".owl-carousel-desktop").data(
+                    "product-count");
+                $(".owl-carousel-desktop").owlCarousel({
+                    loop: productCount > 4,
                     margin: 20,
-                    nav: true,
-                    navText: ["<i class='fa fa-chevron-left'></i>",
-                        "<i class='fa fa-chevron-right'></i>"
-                    ],
+                    nav: false,
+                    dots: false,
+                    autoplay: true,
+                    // autoplayTimeout: 10000, 
+                    autoplayTimeout: 6000,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 2
+                        },
+                        1000: {
+                            items: 4
+                        }
+                    }
+                });
+            });
+
+            $(document).ready(function() {
+                let productCount = $(".owl-carousel-laptop").data(
+                    "product-count");
+                $(".owl-carousel-laptop").owlCarousel({
+                    loop: productCount > 4,
+                    margin: 20,
+                    nav: false,
+                    dots: false,
+                    autoplay: true,
+                    // autoplayTimeout: 10000, 
+                    autoplayTimeout: 7000,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 2
+                        },
+                        1000: {
+                            items: 4
+                        }
+                    }
+                });
+            });
+            $(document).ready(function() {
+                let productCount = $(".owl-carousel-printer").data(
+                    "product-count");
+                $(".owl-carousel-printer").owlCarousel({
+                    loop: productCount > 4,
+                    margin: 20,
+                    nav: false,
+                    dots: false,
+                    autoplay: true,
+                    autoplayTimeout: 8000,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 2
+                        },
+                        1000: {
+                            items: 4
+                        }
+                    }
+                });
+            });
+            $(document).ready(function() {
+                let productCount = $(".owl-carousel-accessory").data(
+                    "product-count");
+                $(".owl-carousel-accessory").owlCarousel({
+                    loop: productCount > 4,
+                    margin: 20,
+                    nav: false,
+                    dots: false,
+                    autoplay: true,
+                    // autoplayTimeout: 10000, 
+                    autoplayTimeout: 8000,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 2
+                        },
+                        1000: {
+                            items: 4
+                        }
+                    }
+                });
+            });
+
+            $(document).ready(function() {
+                let productCount = $(".owl-carousel-cctv").data(
+                    "product-count");
+
+                $(".owl-carousel-cctv").owlCarousel({
+                    loop: productCount > 4,
+                    margin: 20,
+                    nav: false,
+                    dots: false,
+                    autoplay: true,
+                    autoplayTimeout: 10000,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 2
+                        },
+                        1000: {
+                            items: 4
+                        }
+                    }
+                });
+            });
+            $(document).ready(function() {
+                let productCount = $(".owl-carousel-video").data(
+                    "video-count");
+                $(".owl-carousel-video").owlCarousel({
+                    loop: productCount > 4,
+                    margin: 20,
+                    nav: false,
+                    dots: false,
+                    autoplay: true,
+                    // autoplayTimeout: 10000, 
+                    autoplayTimeout: 6000,
+                    autoplayHoverPause: true,
                     responsive: {
                         0: {
                             items: 1

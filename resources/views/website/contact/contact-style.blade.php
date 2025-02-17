@@ -41,12 +41,12 @@
     }
 
     .form-group label {
-        color: #000000;
-        font-weight: 700 !important;
+        /* color: black; */
+        /* font-weight: 500 !important; */
     }
 
     .form-control:focus {
         outline: 0;
-        box-shadow: 0 0 0 .5px #1077B8;
+        box-shadow: 0 0 0 .1px #1077B8;
     }
 </style>

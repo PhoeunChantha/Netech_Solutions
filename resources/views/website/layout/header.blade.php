@@ -187,4 +187,16 @@
             border-top-left-radius: 5px;
             border-bottom-right-radius: 5px;
         }
+
+        .category-link.active {
+            background-color: #1077B8 !important;
+            color: white !important;
+        }
+        .category-link:hover{
+            background-color: #1077B8 !important;
+            color: white !important;
+        }
+        .dropdown-menu-categories{
+            width: 200px !important;
+        }
     </style>

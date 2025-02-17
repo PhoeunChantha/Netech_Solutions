@@ -6,7 +6,7 @@
             <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-md-5 container-form">
                     <div class="container-title">
-                        <h3 class="fw-bold mb-0">We’d love to help</h3>
+                        <h3 class="fw-600 mb-0">We’d love to help</h3>
                         <p class="text-muted mt-0">We’re a full service agency with experts ready to help. We’ll get in touch
                             within 24 hours.</p>
                     </div>

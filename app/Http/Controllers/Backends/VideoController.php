@@ -284,6 +284,7 @@ class VideoController extends Controller
     }
     public function updateStatus(Request $request)
     {
+        
         try {
             DB::beginTransaction();
 
@@ -295,8 +296,9 @@ class VideoController extends Controller
 
             DB::commit();
         } catch (Exception $e) {
-            $output = ['status' => 0, 'msg' => __('Something went wrong')];
+            dd($e);
             DB::rollBack();
+            $output = ['status' => 0, 'msg' => __('Something went wrong')];
         }
 
         return response()->json($output);

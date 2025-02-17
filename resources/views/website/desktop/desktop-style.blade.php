@@ -904,4 +904,11 @@
         box-shadow: 0 0 0 0.5px #fff;
         transition-duration: 0.3s;
     }
+    .stock.bg-danger{
+        border-radius: 2px !important;
+    }
+    .stock.bg-success{
+        border-radius: 2px !important;
+    }
+    
 </style>

@@ -12,12 +12,14 @@
                  <div class="modal-body">
                      <input type="hidden" id="customer_id" name="customer_id" value="">
                      <input type="hidden" id="totaldiscount" name="totaldiscount" value="">
+                     <input type="hidden" id="subtotal_before_discount" name="subtotal_before_discount" value="">
                      <div class="col-md-12">
                          <table class="table table-bordered">
                              <thead>
                                  <tr>
                                      <th>{{ __('Product') }}</th>
                                      <th>{{ __('Quantity') }}</th>
+                                     <th>{{ __('Discount') }}</th>
                                      <th>{{ __('Subtotal') }}</th>
                                  </tr>
                              </thead>
@@ -42,29 +44,29 @@
                                  </div>
                                  <div class="calc-buttons d-flex flex-wrap">
                                      <!-- Calculator Buttons -->
-                                     <button class="btn btn-light">7</button>
-                                     <button class="btn btn-light">8</button>
-                                     <button class="btn btn-light">9</button>
-                                     <button class="btn btn-light">100</button>
-                                     <button class="btn btn-light">500</button>
+                                     <button type="button" class="btn btn-light key-pad">7</button>
+                                     <button type="button" class="btn btn-light key-pad">8</button>
+                                     <button type="button" class="btn btn-light key-pad">9</button>
+                                     <button type="button" class="btn btn-light key-pad">100</button>
+                                     <button type="button" class="btn btn-light key-pad">500</button>
 
-                                     <button class="btn btn-light">4</button>
-                                     <button class="btn btn-light">5</button>
-                                     <button class="btn btn-light">6</button>
-                                     <button class="btn btn-light">50</button>
-                                     <button class="btn btn-light">1000</button>
+                                     <button type="button" class="btn btn-light key-pad">4</button>
+                                     <button type="button" class="btn btn-light key-pad">5</button>
+                                     <button type="button" class="btn btn-light key-pad">6</button>
+                                     <button type="button" class="btn btn-light key-pad">50</button>
+                                     <button type="button" class="btn btn-light key-pad">1000</button>
 
-                                     <button class="btn btn-light">1</button>
-                                     <button class="btn btn-light">2</button>
-                                     <button class="btn btn-light">3</button>
-                                     <button class="btn btn-light">20</button>
-                                     <button class="btn btn-light">2000</button>
+                                     <button type="button" class="btn btn-light key-pad">1</button>
+                                     <button type="button" class="btn btn-light key-pad">2</button>
+                                     <button type="button" class="btn btn-light key-pad">3</button>
+                                     <button type="button" class="btn btn-light key-pad">20</button>
+                                     <button type="button" class="btn btn-light key-pad">2000</button>
 
-                                     <button class="btn btn-light">0</button>
-                                     <button class="btn btn-light">.</button>
-                                     <button class="btn btn-danger">Clear</button>
-                                     <button class="btn btn-light">10</button>
-                                     <button class="btn btn-light">5000</button>
+                                     <button type="button" class="btn btn-light key-pad">0</button>
+                                     <button type="button" class="btn btn-light key-pad">.</button>
+                                     <button type="button" class="btn btn-danger key-pad">C</button>
+                                     <button type="button" class="btn btn-light key-pad">10</button>
+                                     <button type="button" class="btn btn-light key-pad">5000</button>
                                  </div>
                              </div>
                              <div class="col-md-6 payment-calculator">
@@ -89,7 +91,8 @@
                          <!-- Summary Section -->
                          <div class="payment-summary">
                              <div class="summary-item ">
-                                 {{ __('Total Amount') }}: <span class="text-danger" id="payment_display">4.00$</span>
+                                 {{ __('Total Amount') }}: <span class="text-danger"
+                                     id="payment_display">4.00$</span>
                                  <input type="hidden" id="hidden_payment_display" name="hidden_payment_display"
                                      value="">
                              </div>
@@ -100,7 +103,8 @@
                                      value="">
                              </div>
                              <div class="summary-item">
-                                 {{ __('Change Return') }}: <span class="text-success" id="change_return">0.00$</span>
+                                 {{ __('Change Return') }}: <span class="text-success"
+                                     id="change_return">0.00$</span>
                                  <input type="hidden" id="hidden_change_return" name="hidden_change_return"
                                      value="">
                              </div>
@@ -119,7 +123,7 @@
  @push('js')
      <script>
          $(document).ready(function() {
-             $('.calc-buttons .btn').on('click', function() {
+             $(document).on('click', '.key-pad', function() {
                  const buttonValue = $(this).text();
                  let currentAmount = $('#recieve_amount').val().replace('$', '').trim();
 
@@ -233,6 +237,7 @@
              const paymentNotes = $('#paymentNotes').val();
              const customerId = $('#customer_id').val();
              const totaldiscount = $('#totaldiscount').val();
+             const subtotal_before_discount = $('#subtotal_before_discount').val();
 
              const productOrders = [];
 
@@ -241,7 +246,8 @@
                      product_id: $(this).data('product-id'),
                      quantity: $(this).find('.quantity').text(),
                      unit_price: $(this).find('.unit-price').text().replace('$', ''),
-                     subtotal: $(this).find('.subtotal').text().replace('$', '')
+                     subtotal: $(this).find('.subtotal').text().replace('$', ''),
+                     discount: $(this).attr('data-discount')
                  });
              });
 
@@ -258,6 +264,7 @@
                      totaldiscount: totaldiscount,
                      orders: productOrders,
                      total: totalAmount,
+                     sub_total_before_discount: subtotal_before_discount,
                      _token: $('meta[name="csrf-token"]').attr('content')
                  },
                  success: function(response) {
@@ -272,22 +279,45 @@
                      $('#discount').val('');
 
                      const invoiceUrl = `{{ route('invoice') }}?order_id=${response.order_id}`;
+                     const posUrl = `{{ route('pos') }}`;
+                     let printWindow = window.open(invoiceUrl, '_blank');
+                     if (printWindow) {
+                         printWindow.onload = function() {
+                             printWindow.print();
+                         };
 
-                     $.ajax({
-                         url: invoiceUrl,
-                         success: function(invoiceHtml) {
-                             $('#invoiceModal .modal-body').html(invoiceHtml);
-                             $('#invoiceModal').modal('show');
-                         },
-                         error: function() {
-                             toastr.error('Failed to load invoice.');
-                         }
-                     });
+                         printWindow.onafterprint = function() {
+                             printWindow.close();
+                             window.location.href = posUrl; 
+                         };
 
-                    //  setTimeout(function() {
-                    //      //   location.reload();
-                    //      $('#invoiceModal').modal('show');
-                    //  }, 2000);
+                         let printCanceled = false;
+                         let checkFocus = setInterval(() => {
+                             if (printWindow.closed) {
+                                 clearInterval(checkFocus);
+                                 if (!printCanceled) {
+                                     window.location.href = posUrl; 
+                                 }
+                             }
+                         }, 500);
+
+                         window.onfocus = function() {
+                             setTimeout(() => {
+                                 if (!printWindow.closed) {
+                                     printCanceled = true;
+                                     printWindow.close();
+                                     window.location.href = posUrl;
+                                 }
+                             }, 500);
+                         };
+                     } else {
+                         window.location.href = posUrl;
+                     }
+
+                     //  setTimeout(function() {
+                     //      //   location.reload();
+                     //      $('#invoiceModal').modal('show');
+                     //  }, 2000);
                  },
                  error: function() {
                      toastr.error('Failed to place order. Please try again.');

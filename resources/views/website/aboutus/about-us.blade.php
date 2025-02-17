@@ -74,20 +74,10 @@ uk-grid">
             </div>
         </div>
         <div class="col-10  mx-auto pb-5">
-            <div class="card px-0   justify-content-center">
-                <div class="col-12 pb-0 company-mission">
-                    {{-- <h2 class="mission-title ">{{ __('Mission') }}</h2> --}}
-                    <p class="fs-6  text-left">
-                        {!! $mission_and_vision !!}
-                    </p>
-                </div>
-                {{-- <div class="col-12  company-vision">
-                    <h2 class="vision-title">{{ __('Vission') }}</h2>
-                    <p class="fs-6  text-left">
-                        {{ __('Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.Ask CDCR San Quintin State Prison 2008. We installed Purex dispensers throughout the prison to combat diseases…and it was a Roaring Success (as in Roaring Drunk) I mean we had Long lines of prisoners fist fighting to use them.Ask CDCR San Quintin State Prison 2008.') }}
-                    </p>
-
-                </div> --}}
+            <div class="card px-0 shadow-sm   justify-content-center">
+                <p class="fs-6  text-left">
+                    {!! $mission_and_vision !!}
+                </p>
             </div>
         </div>
     </div>
