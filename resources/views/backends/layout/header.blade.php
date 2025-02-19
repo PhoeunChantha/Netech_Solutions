@@ -2,6 +2,12 @@
     .img-circle {
         object-fit: cover;
     }
+    .pos-style{
+        padding: 3px 5px !important;
+        background-color: green !important;
+        color: white !important;
+        /* font-size: 16px; */
+    }
 </style>
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -43,6 +49,15 @@
 
                 </svg>
                 {{ __('Go to website') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.pos') }}" target="_blank"
+                class="nav-link pos-style d-flex align-items-center justify-content-center @if (request()->routeIs('admin.pos')) active @endif">
+                <i class="nav-icon fas fa-shopping-cart mr-1"></i>
+                <p class="m-0">
+                    {{ __('POS') }}
+                </p>
             </a>
         </li>
         {{-- <li class="nav-item dropdown">

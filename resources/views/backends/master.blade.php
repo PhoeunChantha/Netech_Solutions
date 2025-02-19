@@ -35,7 +35,7 @@
     <!-- ./wrapper -->
 
     @include('backends.layout.script')
-    <script>
+    {{-- <script>
         $(function() {
             $('.dataTable').DataTable({
                 "paging": false,
@@ -50,7 +50,8 @@
                 }
             });
         });
-    </script>
+    </script> --}}
+    
 </body>
 
 </html>

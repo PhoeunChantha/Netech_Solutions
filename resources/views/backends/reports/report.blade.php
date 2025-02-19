@@ -10,6 +10,30 @@
         .tab-pane {
             margin-top: 20px
         }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.first,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.last {
+            display: none !important;
+            /* Hide first and last pagination buttons */
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: #FFCEB1 !important;
+            border: 1px solid #B04B00 !important;
+            color: #B04B00 !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #FFCEB1;
+            border: 1px solid #B04B00;
+            color: #B04B00 !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            color: #B04B00 !important;
+        }
     </style>
 @endpush
 @section('contents')
@@ -46,7 +70,8 @@
                                 <div class="row">
                                     <div class="col-6 ">
                                         <label for="customer_id">{{ __('Select Customer') }}</label>
-                                        <select name="customer_id" id="customer_id" class="form-control select2" style="width: 100%;">
+                                        <select name="customer_id" id="customer_id" class="form-control select2"
+                                            style="width: 100%;">
                                             <option value="">{{ __('Select Customer') }}</option>
                                             <option value="walk-in">{{ __('Walk In') }}</option>
                                             @foreach ($customers as $customer)
@@ -59,23 +84,23 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="start_date">{{ __('Start Date') }}</label>
-                                            <input type="date" id="start_date" class="form-control"
-                                                name="start_date" value="{{ request('start_date') }}">
+                                            <input type="date" id="start_date" class="form-control" name="start_date"
+                                                value="{{ request('start_date') }}">
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="end_date">{{ __('End Date') }}</label>
-                                            <input type="date" id="end_date" class="form-control"
-                                                name="end_date" value="{{ request('end_date') }}">
+                                            <input type="date" id="end_date" class="form-control" name="end_date"
+                                                value="{{ request('end_date') }}">
                                         </div>
                                     </div>
-                                    {{-- <div class="col-sm-3">
-                                        <a href="{{ route('admin.product.index') }}" class="btn btn-danger btn-lg">
-                                            <i class="fa fa-refresh" aria-hidden="true"></i>
-                                            {{ __('Reset') }}
-                                        </a>
-                                    </div> --}}
+                                </div>
+                                <div class="col-sm-3">
+                                    <a href="{{ route('admin.product.index') }}" class="btn btn-danger btn-lg">
+                                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        {{ __('Reset') }}
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -87,6 +112,9 @@
                                     <h3 class="card-title">{{ __('Report List') }}</h3>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row mx-0 align-items-center" style="justify-content: space-between">
+                            <div id="bookingTableButtons" class="col-md-12" style="justify-content: space-between"></div>
                         </div>
                         <!-- /.card-header -->
 

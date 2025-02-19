@@ -56,7 +56,93 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
 {{ Session::has('message') }}
+{{-- DataTable --}}
+<script>
+    $(document).ready(function () {
+        if ($('#bookingTable').length && $('#bookingTableButtons').length) {
+            if ($.fn.DataTable.isDataTable('#bookingTable')) {
+                $('#bookingTable').DataTable().clear().destroy();
+                $('#bookingTable').empty();
+            }
+            setTimeout(function () {
+                let actionColumnIndex = -1;
+                $('#bookingTable thead th').each(function (index) {
+                    let columnText = $(this).text().trim().toLowerCase();
+                    if (columnText.includes('action')) {
+                        actionColumnIndex = index;
+                    }
+                });
 
+                var table = $('#bookingTable').DataTable({
+                    responsive: true,
+                    dom: '<"d-flex justify-content-between align-items-center"lfB>rtip',
+                    buttons: [
+                        { extend: 'csv', text: '<i class="fas fa-file-csv"></i> Export to CSV', exportOptions: { columns: ':visible:not(:last-child)' } },
+                        { extend: 'excel', text: '<i class="fas fa-file-excel"></i> Export to Excel', exportOptions: { columns: ':visible:not(:last-child)' } },
+                        { extend: 'print', text: '<i class="fas fa-print"></i> Print', exportOptions: { columns: ':visible:not(:last-child)' } },
+                        { extend: 'colvis', text: '<i class="fas fa-columns"></i> Column Visibility'},
+                        { extend: 'pdf', text: '<i class="fas fa-file-pdf"></i> Export to PDF', exportOptions: { columns: ':visible:not(:last-child)' } },
+                    ],
+                    columnDefs: actionColumnIndex !== -1 ? [{ orderable: false, targets: actionColumnIndex }] : [],
+                    language: {
+                        search: "",
+                        searchPlaceholder: "Search..."
+                    },
+                    pagingType: "full_numbers"
+                   
+                });
+
+                if ($('#bookingTableButtons').length) {
+                    $('.dataTables_length').prependTo('#bookingTableButtons');
+                    table.buttons().container().appendTo('#bookingTableButtons');
+                    $('.dataTables_filter').appendTo('#bookingTableButtons');
+                } else {
+                    console.error("Div #bookingTableButtons not found.");
+                }
+            }, 100);
+
+        } else {
+            console.error("Table #bookingTable or Div #bookingTableButtons not found.");
+        }
+    });
+</script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/searchpanes/2.2.0/js/dataTables.searchPanes.min.js"></script>
+<!-- Required for Export to Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for Export to PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script>
+    $(document).on('click', '.rowfy-addrow', function() {
+        let rowfyable = $(this).closest('table');
+        let lastRow = $('tbody tr:last', rowfyable).clone();
+        $('input', lastRow).val('');
+        $('tbody', rowfyable).append(lastRow);
+        $(this).removeClass('rowfy-addrow btn-success').addClass('rowfy-deleterow btn-danger').text('-');
+    });
+
+    /*Delete row event*/
+    $(document).on('click', '.rowfy-deleterow', function() {
+        $(this).closest('tr').remove();
+    });
+
+    /*Initialize all rowfy tables*/
+    $('.rowfy').each(function() {
+        $('tbody', this).find('tr').each(function() {
+            $(this).append('<td><button type="button" class="btn btn-sm ' +
+                ($(this).is(":last-child") ?
+                    'rowfy-addrow btn-success">+' :
+                    'rowfy-deleterow btn-danger">-') +
+                '</button></td>');
+        });
+    });
+</script>
 <script>
     $(function() {
 

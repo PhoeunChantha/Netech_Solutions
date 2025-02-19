@@ -220,4 +220,72 @@
         height: calc(4.9rem + 1px) !important;
     }
 </style>
+<style>
+   
+
+    #bookingTableButtons {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    #bookingTableButtons .dt-buttons {
+        display: flex;
+    }
+
+    #bookingTableButtons .dt-buttons .dt-button {
+        margin: 0;
+        border: 1px solid #DDDDDD;
+        border-radius: 0;
+        background: #A1E9C9;
+        color: #229865;
+        padding: .3rem .65rem;
+        font-size: 10px;
+    }
+
+    #bookingTableButtons input[type="search"] {
+        height: 27px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        width: 120px;
+    }
+
+    #bookingTable_length label {
+        font-size: 12px;
+        margin-top: .5rem;
+    }
+
+    #bookingTable_length label select {
+        width: 4rem;
+        height: 1.5rem;
+        border-radius: 5px;
+    }
+
+    #bookingTable_filter label {
+        margin: 0;
+    }
+
+    #bookingTable_info {
+        padding-top: 1.5rem;
+    }
+
+    #bookingTable_paginate {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding-block: 0rem;
+        margin-block: 1rem;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .table-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+</style>
 @stack('css')
