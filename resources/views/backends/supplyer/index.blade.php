@@ -18,7 +18,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h3>{{ __('Phurchase') }}</h3>
+                    <h3>{{ __('Supplier') }}</h3>
                 </div>
                 <div class="col-sm-6" style="text-align: right">
                 </div>
@@ -45,7 +45,7 @@
                             <div class="col-12">
                                 <div class="tab-content" id="custom-content-below-tabContent">
                                     <div class="row">
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -55,24 +55,21 @@
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h3 class="card-title">{{ __('Phurchase List') }}</h3>
+                                    <h3 class="card-title">{{ __('Supplier List') }}</h3>
                                 </div>
                                 {{-- <span class="badge bg-warning total-count">{{ $grades->total() }}</span> --}}
                                 <div class="col-sm-6">
-                                    @if (auth()->user()->can('product.create'))
-                                    <a class="btn btn-primary float-right" href="{{ route('admin.phurchase.create') }}">
+                                    <a class="btn btn-primary float-right" href="{{ route('admin.supplier.create') }}">
                                         <i class=" fa fa-plus-circle"></i>
                                         {{ __('Add New') }}
                                     </a>
-                                    @endif
-                                   
                                 </div>
                             </div>
                         </div>
                         <!-- /.card-header -->
 
                         {{-- table --}}
-                        @include('backends.product._table')
+                        @include('backends.supplyer._table')
 
                     </div>
                 </div>
@@ -83,66 +80,6 @@
 @endsection
 @push('js')
     <script>
-        $(document).ready(function() {
-            $(document).on('change', '#category_id', function(e) {
-                e.preventDefault();
-                var category_id = $('#category_id').val();
-                $.ajax({
-                    type: "GET",
-                    url: '{{ route('admin.product.index') }}',
-                    data: {
-                        'category_id': category_id
-                    },
-                    dataType: "json",
-                    success: function(response) {
-                        console.log(response);
-                        if (response.view) {
-                            $('.table-wrapper').replaceWith(response.view);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            });
-            $('#category_id').select2();
-        });
-    </script>
-    <script>
-        $('.btn_add').click(function(e) {
-            var tbody = $('.tbody');
-            var numRows = tbody.find("tr").length;
-            $.ajax({
-                type: "get",
-                url: window.location.href,
-                data: {
-                    "key": numRows
-                },
-                dataType: "json",
-                success: function(response) {
-                    $(tbody).append(response.tr);
-                }
-            });
-        });
-
-        $(document).on('click', '.btn-edit', function() {
-            $("div.modal_form").load($(this).data('href'), function() {
-
-                $(this).modal('show');
-
-            });
-        });
-
-        $('.custom-file-input').change(function(e) {
-            var reader = new FileReader();
-            var preview = $(this).closest('.form-group').find('.preview img');
-            console.log(preview);
-            reader.onload = function(e) {
-                preview.attr('src', e.target.result).show();
-            }
-            reader.readAsDataURL(this.files[0]);
-        });
-
         $(document).on('click', '.btn-delete', function(e) {
             e.preventDefault();
 
@@ -184,26 +121,6 @@
                             }
                         }
                     });
-                }
-            });
-        });
-
-        $('input.status').on('change', function() {
-            console.log($(this).data('id'));
-            $.ajax({
-                type: "get",
-                url: "{{ route('admin.product.update_status') }}",
-                data: {
-                    "id": $(this).data('id')
-                },
-                dataType: "json",
-                success: function(response) {
-                    console.log(response);
-                    if (response.status == 1) {
-                        toastr.success(response.msg);
-                    } else {
-                        toastr.error(response.msg);
-                    }
                 }
             });
         });

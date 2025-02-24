@@ -49,10 +49,34 @@
                 @if (auth()->user()->can('report.view'))
                 @endif
                 <li class="nav-item">
-                    <a href="{{ route('report') }}" class="nav-link @if (request()->routeIs('report')) active @endif">
+                    <a href="{{ route('admin.report.index') }}" class="nav-link @if (request()->routeIs('admin.report.index')) active @endif">
                         <i class=" nav-icon fas fa-chart-line"></i>
                         <p>
                             {{ __('report') }}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.purchases.index') }}" class="nav-link @if (request()->routeIs('admin.purchases.index')) active @endif">
+                        <i class=" nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            {{ __('Purchases') }}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.transactions.index') }}" class="nav-link @if (request()->routeIs('admin.transactions.index')) active @endif">
+                        <i class="nav-icon fas fa-exchange-alt"></i>
+                        <p>
+                            {{ __('Transactions') }}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.supplier.index') }}" class="nav-link @if (request()->routeIs('admin.supplier.index')) active @endif">
+                        <i class=" nav-icon fas fa-user-tie"></i>
+                        <p>
+                            {{ __('Suppliers') }}
                         </p>
                     </a>
                 </li>

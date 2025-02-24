@@ -52,7 +52,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('admin.pos') }}" target="_blank"
+            <a href="{{ route('admin.pos.index') }}" target="_blank"
                 class="nav-link pos-style d-flex align-items-center justify-content-center @if (request()->routeIs('admin.pos')) active @endif">
                 <i class="nav-icon fas fa-shopping-cart mr-1"></i>
                 <p class="m-0">

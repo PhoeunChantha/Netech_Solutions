@@ -9,12 +9,13 @@
         }
     });
 </script>
+
 <!-- Bootstrap 4 -->
 <script src="{{ asset('backend/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 <!-- AdminLTE App -->
 <script src="{{ asset('backend/dist/js/adminlte.min.js') }}"></script>
-<!-- DataTables  & Plugins -->
+{{-- <!-- DataTables  & Plugins -->
 <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('backend/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
@@ -26,7 +27,7 @@
 <script src="{{ asset('backend/plugins/pdfmake/vfs_fonts.js') }}"></script>
 <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
 <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+<script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script> --}}
 
 <script src="{{ asset('backend/plugins/moment/moment.min.js') }}"></script>
 <script src="{{ asset('backend/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
@@ -58,51 +59,81 @@
 {{ Session::has('message') }}
 {{-- DataTable --}}
 <script>
-    $(document).ready(function () {
-        if ($('#bookingTable').length && $('#bookingTableButtons').length) {
-            if ($.fn.DataTable.isDataTable('#bookingTable')) {
-                $('#bookingTable').DataTable().clear().destroy();
-                $('#bookingTable').empty();
+    $(document).ready(function() {
+        if ($('#OrderdataTable').length && $('#OrderdataTableButtons').length) {
+            if ($.fn.DataTable.isDataTable('#OrderdataTable')) {
+                $('#OrderdataTable').DataTable().clear().destroy();
+                // $('#dataTable').empty();
             }
-            setTimeout(function () {
+            setTimeout(function() {
+                let OrderdataTable;
                 let actionColumnIndex = -1;
-                $('#bookingTable thead th').each(function (index) {
+                $('#OrderdataTable thead th').each(function(index) {
                     let columnText = $(this).text().trim().toLowerCase();
                     if (columnText.includes('action')) {
                         actionColumnIndex = index;
                     }
                 });
 
-                var table = $('#bookingTable').DataTable({
+                OrderdataTable = $('#OrderdataTable').DataTable({
                     responsive: true,
                     dom: '<"d-flex justify-content-between align-items-center"lfB>rtip',
-                    buttons: [
-                        { extend: 'csv', text: '<i class="fas fa-file-csv"></i> Export to CSV', exportOptions: { columns: ':visible:not(:last-child)' } },
-                        { extend: 'excel', text: '<i class="fas fa-file-excel"></i> Export to Excel', exportOptions: { columns: ':visible:not(:last-child)' } },
-                        { extend: 'print', text: '<i class="fas fa-print"></i> Print', exportOptions: { columns: ':visible:not(:last-child)' } },
-                        { extend: 'colvis', text: '<i class="fas fa-columns"></i> Column Visibility'},
-                        { extend: 'pdf', text: '<i class="fas fa-file-pdf"></i> Export to PDF', exportOptions: { columns: ':visible:not(:last-child)' } },
+                    buttons: [{
+                            extend: 'csv',
+                            text: '<i class="fas fa-file-csv"></i> Export to CSV',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            text: '<i class="fas fa-file-excel"></i> Export to Excel',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            text: '<i class="fas fa-print"></i> Print',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
+                        {
+                            extend: 'colvis',
+                            text: '<i class="fas fa-columns"></i> Column Visibility'
+                        },
+                        {
+                            extend: 'pdf',
+                            text: '<i class="fas fa-file-pdf"></i> Export to PDF',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
                     ],
-                    columnDefs: actionColumnIndex !== -1 ? [{ orderable: false, targets: actionColumnIndex }] : [],
+                    columnDefs: actionColumnIndex !== -1 ? [{
+                        orderable: false,
+                        targets: actionColumnIndex
+                    }] : [],
                     language: {
                         search: "",
                         searchPlaceholder: "Search..."
                     },
                     pagingType: "full_numbers"
-                   
+
                 });
 
-                if ($('#bookingTableButtons').length) {
-                    $('.dataTables_length').prependTo('#bookingTableButtons');
-                    table.buttons().container().appendTo('#bookingTableButtons');
-                    $('.dataTables_filter').appendTo('#bookingTableButtons');
+                if ($('#OrderdataTableButtons').length) {
+                    $('.dataTables_length').prependTo('#OrderdataTableButtons');
+                    OrderdataTable.buttons().container().appendTo('#OrderdataTableButtons');
+                    $('.dataTables_filter').appendTo('#OrderdataTableButtons');
                 } else {
-                    console.error("Div #bookingTableButtons not found.");
+                    console.error("Div #OrderdataTableButtons not found.");
                 }
             }, 100);
 
         } else {
-            console.error("Table #bookingTable or Div #bookingTableButtons not found.");
+            console.error("Table #dataTable or Div #OrderdataTableButtons not found.");
         }
     });
 </script>

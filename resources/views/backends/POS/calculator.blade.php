@@ -278,8 +278,8 @@
                      $('#finaltotal').val('');
                      $('#discount').val('');
 
-                     const invoiceUrl = `{{ route('invoice') }}?order_id=${response.order_id}`;
-                     const posUrl = `{{ route('pos') }}`;
+                     const invoiceUrl = `{{ route('admin.invoice.index') }}?order_id=${response.order_id}`;
+                     const posUrl = `{{ route('admin.pos.index') }}`;
                      let printWindow = window.open(invoiceUrl, '_blank');
                      if (printWindow) {
                          printWindow.onload = function() {

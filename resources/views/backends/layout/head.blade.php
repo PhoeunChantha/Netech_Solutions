@@ -26,10 +26,10 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}">
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}"> --}}
     <link rel="stylesheet"
         href="{{ asset('backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}"> --}}
     {{-- summernote --}}
     <link rel="stylesheet" href="{{ asset('backend/plugins/summernote/summernote-bs4.min.css') }}">
 
@@ -49,6 +49,11 @@
     <link rel="stylesheet" href="{{ asset('backend/custom/css/app.css') }}">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    {{-- DataTable --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <style>
     /* input[type="radio"], */
@@ -184,6 +189,12 @@
 
     }
 
+    .required_label::after {
+        content: " *";
+        color: red;
+
+    }
+
     :root {
         --system-font: 'Montserrat', sans-serif, 'Hanuman';
     }
@@ -221,19 +232,17 @@
     }
 </style>
 <style>
-   
-
-    #bookingTableButtons {
+    #OrderdataTableButtons {
         display: flex;
         gap: 15px;
         align-items: center;
     }
 
-    #bookingTableButtons .dt-buttons {
+    #OrderdataTableButtons .dt-buttons {
         display: flex;
     }
 
-    #bookingTableButtons .dt-buttons .dt-button {
+    #OrderdataTableButtons .dt-buttons .dt-button {
         margin: 0;
         border: 1px solid #DDDDDD;
         border-radius: 0;
@@ -243,7 +252,7 @@
         font-size: 10px;
     }
 
-    #bookingTableButtons input[type="search"] {
+    #OrderdataTableButtons input[type="search"] {
         height: 27px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -252,40 +261,142 @@
         width: 120px;
     }
 
-    #bookingTable_length label {
+    #OrderdataTable_length label {
         font-size: 12px;
-        margin-top: .5rem;
+        margin-top: .5rem !important;
     }
 
-    #bookingTable_length label select {
+    #OrderdataTable_length label select {
         width: 4rem;
         height: 1.5rem;
         border-radius: 5px;
     }
 
-    #bookingTable_filter label {
+    #OrderdataTable_filter label {
         margin: 0;
     }
 
-    #bookingTable_info {
+    #OrderdataTable_info {
         padding-top: 1.5rem;
     }
 
-    #bookingTable_paginate {
+    #OrderdataTable_paginate {
         border: 1px solid #ccc;
         border-radius: 5px;
         padding-block: 0rem;
         margin-block: 1rem;
     }
 
+    /* ✅ Purchase Table Buttons */
+    #purchaseTableButtons {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    #purchaseTableButtons .dt-buttons {
+        display: flex;
+    }
+
+    #purchaseTableButtons .dt-buttons .dt-button {
+        margin: 0;
+        border: 1px solid #DDDDDD;
+        /* border-radius: 5px; */
+        background: #A1E9C9;
+        color: #229865;
+        padding: .3rem .65rem;
+        font-size: 10px;
+    }
+
+    /* ✅ Search Bar & Pagination */
+    #purchaseTableButtons input[type="search"] {
+        height: 27px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        width: 120px;
+    }
+
+    #purchaseTable_length label {
+        font-size: 12px;
+        margin-top: .5rem !important;
+    }
+
+    #purchaseTable_length label select {
+        width: 4rem;
+        height: 1.5rem;
+        border-radius: 5px;
+    }
+
+    #purchaseTable_filter label {
+        margin: 0;
+    }
+
+    #purchaseTable_info {
+        padding-top: 1.5rem;
+    }
+
+    #purchaseTable_paginate {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding-block: 0rem;
+        margin-block: 1rem;
+    }
+
+
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting_asc:before {
+        content: " 🠗" !important;
+        font-size: 18px !important;
+        opacity: 1;
+        color: #000;
+        padding-right: 6px;
+        line-height: 0 !important;
+    }
+
+    table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting_desc:after {
+        content: " 🠕" !important;
+        font-size: 18px !important;
+        line-height: 0 !important;
+    }
+
     .table-wrapper {
         overflow-x: auto;
         -ms-overflow-style: none;
+        /* Hide scrollbar for IE and Edge */
         scrollbar-width: none;
+        /* Hide scrollbar for Firefox */
     }
 
     .table-wrapper::-webkit-scrollbar {
         display: none;
+        /* Hide scrollbar for Chrome, Safari, and Opera */
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.first,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.last {
+        display: none !important;
+        /* Hide first and last pagination buttons */
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background: #FFCEB1 !important;
+        border: 1px solid #B04B00 !important;
+        color: #B04B00 !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #FFCEB1;
+        border: 1px solid #B04B00;
+        color: #B04B00 !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        color: #B04B00 !important;
     }
 </style>
 @stack('css')

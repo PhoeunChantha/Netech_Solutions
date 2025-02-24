@@ -1,5 +1,5 @@
-<div class="card-body p-0 ">
-    <table id="bookingTable" class="table table-hover">
+<div class="card-body pt-0  table-wrapper">
+    <table id="OrderdataTable" class="table table-hover">
         <thead>
             <tr>
                 <th>Invoice No.</th>
@@ -12,8 +12,8 @@
         </thead>
         <tbody>
             @foreach ($reports as $report)
-                <tr style="cursor: pointer;" class="clickable-row" data-href="{{ route('report.report-detail', $report->id) }}">
-                    <td data-id="{{ $report->id }}" data-href="{{ route('report.report-detail', $report->id) }}"
+                <tr style="cursor: pointer;" class="clickable-row" data-href="{{ route('admin.report.report-detail', $report->id) }}">
+                    <td data-id="{{ $report->id }}" data-href="{{ route('admin.report.report-detail', $report->id) }}"
                         class="clickable-spa">
                         {{ $report->order_number }}
                     </td>

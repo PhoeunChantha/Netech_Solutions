@@ -11,29 +11,7 @@
             margin-top: 20px
         }
 
-        .dataTables_wrapper .dataTables_paginate .paginate_button.first,
-        .dataTables_wrapper .dataTables_paginate .paginate_button.last {
-            display: none !important;
-            /* Hide first and last pagination buttons */
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: #FFCEB1 !important;
-            border: 1px solid #B04B00 !important;
-            color: #B04B00 !important;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: #FFCEB1;
-            border: 1px solid #B04B00;
-            color: #B04B00 !important;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-            color: #B04B00 !important;
-        }
+       
     </style>
 @endpush
 @section('contents')
@@ -67,41 +45,60 @@
                         </div>
                         <div class="card-body">
                             <div class="col-12">
-                                <div class="row">
-                                    <div class="col-6 ">
-                                        <label for="customer_id">{{ __('Select Customer') }}</label>
-                                        <select name="customer_id" id="customer_id" class="form-control select2"
-                                            style="width: 100%;">
-                                            <option value="">{{ __('Select Customer') }}</option>
-                                            <option value="walk-in">{{ __('Walk In') }}</option>
-                                            @foreach ($customers as $customer)
-                                                <option value="{{ $customer->id }}">
-                                                    {{ $customer->first_name }} {{ $customer->last_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label for="start_date">{{ __('Start Date') }}</label>
-                                            <input type="date" id="start_date" class="form-control" name="start_date"
-                                                value="{{ request('start_date') }}">
+                                <form method="GET" action="{{ route('admin.report.index') }}">
+                                    <div class="row">
+                                        <!-- Customer Filter -->
+                                        <div class="col-md-3">
+                                            <label>Customer</label>
+                                            <select name="customer_id" class="form-control">
+                                                <option value="">All Customers</option>
+                                                @foreach ($customers as $customer)
+                                                    <option value="{{ $customer->id }}" {{ request('customer_id') == $customer->id ? 'selected' : '' }}>
+                                                        {{ $customer->first_name }} {{ $customer->last_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                
+                                        <!-- Order Date -->
+                                        <div class="col-md-3">
+                                            <label>Order Date</label>
+                                            <input type="date" name="order_date" value="{{ request('order_date') }}" class="form-control">
+                                        </div>
+                                
+                                        <!-- Date Range -->
+                                        <div class="col-md-3">
+                                            <label>Date From</label>
+                                            <input type="date" name="date_from" value="{{ request('date_from') }}" class="form-control">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Date To</label>
+                                            <input type="date" name="date_to" value="{{ request('date_to') }}" class="form-control">
+                                        </div>
+                                
+                                        <!-- Total Amount Range -->
+                                        <div class="col-md-3 mt-2">
+                                            <label>Min Total</label>
+                                            <input type="number" name="min_total" value="{{ request('min_total') }}" class="form-control">
+                                        </div>
+                                        <div class="col-md-3 mt-2">
+                                            <label>Max Total</label>
+                                            <input type="number" name="max_total" value="{{ request('max_total') }}" class="form-control">
+                                        </div>
+                                
+                                        <!-- Filter & Reset Buttons -->
+                                        <div class="col-md-3">
+                                            <div class="row mt-3  align-items-center">
+                                                <div class=" mt-4 mr-2">
+                                                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+                                                </div>
+                                                <div class=" mt-4">
+                                                    <a href="{{ route('admin.report.index') }}" class="btn btn-danger w-100">Reset</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label for="end_date">{{ __('End Date') }}</label>
-                                            <input type="date" id="end_date" class="form-control" name="end_date"
-                                                value="{{ request('end_date') }}">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <a href="{{ route('admin.product.index') }}" class="btn btn-danger btn-lg">
-                                        <i class="fa fa-refresh" aria-hidden="true"></i>
-                                        {{ __('Reset') }}
-                                    </a>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -113,14 +110,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mx-0 align-items-center" style="justify-content: space-between">
-                            <div id="bookingTableButtons" class="col-md-12" style="justify-content: space-between"></div>
-                        </div>
+                        <div id="OrderdataTableButtons" class="col-md-12" style="justify-content: space-between"></div>
+                        
                         <!-- /.card-header -->
 
                         {{-- table --}}
                         @include('backends.reports._table')
-
                     </div>
                 </div>
             </div>

@@ -14,12 +14,14 @@ use App\Http\Controllers\Backends\UserController;
 use App\Http\Controllers\Backends\BrandController;
 use App\Http\Controllers\Backends\VideoController;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Backends\ReportController;
 use App\Http\Controllers\Backends\SliderController;
 use App\Http\Controllers\Website\AccountController;
 use App\Http\Controllers\Website\ContactController;
 use App\Http\Controllers\Website\DesktopController;
 use App\Http\Controllers\website\PaymentController;
 use App\Http\Controllers\Website\ProfileController;
+use App\Http\Controllers\Backends\InvoiceController;
 use App\Http\Controllers\Backends\ProductController;
 use App\Http\Controllers\Backends\ServiceController;
 use App\Http\Controllers\Website\CheckoutController;
@@ -28,25 +30,24 @@ use App\Http\Controllers\Backends\CustomerController;
 use App\Http\Controllers\Backends\DiscountController;
 use App\Http\Controllers\Backends\EmployeeController;
 use App\Http\Controllers\Backends\LanguageController;
+use App\Http\Controllers\Backends\PurchaseController;
+use App\Http\Controllers\Backends\SupplierController;
 use App\Http\Controllers\Backends\DashboardController;
 use App\Http\Controllers\Website\Auth\LoginController;
 use App\Http\Controllers\Backends\NavigationController;
 use App\Http\Controllers\Backends\EmailConfigController;
 use App\Http\Controllers\Backends\FileManagerController;
+use App\Http\Controllers\Backends\TransactionController;
 use App\Http\Controllers\Website\FrontServiceController;
 use App\Http\Controllers\Website\PolicyAndTermController;
 use App\Http\Controllers\Backends\TermAndPolicyController;
 use App\Http\Controllers\Website\ProductCategoryController;
 use App\Http\Controllers\Backends\BusinessSettingController;
 use App\Http\Controllers\Backends\EmailConfigurationController;
-use App\Http\Controllers\Backends\InvoiceController;
-use App\Http\Controllers\Backends\ReportController;
 use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
 use App\Http\Controllers\Backends\BannerController as BackendsBannerController;
 use App\Http\Controllers\Website\AboutUsController as WebsiteAboutUsController;
 use App\Http\Controllers\Backends\ContactController as BackendsContactController;
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -93,11 +94,11 @@ Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
     Route::get('/recover', [LoginController::class, 'recover'])->name('password.request')->middleware('guest:web');
     Route::get('/change-password', [LoginController::class, 'changePassword'])->name('change-password')->middleware('guest:web');
 });
-Route::middleware(['CheckUserLogin', 'SetFrontendSession'])->group(function () {    
+Route::middleware(['CheckUserLogin', 'SetFrontendSession'])->group(function () {
     // Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
     Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
-        
+
         Route::get('/logout', [LoginController::class, 'userLogout'])->name('logout');
     });
     Route::post('/send-forget-password', [LoginController::class, 'sendForgetPassword'])->name('send-forget-password');
@@ -155,17 +156,7 @@ Route::middleware(['CheckUserLogin', 'SetFrontendSession'])->group(function () {
 });
 // Route::get('/', [WebsiteHomeController::class, 'index'])->name('home');
 
-//tong invoice
-Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice');
 
-//tong report
-Route::get('/report', [ReportController::class, 'index'])->name('report');
-Route::get('/report/report-detail/{id}', [ReportController::class, 'reportDetail'])->name('report.report-detail');
-
-// pos
-Route::get('/pos', [PosController::class, 'index'])->name('pos');
-Route::post('/pos-create-customer', [PosController::class, 'pos_customer_store'])->name('pos_customer_store');
-Route::get('/pos/filter', [PosController::class, 'posfilterProducts'])->name('pos-filter-products');
 
 
 Route::post('save_temp_file', [FileManagerController::class, 'saveTempFile'])->name('save_temp_file');
@@ -175,8 +166,8 @@ Route::get('remove_temp_file', [FileManagerController::class, 'removeTempFile'])
 // back-end
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('login', [AdminLoginController::class, 'adminLoginPage'])->name('login')->middleware('guest:user'); 
-    Route::post('login', [AdminLoginController::class, 'storeLogin'])->name('store-login')->middleware('guest:user'); 
+    Route::get('login', [AdminLoginController::class, 'adminLoginPage'])->name('login')->middleware('guest:user');
+    Route::post('login', [AdminLoginController::class, 'storeLogin'])->name('store-login')->middleware('guest:user');
 });
 Route::middleware(['auth:user', 'CheckUserLogin', 'SetSessionData'])->group(function () {
 
@@ -261,15 +252,34 @@ Route::middleware(['auth:user', 'CheckUserLogin', 'SetSessionData'])->group(func
         //email configuration//
         Route::get('email-configuration', [EmailConfigurationController::class, 'index'])->name('email-configuration');
         Route::put('update-email-configuraion', [EmailConfigurationController::class, 'update'])->name('update-email-configuraion');
+        // transaction
+        Route::resource('transactions', TransactionController::class);
+        // purchase
+        Route::resource('purchases', PurchaseController::class);
+        Route::post('purchases/update_status', [PurchaseController::class, 'updateStatus'])->name('purchases.update_status');
+
+        // supplier
+        Route::resource('supplier', SupplierController::class);
 
         // pos
-        Route::get('/pos', [PosController::class, 'index'])->name('pos');
+        Route::get('pos', [PosController::class, 'index'])->name('pos');
+        Route::post('/pos-create-customer', [PosController::class, 'pos_customer_store'])->name('pos_customer_store');
+        Route::get('pos/filter', [PosController::class, 'posfilterProducts'])->name('pos-filter-products');
+        Route::post('pos/store', [PosController::class, 'store'])->name('pos_store');
+        Route::post('pos/search', [PosController::class, 'search'])->name('pos_search_products');
+
+        //invoice
+        Route::get('invoice', [InvoiceController::class, 'index'])->name('invoice.index');
+
+        //report
+        Route::get('report', [ReportController::class, 'index'])->name('report.index');
+        Route::get('/report/report-detail/{id}', [ReportController::class, 'reportDetail'])->name('report.report-detail');
+
+        // pos
+        Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
         Route::post('/pos-create-customer', [PosController::class, 'pos_customer_store'])->name('pos_customer_store');
         Route::get('/pos/filter', [PosController::class, 'posfilterProducts'])->name('pos-filter-products');
-        Route::post('/pos/store', [PosController::class, 'store'])->name('pos_store');
-        Route::post('/pos/search', [PosController::class, 'search'])->name('pos_search_products');
         //header
         Route::get('/header', [DashboardController::class, 'header']);
     });
 });
-

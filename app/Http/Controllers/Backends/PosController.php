@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Discount;
 use App\Models\OrderDetail;
+use App\Models\Transaction;
 use App\Models\Translation;
 use Illuminate\Http\Request;
 use App\helpers\ImageManager;
@@ -246,88 +247,192 @@ class PosController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-        // Validation
-        // $validator = Validator::make($request->all(), [
-        //     'customer_id' => 'required|integer|exists:customers,id',
-        //     'product_id' => 'required|array',
-        //     'product_id.*' => 'integer|exists:products,id',
-        //     'order_quantity' => 'required|array',
-        //     'order_quantity.*' => 'integer|min:1',
-        //     'price' => 'required|array',
-        //     'price.*' => 'numeric|min:0',
-        //     'payment_method' => 'required|string',
-        // ]);
+    // public function store(Request $request)
+    // {
+    //     // Validation
+    //     // $validator = Validator::make($request->all(), [
+    //     //     'customer_id' => 'required|integer|exists:customers,id',
+    //     //     'product_id' => 'required|array',
+    //     //     'product_id.*' => 'integer|exists:products,id',
+    //     //     'order_quantity' => 'required|array',
+    //     //     'order_quantity.*' => 'integer|min:1',
+    //     //     'price' => 'required|array',
+    //     //     'price.*' => 'numeric|min:0',
+    //     //     'payment_method' => 'required|string',
+    //     // ]);
 
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'success' => 0,
-        //         'msg' => __('Invalid Information'),
-        //         'errors' => $validator->errors(),
-        //     ], 422);
-        // }
+    //     // if ($validator->fails()) {
+    //     //     return response()->json([
+    //     //         'success' => 0,
+    //     //         'msg' => __('Invalid Information'),
+    //     //         'errors' => $validator->errors(),
+    //     //     ], 422);
+    //     // }
 
-        try {
-            DB::beginTransaction();
+    //     try {
+    //         DB::beginTransaction();
         
-            // Save order
-            $order = new Order();
-            $order->customer_id = $request->customer_id;
-            $order->receive_amount = $request->recieve_amount ?? 0;
-            $order->order_number = $request->order_number;
-            $order->total_amount = $request->total;
-            $order->user_id = auth()->user()->id ?? null;
-            $order->discount_amount = $request->totaldiscount ?? 0;
-            $order->payment_method = $request->payment_method;
-            $order->payment_mote = $request->payment_notes ?? '';
-            $order->total_before_discount = $request->sub_total_before_discount ?? '';
-            $order->save();
+    //         // Save order
+    //         $order = new Order();
+    //         $order->customer_id = $request->customer_id;
+    //         $order->receive_amount = $request->recieve_amount ?? 0;
+    //         $order->order_number = $request->order_number;
+    //         $order->total_amount = $request->total;
+    //         $order->user_id = auth()->user()->id ?? null;
+    //         $order->discount_amount = $request->totaldiscount ?? 0;
+    //         $order->payment_method = $request->payment_method;
+    //         $order->payment_mote = $request->payment_notes ?? '';
+    //         $order->total_before_discount = $request->sub_total_before_discount ?? '';
+    //         $order->save();
         
-            // Save order details
-            if (!empty($request->orders) && is_array($request->orders)) {
-                foreach ($request->orders as $product) {
-                    $orderDetails = new OrderDetail();
-                    $orderDetails->order_id = $order->id;
-                    $orderDetails->product_id = $product['product_id'];
-                    $orderDetails->quantity = $product['quantity'];
-                    $orderDetails->unit_price = $product['unit_price'];
-                    $orderDetails->price = $product['subtotal'];
-                    $orderDetails->discount = $product['discount'];
-                    $orderDetails->save();
+    //         // Save order details
+    //         if (!empty($request->orders) && is_array($request->orders)) {
+    //             foreach ($request->orders as $product) {
+    //                 $orderDetails = new OrderDetail();
+    //                 $orderDetails->order_id = $order->id;
+    //                 $orderDetails->product_id = $product['product_id'];
+    //                 $orderDetails->quantity = $product['quantity'];
+    //                 $orderDetails->unit_price = $product['unit_price'];
+    //                 $orderDetails->price = $product['subtotal'];
+    //                 $orderDetails->discount = $product['discount'];
+    //                 $orderDetails->save();
 
-                    $productModel = Product::find($product['product_id']);
-                    if ($productModel) {
-                        $productModel->quantity -= $product['quantity'];
-                        if ($productModel->quantity < 0) {
-                            throw new Exception(__('Insufficient stock for product: ') . $productModel->name);
-                        }
-                        $productModel->save();
-                    }
-                }
-            } else {
-                return response()->json([
-                    'success' => 0,
-                    'msg' => __('No products found in the order.'),
-                ], 400);
-            }
+    //                 $productModel = Product::find($product['product_id']);
+    //                 if ($productModel) {
+    //                     $productModel->quantity -= $product['quantity'];
+    //                     if ($productModel->quantity < 0) {
+    //                         throw new Exception(__('Insufficient stock for product: ') . $productModel->name);
+    //                     }
+    //                     $productModel->save();
+    //                 }
+    //                 $transaction = new Transaction();
+    //                 $transaction->transaction_type = 'income';
+    //                 $transaction->order_id = $order->id;
+    //                 $transaction->product_id = $product['id'];
+    //                 $transaction->amount = $orderDetails->total_price;
+    //                 $transaction->quantity = $orderDetails->quantity;
+    //                 $transaction->transaction_date = now();
+    //                 $transaction->description = 'Sale of ' . $orderDetails->quantity . ' units';
+    //                 $transaction->save();
+    //             }
+    //         } else {
+    //             return response()->json([
+    //                 'success' => 0,
+    //                 'msg' => __('No products found in the order.'),
+    //             ], 400);
+    //         }
            
         
-            DB::commit();
+    //         DB::commit();
         
-            return response()->json([
-                'order_id' => $order->id,
-                'success' => 1,
-                'msg' => __('Order placed successfully'),
-            ]);
-        } catch (Exception $e) {
-            dd($e);
-            // DB::rollBack();
-            // Log::error('Order Store Error:', ['error' => $e->getMessage()]);
-            // return response()->json([
-            //     'success' => 0,
-            //     'msg' => __('Something went wrong. Please try again.'),
-            // ], 500);
-        }
+    //         return response()->json([
+    //             'order_id' => $order->id,
+    //             'success' => 1,
+    //             'msg' => __('Order placed successfully'),
+    //         ]);
+    //     } catch (Exception $e) {
+    //         dd($e);
+    //         // DB::rollBack();
+    //         // Log::error('Order Store Error:', ['error' => $e->getMessage()]);
+    //         // return response()->json([
+    //         //     'success' => 0,
+    //         //     'msg' => __('Something went wrong. Please try again.'),
+    //         // ], 500);
+    //     }
+    // }
+    public function store(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        // 'customer_id' => 'required|integer|exists:customers,id',
+        'orders' => 'required|array',
+        'orders.*.product_id' => 'integer|exists:products,id',
+        'orders.*.quantity' => 'integer|min:1',
+        'orders.*.unit_price' => 'numeric|min:0',
+        'payment_method' => 'required|string',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => 0,
+            'msg' => __('Invalid Information'),
+            'errors' => $validator->errors(),
+        ], 422);
     }
+
+    try {
+        DB::beginTransaction();
+    
+        // ✅ Save Order (Manually Instead of create([]))
+        $order = new Order();
+        $order->customer_id = $request->customer_id;
+        $order->receive_amount = $request->recieve_amount ?? 0;
+        $order->order_number = $request->order_number;
+        $order->total_amount = $request->total;
+        $order->user_id = auth()->user()->id ?? null;
+        $order->discount_amount = $request->totaldiscount ?? 0;
+        $order->payment_method = $request->payment_method;
+        $order->payment_note = $request->payment_notes ?? '';
+        $order->total_before_discount = $request->sub_total_before_discount ?? '';
+        $order->save();
+
+        // ✅ Ensure Products Exist in Request
+        if (!isset($request->orders) || !is_array($request->orders) || empty($request->orders)) {
+            return response()->json([
+                'success' => 0,
+                'msg' => __('No products found in the order.'),
+            ], 400);
+        }
+
+        foreach ($request->orders as $product) {
+            // ✅ Store Order Details (Manually)
+            $orderDetail = new OrderDetail();
+            $orderDetail->order_id = $order->id;
+            $orderDetail->product_id = $product['product_id'];
+            $orderDetail->quantity = $product['quantity'];
+            $orderDetail->unit_price = $product['unit_price'];
+            $orderDetail->price = $product['subtotal'];
+            $orderDetail->discount = $product['discount'];
+            $orderDetail->save();
+
+            // ✅ Reduce Stock (Manually)
+            $productModel = Product::find($product['product_id']);
+            if ($productModel) {
+                if ($productModel->quantity < $product['quantity']) {
+                    throw new Exception(__('Insufficient stock for product: ') . $productModel->name);
+                }
+                $productModel->quantity -= $product['quantity'];
+                $productModel->save();
+            }
+
+            // ✅ Store Transaction Record (Manually)
+            $transaction = new Transaction();
+            $transaction->transaction_type = 'income';
+            $transaction->order_id = $order->id;
+            $transaction->product_id = $product['product_id'];
+            $transaction->amount = $orderDetail->price;
+            $transaction->quantity = $orderDetail->quantity;
+            $transaction->transaction_date = now();
+            $transaction->description = 'Sale of ' . $orderDetail->quantity . ' units';
+            $transaction->save();
+        }
+
+        DB::commit();
+
+        return response()->json([
+            'order_id' => $order->id,
+            'success' => 1,
+            'msg' => __('Order placed successfully'),
+        ]);
+    } catch (Exception $e) {
+        DB::rollBack();
+        dd($e);
+        Log::error('Order Store Error:', ['error' => $e->getMessage()]);
+
+        return response()->json([
+            'success' => 0,
+            'msg' => __('Something went wrong. Please try again.'),
+        ], 500);
+    }
+}
+
 }

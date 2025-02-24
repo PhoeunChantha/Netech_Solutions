@@ -11,7 +11,7 @@ class Purchase extends Model
 
     protected $fillable = [
         'supplier_id', 'product_id', 'quantity', 'unit_cost', 'total_cost',
-        'purchase_date', 'status_id', 'description'
+        'purchase_date', 'status', 'description'
     ];
 
     public function supplier()
