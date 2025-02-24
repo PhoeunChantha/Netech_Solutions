@@ -149,7 +149,7 @@
                             </div>
                         </div>
                         <div class="row mx-0 px-2 align-items-center" style="justify-content: space-between">
-                            <div id="dataTableButtons" class="col-md-12" style="justify-content: space-between"></div>
+                            <div id="transactionTableButtons" class="col-md-12" style="justify-content: space-between"></div>
                         </div>
                         <!-- /.card-header -->
                         {{-- table --}}
@@ -163,4 +163,83 @@
     <div class="modal fade modal_form" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
 @endsection
 @push('js')
+<script>
+       $(document).ready(function() {
+        if ($('#transactionTable').length && $('#transactionTableButtons').length) {
+            if ($.fn.DataTable.isDataTable('#transactionTable')) {
+                $('#transactionTable').DataTable().clear().destroy();
+                // $('#dataTable').empty();
+            }
+            setTimeout(function() {
+                let transactionTable;
+                let actionColumnIndex = -1;
+                $('#transactionTable thead th').each(function(index) {
+                    let columnText = $(this).text().trim().toLowerCase();
+                    if (columnText.includes('action')) {
+                        actionColumnIndex = index;
+                    }
+                });
+
+                transactionTable = $('#transactionTable').DataTable({
+                    responsive: true,
+                    dom: '<"d-flex justify-content-between align-items-center"lfB>rtip',
+                    buttons: [{
+                            extend: 'csv',
+                            text: '<i class="fas fa-file-csv"></i> Export to CSV',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            text: '<i class="fas fa-file-excel"></i> Export to Excel',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            text: '<i class="fas fa-print"></i> Print',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
+                        {
+                            extend: 'colvis',
+                            text: '<i class="fas fa-columns"></i> Column Visibility'
+                        },
+                        {
+                            extend: 'pdf',
+                            text: '<i class="fas fa-file-pdf"></i> Export to PDF',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
+                    ],
+                    columnDefs: actionColumnIndex !== -1 ? [{
+                        orderable: false,
+                        targets: actionColumnIndex
+                    }] : [],
+                    language: {
+                        search: "",
+                        searchPlaceholder: "Search..."
+                    },
+                    pagingType: "full_numbers"
+
+                });
+
+                if ($('#transactionTableButtons').length) {
+                    $('.dataTables_length').prependTo('#transactionTableButtons');
+                    transactionTable.buttons().container().appendTo('#transactionTableButtons');
+                    $('.dataTables_filter').appendTo('#transactionTableButtons');
+                } else {
+                    console.error("Div #transactionTableButtons not found.");
+                }
+            }, 100);
+
+        } else {
+            console.error("Table #dataTable or Div #transactionTableButtons not found.");
+        }
+    });
+</script>
 @endpush

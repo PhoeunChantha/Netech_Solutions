@@ -5,7 +5,7 @@
     }
 </style>
 <div class="card-body py-0 table-wrapper">
-    <table id="dataTable" class="table table-hover ">
+    <table id="transactionTable" class="table table-hover ">
         <thead>
             <tr>
                 <th>#</th>

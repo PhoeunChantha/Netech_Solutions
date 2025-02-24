@@ -344,6 +344,119 @@
         margin-block: 1rem;
     }
 
+     /* ✅ Purchase Table Buttons */
+    #purchaseTableButtons {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    #purchaseTableButtons .dt-buttons {
+        display: flex;
+    }
+
+    #purchaseTableButtons .dt-buttons .dt-button {
+        margin: 0;
+        border: 1px solid #DDDDDD;
+        /* border-radius: 5px; */
+        background: #A1E9C9;
+        color: #229865;
+        padding: .3rem .65rem;
+        font-size: 10px;
+    }
+
+    /* ✅ Search Bar & Pagination */
+    #purchaseTableButtons input[type="search"] {
+        height: 27px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        width: 120px;
+    }
+
+    #purchaseTable_length label {
+        font-size: 12px;
+        margin-top: .5rem !important;
+    }
+
+    #purchaseTable_length label select {
+        width: 4rem;
+        height: 1.5rem;
+        border-radius: 5px;
+    }
+
+    #purchaseTable_filter label {
+        margin: 0;
+    }
+
+    #purchaseTable_info {
+        padding-top: 1.5rem;
+    }
+
+    #purchaseTable_paginate {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding-block: 0rem;
+        margin-block: 1rem;
+    }
+    
+     /* ✅ Transaction Table Buttons */
+     #transactionTableButtons {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    #transactionTableButtons .dt-buttons {
+        display: flex;
+    }
+
+    #transactionTableButtons .dt-buttons .dt-button {
+        margin: 0;
+        border: 1px solid #DDDDDD;
+        /* border-radius: 5px; */
+        background: #A1E9C9;
+        color: #229865;
+        padding: .3rem .65rem;
+        font-size: 10px;
+    }
+
+    /* ✅ Search Bar & Pagination */
+    #transactionTableButtons input[type="search"] {
+        height: 27px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        width: 120px;
+    }
+
+    #transactionTable_length label {
+        font-size: 12px;
+        margin-top: .5rem !important;
+    }
+
+    #transactionTable_length label select {
+        width: 4rem;
+        height: 1.5rem;
+        border-radius: 5px;
+    }
+
+    #transactionTable_filter label {
+        margin: 0;
+    }
+
+    #transactionTable_info {
+        padding-top: 1.5rem;
+    }
+
+    #transactionTable_paginate {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding-block: 0rem;
+        margin-block: 1rem;
+    }
 
     table.dataTable thead .sorting:before,
     table.dataTable thead .sorting_asc:before {

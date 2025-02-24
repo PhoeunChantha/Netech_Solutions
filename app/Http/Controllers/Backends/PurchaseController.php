@@ -63,7 +63,7 @@ class PurchaseController extends Controller
 
         // ✅ Filter by Purchase Status
         if ($request->has('purchase_status') && $request->purchase_status != '') {
-            $query->where('status', $request->purchase_status);
+            $query->where('purchase_status', $request->purchase_status);
         }
 
         // ✅ Get filtered purchases with pagination
