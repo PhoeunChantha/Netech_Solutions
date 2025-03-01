@@ -232,17 +232,17 @@
     }
 </style>
 <style>
-    #OrderdataTableButtons {
+    #OrderdataTableButtons,#sellreportTableButtons {
         display: flex;
         gap: 15px;
         align-items: center;
     }
 
-    #OrderdataTableButtons .dt-buttons {
+    #OrderdataTableButtons,#sellreportTableButtons .dt-buttons {
         display: flex;
     }
 
-    #OrderdataTableButtons .dt-buttons .dt-button {
+    #OrderdataTableButtons,#sellreportTableButtons .dt-buttons .dt-button {
         margin: 0;
         border: 1px solid #DDDDDD;
         border-radius: 0;
@@ -252,7 +252,7 @@
         font-size: 10px;
     }
 
-    #OrderdataTableButtons input[type="search"] {
+    #OrderdataTableButtons,#sellreportTableButtons input[type="search"] {
         height: 27px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -261,26 +261,26 @@
         width: 120px;
     }
 
-    #OrderdataTable_length label {
+    #OrderdataTable_length,#sellreportTable_length label {
         font-size: 12px;
         margin-top: .5rem !important;
     }
 
-    #OrderdataTable_length label select {
+    #OrderdataTable_length,#sellreportTable_length label select {
         width: 4rem;
         height: 1.5rem;
         border-radius: 5px;
     }
 
-    #OrderdataTable_filter label {
+    #OrderdataTable_filter,#sellreportTable_filter label {
         margin: 0;
     }
 
-    #OrderdataTable_info {
+    #OrderdataTable_info,#sellreportTable_info label{
         padding-top: 1.5rem;
     }
 
-    #OrderdataTable_paginate {
+    #OrderdataTable_paginate,#sellreportTable_paginate {
         border: 1px solid #ccc;
         border-radius: 5px;
         padding-block: 0rem;
@@ -344,7 +344,7 @@
         margin-block: 1rem;
     }
 
-     /* ✅ Purchase Table Buttons */
+     /* ✅ purchase Table Buttons */
     #purchaseTableButtons {
         display: flex;
         gap: 15px;

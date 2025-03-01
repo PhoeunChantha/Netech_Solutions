@@ -107,6 +107,17 @@
                                             </span>
                                         @enderror
                                     </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="" for="description">{{ __('Description') }}</label>
+                                        <textarea type="text" name="description" id="description"
+                                            class="form-control  @error('description') is-invalid @enderror"
+                                            value="{{ old('description') }}"></textarea>
+                                        @error('description')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
 
                                     <div class="form-group col-md-6">
                                         <label class="required_label" for="status">{{ __('Status') }}</label>

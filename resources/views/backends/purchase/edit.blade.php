@@ -113,18 +113,29 @@
                                             </span>
                                         @enderror
                                     </div>
-
+                                    <div class="form-group col-md-12">
+                                        <label class="" for="description">{{ __('Description') }}</label>
+                                        <textarea type="text" name="description" id="description"
+                                            class="form-control  @error('description') is-invalid @enderror" value="{{ old('description') }}">{{ $purchase->description }}</textarea>
+                                        @error('description')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                     <div class="form-group col-md-6">
                                         <label class="required_label" for="status">{{ __('Status') }}</label>
                                         <select name="status" id="status"
                                             class="form-control select2 @error('status') is-invalid @enderror">
                                             <option value="">{{ __('Select Status') }}</option>
-                                            <option value="Pending" {{ $purchase->purchase_status == 'Pending' ? 'selected' : '' }}>
+                                            <option value="Pending"
+                                                {{ $purchase->purchase_status == 'Pending' ? 'selected' : '' }}>
                                                 {{ __('Pending') }}</option>
                                             <option value="Completed"
                                                 {{ $purchase->purchase_status == 'Completed' ? 'selected' : '' }}>
                                                 {{ __('Completed') }}</option>
-                                            <option value="Cancel" {{ $purchase->purchase_status == 'Cancel' ? 'selected' : '' }}>
+                                            <option value="Cancel"
+                                                {{ $purchase->purchase_status == 'Cancel' ? 'selected' : '' }}>
                                                 {{ __('Cancel') }}</option>
                                         </select>
                                         @error('status')
@@ -155,7 +166,6 @@
 @endsection
 
 @push('js')
-
     <script>
         function handlePriceInput(input) {
             // Remove leading zeros
@@ -166,5 +176,20 @@
                 input.value = '0';
             }
         }
+
+        $(document).ready(function() {
+            $('#purchase_date').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true,
+                startDate: new Date(),
+            });
+            $('#quantity, #unit_cost').on('input', function() {
+                let purchaseQTY = parseFloat($('#quantity').val()) || 0;
+                let unitCost = parseFloat($('#unit_cost').val()) || 0;
+                let totalCost = purchaseQTY * unitCost;
+                $('#total_cost').val(totalCost.toFixed(2));
+            });
+        });
     </script>
 @endpush

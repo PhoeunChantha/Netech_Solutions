@@ -12,6 +12,24 @@ body {
 .sidebar-light-info .nav-sidebar > .nav-item > .nav-link.active {
     background: linear-gradient(
         90deg,
+        #1077B8 8%,
+        rgba(87, 158, 255, 1) 70%
+    );
+}
+
+.sidebar-light-info .nav-sidebar > .nav-item > .nav-link:hover {
+    background: linear-gradient(
+        90deg,
+        #1077B8 8%,
+        rgba(87, 158, 255, 1) 70%
+    );
+    color: #ffffffff !important;
+    border: none;
+    transition: background-color 0.3s;
+}
+/* .sidebar-light-info .nav-sidebar > .nav-item > .nav-link.active {
+    background: linear-gradient(
+        90deg,
         rgba(243, 49, 247, 1) 8%,
         rgba(87, 158, 255, 1) 70%
     );
@@ -26,7 +44,7 @@ body {
     color: #ffffffff !important;
     border: none;
     transition: background-color 0.3s;
-}
+} */
 
 [class*="sidebar-light-"] .sidebar a {
     color: #6c757d;
@@ -36,7 +54,7 @@ body {
 [class*="sidebar-light-"] .nav-sidebar > .nav-item:hover > .nav-link {
     background: linear-gradient(
         90deg,
-        rgba(243, 49, 247, 1) 8%,
+        #1077B8 8%,
         rgba(87, 158, 255, 1) 70%
     );
     color: #ffffffff !important;

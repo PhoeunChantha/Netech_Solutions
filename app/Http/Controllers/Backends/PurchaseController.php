@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class PurchaseController extends Controller
 {
@@ -20,58 +21,80 @@ class PurchaseController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Purchase::with('supplier', 'product');
+        if ($request->ajax()) {
+            $purchase = Purchase::with('supplier', 'product');
 
-        // ✅ Filter by Supplier Name
-        if ($request->has('supplier_name') && $request->supplier_name != '') {
-            $query->whereHas('supplier', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->supplier_name . '%');
-            });
+            if (!empty($request->supplier_name)) {
+                $purchase->whereHas('supplier', function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->supplier_name . '%');
+                });
+            }
+
+            if (!empty($request->product_name)) {
+                $purchase->whereHas('product', function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->product_name . '%');
+                });
+            }
+
+            if (!empty($request->purchase_date)) {
+                $purchase->whereDate('purchase_date', $request->purchase_date);
+            }
+
+            if (!empty($request->date_from) && !empty($request->date_to)) {
+                $purchase->whereBetween('purchase_date', [$request->date_from, $request->date_to]);
+            }
+
+            if (!empty($request->purchase_status)) {
+                $purchase->where('purchase_status', $request->purchase_status);
+            }
+
+            if (!empty($request->search_value)) {
+                $search = $request->search_value;
+                $purchase->where(function ($query) use ($search) {
+                    $query->where('purchase_date', 'like', "%{$search}%")
+                          ->orWhere('purchase_status', 'like', "%{$search}%")
+                          ->orWhereHas('supplier', function ($q) use ($search) {
+                              $q->where('name', 'like', "%{$search}%");
+                          })
+                          ->orWhereHas('product', function ($q) use ($search) {
+                              $q->where('name', 'like', "%{$search}%");
+                          });
+                });
+            }
+            $totalCost = $purchase->sum('total_cost');
+
+            return datatables()->eloquent($purchase)
+                ->addColumn('actions', function ($purchase) {
+                    return view('backends.purchase.action', compact('purchase'))->render();
+                })
+                ->editColumn('supplier.name', function ($purchase) {
+                    return optional($purchase->supplier)->name ?? '-';
+                })
+                ->editColumn('product.name', function ($purchase) {
+                    return optional($purchase->product)->name ?? '-';
+                })
+                ->editColumn('quantity', function ($purchase) {
+                    return number_format($purchase->quantity, 2);
+                })
+                ->editColumn('unit_cost', function ($purchase) {
+                    return '$' . number_format($purchase->unit_cost, 2);
+                })
+                ->editColumn('total_cost', function ($purchase) {
+                    return '$' . number_format($purchase->total_cost, 2);
+                })
+                ->editColumn('purchase_date', function ($purchase) {
+                    return $purchase->purchase_date ? \Carbon\Carbon::parse($purchase->purchase_date)->format('d M, Y') : '-';
+                })
+                ->editColumn('purchase_status', function ($purchase) {
+                    return view('backends.purchase.status', compact('purchase'))->render();
+                })
+                ->rawColumns(['actions', 'purchase_status'])
+                ->with('totalCost', $totalCost)
+                ->make(true);
         }
 
-        // ✅ Filter by Product Name
-        if ($request->has('product_name') && $request->product_name != '') {
-            $query->whereHas('product', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->product_name . '%');
-            });
-        }
-
-        // ✅ Filter by Purchase Date
-        if ($request->has('purchase_date') && $request->purchase_date != '') {
-            $query->whereDate('purchase_date', $request->purchase_date);
-        }
-
-        // ✅ Filter by Date Range
-        if ($request->has('date_from') && $request->has('date_to')) {
-            $query->whereBetween('purchase_date', [$request->date_from, $request->date_to]);
-        }
-
-        // ✅ Filter by Quantity Range
-        if ($request->has('min_quantity') && $request->has('max_quantity')) {
-            $query->whereBetween('quantity', [$request->min_quantity, $request->max_quantity]);
-        }
-
-        // ✅ Filter by Unit Cost Range
-        if ($request->has('min_unit_cost') && $request->has('max_unit_cost')) {
-            $query->whereBetween('unit_cost', [$request->min_unit_cost, $request->max_unit_cost]);
-        }
-
-        // ✅ Filter by Total Cost Range
-        if ($request->has('min_total_cost') && $request->has('max_total_cost')) {
-            $query->whereBetween('total_cost', [$request->min_total_cost, $request->max_total_cost]);
-        }
-
-        // ✅ Filter by Purchase Status
-        if ($request->has('purchase_status') && $request->purchase_status != '') {
-            $query->where('purchase_status', $request->purchase_status);
-        }
-
-        // ✅ Get filtered purchases with pagination
-        $purchases = $query->latest('id')->paginate(10);
-
-        return view('backends.purchase.index', compact('purchases'));
+        return view('backends.purchase.index');
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -115,6 +138,9 @@ class PurchaseController extends Controller
             $purchase->total_cost = $request->total_cost;
             $purchase->purchase_date = $request->purchase_date;
             $purchase->purchase_status = $request->status;
+            $purchase->description = $request->description;
+            $purchase->created_by = auth()->user()->id;
+
             $purchase->save();
 
             $transaction = new Transaction();

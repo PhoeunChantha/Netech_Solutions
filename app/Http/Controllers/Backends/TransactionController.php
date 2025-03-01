@@ -13,55 +13,91 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Transaction::query();
+        if ($request->ajax()) {
+            $transactions = Transaction::with(['purchase', 'order', 'product']);
     
-        // ✅ Filter by Transaction Type (Income or Expense)
-        if ($request->filled('transaction_type')) {
-            $query->where('transaction_type', $request->transaction_type);
+            if ($request->filled('transaction_type')) {
+                $transactions->where('transaction_type', $request->transaction_type);
+            }
+    
+            if ($request->filled('date_from') && $request->filled('date_to')) {
+                $transactions->whereBetween('transaction_date', [$request->date_from, $request->date_to]);
+            }
+    
+            if ($request->filled('product_name')) {
+                $transactions->whereHas('product', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->product_name . '%');
+                });
+            }
+    
+            if ($request->filled('customer_name')) {
+                $transactions->whereHas('order.customer', function ($q) use ($request) {
+                    $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $request->customer_name . '%']);
+                });
+            }
+    
+            if ($request->filled('supplier_name')) {
+                $transactions->whereHas('purchase.supplier', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->supplier_name . '%');
+                });
+            }
+    
+            if ($request->filled('payment_method')) {
+                $transactions->where('payment_method', $request->payment_method);
+            }
+    
+            if ($request->filled('min_amount') && $request->filled('max_amount')) {
+                $transactions->whereBetween('amount', [$request->min_amount, $request->max_amount]);
+            }
+    
+            if (!empty($request->search_value)) {
+                $search = $request->search_value;
+                $transactions->where(function ($query) use ($search) {
+                    $query->where('transaction_date', 'like', "%{$search}%")
+                        ->orWhere('transaction_type', 'like', "%{$search}%")
+                        ->orWhere('amount', 'like', "%{$search}%")
+                        ->orWhere('quantity', 'like', "%{$search}%");
+                        // ->orWhereHas('supplier', function ($q) use ($search) {
+                        //     $q->where('name', 'like', "%{$search}%");
+                        // })
+                        // ->orWhereHas('product', function ($q) use ($search) {
+                        //     $q->where('name', 'like', "%{$search}%");
+                        // })
+                        // ->orWhereHas('order.customer', function ($q) use ($search) {
+                        //     $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $search . '%']);
+                        // });
+                });
+            }
+    
+            $totalamounttransaction = $transactions->sum('amount');
+
+            return datatables()->eloquent($transactions)
+                ->addColumn('transaction_type', function ($transaction) {
+                    return $transaction->transaction_type;
+                })
+                ->addColumn('product_name', function ($transaction) {
+                    return optional($transaction->product)->name;
+                })
+                ->editColumn('amount', function ($transaction) {
+                    return '$' . number_format($transaction->amount, 2);
+                })
+                ->addColumn('quantity', function ($transaction) {
+                    return $transaction->quantity;
+                })
+                ->editColumn('transaction_date', function ($transaction) {
+                    return $transaction->transaction_date ? \Carbon\Carbon::parse($transaction->transaction_date)->format('d M, Y') : '-';
+                })
+                ->addColumn('description', function ($transaction) {
+                    return $transaction->description;
+                })
+                ->with('totalamounttransaction', $totalamounttransaction) 
+                ->make(true);
         }
     
-        // ✅ Filter by Date Range
-        if ($request->filled('date_from') && $request->filled('date_to')) {
-            $query->whereBetween('transaction_date', [$request->date_from, $request->date_to]);
-        }
-    
-        // ✅ Filter by Product Name
-        if ($request->filled('product_name')) {
-            $query->whereHas('product', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->product_name . '%');
-            });
-        }
-    
-        // ✅ Filter by Customer Name
-        if ($request->filled('customer_name')) {
-            $query->whereHas('order.customer', function ($q) use ($request) {
-                $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $request->customer_name . '%']);
-            });
-        }
-    
-        // ✅ Filter by Supplier Name
-        if ($request->filled('supplier_name')) {
-            $query->whereHas('purchase.supplier', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->supplier_name . '%');
-            });
-        }
-    
-        // ✅ Filter by Payment Method
-        if ($request->filled('payment_method')) {
-            $query->where('payment_method', $request->payment_method);
-        }
-    
-        // ✅ Filter by Amount Range
-        if ($request->filled('min_amount') && $request->filled('max_amount')) {
-            $query->whereBetween('amount', [$request->min_amount, $request->max_amount]);
-        }
-    
-        $transactions = $query->latest('id')->paginate(10);
-    
-        return view('backends.transaction.index', compact('transactions'));
+        return view('backends.transaction.index');
     }
     
-    
+
 
     /**
      * Show the form for creating a new resource.

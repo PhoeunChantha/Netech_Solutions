@@ -48,13 +48,25 @@
                 @endif
                 @if (auth()->user()->can('report.view'))
                 @endif
-                <li class="nav-item">
-                    <a href="{{ route('admin.report.index') }}" class="nav-link @if (request()->routeIs('admin.report.index')) active @endif">
-                        <i class=" nav-icon fas fa-chart-line"></i>
+               
+                <li class="nav-item @if (request()->routeIs('admin.report.*')) menu-is-opening menu-open @endif">
+                    <a href="#" class="nav-link @if (request()->routeIs('admin.report.*')) active @endif">
+                        <i class="nav-icon fa fas fa-chart-bar"></i>
                         <p>
-                            {{ __('report') }}
+                            {{ __('Reports') }}
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.report.index') }}" class="nav-link @if (request()->routeIs('admin.report.index')) active @endif">
+                                <i class=" nav-icon fas fa-chart-line"></i>
+                                <p>
+                                    {{ __('Product Sell Report') }}
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.purchases.index') }}" class="nav-link @if (request()->routeIs('admin.purchases.index')) active @endif">

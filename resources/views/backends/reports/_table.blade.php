@@ -1,4 +1,4 @@
-<div class="card-body pt-0  table-wrapper">
+{{-- <div class="card-body pt-0  table-wrapper">
     <table id="OrderdataTable" class="table table-hover">
         <thead>
             <tr>
@@ -32,16 +32,27 @@
             @endforeach
         </tbody>
     </table>
-
-    {{-- <div class="row">
-        <div class="col-12 d-flex flex-row flex-wrap">
-            <div class="row" style="width: -webkit-fill-available;">
-                <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
-                    {{ __('Showing') }} {{ $reports->firstItem() }} {{ __('to') }} {{ $reports->lastItem() }}
-                    {{ __('of') }} {{ $reports->total() }} {{ __('entries') }}
-                </div>
-                <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $reports->links() }}</div>
-            </div>
-        </div>
-    </div> --}}
+</div> --}}
+<div class="card-body pt-0  table-wrapper">
+    <table id="sellreportTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Customer Name</th>
+                <th>Date</th>
+                <th>Discount</th>
+                <th>Total before discount</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+           
+        </tbody>
+        <tfoot class="" style="background-color: #D2D6DE;">
+            <tr>
+                <td colspan="5" class="text-right"></td>
+                <td colspan="1"><strong>{{ __('Total: ') }} <span id="totalamount">$0.00</span></strong></td>
+            </tr>
+        </tfoot>
+    </table>
 </div>
