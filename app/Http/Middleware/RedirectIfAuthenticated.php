@@ -49,7 +49,7 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if ($guard == 'admin') {
+                if ($guard == 'user') {
                     return redirect()->route('admin.dashboard');
                 } else {
                     return redirect()->route('home');

@@ -33,29 +33,6 @@
                     <div
                         class="small-box bg-white d-flex p-3 justify-content-between align-items-center dashboard_summary_box dashboard_shadow">
                         <div class="rounded-circle bg-light p-2 d-flex" style="height: 70px; width: 70px;">
-                            <img src="{{ asset('svgs/total_order.svg') }}" alt="not found">
-                        </div>
-                        <div class="inner text-right">
-                            {{-- <h3>{{ App\helpers\AppHelper::dashboardQuery()['total_event'] }}</h3> --}}
-                            <h4>5</h4>
-                            <p class="m-0 text-uppercase">{{ __('Total Orders') }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div
-                        class="small-box bg-white d-flex p-3 justify-content-between align-items-center dashboard_summary_box dashboard_shadow">
-                        <div class="rounded-circle bg-light p-2 d-flex" style="height: 70px; width: 70px;">
-                            {{-- <div style="padding:12px;">
-                                <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M20 12V4C20 2.89543 19.1046 2 18 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V18.5"
-                                        stroke="#579EFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M13 2V14L16.8182 11L20 14V5" stroke="#579EFF" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </div> --}}
                             <img src="{{ asset('svgs/total_product.svg') }}" alt="not found">
                         </div>
                         <div class="inner text-right">
@@ -64,114 +41,225 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-3 col-sm-6">
-                    <div
-                        class="small-box bg-white d-flex p-3 justify-content-between align-items-center dashboard_summary_box dashboard_shadow">
-                        <div class="rounded-circle bg-light p-1 d-flex" style="height: 70px; width: 70px;">
-                            {{-- <div style="padding: 10px">
-                                <svg viewBox="0 0 24 24" x="0px" y="0px" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="6" r="4" stroke="#579EFF" stroke-width="1" />
-                                    <path
-                                        d="M19.9975 18C20 17.8358 20 17.669 20 17.5C20 15.0147 16.4183 13 12 13C7.58172 13 4 15.0147 4 17.5C4 19.9853 4 22 12 22C14.231 22 15.8398 21.8433 17 21.5634"
-                                        stroke="#579EFF" stroke-width="1" stroke-linecap="round" />
-                                </svg>
-                            </div> --}}
-                            <img src="{{ asset('svgs/total_employee.svg') }}" alt="not found">
-                        </div>
-                        <div class="inner text-right">
-                            <h4>{{$employees->count()}}</h4>
-                            <p class="m-0 text-uppercase">{{ __('Total Employees') }}</p>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="col-lg-3 col-sm-6">
                     <div
                         class="small-box bg-white d-flex p-3 justify-content-between align-items-center dashboard_summary_box dashboard_shadow">
                         <div class="rounded-circle bg-light p-2 d-flex" style="height: 70px; width: 70px;">
-                            {{-- <div style="padding:10px;">
-                                <?xml version="1.0" encoding="utf-8"?>
-
-                                <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-                                <svg fill="#579EFF" version="1.1" id="XMLID_276_" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve">
-                                    <g id="contact-us">
-                                        <g>
-                                            <path d="M4,24v-5H0V0h23v19h-9.3L4,24z M2,17h4v3.7l7.3-3.7H21V2H2V17z" />
-                                        </g>
-                                        <g>
-                                            <rect x="5" y="8" width="3" height="3" />
-                                        </g>
-                                        <g>
-                                            <rect x="10" y="8" width="3" height="3" />
-                                        </g>
-                                        <g>
-                                            <rect x="15" y="8" width="3" height="3" />
-                                        </g>
-                                    </g>
-                                </svg>
-                            </div> --}}
-                            <img src="{{ asset('svgs/total_contact.svg') }}" alt="not found">
+                            <img src="{{ asset('svgs/total_order.svg') }}" alt="not found">
                         </div>
                         <div class="inner text-right">
-                            <h4>{{$contacts->count()}}</h4>
-                            <p class="m-0 text-uppercase">{{ __('Contact Us') }}</p>
+                            {{-- <h3>{{ App\helpers\AppHelper::dashboardQuery()['total_event'] }}</h3> --}}
+                            <h4>{{ $totalorder }}</h4>
+                            <p class="m-0 text-uppercase">{{ __('Total Orders') }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div
+                        class="small-box bg-white d-flex p-3 justify-content-between align-items-center dashboard_summary_box dashboard_shadow">
+                        <div class="rounded-circle bg-light p-1 d-flex align-items-center justify-content-center"
+                            style="height: 70px; width: 70px;">
+                            <img width="70%" height="70%" src="{{ asset('svgs/expense.png') }}" alt="not found">
+                        </div>
+                        <div class="inner text-right">
+                            <h4>{{ $totalexpense }}$</h4>
+                            <p class="m-0 text-uppercase">{{ __('Total Expense') }}</p>
                         </div>
                     </div>
                 </div>
 
-                {{-- <section class=" col-md-12 ">
+                <div class="col-lg-3 col-sm-6">
+                    <div
+                        class="small-box bg-white d-flex p-3 justify-content-between align-items-center dashboard_summary_box dashboard_shadow">
+                        <div class="rounded-circle bg-light p-2 d-flex align-items-center justify-content-center"
+                            style="height: 70px; width: 70px;">
+                            <img width="70%" height="70%" src="{{ asset('svgs/income.png') }}" alt="not found">
+                        </div>
+                        <div class="inner text-right">
+                            <h4>{{ $totalincome }}$</h4>
+                            <p class="m-0 text-uppercase">{{ __('Total Income') }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <section class=" col-md-12 ">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="card card-primary card-outline">
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         <i class="far fa-chart-bar"></i>
-                                        {{ __('Top Views') }}
+                                        {{ __('Top Products') }}
                                     </h3>
-                                    <div class="card-tools">
+                                    <div class="card-tools d-flex">
+                                        <select id="filterTopProducts" class="form-control form-control-sm">
+                                            <option value="yesterday">{{ __('Yesterday') }}</option>
+                                            <option value="today">{{ __('Today') }}</option>
+                                            <option value="this_week">{{ __('This Week') }}</option>
+                                            <option value="this_month" selected>{{ __('This Month') }}</option>
+                                            <option value="this_year">{{ __('This Year') }}</option>
+                                        </select>
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        {{-- <button type="button" class="btn btn-tool" data-card-widget="remove">
                                             <i class="fas fa-times"></i>
-                                        </button>
+                                        </button> --}}
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <canvas id="bar-chartTopviews" style="height: 400px;"></canvas>
+                                    <canvas id="bar-chartTopProducts" style="height: 400px;"></canvas>
                                 </div>
-
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="card card-primary card-outline">
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         <i class="far fa-chart-bar"></i>
-                                        {{ __('Top Views of Month') }}
+                                        {{ __('Profit') }}
                                     </h3>
-                                    <div class="card-tools">
+                                    <div class="card-tools d-flex">
+                                        <select class="form-control  form-control-sm" id="profitFilter">
+                                            <option value="yesterday">{{ __('Yesterday') }}</option>
+                                            <option value="today">{{ __('Today') }}</option>
+                                            <option value="this_week">{{ __('This Week') }}</option>
+                                            <option value="this_month" selected>{{ __('This Month') }}</option>
+                                            <option value="this_year">{{ __('This Year') }}</option>
+                                        </select>
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        {{-- <button type="button" class="btn btn-tool" data-card-widget="remove">
                                             <i class="fas fa-times"></i>
-                                        </button>
+                                        </button> --}}
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <canvas id="bar-chartcountbymonth" style="height: 400px;"></canvas>
+                                    <canvas id="line-chart" style="height: 400px;"></canvas>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section> --}}
+                </section>
             </div>
         </div>
     </div>
 @endsection
 @push('js')
+    <script>
+        $(document).ready(function() {
+            let chartTopProducts;
 
+            function loadTopProductsChart(filter = 'this_month') {
+                $.ajax({
+                    url: "{{ route('admin.dashboard.topProductsChart') }}",
+                    data: {
+                        filter: filter
+                    },
+                    success: function(response) {
+                        const ctx = document.getElementById('bar-chartTopProducts').getContext('2d');
+
+                        if (chartTopProducts) {
+                            chartTopProducts.destroy();
+                        }
+
+                        const maxValue = Math.max(...response.data) || 1;
+                        const suggestedMax = maxValue < 5 ? 5 :
+                            maxValue;
+
+                        chartTopProducts = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: response.labels,
+                                datasets: [{
+                                    label: 'Top Products',
+                                    data: response.data,
+                                    backgroundColor: '#007bff',
+                                    borderColor: '#0056b3',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        suggestedMax: suggestedMax
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+
+
+            loadTopProductsChart();
+
+            $('#filterTopProducts').on('change', function() {
+                const filter = $(this).val();
+                loadTopProductsChart(filter);
+            });
+        });
+        $(document).ready(function() {
+            let profitChart;
+
+            function loadProfitChart(filter = 'this_month') {
+                $.ajax({
+                    url: "{{ route('admin.dashboard.profitChart') }}",
+                    data: {
+                        filter: filter
+                    },
+                    success: function(response) {
+                        const ctx = document.getElementById('line-chart').getContext('2d');
+
+                        if (profitChart) {
+                            profitChart.destroy();
+                        }
+
+                        profitChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: response.labels,
+                                datasets: [{
+                                    label: 'Profit',
+                                    data: response.data,
+                                    borderColor: '#28a745',
+                                    backgroundColor: 'rgba(40, 167, 69, 0.5)',
+                                    fill: true,
+                                    tension: 0.3,
+                                    borderWidth: 2,
+                                    pointRadius: 3,
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        suggestedMax: Math.max(...response.data) +
+                                            10 
+                                    }
+                                }
+                            }
+                        });
+                    },
+                    error: function(xhr) {
+                        console.log("Failed to load profit chart data", xhr.responseText);
+                    }
+                });
+            }
+
+            $(document).ready(function() {
+                loadProfitChart();
+
+                $('#profitFilter').on('change', function() {
+                    loadProfitChart($(this).val());
+                });
+            });
+
+        });
+    </script>
 @endpush

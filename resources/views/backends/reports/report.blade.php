@@ -222,8 +222,7 @@
                             console.log("AJAX Error:", xhr.responseText);
                         }
                     },
-                    columns: [
-                        {
+                    columns: [{
                             data: "order_number",
                             name: "order_number",
                         },
@@ -248,8 +247,13 @@
                             data: "total_amount",
                             name: "total_amount"
                         },
-                       
+
                     ],
+                    createdRow: function(row, data, dataIndex) {
+                        $(row).attr('style', 'cursor: pointer;');
+                        $(row).addClass('clickable-row');
+                        $(row).attr('data-href', `/admin/report/report-detail/${data.id}`);
+                    },
                     language: {
                         search: "",
                         searchPlaceholder: "Search...",

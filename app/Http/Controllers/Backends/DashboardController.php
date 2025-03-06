@@ -2,19 +2,113 @@
 
 namespace App\Http\Controllers\Backends;
 
-use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Contact;
-use App\Models\Employee;
 use App\Models\Product;
+use App\Models\Employee;
+use App\Models\OrderDetail;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $contacts = Contact::all();
+        $totalorder = Order::count();
         $products = Product::where('status', 1)->get();
-        $employees = Employee::where('status', 1)->get();
-        return view('backends.index', compact('contacts', 'products', 'employees'));
+        $totalexpense = Transaction::where('transaction_type', 'expense')->sum('amount');
+        $totalincome = Transaction::where('transaction_type', 'income')->sum('amount');
+        $totalprofit = $totalincome - $totalexpense;
+        return view('backends.index', compact('products', 'totalorder', 'totalincome', 'totalprofit', 'totalexpense'));
+    }
+    public function topProductsChart(Request $request)
+    {
+        $filter = $request->get('filter', 'this_month');
+
+        $query = OrderDetail::query()
+            ->select('product_id', DB::raw('SUM(quantity) as total_quantity'))
+            ->groupBy('product_id')
+            ->with('product');
+
+        switch ($filter) {
+            case 'today':
+                $query->whereDate('created_at', today());
+                break;
+
+            case 'yesterday':
+                $query->whereDate('created_at', today()->subDay());
+                break;
+            case 'this_week': 
+                $query->whereBetween('created_at', [
+                    now()->startOfWeek(),
+                    now()->endOfWeek()
+                ]);
+                break;
+
+            case 'this_month':
+                $query->whereMonth('created_at', date('m'))
+                    ->whereYear('created_at', date('Y'));
+                break;
+
+            case 'this_year':
+                $query->whereYear('created_at', date('Y'));
+                break;
+        }
+
+        $topProducts = $query->orderBy('total_quantity', 'desc')->limit(10)->get();
+
+        $labels = $topProducts->pluck('product.name');
+        $data = $topProducts->pluck('total_quantity');
+
+        return response()->json([
+            'labels' => $labels,
+            'data' => $data,
+        ]);
+    }
+    public function profitChart(Request $request)
+    {
+        $filter = $request->input('filter', 'this_month');
+
+        $query = DB::table('transactions')
+            ->selectRaw('DATE(transaction_date) as date')
+            ->selectRaw("
+                SUM(CASE WHEN transaction_type = 'income' THEN amount ELSE 0 END) as total_income,
+                SUM(CASE WHEN transaction_type = 'expense' THEN amount ELSE 0 END) as total_expense
+            ")
+            ->groupBy('date')
+            ->orderBy('date');
+
+        if ($filter === 'today') {
+            $query->whereDate('transaction_date', today());
+        } elseif ($filter === 'yesterday') {
+            $query->whereDate('transaction_date', today()->subDay());
+        } elseif ($filter === 'this_week') {
+            $query->whereBetween('transaction_date', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ]);
+        } elseif ($filter === 'this_month') {
+            $query->whereMonth('transaction_date', now()->month)
+                ->whereYear('transaction_date', now()->year);
+        } elseif ($filter === 'this_year') {
+            $query->whereYear('transaction_date', now()->year);
+        }
+
+        $profits = $query->get();
+
+        $labels = [];
+        $data = [];
+
+        foreach ($profits as $profit) {
+            $labels[] = $profit->date;
+            $data[] = $profit->total_income - $profit->total_expense;
+        }
+
+        return response()->json([
+            'labels' => $labels,
+            'data' => $data,
+        ]);
     }
 }

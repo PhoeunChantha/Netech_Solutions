@@ -49,7 +49,7 @@
                 @if (auth()->user()->can('report.view'))
                 @endif
                
-                <li class="nav-item @if (request()->routeIs('admin.report.*')) menu-is-opening menu-open @endif">
+                <li class="nav-item @if (request()->routeIs('admin.report.*') || request()->routeIs('admin.expense-report.expense') || request()->routeIs('admin.income-report.income')) menu-is-opening menu-open @endif">
                     <a href="#" class="nav-link @if (request()->routeIs('admin.report.*')) active @endif">
                         <i class="nav-icon fa fas fa-chart-bar"></i>
                         <p>
@@ -60,9 +60,25 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('admin.report.index') }}" class="nav-link @if (request()->routeIs('admin.report.index')) active @endif">
+                                <i class="nav-icon fas fa-shopping-bag"></i>
+                                <p>
+                                    {{ __('Sell Report') }}
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.expense-report.expense') }}" class="nav-link @if (request()->routeIs('admin.expense-report.expense')) active @endif">
+                                <i class=" nav-icon fas fa-chart-bar"></i>
+                                <p>
+                                    {{ __('Expense Report') }}
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.income-report.income') }}" class="nav-link @if (request()->routeIs('admin.income-report.income')) active @endif">
                                 <i class=" nav-icon fas fa-chart-line"></i>
                                 <p>
-                                    {{ __('Product Sell Report') }}
+                                    {{ __('Income Report') }}
                                 </p>
                             </a>
                         </li>
@@ -95,7 +111,7 @@
 
                 <li class="nav-item @if (request()->routeIs('admin.video.*') || request()->routeIs('admin.brand.*') || request()->routeIs('admin.banner.*')) menu-is-opening menu-open @endif">
                     <a href="#" class="nav-link @if (request()->routeIs('admin.video.*') || request()->routeIs('admin.brand.*') || request()->routeIs('admin.banner.*')) active @endif">
-                        <i class="nav-icon fas fa-boxes"></i>
+                        <i class="nav-icon fas fa-globe"></i>
                         <p>
                             {{ __('Website Management') }}
                             <i class="right fas fa-angle-left"></i>
@@ -159,8 +175,8 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.product.index') }}"
                                     class="nav-link @if (request()->routeIs('admin.product.*')) active @endif">
-                                    {{-- <i class="nav-icon fas fa-user-alt"></i> --}}
-                                    <i class="nav-icon fas fa-dot-circle"></i>
+                                    {{-- <i class="nav-icon fas fa-dot-circle"></i> --}}
+                                    <i class="nav-icon fas fa-cubes"></i>
                                     <p>{{ __('Product') }}</p>
                                 </a>
                             </li>
@@ -169,8 +185,7 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.product-category.index') }}"
                                     class="nav-link @if (request()->routeIs('admin.product-category.*')) active @endif">
-                                    {{-- <i class="nav-icon fa-solid fa-user-gear"></i> --}}
-                                    <i class="nav-icon fas fa-dot-circle"></i>
+                                    <i class="nav-icon fa-solid fa-layer-group"></i>
                                     <p>{{ __('Product Category') }}</p>
                                 </a>
                             </li>
@@ -190,7 +205,7 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.service.index') }}"
                                     class="nav-link @if (request()->routeIs('admin.service*')) active @endif">
-                                    <i class="nav-icon fa-solid fa-layer-group"></i>
+                                    <i class="nav-icon fas fa-wrench"></i>
                                     <p>
                                         {{ __('Service') }}
                                     </p>
@@ -201,31 +216,11 @@
                 </li>
 
 
-                @if (auth()->user()->can('employee.view'))
-                    <li class="nav-item">
-                        <a href="{{ route('admin.employee.index') }}"
-                            class="nav-link @if (request()->routeIs('admin.employee*')) active @endif">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>
-                                {{ __('Employee') }}
-                            </p>
-                        </a>
-                    </li>
-                @endif
-                @if (auth()->user()->can('customer.view'))
-                    <li class="nav-item">
-                        <a href="{{ route('admin.customer.index') }}"
-                            class="nav-link @if (request()->routeIs('admin.customer*')) active @endif">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>
-                                {{ __('Customer') }}
-                            </p>
-                        </a>
-                    </li>
-                @endif
-                <li class="nav-item @if (request()->routeIs('admin.user*') || request()->routeIs('admin.role*')) menu-is-opening menu-open @endif">
-                    <a href="#" class="nav-link @if (request()->routeIs('admin.user*') || request()->routeIs('admin.role*')) active @endif">
-                        <i class="nav-icon fa-solid fa-user-gear"></i>
+                
+                <li class="nav-item @if (request()->routeIs('admin.user*') || request()->routeIs('admin.role*') || request()->routeIs('admin.employee*') || request()->routeIs('admin.customer*')) menu-is-opening menu-open @endif">
+                    <a href="#" class="nav-link @if (request()->routeIs('admin.user*') || request()->routeIs('admin.role*') || request()->routeIs('admin.employee*') || request()->routeIs('admin.customer*')) active @endif">
+                        {{-- <i class="nav-icon fa-solid fa-user-gear"></i> --}}
+                        <i class="nav-icon fa-solid fa-users-gear"></i>
                         <p>
                             {{ __('User Management') }}
                             <i class="right fas fa-angle-left"></i>
@@ -256,7 +251,28 @@
                                 </a>
                             </li>
                         @endif
-
+                        @if (auth()->user()->can('employee.view'))
+                        <li class="nav-item">
+                            <a href="{{ route('admin.employee.index') }}"
+                                class="nav-link @if (request()->routeIs('admin.employee*')) active @endif">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    {{ __('Employee') }}
+                                </p>
+                            </a>
+                        </li>
+                    @endif
+                    @if (auth()->user()->can('customer.view'))
+                        <li class="nav-item">
+                            <a href="{{ route('admin.customer.index') }}"
+                                class="nav-link @if (request()->routeIs('admin.customer*')) active @endif">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    {{ __('Customer') }}
+                                </p>
+                            </a>
+                        </li>
+                    @endif
                     </ul>
                 </li>
                 <li class="nav-item @if (request()->routeIs('admin.contact*') ||
@@ -317,27 +333,28 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.policy') }}"
+                                class="nav-link @if (request()->routeIs('admin.policy')) active @endif">
+                                {{-- <i class="nav-icon fas fa-user-alt"></i> --}}
+                                <i class="nav-icon fa-solid fa-circle-info"></i>
+                                <i class="fas fa-file-contract"></i>
+                                <p>
+                                    {{ __('Policy Privacy') }}
+                                </p>
+                            </a>
+                        </li>
                         @if (auth()->user()->can('policy.view'))
-                            <li class="nav-item">
-                                <a href="{{ route('admin.policy') }}"
-                                    class="nav-link @if (request()->routeIs('admin.policy')) active @endif">
-                                    {{-- <i class="nav-icon fas fa-user-alt"></i> --}}
-                                    <i class="nav-icon fa-solid fa-circle-info"></i>
-                                    <p>
-                                        {{ __('Policy Privacy') }}
-                                    </p>
-                                </a>
-                            </li>
                         @endif
+                        <li class="nav-item">
+                            <a href="{{ route('admin.term_and_condition') }}"
+                                class="nav-link @if (request()->routeIs('admin.term_and_condition')) active @endif">
+                                {{-- <i class="nav-icon fas fa-users-cog"></i> --}}
+                                <i class="nav-icon fa-solid fa-circle-info"></i>
+                                <p>{{ __('Term & Condition') }}</p>
+                            </a>
+                        </li>
                         @if (auth()->user()->can('term.view'))
-                            <li class="nav-item">
-                                <a href="{{ route('admin.term_and_condition') }}"
-                                    class="nav-link @if (request()->routeIs('admin.term_and_condition')) active @endif">
-                                    {{-- <i class="nav-icon fas fa-users-cog"></i> --}}
-                                    <i class="nav-icon fa-solid fa-circle-info"></i>
-                                    <p>{{ __('Term & Condition') }}</p>
-                                </a>
-                            </li>
                         @endif
                     </ul>
                 </li>

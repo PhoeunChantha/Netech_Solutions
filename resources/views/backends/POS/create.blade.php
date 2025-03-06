@@ -414,27 +414,60 @@
             //     return;
             // }
             $('#discount_modal').modal('show');
-            $('#unit-price').val(`${subtotal.toFixed(2)}$`);
+            $('#subtotal-input').val(`${subtotal.toFixed(2)}$`);
         });
 
         $('#apply-discount').on('click', function() {
-            const discountPercent = parseFloat($('#discount-percent').val() || 0);
+            const discountType = $('#discount-type-input').val();
+            const subtotal = parseFloat($('#subtotal-input').val() || 0);
 
-            if (!discountPercent || discountPercent < 0 || discountPercent > 100) {
-                toastr.error('Please enter a valid discount percent (0-100).');
+            if (subtotal <= 0) {
+                toastr.error('Subtotal must be greater than 0 before applying a discount.');
                 return;
             }
 
-            const subtotal = parseFloat($('#subtotal').val() || 0);
-            const discountAmount = (subtotal * discountPercent) / 100;
+            let discountAmount = 0;
+            let discountDisplay = '';
+
+            if (discountType === 'percent') {
+                const discountPercent = parseFloat($('#discount-percent-input').val() || 0);
+
+                if (isNaN(discountPercent) || discountPercent < 0 || discountPercent > 100) {
+                    toastr.error('Please enter a valid discount percent (0-100).');
+                    return;
+                }
+
+                discountAmount = (subtotal * discountPercent) / 100;
+                discountDisplay = discountPercent + '%'; 
+                $('#discount').val(discountPercent); 
+            } else if (discountType === 'amount') {
+                discountAmount = parseFloat($('#discount-amount-input').val() || 0);
+
+                if (isNaN(discountAmount) || discountAmount < 0) {
+                    toastr.error('Please enter a valid discount amount.');
+                    return;
+                }
+
+                if (discountAmount > subtotal) {
+                    toastr.error('Discount amount cannot exceed total price.');
+                    return;
+                }
+
+                discountDisplay = discountAmount.toFixed(2) + '$';
+                $('#discount').val(discountAmount);
+            } else {
+                toastr.error('Invalid discount type.');
+                return;
+            }
+
             const total = subtotal - discountAmount;
 
-            $('.discount-container').text(`${discountAmount.toFixed(2)}$`);
+            $('.discount-container').text(discountDisplay);
             $('.total-container').text(`${total.toFixed(2)}$`);
-            $('#discount').val(discountAmount.toFixed(2));
+
             $('#finaltotal').val(total.toFixed(2));
 
-            toastr.success(`Discount of ${discountPercent}% applied successfully!`);
+            toastr.success(`Discount applied successfully!`);
 
             $('#discount_modal').modal('hide');
         });
@@ -444,6 +477,7 @@
         $(document).on('click', '.btn-pay-price', function() {
             const total = parseFloat($('#finaltotal').val() || 0);
             const customer_id = $('#customer_id').val();
+            const discountType = $('#discount_modal #discount-type-input').val();
             const totaldiscount = parseFloat($('#discount').val() || 0);
             const subtotalbeforeDiscount = parseFloat($('#subtotal').val() || 0);
             const productOrders = [];
@@ -484,9 +518,11 @@
 
             $('#order-details-body').html(orderDetailsHtml);
             $('#payment_display').text(total.toFixed(2));
+            $('#recieve_amount').val(total.toFixed(2));
             $('#hidden_payment_display').val(total.toFixed(2));
             $('#payment_modal #customer_id').val(customer_id);
             $('#payment_modal #totaldiscount').val(totaldiscount);
+            $('#payment_modal #discount_type').val(discountType);
             $('#payment_modal #subtotal_before_discount').val(subtotalbeforeDiscount);
 
             $('#payment_modal').modal('show');

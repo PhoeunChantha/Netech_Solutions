@@ -202,7 +202,7 @@
                     <p style="margin-bottom: 0;">
                         <strong style="color: rgb(0, 157, 255)">Customer:</strong>
                         <span style="margin-left: 10px;">
-                            {{ $invoice->user ? $invoice->user->first_name . ' ' . $invoice->user->last_name : 'Walk-in Customer' }}
+                            {{ $invoice->customer ? $invoice->customer->first_name . ' ' . $invoice->customer->last_name : 'Walk-in Customer' }}
                         </span>
                     </p>
                 </div>

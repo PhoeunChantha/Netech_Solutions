@@ -44,7 +44,7 @@
                         <div class="card-body">
                             <div class="col-12">
                                 <div class="row">
-                                    <form method="GET" action="{{ route('admin.transactions.index') }}" id="filter-form">
+                                    <form method="GET" action="{{ route('admin.expense-report.expense') }}" id="filter-form">
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <label>Transaction Type</label>
@@ -139,7 +139,7 @@
                         </div>
                         <!-- /.card-header -->
                         {{-- table --}}
-                        @include('backends.transaction._table')
+                        @include('backends.reports.expense_report._table')
                     </div>
                 </div>
             </div>
@@ -201,7 +201,7 @@
                         },
                     ],
                     ajax: {
-                        url: "{{ route('admin.transactions.index') }}",
+                        url: "{{ route('admin.expense-report.expense') }}",
                         type: "GET",
                         data: function(d) {
                             d.transaction_type = $('select[name="transaction_type"]').val();
@@ -252,12 +252,12 @@
                         },
                     ],
                     drawCallback: function(settings) {
-                        if (settings.json && settings.json.totalamounttransaction !==
+                        if (settings.json && settings.json.totalexpense !==
                             undefined) {
-                            $('#total-amount-transaction').text('$' + parseFloat(settings
-                                .json.totalamounttransaction).toFixed(2));
+                            $('#totalexpense').text('$' + parseFloat(settings
+                                .json.totalexpense).toFixed(2));
                         } else {
-                            $('#total-amount-transaction').text('$0.00');
+                            $('#totalexpense').text('$0.00');
                         }
                     },
                     language: {

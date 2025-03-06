@@ -12,6 +12,7 @@
                  <div class="modal-body">
                      <input type="hidden" id="customer_id" name="customer_id" value="">
                      <input type="hidden" id="totaldiscount" name="totaldiscount" value="">
+                     <input type="hidden" id="discount_type" name="discount_type" value="">
                      <input type="hidden" id="subtotal_before_discount" name="subtotal_before_discount" value="">
                      <div class="col-md-12">
                          <table class="table table-bordered">
@@ -32,7 +33,7 @@
                      <div class="col-md-9">
                          <div class="row d-flex justify-content-center">
                              <div class="col-md-6 payment-calculator">
-                                 <div class="form-group">
+                                <div class="form-group">
                                      <label for="receiveAmount">{{ __('Receive Amount') }}*</label>
                                      <div class="input-group">
                                          <div class="input-group-prepend">
@@ -221,9 +222,9 @@
      </script>
      <script>
          $('#confirm-payment-btn').on('click', function() {
-
              const totalAmount = $('#hidden_payment_display').val();
              const recieveAmount = parseFloat($('#hidden_recieve_display').val());
+             
              if (!recieveAmount || isNaN(recieveAmount)) {
                  toastr.error('Please enter the payment amount.');
                  return;
@@ -236,6 +237,7 @@
              const paymentMethod = $('#paymentMethod').val();
              const paymentNotes = $('#paymentNotes').val();
              const customerId = $('#customer_id').val();
+             const discountType = $('#discount_type').val();
              const totaldiscount = $('#totaldiscount').val();
              const subtotal_before_discount = $('#subtotal_before_discount').val();
 
@@ -264,6 +266,7 @@
                      totaldiscount: totaldiscount,
                      orders: productOrders,
                      total: totalAmount,
+                     discount_type: discountType,
                      sub_total_before_discount: subtotal_before_discount,
                      _token: $('meta[name="csrf-token"]').attr('content')
                  },

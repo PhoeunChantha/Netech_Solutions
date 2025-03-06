@@ -273,7 +273,13 @@ Route::middleware(['auth:user', 'CheckUserLogin', 'SetSessionData'])->group(func
 
         //report
         Route::get('report', [ReportController::class, 'index'])->name('report.index');
+        Route::get('expense-report', [ReportController::class, 'expense'])->name('expense-report.expense');
+        Route::get('income-report', [ReportController::class, 'income'])->name('income-report.income');
         Route::get('/report/report-detail/{id}', [ReportController::class, 'reportDetail'])->name('report.report-detail');
+       
+        // dashboard filter
+        Route::get('dashboard/top-products-chart', [DashboardController::class, 'topProductsChart'])->name('dashboard.topProductsChart');
+        Route::get('dashboard/profit-chart', [DashboardController::class, 'profitChart'])->name('dashboard.profitChart');
 
         // pos
         Route::get('/pos', [PosController::class, 'index'])->name('pos.index');

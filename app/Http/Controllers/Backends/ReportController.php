@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backends;
 use App\Models\Order;
 use App\Models\Customer;
 use App\Models\OrderDetail;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -85,6 +86,179 @@ class ReportController extends Controller
         $customers = Customer::where('status', 1)->select('id', 'first_name', 'last_name')->get();
 
         return view('backends.reports.report', compact('customers'));
+    }
+
+    public function expense(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $transactions = Transaction::where('transaction_type', 'expense')->with(['purchase', 'order', 'product']);
+    
+            if ($request->filled('transaction_type')) {
+                $transactions->where('transaction_type', $request->transaction_type);
+            }
+    
+            if ($request->filled('date_from') && $request->filled('date_to')) {
+                $transactions->whereBetween('transaction_date', [$request->date_from, $request->date_to]);
+            }
+    
+            if ($request->filled('product_name')) {
+                $transactions->whereHas('product', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->product_name . '%');
+                });
+            }
+    
+            if ($request->filled('customer_name')) {
+                $transactions->whereHas('order.customer', function ($q) use ($request) {
+                    $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $request->customer_name . '%']);
+                });
+            }
+    
+            if ($request->filled('supplier_name')) {
+                $transactions->whereHas('purchase.supplier', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->supplier_name . '%');
+                });
+            }
+    
+            if ($request->filled('payment_method')) {
+                $transactions->where('payment_method', $request->payment_method);
+            }
+    
+            if ($request->filled('min_amount') && $request->filled('max_amount')) {
+                $transactions->whereBetween('amount', [$request->min_amount, $request->max_amount]);
+            }
+    
+            if (!empty($request->search_value)) {
+                $search = $request->search_value;
+                $transactions->where(function ($query) use ($search) {
+                    $query->where('transaction_date', 'like', "%{$search}%")
+                        ->orWhere('transaction_type', 'like', "%{$search}%")
+                        ->orWhere('amount', 'like', "%{$search}%")
+                        ->orWhere('quantity', 'like', "%{$search}%");
+                        // ->orWhereHas('supplier', function ($q) use ($search) {
+                        //     $q->where('name', 'like', "%{$search}%");
+                        // })
+                        // ->orWhereHas('product', function ($q) use ($search) {
+                        //     $q->where('name', 'like', "%{$search}%");
+                        // })
+                        // ->orWhereHas('order.customer', function ($q) use ($search) {
+                        //     $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $search . '%']);
+                        // });
+                });
+            }
+    
+            $totalexpense = $transactions->sum('amount');
+
+            return datatables()->eloquent($transactions)
+                ->addColumn('transaction_type', function ($transaction) {
+                    return $transaction->transaction_type;
+                })
+                ->addColumn('product_name', function ($transaction) {
+                    return optional($transaction->product)->name;
+                })
+                ->editColumn('amount', function ($transaction) {
+                    return '$' . number_format($transaction->amount, 2);
+                })
+                ->addColumn('quantity', function ($transaction) {
+                    return $transaction->quantity;
+                })
+                ->editColumn('transaction_date', function ($transaction) {
+                    return $transaction->transaction_date ? \Carbon\Carbon::parse($transaction->transaction_date)->format('d M, Y') : '-';
+                })
+                ->addColumn('description', function ($transaction) {
+                    return $transaction->description;
+                })
+                ->with('totalexpense', $totalexpense) 
+                ->make(true);
+        }
+    
+        return view('backends.reports.expense_report.index');
+    }
+    public function income(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $transactions = Transaction::where('transaction_type', 'income')->with(['purchase', 'order', 'product']);
+    
+            if ($request->filled('transaction_type')) {
+                $transactions->where('transaction_type', $request->transaction_type);
+            }
+    
+            if ($request->filled('date_from') && $request->filled('date_to')) {
+                $transactions->whereBetween('transaction_date', [$request->date_from, $request->date_to]);
+            }
+    
+            if ($request->filled('product_name')) {
+                $transactions->whereHas('product', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->product_name . '%');
+                });
+            }
+    
+            if ($request->filled('customer_name')) {
+                $transactions->whereHas('order.customer', function ($q) use ($request) {
+                    $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $request->customer_name . '%']);
+                });
+            }
+    
+            if ($request->filled('supplier_name')) {
+                $transactions->whereHas('purchase.supplier', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->supplier_name . '%');
+                });
+            }
+    
+            if ($request->filled('payment_method')) {
+                $transactions->where('payment_method', $request->payment_method);
+            }
+    
+            if ($request->filled('min_amount') && $request->filled('max_amount')) {
+                $transactions->whereBetween('amount', [$request->min_amount, $request->max_amount]);
+            }
+    
+            if (!empty($request->search_value)) {
+                $search = $request->search_value;
+                $transactions->where(function ($query) use ($search) {
+                    $query->where('transaction_date', 'like', "%{$search}%")
+                        ->orWhere('transaction_type', 'like', "%{$search}%")
+                        ->orWhere('amount', 'like', "%{$search}%")
+                        ->orWhere('quantity', 'like', "%{$search}%");
+                        // ->orWhereHas('supplier', function ($q) use ($search) {
+                        //     $q->where('name', 'like', "%{$search}%");
+                        // })
+                        // ->orWhereHas('product', function ($q) use ($search) {
+                        //     $q->where('name', 'like', "%{$search}%");
+                        // })
+                        // ->orWhereHas('order.customer', function ($q) use ($search) {
+                        //     $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $search . '%']);
+                        // });
+                });
+            }
+    
+            $totalincome = $transactions->sum('amount');
+
+            return datatables()->eloquent($transactions)
+                ->addColumn('transaction_type', function ($transaction) {
+                    return $transaction->transaction_type;
+                })
+                ->addColumn('product_name', function ($transaction) {
+                    return optional($transaction->product)->name;
+                })
+                ->editColumn('amount', function ($transaction) {
+                    return '$' . number_format($transaction->amount, 2);
+                })
+                ->addColumn('quantity', function ($transaction) {
+                    return $transaction->quantity;
+                })
+                ->editColumn('transaction_date', function ($transaction) {
+                    return $transaction->transaction_date ? \Carbon\Carbon::parse($transaction->transaction_date)->format('d M, Y') : '-';
+                })
+                ->addColumn('description', function ($transaction) {
+                    return $transaction->description;
+                })
+                ->with('totalincome', $totalincome) 
+                ->make(true);
+        }
+    
+        return view('backends.reports.income_report.index');
     }
 
 
