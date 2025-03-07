@@ -282,7 +282,7 @@ Route::middleware(['auth:user', 'CheckUserLogin', 'SetSessionData'])->group(func
         Route::get('dashboard/profit-chart', [DashboardController::class, 'profitChart'])->name('dashboard.profitChart');
 
         // pos
-        Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
+        Route::get('pos', [PosController::class, 'index'])->name('pos.index');
         Route::post('/pos-create-customer', [PosController::class, 'pos_customer_store'])->name('pos_customer_store');
         Route::get('/pos/filter', [PosController::class, 'posfilterProducts'])->name('pos-filter-products');
         //header

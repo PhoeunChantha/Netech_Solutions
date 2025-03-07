@@ -82,10 +82,10 @@
                             </div>
                         </div>
                     </div>
-                    @include('backends.POS.discount_item_modal')
-                    @include('backends.POS.calculator')
+                    @include('backends.pos.discount_item_modal')
+                    @include('backends.pos.calculator')
                     {{-- </form> --}}
-                    @include('backends.POS.create_customer')
+                    @include('backends.pos.create_customer')
                 </div>
                 <!-- Cart Section -->
                 <div class="col-md-6 mt-2">
