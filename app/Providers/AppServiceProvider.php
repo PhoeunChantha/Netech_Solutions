@@ -121,6 +121,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user instanceof \App\Models\Admin ? true : null;
         });
-        MailHelper::setMailConfig();
+        \App\Helpers\MailHelper::setMailConfig();
     }
 }
