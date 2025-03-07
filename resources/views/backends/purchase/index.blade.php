@@ -289,7 +289,7 @@
                             d.search_value = $('#purchaseTable_filter input').val();
                         },
                         dataSrc: function(json) {
-                            $('#totalCost').text('$' + parseFloat(json.totalCost).toFixed(2));
+                            $('#totalpurchase').text('$' + parseFloat(json.totalpurchase).toFixed(2));
                             return json.data;
                         },
                         error: function(xhr, error, thrown) {

@@ -22,70 +22,85 @@ class PurchaseController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $transactions = Transaction::with(['purchase', 'order', 'product']);
+            $purchases = Purchase::with(['supplier', 'product']);
 
-            if ($request->filled('transaction_type')) {
-                $transactions->where('transaction_type', $request->transaction_type);
-            }
-
-            if ($request->filled('date_from') && $request->filled('date_to')) {
-                $transactions->whereBetween('transaction_date', [$request->date_from, $request->date_to]);
-            } elseif ($request->filled('date_from') && !$request->filled('date_to')) {
-                $transactions->whereDate('transaction_date', '>=', $request->date_from);
-            } elseif ($request->filled('date_to') && !$request->filled('date_from')) {
-                $transactions->whereDate('transaction_date', '<=', $request->date_to);
+            if ($request->filled('supplier_name')) {
+                $purchases->whereHas('supplier', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->supplier_name . '%');
+                });
             }
 
             if ($request->filled('product_name')) {
-                $transactions->whereHas('product', function ($q) use ($request) {
+                $purchases->whereHas('product', function ($q) use ($request) {
                     $q->where('name', 'like', '%' . $request->product_name . '%');
                 });
             }
 
-            if ($request->filled('transaction_amount_range')) {
-                [$min, $max] = explode('-', $request->transaction_amount_range);
-                if ($max === '') {
-                    $transactions->where('amount', '>=', $min);
-                } else {
-                    $transactions->whereBetween('amount', [$min, $max]);
-                }
+            if ($request->filled('purchase_date')) {
+                $purchases->whereDate('purchase_date', $request->purchase_date);
+            }
+
+            if ($request->filled('date_from') && $request->filled('date_to')) {
+                $purchases->whereBetween('purchase_date', [$request->date_from, $request->date_to]);
+            } elseif ($request->filled('date_from')) {
+                $purchases->whereDate('purchase_date', '>=', $request->date_from);
+            } elseif ($request->filled('date_to')) {
+                $purchases->whereDate('purchase_date', '<=', $request->date_to);
+            }
+
+            if ($request->filled('purchase_status')) {
+                $purchases->where('purchase_status', $request->purchase_status);
             }
 
             if ($request->filled('search_value')) {
                 $search = $request->search_value;
-                $transactions->where(function ($query) use ($search) {
-                    $query->where('description', 'like', "%{$search}%")
-                        ->orWhere('transaction_date', 'like', "%{$search}%")
-                        ->orWhere('transaction_type', 'like', "%{$search}%")
-                        ->orWhere('amount', 'like', "%{$search}%")
-                        ->orWhere('quantity', 'like', "%{$search}%")
+                $purchases->where(function ($query) use ($search) {
+                    $query->where('purchase_date', 'like', "%{$search}%")
+                        ->orWhere('purchase_status', 'like', "%{$search}%")
+                        ->orWhereHas('supplier', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        })
                         ->orWhereHas('product', function ($q) use ($search) {
                             $q->where('name', 'like', "%{$search}%");
                         });
                 });
             }
 
-            $totalAmountTransaction = $transactions->sum('amount');
+            $totalpurchase = $purchases->sum('total_cost');
 
-            return datatables()->eloquent($transactions)
-                ->addColumn('product_name', function ($transaction) {
-                    return optional($transaction->product)->name ?? '-';
+            return datatables()->eloquent($purchases)
+                ->addColumn('actions', function ($purchase) {
+                    return view('backends.purchase.action', compact('purchase'))->render();
                 })
-                ->editColumn('amount', function ($transaction) {
-                    return '$' . number_format($transaction->amount, 2);
+                ->editColumn('supplier.name', function ($purchase) {
+                    return optional($purchase->supplier)->name ?? '-';
                 })
-                ->editColumn('transaction_date', function ($transaction) {
-                    return $transaction->transaction_date ? \Carbon\Carbon::parse($transaction->transaction_date)->format('d M, Y') : '-';
+                ->editColumn('product.name', function ($purchase) {
+                    return optional($purchase->product)->name ?? '-';
                 })
-                ->addColumn('description', function ($transaction) {
-                    return $transaction->description;
+                ->editColumn('quantity', function ($purchase) {
+                    return number_format($purchase->quantity, 2);
                 })
-                ->with('totalamounttransaction', $totalAmountTransaction)
+                ->editColumn('unit_cost', function ($purchase) {
+                    return '$' . number_format($purchase->unit_cost, 2);
+                })
+                ->editColumn('total_cost', function ($purchase) {
+                    return '$' . number_format($purchase->total_cost, 2);
+                })
+                ->editColumn('purchase_date', function ($purchase) {
+                    return $purchase->purchase_date ? \Carbon\Carbon::parse($purchase->purchase_date)->format('d M, Y') : '-';
+                })
+                ->editColumn('purchase_status', function ($purchase) {
+                    return view('backends.purchase.status', compact('purchase'))->render();
+                })
+                ->rawColumns(['actions', 'purchase_status'])
+                ->with('totalpurchase', $totalpurchase) 
                 ->make(true);
         }
 
-        return view('backends.transaction.index');
+        return view('backends.purchase.index');
     }
+
 
 
     /**

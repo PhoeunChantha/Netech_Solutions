@@ -80,17 +80,21 @@ class DesktopController extends Controller
     {
         $query = $request->input('query');
         $activeDiscounts = Discount::where('status', 1)
-            ->whereDate('start_date', '<=', now()) // Discount is active
+            ->whereDate('start_date', '<=', now())
             ->whereDate('end_date', '>=', now())
             ->get();
         $product = Product::where('name', 'LIKE', '%' . $query . '%')
             ->where('status', 1)
             ->first();
+
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found');
+        }
         $productDiscount = $activeDiscounts->first(function ($discount) use ($product) {
             $productIds = $discount->product_ids;
             return is_array($productIds) && in_array($product->id, $productIds);
         });
-        $product->discount = $productDiscount;
+        $product->discount  = $productDiscount;
 
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)

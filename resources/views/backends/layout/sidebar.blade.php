@@ -337,8 +337,7 @@
                             <a href="{{ route('admin.policy') }}"
                                 class="nav-link @if (request()->routeIs('admin.policy')) active @endif">
                                 {{-- <i class="nav-icon fas fa-user-alt"></i> --}}
-                                <i class="nav-icon fa-solid fa-circle-info"></i>
-                                <i class="fas fa-file-contract"></i>
+                                <i class="nav-icon fas fa-file-contract"></i>
                                 <p>
                                     {{ __('Policy Privacy') }}
                                 </p>

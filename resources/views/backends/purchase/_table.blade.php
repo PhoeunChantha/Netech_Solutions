@@ -24,7 +24,7 @@
         <tfoot class="" style="background-color: #D2D6DE;">
             <tr>
                 <td colspan="5" class="text-right"></td>
-                <td colspan="1"><strong>{{ __('Total Cost: ') }} <span id="totalCost">$0.00</span></strong></td>
+                <td colspan="1"><strong>{{ __('Total Cost: ') }} <span id="totalpurchase">$0.00</span></strong></td>
                 <td colspan="3"></td>
             </tr>
         </tfoot>
