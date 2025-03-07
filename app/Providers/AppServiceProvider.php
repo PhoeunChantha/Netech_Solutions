@@ -55,7 +55,8 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) {
             // Retrieve language settings
             $language_setting = Cache::remember('language_setting', 60, function () {
-                return BusinessSetting::where('type',
+                return BusinessSetting::where(
+                    'type',
                     'language'
                 )->first();
             });
@@ -121,6 +122,5 @@ class AppServiceProvider extends ServiceProvider
             return $user instanceof \App\Models\Admin ? true : null;
         });
         MailHelper::setMailConfig();
-
     }
 }
