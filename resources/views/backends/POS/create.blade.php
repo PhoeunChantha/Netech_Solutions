@@ -1,6 +1,6 @@
 @extends('backends.master')
-@include('backends.pos.pos_style')
 @section('contents')
+@include('backends.pos.pos_style')
     <section class="content">
         <div class="container-fluid">
             <div class="row">
