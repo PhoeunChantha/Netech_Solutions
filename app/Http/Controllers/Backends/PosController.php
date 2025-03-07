@@ -31,8 +31,8 @@ class PosController extends Controller
         $language = $language->value ?? null;
         $default_lang = 'en';
         $default_lang = json_decode($language, true)[0]['code'];
-        
-        return view('backends.pos.create', compact('language', 'default_lang', 'categories_pos', 'customers'));
+
+        return view('backends.pos.index', compact('language', 'default_lang', 'categories_pos', 'customers'));
     }
     public function pos_customer_store(Request $request)
     {
