@@ -1,8 +1,8 @@
 @php
     $statusMapping = [
-        'Pending' => ['label' => 'Pending', 'class' => 'btn-warning'], // Yellow bg for pending
-        'Completed' => ['label' => 'Completed', 'class' => 'btn-primary'], // Blue bg for completed
-        'Canceled' => ['label' => 'Canceled', 'class' => 'btn-danger'], // Red bg for canceled
+        'Pending' => ['label' => 'Pending', 'class' => 'btn-warning'], 
+        'Completed' => ['label' => 'Completed', 'class' => 'btn-primary disabled'], 
+        'Canceled' => ['label' => 'Canceled', 'class' => 'btn-danger'], 
     ];
 
     $currentStatus = $purchase->purchase_status ?? 'Pending';

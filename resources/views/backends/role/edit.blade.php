@@ -1112,6 +1112,251 @@
                                     </div>
                                     <hr>
                                 </div>
+                                <div class="Supplyier">
+                                    <div class="d-flex">
+                                        <label for="" class="mr-2 mb-3">{{ __('Supplier Setup') }}</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="view_supplier" name="permissions[]"
+                                                            @if (in_array('supplier.view', $role_permissions)) checked @endif
+                                                                value="supplier.view">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="view_supplier">{{ __('View Supplier') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="create_supplier" name="permissions[]"
+                                                            @if (in_array('supplier.create', $role_permissions)) checked @endif
+                                                                value="supplier.create">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="create_supplier">{{ __('Create Supplier') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <!-- Rounded switch -->
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="edit_supplier" name="permissions[]"
+                                                            @if (in_array('supplier.edit', $role_permissions)) checked @endif
+                                                                value="supplier.edit">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="edit_supplier">{{ __('Edit Supplier') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="delete_supplier" name="permissions[]"
+                                                            @if (in_array('supplier.delete', $role_permissions)) checked @endif
+                                                                value="supplier.delete">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="delete_supplier">{{ __('Delete Supplier') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                                <div class="Purchase">
+                                    <div class="d-flex">
+                                        <label for="" class="mr-2 mb-3">{{ __('Purchase Setup') }}</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="view_purchase" name="permissions[]"
+                                                                @if (in_array('purchase.view', $role_permissions)) checked @endif
+                                                                value="purchase.view">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="view_purchase">{{ __('View Purchase') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="create_purchase" name="permissions[]"
+                                                                @if (in_array('purchase.create', $role_permissions)) checked @endif
+                                                                value="purchase.create">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="create_purchase">{{ __('Create Purchase') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <!-- Rounded switch -->
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="edit_purchase" name="permissions[]"
+                                                                @if (in_array('purchase.edit', $role_permissions)) checked @endif
+                                                                value="purchase.edit">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="edit_purchase">{{ __('Edit Purchase') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="delete_purchase" name="permissions[]"
+                                                                @if (in_array('purchase.delete', $role_permissions)) checked @endif
+                                                                value="purchase.delete">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="delete_purchase">{{ __('Delete Purchase') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                                <div class="Stock_Transaction">
+                                    <div class="d-flex">
+                                        <label for="" class="mr-2 mb-3">{{ __('Report Setup') }}</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="view_report" name="permissions[]"
+                                                                @if (in_array('report.view', $role_permissions)) checked @endif
+                                                                value="report.view">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="view_report">{{ __('View Report') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="view_transaction" name="permissions[]"
+                                                                @if (in_array('transaction.view', $role_permissions)) checked @endif
+                                                                value="transaction.view">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="view_transaction">{{ __('View Transaction') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="view_stock" name="permissions[]"
+                                                                @if (in_array('stock.view', $role_permissions)) checked @endif
+                                                                value="stock.view">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="view_stock">{{ __('View Stock') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                                <div class="Pos">
+                                    <div class="d-flex">
+                                        <label for="" class="mr-2 mb-3">{{ __('POS Setup') }}</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="view_pos" name="permissions[]"
+                                                            @if (in_array('pos.view', $role_permissions)) checked @endif
+                                                                value="pos.view">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="view_pos">{{ __('View POS') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="apply_discount" name="permissions[]"
+                                                            @if (in_array('apply.discount', $role_permissions)) checked @endif
+                                                                value="apply.discount">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="apply_discount">{{ __('Apply Discount') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
                                 <div class="Setting">
                                     <div class="d-flex">
                                         <label for="" class="mr-2 mb-3">{{ __('Setting Setup') }}</label>

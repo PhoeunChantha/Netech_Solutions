@@ -57,13 +57,14 @@
                                 <div class="col-sm-6">
                                     <h3 class="card-title">{{ __('Supplier List') }}</h3>
                                 </div>
-                                {{-- <span class="badge bg-warning total-count">{{ $grades->total() }}</span> --}}
-                                <div class="col-sm-6">
-                                    <a class="btn btn-primary float-right" href="{{ route('admin.supplier.create') }}">
-                                        <i class=" fa fa-plus-circle"></i>
-                                        {{ __('Add New') }}
-                                    </a>
-                                </div>
+                                @if (auth()->user()->can('supplier.create'))
+                                    <div class="col-sm-6">
+                                        <a class="btn btn-primary float-right" href="{{ route('admin.supplier.create') }}">
+                                            <i class=" fa fa-plus-circle"></i>
+                                            {{ __('Add New') }}
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <!-- /.card-header -->

@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\Backends;
 
 use Exception;
+use App\Models\Brand;
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Transaction;
+use App\Models\Translation;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\helpers\ImageManager;
+use App\Models\BusinessSetting;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class PurchaseController extends Controller
 {
@@ -94,7 +100,7 @@ class PurchaseController extends Controller
                     return view('backends.purchase.status', compact('purchase'))->render();
                 })
                 ->rawColumns(['actions', 'purchase_status'])
-                ->with('totalpurchase', $totalpurchase) 
+                ->with('totalpurchase', $totalpurchase)
                 ->make(true);
         }
 
@@ -109,9 +115,24 @@ class PurchaseController extends Controller
     public function create()
     {
         $suppliers = Supplier::pluck('name', 'id');
-        $products = Product::where('status', 1)->get();
-        return view('backends.purchase.create', compact('products', 'suppliers'));
+        // $products = Product::where('status', 1)->get();
+
+        $products = Product::with('category', 'brand')->where('status', 1)->get();
+        $categories = Category::all();
+        $brands = Brand::all();
+        $language = BusinessSetting::where('type', 'language')->first();
+        $language = $language->value ?? null;
+        $default_lang = 'en';
+        $default_lang = json_decode($language, true)[0]['code'];
+
+        return view('backends.purchase.create', compact('products', 'suppliers', 'categories', 'brands', 'language', 'default_lang'));
     }
+    // public function productCreate()
+    // {
+
+    //     return view('backends.purchase.create_product', compact('products', 'categories', 'brands', 'language', 'default_lang'));
+    // }
+
 
     /**
      * Store a newly created resource in storage.
@@ -177,6 +198,105 @@ class PurchaseController extends Controller
         }
     }
 
+    public function productstore(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'category_id' => 'required',
+            'brand_id' => 'required|exists:brands,id',
+            'price' => 'required|numeric',
+            'quantity' => 'required|numeric',
+        ]);
+
+        if (is_null($request->name[array_search('en', $request->lang)])) {
+            $validator->after(function ($validator) {
+                $validator->errors()->add(
+                    'name',
+                    'Name field is required!'
+                );
+            });
+        }
+        if (is_null($request->description[array_search('en', $request->lang)])) {
+            $validator->after(function ($validator) {
+                $validator->errors()->add(
+                    'description',
+                    'Description field is required!'
+                );
+            });
+        }
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with(['success' => 0, 'msg' => __('Invalid form input')]);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $product = new Product;
+            $product->name = $request->name[array_search('en', $request->lang)];
+            $product->description = $request->description[array_search('en', $request->lang)];
+            $product->code = strtoupper(Str::random(5));
+            $product->category_id = $request->category_id;
+            $product->specification = $request->specification;
+            $product->brand_id = $request->brand_id;
+            $product->price = $request->price;
+            $product->quantity = $request->quantity;
+            $product->created_by = auth()->user()->id;
+            if ($request->hasFile('thumbnail')) {
+                $uploadedThumbnails = [];
+                foreach ($request->file('thumbnail') as $file) {
+                    $uploadedThumbnails[] = ImageManager::upload('uploads/products/', $file);
+                }
+                $product->thumbnail = $uploadedThumbnails;
+            }
+
+            $product->save();
+
+            $data = [];
+            foreach ($request->lang as $index => $key) {
+                if (isset($request->name[$index]) && $key != 'en') {
+                    $data[] = [
+                        'translationable_type' => 'App\Models\Product',
+                        'translationable_id' => $product->id,
+                        'locale' => $key,
+                        'key' => 'name',
+                        'value' => $request->name[$index],
+                    ];
+                }
+            }
+
+            foreach ($request->lang as $index => $key) {
+                if (isset($request->description[$index]) && $key != 'en') {
+                    $data[] = [
+                        'translationable_type' => 'App\Models\Product',
+                        'translationable_id' => $product->id,
+                        'locale' => $key,
+                        'key' => 'description',
+                        'value' => $request->description[$index],
+                    ];
+                }
+            }
+
+            Translation::insert($data);
+            DB::commit();
+
+            return response()->json([
+                'success' => 1,
+                'msg' => 'Create successfully',
+                'product' => $product
+            ]);
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollBack();
+            return response()->json([
+                'success' => 0,
+                'msg' => 'Something went wrong'
+            ]);
+        }
+    }
     /**
      * Display the specified resource.
      */

@@ -134,9 +134,10 @@
             </div>
         </div>
     </section>
-    <div class="modal fade modal_form" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
+    {{-- <div class="modal fade modal_form" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div> --}}
 @endsection
 @push('js')
+
     <script>
         $(document).on('click', '.change_status', function(e) {
             e.preventDefault();
@@ -161,7 +162,7 @@
 
                         let statusClasses = {
                             'Pending': 'btn-warning',
-                            'Completed': 'btn-primary',
+                            'Completed': 'btn-primary disabled',
                             'Canceled': 'btn-danger'
                         };
 

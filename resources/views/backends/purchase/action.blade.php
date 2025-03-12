@@ -6,10 +6,10 @@
     </button>
     <div class="dropdown-menu dropdown-menu-left"
         aria-labelledby="actionDropdown{{ $purchase->id }}">
-        <a href="#" class="dropdown-item btn-view" data-toggle="modal"
+        {{-- <a href="#" class="dropdown-item btn-view" data-toggle="modal"
             data-target="#view-product{{ $purchase->id }}">
             <i class="fas fa-eye"></i> {{ __('View') }}
-        </a>
+        </a> --}}
 
         <a href="{{ route('admin.purchases.edit', $purchase->id) }}"
             class="dropdown-item btn-edit">

@@ -12,6 +12,7 @@ use App\Http\Controllers\Backends\PosController;
 use App\Http\Controllers\Backends\RoleController;
 use App\Http\Controllers\Backends\UserController;
 use App\Http\Controllers\Backends\BrandController;
+use App\Http\Controllers\Backends\StockController;
 use App\Http\Controllers\Backends\VideoController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Backends\ReportController;
@@ -257,15 +258,12 @@ Route::middleware(['auth:user', 'CheckUserLogin', 'SetSessionData'])->group(func
         // purchase
         Route::resource('purchases', PurchaseController::class);
         Route::post('purchases/update_status', [PurchaseController::class, 'updateStatus'])->name('purchases.update_status');
+        Route::get('purchases/product-create', [PurchaseController::class, 'productCreate'])->name('purchases.product-create');
+        Route::post('purchases/product-store', [PurchaseController::class, 'productstore'])->name('purchases.product-store');
+
 
         // supplier
         Route::resource('supplier', SupplierController::class);
-
-        // pos
-        // Route::get('pos', [PosController::class, 'index'])->name('pos');
-        // Route::post('/pos-create-customer', [PosController::class, 'pos_customer_store'])->name('pos_customer_store');
-        // Route::get('pos/filter', [PosController::class, 'posfilterProducts'])->name('pos-filter-products');
-       
 
         //invoice
         Route::get('invoice', [InvoiceController::class, 'index'])->name('invoice.index');
@@ -286,6 +284,8 @@ Route::middleware(['auth:user', 'CheckUserLogin', 'SetSessionData'])->group(func
         Route::get('pos/filter', [PosController::class, 'posfilterProducts'])->name('pos-filter-products');
         Route::post('pos/store', [PosController::class, 'store'])->name('pos_store');
         Route::post('pos/search', [PosController::class, 'search'])->name('pos_search_products');
+
+        Route::get('/stock', [StockController::class, 'index'])->name('stock.index');
         //header
         Route::get('/header', [DashboardController::class, 'header']);
     });

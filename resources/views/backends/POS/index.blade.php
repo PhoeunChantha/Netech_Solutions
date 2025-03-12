@@ -1,6 +1,6 @@
 @extends('backends.master')
 @section('contents')
-@include('backends.pos.pos_style')
+    @include('backends.pos.pos_style')
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -71,12 +71,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-primary w-75 m-3 discount-price"><img
-                                                class="mr-2" src="{{ asset('svgs/pos_discount.svg') }}"
-                                                alt="">{{ __('Discount') }}</button>
+                                    <div class="col-md-3 d-flex flex-column justify-content-center align-item-center">
+                                        @if (auth()->user()->can('apply.discount'))
+                                            <button type="button" class="btn btn-primary w-75 m-2 discount-price"><img
+                                                    class="mr-2" src="{{ asset('svgs/pos_discount.svg') }}"
+                                                    alt="">{{ __('Discount') }}</button>
+                                        @endif
                                         <button type="button"
-                                            class="btn btn-primary w-75 btn-pay-price">{{ __('Pay') }}</button>
+                                            class="btn btn-primary w-75 btn-pay-price ml-2">{{ __('Pay') }}</button>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +88,7 @@
                     @include('backends.pos.discount_item_modal')
                     @include('backends.pos.calculator')
                     {{-- </form> --}}
-                    {{-- @include('backends.pos.create_customer') --}}
+                    @include('backends.pos.create_customer')
                 </div>
                 <!-- Cart Section -->
                 <div class="col-md-6 mt-2">
@@ -438,8 +441,8 @@
                 }
 
                 discountAmount = (subtotal * discountPercent) / 100;
-                discountDisplay = discountPercent + '%'; 
-                $('#discount').val(discountPercent); 
+                discountDisplay = discountPercent + '%';
+                $('#discount').val(discountPercent);
             } else if (discountType === 'amount') {
                 discountAmount = parseFloat($('#discount-amount-input').val() || 0);
 

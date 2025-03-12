@@ -12,7 +12,7 @@ use App\Models\OrderDetail;
 use App\Models\Transaction;
 use App\Models\Translation;
 use Illuminate\Http\Request;
-use App\helpers\ImageManager;
+use App\Helpers\ImageManager;
 use App\Models\BusinessSetting;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

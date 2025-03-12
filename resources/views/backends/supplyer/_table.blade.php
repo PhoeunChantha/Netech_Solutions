@@ -24,7 +24,7 @@
                     <td>{{ $sup->name }}</td>
                     <td>{{ $sup->contact }}</td>
                     <td>{{ $sup->email ?? 'N/A' }}</td>
-                    <td>{{ $sup->address  ?? 'N/A' }}</td>
+                    <td>{{ $sup->address ?? 'N/A' }}</td>
                     <td>{{ $sup->status }}</td>
                     <td>
                         <div class="btn-group dropleft">
@@ -33,26 +33,26 @@
                                 aria-expanded="false">
                                 {{ __('Actions') }}
                             </button>
-                            <!-- Add dropdown-menu-left to align the menu to the left side -->
                             <div class="dropdown-menu dropdown-menu-left"
                                 aria-labelledby="actionDropdown{{ $sup->id }}">
-                              
-                                <a href="{{ route('admin.supplier.edit', $sup->id) }}"
-                                    class="dropdown-item btn-edit">
-                                    <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
-                                </a>
-                               
-                                <form action="{{ route('admin.supplier.destroy', $sup->id) }}"
-                                    class="d-inline-block form-delete-{{ $sup->id }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" data-id="{{ $sup->id }}"
-                                        data-href="{{ route('admin.supplier.destroy', $sup->id) }}"
-                                        class="dropdown-item btn-delete">
-                                        <i class="fa fa-trash-alt"></i> {{ __('Delete') }}
-                                    </button>
-                                </form>
-                                @if (auth()->user()->can('product.delete'))
+                                @if (auth()->user()->can('supplier.edit'))
+                                    <a href="{{ route('admin.supplier.edit', $sup->id) }}"
+                                        class="dropdown-item btn-edit">
+                                        <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
+                                    </a>
+                                @endif
+
+                                @if (auth()->user()->can('supplier.delete'))
+                                    <form action="{{ route('admin.supplier.destroy', $sup->id) }}"
+                                        class="d-inline-block form-delete-{{ $sup->id }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" data-id="{{ $sup->id }}"
+                                            data-href="{{ route('admin.supplier.destroy', $sup->id) }}"
+                                            class="dropdown-item btn-delete">
+                                            <i class="fa fa-trash-alt"></i> {{ __('Delete') }}
+                                        </button>
+                                    </form>
                                 @endif
                             </div>
                         </div>
@@ -70,7 +70,8 @@
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
                 <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
-                    {{ __('Showing') }} {{ $suppliers->firstItem() }} {{ __('to') }} {{ $suppliers->lastItem() }}
+                    {{ __('Showing') }} {{ $suppliers->firstItem() }} {{ __('to') }}
+                    {{ $suppliers->lastItem() }}
                     {{ __('of') }} {{ $suppliers->total() }} {{ __('entries') }}
                 </div>
                 <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $suppliers->links() }}</div>

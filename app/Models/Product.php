@@ -70,9 +70,14 @@ class Product extends Model
     {
         return $this->belongsTo(Discount::class);
     }
-    public function orderdetail()
+    public function purchases()
     {
-        return $this->belongsTo(OrderDetail::class);
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
     }
 
     public function translations()
