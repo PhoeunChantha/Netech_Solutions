@@ -10,23 +10,36 @@ class ImageManager
 {
     public static function upload(string $dir, $image = null)
     {
-
         if ($image != null) {
             $extension = $image->getClientOriginalExtension();
-            if ($extension == "" || $extension == null) $extension = 'png';
+            if (empty($extension)) {
+                $extension = 'png';
+            }
             $imageName = Carbon::now()->toDateString() . "-" . uniqid() . "." . $extension;
-            // if (!Storage::disk('public')->exists($dir)) {
-            //     Storage::disk('public')->makeDirectory($dir);
-            // }
             $image->move(public_path($dir), $imageName);
-            // Storage::disk('public')->put($dir . $imageName, file_get_contents($image));
-        } else {
-            $imageName = null;
+            return $imageName;
         }
-
-        return $imageName;
+        return null;
     }
-
+    
+    public static function append(string $dir, $old_images, $images = null)
+    {
+        $existingImages = is_array($old_images) ? $old_images : [];
+    
+        $newImageNames = [];
+        if ($images) {
+            $imageFiles = is_array($images) ? $images : [$images];
+    
+            foreach ($imageFiles as $image) {
+                $imageName = self::upload($dir, $image);
+                if ($imageName) {
+                    $newImageNames[] = $imageName;
+                }
+            }
+        }
+    
+        return array_merge($existingImages, $newImageNames);
+    }
     public static function update(string $dir, $old_image, $image = null)
     {
         // dd($old_image);

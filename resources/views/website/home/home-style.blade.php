@@ -172,7 +172,7 @@
     }
 
     .latest-product {
-        background-image: url('/website/upload/p3.png');
+        background-image: url('{{ asset('website/upload/promotion.gif') }}');
         background-size: cover;
         background-position: center;
         width: 100%;
@@ -180,7 +180,6 @@
         background-repeat: no-repeat;
         border-radius: 10px;
         padding: 10px;
-
     }
 
     @keyframes moveUpDown {
@@ -266,7 +265,7 @@
     .main-text {
         position: absolute;
         top: 20px;
-        left: -2em;
+        left: 3em;
         text-align: center;
         margin-right: 10px;
     }

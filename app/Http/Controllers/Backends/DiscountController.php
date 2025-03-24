@@ -42,18 +42,23 @@ class DiscountController extends Controller
             abort(403);
         }
         $discountedProductIds = Discount::pluck('product_ids')
-        ->flatten()          
-            ->unique()           
-            ->toArray();       
+        ->map(function ($productIds) {
+            return is_string($productIds) ? json_decode($productIds, true) : (array) $productIds;
+        })
+        ->flatten()
+        ->unique()
+        ->toArray();   
 
         $brands = Brand::with(['products' => function ($query) use ($discountedProductIds) {
-            $query->whereNotIn('id', $discountedProductIds);
+            if (!empty($discountedProductIds)) {
+                $query->whereNotIn('id', $discountedProductIds);
+            }
         }])->get();
         $language = BusinessSetting::where('type', 'language')->first();
         $language = $language->value ?? null;
         $default_lang = 'en';
         $default_lang = json_decode($language, true)[0]['code'];
-        return view('backends.discount.create', compact('brands', 'language', 'default_lang'));
+        return view('backends.discount.create', compact('brands', 'language', 'default_lang', 'discountedProductIds'));
     }
 
     /**
@@ -276,15 +281,15 @@ class DiscountController extends Controller
 
             $output = [
                 'success' => 1,
-                'msg' => ('Create successfully'),
+                'msg' => ('Discount updated successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
-            // DB::rollBack();
-            // $output = [
-            //     'success' => 0,
-            //     'msg' => __('Something went wrong'),
-            // ];
+            // dd($e);
+            DB::rollBack();
+            $output = [
+                'success' => 0,
+                'msg' => __('Something went wrong'),
+            ];
         }
         return redirect()->route('admin.discount.index')->with($output);
     }

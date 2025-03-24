@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Backends;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TransactionController extends Controller
 {
@@ -20,8 +21,15 @@ class TransactionController extends Controller
                 $transactions->where('transaction_type', $request->transaction_type);
             }
     
-            if ($request->filled('date_from') && $request->filled('date_to')) {
-                $transactions->whereBetween('transaction_date', [$request->date_from, $request->date_to]);
+            if ($request->filled('date_range')) {
+                $dates = explode(' - ', $request->date_range);
+            
+                if (count($dates) == 2) {
+                    $date_from = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
+                    $date_to = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();  
+            
+                    $transactions->whereBetween('created_at', [$date_from, $date_to]);
+                }
             }
     
             if ($request->filled('product_name')) {
@@ -46,8 +54,13 @@ class TransactionController extends Controller
                 $transactions->where('payment_method', $request->payment_method);
             }
     
-            if ($request->filled('min_amount') && $request->filled('max_amount')) {
-                $transactions->whereBetween('amount', [$request->min_amount, $request->max_amount]);
+            if ($request->filled('transaction_amount_range')) {
+                $amountRange = explode('-', $request->transaction_amount_range);
+                if (count($amountRange) == 2) {
+                    $transactions->whereBetween('amount', [$amountRange[0], $amountRange[1]]);
+                } else {
+                    $transactions->where('amount', '>=', $amountRange[0]);
+                }
             }
     
             if (!empty($request->search_value)) {

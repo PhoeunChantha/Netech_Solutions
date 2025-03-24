@@ -4,7 +4,7 @@
             <tr>
                 <th>Product ID</th>
                 <th>Product Name</th>
-                <th>Total Purchased</th>
+                {{-- <th>Total Purchased</th> --}}
                 <th>Total Ordered</th>
                 <th>Stock Available</th>
             </tr>
@@ -12,9 +12,9 @@
         <tbody>
             @foreach ($stocks as $stock)
                 <tr>
-                    <td>{{ $stock['product_id'] }}</td>
+                    <td>{{ $stock['code'] }}</td>
                     <td>{{ $stock['product_name'] }}</td>
-                    <td>{{ $stock['total_purchased'] }}</td>
+                    {{-- <td>{{ $stock['total_purchased'] }}</td> --}}
                     <td>{{ $stock['total_ordered'] }}</td>
                     {{-- <td class="{{ $stock['stock_available'] <= 0 ? 'text-danger' : 'text-success' }}">
                         {{ $stock['stock_available'] }}

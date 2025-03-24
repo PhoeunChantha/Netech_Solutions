@@ -4,36 +4,13 @@
         <img src="@if (session()->has('app_logo') && file_exists('uploads/business_settings/' . session()->get('app_logo'))) {{ asset('uploads/business_settings/' . session()->get('app_logo')) }} @else {{ asset('uploads/image/default.png') }} @endif"
             alt="AdminLTE Logo" class="brand-image pt-2"
             style="width: 100%; object-fit: contain; margin-left: 0; height: 60px; max-height: 60px;">
-        {{-- <span class="brand-text font-weight pl-2 ml-0 mt-2">{{ session()->get('app_name') }}</span> --}}
     </a>
     <!-- Sidebar -->
     <div class="sidebar os-theme-dark">
-        {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="{{ Session::get('current_user')->profile_photo_path }}" class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">{{ Session::get('current_user')->name }}</a>
-            </div>
-        </div> --}}
-        <!-- SidebarSearch Form -->
-        {{-- <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input style="background-color: #012e5a;" class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div> --}}
-
         <!-- Sidebar Menu -->
         <nav class="mt-5">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}"
                         class="nav-link @if (request()->routeIs('admin.dashboard')) active @endif">
@@ -44,48 +21,7 @@
                     </a>
                 </li>
 
-                @if (auth()->user()->can('report.view'))
-                    <li class="nav-item @if (request()->routeIs('admin.report.*') ||
-                            request()->routeIs('admin.expense-report.expense') ||
-                            request()->routeIs('admin.income-report.income')) menu-is-opening menu-open @endif">
-                        <a href="#" class="nav-link @if (request()->routeIs('admin.report.*')) active @endif">
-                            <i class="nav-icon fa fas fa-chart-bar"></i>
-                            <p>
-                                {{ __('Reports') }}
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('admin.report.index') }}"
-                                    class="nav-link @if (request()->routeIs('admin.report.index')) active @endif">
-                                    <i class="nav-icon fas fa-shopping-bag"></i>
-                                    <p>
-                                        {{ __('Sell Report') }}
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.expense-report.expense') }}"
-                                    class="nav-link @if (request()->routeIs('admin.expense-report.expense')) active @endif">
-                                    <i class="nav-icon fas fa-chart-bar"></i>
-                                    <p>
-                                        {{ __('Expense Report') }}
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.income-report.income') }}"
-                                    class="nav-link @if (request()->routeIs('admin.income-report.income')) active @endif">
-                                    <i class=" nav-icon fas fa-chart-line"></i>
-                                    <p>
-                                        {{ __('Income Report') }}
-                                    </p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
+
                 @if (auth()->user()->can('purchase.view'))
                     <li class="nav-item">
                         <a href="{{ route('admin.purchases.index') }}"
@@ -121,64 +57,16 @@
                 @endif
 
                 @if (auth()->user()->can('supplier.view'))
-                <li class="nav-item">
-                    <a href="{{ route('admin.supplier.index') }}"
-                        class="nav-link @if (request()->routeIs('admin.supplier.index')) active @endif">
-                        <i class=" nav-icon fas fa-user-tie"></i>
-                        <p>
-                            {{ __('Suppliers') }}
-                        </p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.supplier.index') }}"
+                            class="nav-link @if (request()->routeIs('admin.supplier.index')) active @endif">
+                            <i class=" nav-icon fas fa-user-tie"></i>
+                            <p>
+                                {{ __('Suppliers') }}
+                            </p>
+                        </a>
+                    </li>
                 @endif
-
-                <li class="nav-item @if (request()->routeIs('admin.video.*') || request()->routeIs('admin.brand.*') || request()->routeIs('admin.banner.*')) menu-is-opening menu-open @endif">
-                    <a href="#" class="nav-link @if (request()->routeIs('admin.video.*') || request()->routeIs('admin.brand.*') || request()->routeIs('admin.banner.*')) active @endif">
-                        <i class="nav-icon fas fa-globe"></i>
-                        <p>
-                            {{ __('Website Management') }}
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        @if (auth()->user()->can('brand.view'))
-                            <li class="nav-item">
-                                <a href="{{ route('admin.brand.index') }}"
-                                    class="nav-link @if (request()->routeIs('admin.brand*')) active @endif">
-                                    <i class="nav-icon fa-solid fa-layer-group"></i>
-                                    <p>
-                                        {{ __('Brand') }}
-                                    </p>
-                                </a>
-                            </li>
-                        @endif
-                        @if (auth()->user()->can('video.view'))
-                            <li class="nav-item">
-                                <a href="{{ route('admin.video.index') }}"
-                                    class="nav-link @if (request()->routeIs('admin.video*')) active @endif">
-                                    <i class="nav-icon fas fa-play"></i>
-                                    <p>
-                                        {{ __('Video') }}
-                                    </p>
-                                </a>
-                            </li>
-                        @endif
-                        @if (auth()->user()->can('banner.view'))
-                            <li class="nav-item">
-                                <a href="{{ route('admin.banner.index') }}"
-                                    class="nav-link @if (request()->routeIs('admin.banner*')) active @endif">
-                                    {{-- <i class="nav-icon fa-baner"></i> --}}
-                                    <i class="nav-icon fa-regular fa-images"></i>
-                                    <p>
-                                        {{ __('Banner') }}
-                                    </p>
-                                </a>
-                            </li>
-                        @endif
-
-                    </ul>
-                </li>
-
                 <li class="nav-item @if (request()->routeIs('admin.product.*') ||
                         request()->routeIs('admin.product-category.*') ||
                         request()->routeIs('admin.discount*') ||
@@ -237,9 +125,94 @@
                         @endif
                     </ul>
                 </li>
+                <li class="nav-item @if (request()->routeIs('admin.video.*') || request()->routeIs('admin.brand.*') || request()->routeIs('admin.banner.*')) menu-is-opening menu-open @endif">
+                    <a href="#" class="nav-link @if (request()->routeIs('admin.video.*') || request()->routeIs('admin.brand.*') || request()->routeIs('admin.banner.*')) active @endif">
+                        <i class="nav-icon fas fa-globe"></i>
+                        <p>
+                            {{ __('Website Management') }}
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @if (auth()->user()->can('brand.view'))
+                            <li class="nav-item">
+                                <a href="{{ route('admin.brand.index') }}"
+                                    class="nav-link @if (request()->routeIs('admin.brand*')) active @endif">
+                                    <i class="nav-icon fa-solid fa-layer-group"></i>
+                                    <p>
+                                        {{ __('Brand') }}
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
+                        @if (auth()->user()->can('video.view'))
+                            <li class="nav-item">
+                                <a href="{{ route('admin.video.index') }}"
+                                    class="nav-link @if (request()->routeIs('admin.video*')) active @endif">
+                                    <i class="nav-icon fas fa-play"></i>
+                                    <p>
+                                        {{ __('Video') }}
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
+                        @if (auth()->user()->can('banner.view'))
+                            <li class="nav-item">
+                                <a href="{{ route('admin.banner.index') }}"
+                                    class="nav-link @if (request()->routeIs('admin.banner*')) active @endif">
+                                    {{-- <i class="nav-icon fa-baner"></i> --}}
+                                    <i class="nav-icon fa-regular fa-images"></i>
+                                    <p>
+                                        {{ __('Banner') }}
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
 
-
-
+                    </ul>
+                </li>
+                @if (auth()->user()->can('report.view'))
+                    <li class="nav-item @if (request()->routeIs('admin.report.*') ||
+                            request()->routeIs('admin.expense-report.expense') ||
+                            request()->routeIs('admin.income-report.income')) menu-is-opening menu-open @endif">
+                        <a href="#" class="nav-link @if (request()->routeIs('admin.report.*')) active @endif">
+                            <i class="nav-icon fa fas fa-chart-bar"></i>
+                            <p>
+                                {{ __('Reports') }}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.report.index') }}"
+                                    class="nav-link @if (request()->routeIs('admin.report.index')) active @endif">
+                                    <i class="nav-icon fas fa-shopping-bag"></i>
+                                    <p>
+                                        {{ __('Sell Report') }}
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.expense-report.expense') }}"
+                                    class="nav-link @if (request()->routeIs('admin.expense-report.expense')) active @endif">
+                                    <i class="nav-icon fas fa-chart-bar"></i>
+                                    <p>
+                                        {{ __('Expense Report') }}
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.income-report.income') }}"
+                                    class="nav-link @if (request()->routeIs('admin.income-report.income')) active @endif">
+                                    <i class=" nav-icon fas fa-chart-line"></i>
+                                    <p>
+                                        {{ __('Income Report') }}
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
                 <li class="nav-item @if (request()->routeIs('admin.user*') ||
                         request()->routeIs('admin.role*') ||
                         request()->routeIs('admin.employee*') ||
@@ -341,15 +314,7 @@
                                 </a>
                             </li>
                         @endif
-                        {{-- <li class="nav-item">
-                            <a href="{{ route('admin.email-configuration') }}"
-                                class="nav-link treeview-link @if (request()->routeIs('admin.email-configuration')) active @endif">
-                                <i class="nav-icon fas fa-cog"></i>
-                                <p>
-                                    {{ __('Email Configuration Mail') }}
-                                </p>
-                            </a>
-                        </li> --}}
+
                     </ul>
                 </li>
                 <li class="nav-item @if (request()->routeIs('admin.policy') || request()->routeIs('admin.term_and_condition')) menu-is-opening menu-open @endif">

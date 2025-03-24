@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backends;
 
+use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Customer;
 use App\Models\OrderDetail;
@@ -25,10 +26,17 @@ class ReportController extends Controller
                 $orderReport->whereDate('created_at', $request->order_date);
             }
 
-            if ($request->filled('date_from') && $request->filled('date_to')) {
-                $orderReport->whereBetween('created_at', [$request->date_from, $request->date_to]);
+            if ($request->filled('date_range')) {
+                $dates = explode(' - ', $request->date_range);
+            
+                if (count($dates) == 2) {
+                    $date_from = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
+                    $date_to = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();  
+            
+                    $orderReport->whereBetween('created_at', [$date_from, $date_to]);
+                }
             }
-
+            
             if ($request->filled('total_amount_range')) {
                 $amountRange = explode('-', $request->total_amount_range);
                 if (count($amountRange) == 2) {
@@ -37,6 +45,7 @@ class ReportController extends Controller
                     $orderReport->where('total_amount', '>=', $amountRange[0]);
                 }
             }
+
             if (!empty($request->search_value)) {
                 $search = trim($request->search_value);
                 $orderReport->where(function ($query) use ($search) {
@@ -44,15 +53,12 @@ class ReportController extends Controller
                           ->orWhere('discount', 'like', "%{$search}%")
                           ->orWhere('total_amount', 'like', "%{$search}%");
             
-                    // ✅ Ensure customer search is included correctly
                     $query->orWhereHas('customer', function ($q) use ($search) {
                         $q->where('first_name', 'like', "%{$search}%")
                           ->orWhere('last_name', 'like', "%{$search}%");
                     });
                 });
             }
-            
-            
             
             $totalamount = $orderReport->sum('total_amount');
             return datatables()->eloquent($orderReport)
@@ -94,12 +100,15 @@ class ReportController extends Controller
         if ($request->ajax()) {
             $transactions = Transaction::where('transaction_type', 'expense')->with(['purchase', 'order', 'product']);
     
-            if ($request->filled('transaction_type')) {
-                $transactions->where('transaction_type', $request->transaction_type);
-            }
-    
-            if ($request->filled('date_from') && $request->filled('date_to')) {
-                $transactions->whereBetween('transaction_date', [$request->date_from, $request->date_to]);
+            if ($request->filled('date_range')) {
+                $dates = explode(' - ', $request->date_range);
+            
+                if (count($dates) == 2) {
+                    $date_from = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
+                    $date_to = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();  
+            
+                    $transactions->whereBetween('created_at', [$date_from, $date_to]);
+                }
             }
     
             if ($request->filled('product_name')) {
@@ -132,7 +141,6 @@ class ReportController extends Controller
                 $search = $request->search_value;
                 $transactions->where(function ($query) use ($search) {
                     $query->where('transaction_date', 'like', "%{$search}%")
-                        ->orWhere('transaction_type', 'like', "%{$search}%")
                         ->orWhere('amount', 'like', "%{$search}%")
                         ->orWhere('quantity', 'like', "%{$search}%");
                         // ->orWhereHas('supplier', function ($q) use ($search) {
@@ -180,12 +188,15 @@ class ReportController extends Controller
         if ($request->ajax()) {
             $transactions = Transaction::where('transaction_type', 'income')->with(['purchase', 'order', 'product']);
     
-            if ($request->filled('transaction_type')) {
-                $transactions->where('transaction_type', $request->transaction_type);
-            }
-    
-            if ($request->filled('date_from') && $request->filled('date_to')) {
-                $transactions->whereBetween('transaction_date', [$request->date_from, $request->date_to]);
+            if ($request->filled('date_range')) {
+                $dates = explode(' - ', $request->date_range);
+            
+                if (count($dates) == 2) {
+                    $date_from = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
+                    $date_to = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();  
+            
+                    $transactions->whereBetween('created_at', [$date_from, $date_to]);
+                }
             }
     
             if ($request->filled('product_name')) {
@@ -218,7 +229,6 @@ class ReportController extends Controller
                 $search = $request->search_value;
                 $transactions->where(function ($query) use ($search) {
                     $query->where('transaction_date', 'like', "%{$search}%")
-                        ->orWhere('transaction_type', 'like', "%{$search}%")
                         ->orWhere('amount', 'like', "%{$search}%")
                         ->orWhere('quantity', 'like', "%{$search}%");
                         // ->orWhereHas('supplier', function ($q) use ($search) {

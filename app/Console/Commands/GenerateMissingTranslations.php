@@ -53,4 +53,7 @@ class GenerateMissingTranslations extends Command
             File::put($langPath, json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         }
     }
+
+    // command run
+    // php artisan translations:generate
 }

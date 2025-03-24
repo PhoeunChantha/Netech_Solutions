@@ -35,10 +35,17 @@ class HomeController extends Controller
             ->latest('id')->paginate(5);
         $discountedProductIds = [];
         $discountMapping = [];
+        $discounttypeMapping = [];
+        $discountStartDate = [];
+        $discountendDate = [];
+
         foreach ($discounts as $discount) {
             foreach ($discount->product_ids as $productId) {
                 $discountedProductIds[] = $productId;
-                $discountMapping[$productId] = (float) $discount->discount_value; // Cast to float
+                $discountMapping[$productId] = (float) $discount->discount_value;
+                $discounttypeMapping[$productId] = (string) $discount->discount_type;
+                $discountStartDate[$productId] = $discount->start_date;
+                $discountendDate[$productId] = $discount->end_date;
             }
         }
         // dd($discountMapping);
@@ -131,6 +138,9 @@ class HomeController extends Controller
             'latestProducts',
             'services',
             'discountMapping',
+            'discounttypeMapping',
+            'discountStartDate',
+            'discountendDate',
             'videos'
         ));
     }

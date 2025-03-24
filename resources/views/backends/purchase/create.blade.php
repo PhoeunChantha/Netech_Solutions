@@ -138,7 +138,6 @@
                                             <option value="">{{ __('Select Status') }}</option>
                                             <option value="Pending">{{ __('Pending') }}</option>
                                             <option value="Completed">{{ __('Completed') }}</option>
-                                            <option value="Cancel">{{ __('Cancel') }}</option>
                                         </select>
                                         @error('status')
                                             <span class="invalid-feedback" role="alert">

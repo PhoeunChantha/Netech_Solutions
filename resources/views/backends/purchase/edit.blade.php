@@ -134,9 +134,6 @@
                                             <option value="Completed"
                                                 {{ $purchase->purchase_status == 'Completed' ? 'selected' : '' }}>
                                                 {{ __('Completed') }}</option>
-                                            <option value="Cancel"
-                                                {{ $purchase->purchase_status == 'Cancel' ? 'selected' : '' }}>
-                                                {{ __('Cancel') }}</option>
                                         </select>
                                         @error('status')
                                             <span class="invalid-feedback" role="alert">
@@ -168,10 +165,7 @@
 @push('js')
     <script>
         function handlePriceInput(input) {
-            // Remove leading zeros
             input.value = input.value.replace(/^0+/, '');
-
-            // Ensure an empty input is set to 0
             if (input.value === '') {
                 input.value = '0';
             }

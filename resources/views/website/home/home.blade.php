@@ -52,7 +52,7 @@
                                                 <a href="   ">
                                                     <h5>{{ $category->name }}</h5>
                                                 </a>
-                                                <span>{{ $category->products->count() }} products</span>
+                                                <span>{{ $category->products->count() }} {{ __('products') }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -96,6 +96,7 @@
                                 @foreach ($productdiscounted as $product)
                                     <div class="col-md-3">
                                         <div class="card card-promotion border-0 shadow-lg">
+
                                             <div class="card-header head-img">
                                                 @if (!empty($product->thumbnail) && is_array($product->thumbnail) && isset($product->thumbnail[0]))
                                                     <img src="{{ asset('uploads/products/' . $product->thumbnail[0]) }}"
@@ -103,6 +104,7 @@
                                                 @else
                                                     <img src="{{ asset('uploads/default.png') }}" alt="not found">
                                                 @endif
+
                                             </div>
                                             <div class="card-body promotion-body">
                                                 <h5 class="card-title fw-bold" style="color: #1077B8;">
@@ -112,16 +114,40 @@
                                                     <div class="col-12 d-flex gap-4">
                                                         @php
                                                             $discountValue = $discountMapping[$product->id] ?? 0;
-                                                            $discountedPrice = $product->price;
+                                                            $discountType = $discounttypeMapping[$product->id] ?? '';
+                                                            $startDate = $discountStartDate[$product->id] ?? '';
+                                                            $endDate = $discountendDate[$product->id] ?? '';
+                                                            $discountedPrice = $product->price ?? 0;
 
                                                             if ($discountValue > 0) {
-                                                                $discountedPrice =
-                                                                    $product->price -
-                                                                    $product->price * ($discountValue / 100);
+                                                                if ($discountType == 'percentage') {
+                                                                    $discountedPrice =
+                                                                        $product->price -
+                                                                        $product->price * ($discountValue / 100);
+                                                                } elseif ($discountType == 'fixed') {
+                                                                    $discountedPrice = $product->price - $discountValue;
+                                                                }
                                                             }
                                                         @endphp
+                                                        @if (
+                                                            $discountValue &&
+                                                                $startDate &&
+                                                                $endDate &&
+                                                                now()->toDateString() >= \Carbon\Carbon::parse($startDate)->toDateString() &&
+                                                                now()->toDateString() <= \Carbon\Carbon::parse($endDate)->toDateString())
+                                                            @if ($discountType == 'percentage')
+                                                                <span class="discount-amount text-white bg-danger">
+                                                                    {{ $discountValue }}% OFF
+                                                                </span>
+                                                            @elseif ($discountType == 'fixed')
+                                                                <span class="discount-amount text-white bg-danger">
+                                                                    ${{ number_format($discountValue, 2) }} OFF
+                                                                </span>
+                                                            @endif
+                                                        @endif
+
                                                         @if ($discountedPrice < $product->price)
-                                                            <p class="card-text fw-bold"
+                                                            <p class="card-text fw-bold p-0 m-0"
                                                                 style="margin-bottom: 0; color:#008E06">
                                                                 ${{ number_format($discountedPrice, 2) }}
                                                             </p>

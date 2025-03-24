@@ -45,42 +45,30 @@
                             <div class="col-12">
                                 <form method="GET" action="{{ route('admin.purchases.index') }}">
                                     <div class="row">
-                                        <!-- Supplier Name -->
                                         <div class="col-md-3">
-                                            <label>Supplier Name</label>
+                                            <label>{{ __('Supplier Name') }}</label>
                                             <input type="text" name="supplier_name"
                                                 value="{{ request('supplier_name') }}" class="form-control">
                                         </div>
-
-                                        <!-- Product Name -->
                                         <div class="col-md-3">
-                                            <label>Product Name</label>
+                                            <label>{{ __('Product Name') }}</label>
                                             <input type="text" name="product_name" value="{{ request('product_name') }}"
                                                 class="form-control">
                                         </div>
-
-                                        <!-- Purchase Date -->
                                         <div class="col-md-3">
-                                            <label>Purchase Date</label>
-                                            <input type="date" name="purchase_date"
-                                                value="{{ request('purchase_date') }}" class="form-control">
+                                            <label>{{ __('Purchase Date') }}</label>
+                                            <input type="text" name="purchase_date"
+                                                value="{{ request('purchase_date') }}" class="form-control datepicker">
                                         </div>
 
-                                        <!-- Date Range -->
                                         <div class="col-md-3">
-                                            <label>Date From</label>
-                                            <input type="date" name="date_from" value="{{ request('date_from') }}"
-                                                class="form-control">
+                                            <label>{{ __('Date Range') }}</label>
+                                            <input type="text" name="date_range" id="daterangefilter"
+                                                class="form-control daterangefilter "
+                                                value="{{ request('date_range') }}">
                                         </div>
-                                        <div class="col-md-3 mt-2">
-                                            <label>Date To</label>
-                                            <input type="date" name="date_to" value="{{ request('date_to') }}"
-                                                class="form-control">
-                                        </div>
-
-                                        <!-- Purchase Status -->
-                                        <div class="col-md-3 mt-2">
-                                            <label>Purchase Status</label>
+                                        <div class="col-md-3">
+                                            <label>{{ __('Purchase Status') }}</label>
                                             <select name="purchase_status" class="form-control">
                                                 <option value="">All</option>
                                                 <option value="Pending"
@@ -92,7 +80,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-3">
-                                            <div class="row mt-3  align-items-center">
+                                            <div class="row mt-2  align-items-center">
                                                 <div class="mt-4 mr-2">
                                                     <button class="btn btn-danger w-100 btn-reset">Reset</button>
                                                 </div>
@@ -284,8 +272,7 @@
                             d.supplier_name = $('input[name="supplier_name"]').val();
                             d.product_name = $('input[name="product_name"]').val();
                             d.purchase_date = $('input[name="purchase_date"]').val();
-                            d.date_from = $('input[name="date_from"]').val();
-                            d.date_to = $('input[name="date_to"]').val();
+                            d.date_range = $('input[name="date_range"]').val();
                             d.purchase_status = $('select[name="purchase_status"]').val();
                             d.search_value = $('#purchaseTable_filter input').val();
                         },
@@ -366,19 +353,17 @@
                     purchaseTable.ajax.reload();
                 });
 
-                // ✅ Apply Filter on Button Click
                 $('.btn-filter').on('click', function(e) {
                     e.preventDefault();
                     purchaseTable.ajax.reload();
                 });
 
-                // ✅ Reset Filters and Reload DataTable
                 $('.btn-reset').on('click', function(e) {
                     e.preventDefault();
                     $('input[name="supplier_name"]').val('');
                     $('input[name="product_name"]').val('');
                     $('input[name="purchase_date"]').val('');
-                    $('input[name="date_from"]').val('');
+                    $('input[name="date_range"]').val('');
                     $('input[name="date_to"]').val('');
                     $('select[name="purchase_status"]').val('');
                     purchaseTable.ajax.reload();

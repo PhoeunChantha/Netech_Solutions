@@ -47,9 +47,10 @@
                                     <div class="row">
                                         <!-- Customer Filter -->
                                         <div class="col-md-3">
-                                            <label>Customer</label>
+                                            <label>{{ __('Customer') }}</label>
                                             <select name="customer_id" class="form-control">
-                                                <option value="">All Customers</option>
+                                                <option value="">{{ __('All Customers') }}</option>
+                                                <option value="walk-in">{{ __('Walk In Customer') }}</option>
                                                 @foreach ($customers as $customer)
                                                     <option value="{{ $customer->id }}"
                                                         {{ request('customer_id') == $customer->id ? 'selected' : '' }}>
@@ -61,26 +62,20 @@
 
                                         <!-- Order Date -->
                                         <div class="col-md-3">
-                                            <label>Order Date</label>
-                                            <input type="date" name="order_date" value="{{ request('order_date') }}"
-                                                class="form-control">
+                                            <label>{{ __('Order Date') }}</label>
+                                            <input type="text" name="order_date" class="form-control datepicker" value="{{ request('order_date') }}"
+                                               >
                                         </div>
-
-                                        <!-- Date Range -->
+                                       
                                         <div class="col-md-3">
-                                            <label>Date From</label>
-                                            <input type="date" name="date_from" value="{{ request('date_from') }}"
-                                                class="form-control">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>Date To</label>
-                                            <input type="date" name="date_to" value="{{ request('date_to') }}"
-                                                class="form-control">
+                                            <label>{{ __('Date Range') }}</label>
+                                            <input type="text" name="date_range" id="daterangefilter" class="form-control daterangefilter"
+                                                value="{{ request('date_range') }}">
                                         </div>
 
                                         <!-- Total Amount Range -->
-                                        <div class="col-md-3 mt-2">
-                                            <label>Total Amount</label>
+                                        <div class="col-md-3">
+                                            <label>{{ __('Total Amount') }}</label>
                                             <select name="total_amount_range" class="form-control">
                                                 <option value="">All</option>
                                                 <option value="0-100"
@@ -105,17 +100,11 @@
                                         </div>
 
                                         <!-- Filter & Reset Buttons -->
-                                        <div class="col-md-3">
-                                            <div class="row mt-3  align-items-center">
-                                                <div class=" mt-4 mr-2">
-                                                    <button type="submit"
-                                                        class="btn btn-primary w-100 btn-filter-report">Filter</button>
-                                                </div>
-                                                <div class=" mt-4">
-                                                    <a href="{{ route('admin.report.index') }}"
-                                                        class="btn btn-danger w-100 btn-reset-report">Reset</a>
-                                                </div>
-                                            </div>
+                                        <div class="col-md-3 d-flex mt-2">
+                                            <a href="{{ route('admin.report.index') }}"
+                                                class="btn btn-danger  btn-reset-report">{{ __('Reset') }}</a>
+                                                <button type="submit"
+                                                class="btn btn-primary ml-2  btn-filter-report">{{ __('Filter') }}</button>
                                         </div>
                                     </div>
                                 </form>
@@ -209,8 +198,7 @@
                         data: function(d) {
                             d.customer_id = $('select[name="customer_id"]').val();
                             d.order_date = $('input[name="order_date"]').val();
-                            d.date_from = $('input[name="date_from"]').val();
-                            d.date_to = $('input[name="date_to"]').val();
+                            d.date_range = $('input[name="date_range"]').val();
                             d.total_amount_range = $('select[name="total_amount_range"]').val();
                             d.search_value = $('#sellreportTable_filter input').val();
                         },
@@ -292,8 +280,7 @@
                     e.preventDefault();
                     $('select[name="customer_id"]').val('');
                     $('input[name="order_date"]').val('');
-                    $('input[name="date_from"]').val('');
-                    $('input[name="date_to"]').val('');
+                    $('input[name="date_range"]').val('');
                     $('select[name="total_amount_range"]').val('');
                     $('#sellreportTable_filter input').val('');
                     sellreportTable.ajax.reload();

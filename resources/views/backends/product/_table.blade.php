@@ -28,36 +28,36 @@
                     <td>{{ $product->code }}</td>
                     <td>
                         <span>
-                            @if (is_array($product->thumbnail) && !empty($product->thumbnail))
-                                <!-- Display the first image as the visible thumbnail -->
-                                <a class="example-image-link"
-                                    href="{{ asset('uploads/products/' . $product->thumbnail[0]) }}"
+                            @php
+                                $thumbnails = is_array($product->thumbnail)
+                                    ? $product->thumbnail
+                                    : [$product->thumbnail];
+                            @endphp
+
+                            @if (!empty($thumbnails) && $thumbnails[0] != null)
+                                <a class="example-image-link" href="{{ asset('uploads/products/' . $thumbnails[0]) }}"
                                     data-fancybox="gallery-{{ $product->id }}">
                                     <img class="example-image image-thumbnail"
-                                        src="{{ asset('uploads/products/' . $product->thumbnail[0]) }}" alt="profile"
+                                        src="{{ asset('uploads/products/' . $thumbnails[0]) }}" alt="product-thumbnail"
                                         width="50px" height="50px" style="cursor:pointer" />
                                 </a>
 
-                                <!-- Add all other images to the Fancybox gallery as hidden links -->
-                                @foreach ($product->thumbnail as $key => $thumbnail)
+                                @foreach ($thumbnails as $key => $thumbnail)
                                     @if ($key > 0)
                                         <a href="{{ asset('uploads/products/' . $thumbnail) }}"
                                             data-fancybox="gallery-{{ $product->id }}" style="display: none;"></a>
                                     @endif
                                 @endforeach
                             @else
-                                <!-- Fallback if $product->thumbnail is a single image path -->
-                                <a class="example-image-link" href="{{ asset('uploads/products/defualt.png') }}"
+                                <a class="example-image-link" href="{{ asset('uploads/products/default.png') }}"
                                     data-fancybox="gallery-{{ $product->id }}">
-                                    <img class="example-image image-thumbnail" src="{{ asset('uploads/defualt.png') }}"
-                                        alt="profile" width="50px" height="50px" style="cursor:pointer" />
+                                    <img class="example-image image-thumbnail"
+                                        src="{{ asset('uploads/products/default.png') }}" alt="default-thumbnail"
+                                        width="50px" height="50px" style="cursor:pointer" />
                                 </a>
                             @endif
                         </span>
-
-
                     </td>
-
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->price }}</td>
                     <td>
@@ -69,7 +69,7 @@
                     </td>
                     <td>{{ $product->brand->name ?? 'null' }}</td>
                     <td>{{ $product->category->name ?? 'null' }}</td>
-                    <td>{{ $product->createdBy->name }}</td>
+                    <td>{{ $product->createdBy->name ?? 'null' }}</td>
                     <td>
                         @if (auth()->user()->can('product.edit'))
                             <div class="custom-control custom-switch">
@@ -87,7 +87,6 @@
                                 aria-expanded="false">
                                 {{ __('Actions') }}
                             </button>
-                            <!-- Add dropdown-menu-left to align the menu to the left side -->
                             <div class="dropdown-menu dropdown-menu-left"
                                 aria-labelledby="actionDropdown{{ $product->id }}">
                                 @if (auth()->user()->can('product.edit'))

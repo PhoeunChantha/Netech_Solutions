@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backends;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
@@ -46,12 +47,15 @@ class PurchaseController extends Controller
                 $purchases->whereDate('purchase_date', $request->purchase_date);
             }
 
-            if ($request->filled('date_from') && $request->filled('date_to')) {
-                $purchases->whereBetween('purchase_date', [$request->date_from, $request->date_to]);
-            } elseif ($request->filled('date_from')) {
-                $purchases->whereDate('purchase_date', '>=', $request->date_from);
-            } elseif ($request->filled('date_to')) {
-                $purchases->whereDate('purchase_date', '<=', $request->date_to);
+            if ($request->filled('date_range')) {
+                $dates = explode(' - ', $request->date_range);
+            
+                if (count($dates) == 2) {
+                    $date_from = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
+                    $date_to = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();  
+            
+                    $purchases->whereBetween('created_at', [$date_from, $date_to]);
+                }
             }
 
             if ($request->filled('purchase_status')) {

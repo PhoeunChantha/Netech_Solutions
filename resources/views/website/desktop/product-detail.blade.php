@@ -98,16 +98,17 @@
                                     </div> --}}
                                     <div class="container-price d-flex gap-2 mt-3 align-items-center">
                                         @php
-                                            $discountValue = $product->discount
-                                                ? $product->discount->discount_value
-                                                : 0;
-                                            $discountedPrice = $product->price;
-
-                                            if ($discountValue > 0) {
-                                                $discountedPrice =
-                                                    $product->price - $product->price * ($discountValue / 100); // Apply discount
+                                        $discountValue = $product->discount ? $product->discount->discount_value : 0;
+                                        $discountedPrice = $product->price;
+               
+                                        if ($product->discount) {
+                                            if ($product->discount->discount_type == 'percentage') {
+                                                $discountedPrice = $product->price - $product->price * ($discountValue / 100); 
+                                            } elseif ($product->discount->discount_type == 'fixed') {
+                                                $discountedPrice = $product->price - $discountValue;
                                             }
-                                        @endphp
+                                        }
+                                    @endphp
                                         @if ($discountValue > 0)
                                             <div style="color: #008E06" class="price fs-3 fw-bold" id="product-price">
                                                 ${{ number_format($discountedPrice, 2) }}
@@ -160,7 +161,7 @@
                                                                     {{ $item->discount->discount_value }}% off
                                                                 </span>
                                                             @endif --}}
-                                                            @if ($item->discount)
+                                                            {{-- @if ($item->discount)
                                                                 @php
                                                                     $isDiscountActive =
                                                                         !$item->discount->start_date ||
@@ -173,6 +174,23 @@
                                                                 <span class="discount-amount text-white bg-danger">
                                                                     {{ $item->discount->discount_value }}% off
                                                                 </span>
+                                                            @endif --}}
+                                                            @if (
+                                                                $item->discount &&
+                                                                    $item->discount->start_date &&
+                                                                    $item->discount->end_date &&
+                                                                    now()->toDateString() >= \Carbon\Carbon::parse($item->discount->start_date)->toDateString() &&
+                                                                    now()->toDateString() <= \Carbon\Carbon::parse($item->discount->end_date)->toDateString())
+                                                                @if ($item->discount->discount_type == 'percentage')
+                                                                    <span class="discount-amount text-white bg-danger">
+                                                                        {{ $item->discount->discount_value }}% OFF
+                                                                    </span>
+                                                                @elseif ($item->discount->discount_type == 'fixed')
+                                                                    <span class="discount-amount text-white bg-danger">
+                                                                        ${{ number_format($item->discount->discount_value, 2) }}
+                                                                        OFF
+                                                                    </span>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="card-body product-body py-0">
@@ -193,9 +211,23 @@
                                                                     $discountValue = $item->discount
                                                                         ? $item->discount->discount_value
                                                                         : 0;
-                                                                    $discountedPrice =
-                                                                        $item->price -
-                                                                        $item->price * ($discountValue / 100);
+                                                                    $discountedPrice = $item->price;
+
+                                                                    if ($item->discount) {
+                                                                        if (
+                                                                            $item->discount->discount_type ==
+                                                                            'percentage'
+                                                                        ) {
+                                                                            $discountedPrice =
+                                                                                $item->price -
+                                                                                $item->price * ($discountValue / 100);
+                                                                        } elseif (
+                                                                            $item->discount->discount_type == 'fixed'
+                                                                        ) {
+                                                                            $discountedPrice =
+                                                                                $item->price - $discountValue;
+                                                                        }
+                                                                    }
                                                                 @endphp
                                                                 <div style="color: #008E06; font-weight: 600"
                                                                     class="price fs-5">
@@ -225,7 +257,7 @@
                                                         </div>
                                                     </div>
                                                 @empty
-                                                    <p>No related products available</p>
+                                                    <p>{{ __('No related products available') }}</p>
                                                 @endforelse
                                             </div>
 
@@ -267,9 +299,12 @@
                         var originalPrice = parseFloat(product.price || 0);
                         var discountedPrice = originalPrice;
 
-                        if (product.discount && product.discount.discount_value > 0) {
-                            discountedPrice = originalPrice - (originalPrice * (product.discount
-                                .discount_value / 100));
+                        if (product.discount) {
+                            if (product.discount.discount_type == 'percentage') {
+                                discountedPrice = originalPrice - (originalPrice * (product.discount.discount_value / 100));
+                            } else if (product.discount.discount_type == 'fixed') {
+                                discountedPrice = originalPrice - product.discount.discount_value;
+                            }
                         }
 
                         var priceHtml = '';
@@ -330,17 +365,20 @@
                             var originalRelatedPrice = parseFloat(item.price || 0);
                             var discountedRelatedPrice = originalRelatedPrice;
 
-                            if (item.discount && item.discount.discount_value > 0) {
-                                discountedRelatedPrice = originalRelatedPrice - (
-                                    originalRelatedPrice * (item.discount
-                                        .discount_value / 100));
+                            if (item.discount) {
+                                if (item.discount.discount_type == 'percentage') {
+                                    discountedRelatedPrice = originalRelatedPrice - (
+                                        originalRelatedPrice * (item.discount.discount_value / 100));
+                                } else if (item.discount.discount_type == 'fixed') {
+                                    discountedRelatedPrice = originalRelatedPrice - item.discount.discount_value;
+                                }
                             }
 
                             var relatedProductHtml = `
                             <div class="card border-0 shadow-sm mb-3 p-2 w-100 d-flex flex-row align-items-center">
                                 <div class="card-image mx-2">
                                     <img width="100" src="${basePath}/${item.thumbnail?.[0] || 'default.png'}" alt="${item.name}">
-                                    ${item.discount?.discount_value ? `<span class="discount-amount text-white bg-danger">${item.discount.discount_value}% off</span>` : ''}
+                                    ${item.discount?.discount_value ? (item.discount.discount_type == 'percentage' ? `<span class="discount-amount text-white bg-danger">${item.discount.discount_value}% OFF</span>` : `<span class="discount-amount text-white bg-danger">$${item.discount.discount_value.toFixed(2)} OFF</span>`) : ''}
                                 </div>
                                 <div class="card-body product-body py-0">
                                     <h5 class="card-title">

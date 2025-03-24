@@ -202,26 +202,26 @@ class ProductController extends Controller
             // 'operating' => 'required',
             'quantity' => 'required|numeric',
             'price' => 'required|numeric',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            // 'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
         // dd($validator);
 
-        if (is_null($request->name[array_search('en', $request->lang)])) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'name',
-                    'Name field is required!'
-                );
-            });
-        }
-        if (is_null($request->description[array_search('en', $request->lang)])) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'description',
-                    'Description field is required!'
-                );
-            });
-        }
+        // if (is_null($request->name[array_search('en', $request->lang)])) {
+        //     $validator->after(function ($validator) {
+        //         $validator->errors()->add(
+        //             'name',
+        //             'Name field is required!'
+        //         );
+        //     });
+        // }
+        // if (is_null($request->description[array_search('en', $request->lang)])) {
+        //     $validator->after(function ($validator) {
+        //         $validator->errors()->add(
+        //             'description',
+        //             'Description field is required!'
+        //         );
+        //     });
+        // }
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -246,9 +246,10 @@ class ProductController extends Controller
             $product->quantity = $request->quantity;
             $product->created_by = auth()->user()->id;
             if ($request->hasFile('thumbnail')) {
-                $oldImage = $product->thumbnail;
-                $product->thumbnail = ImageManager::update('uploads/products/', $oldImage, $request->file('thumbnail'));
-                // $brand->save();
+                $oldImages = $product->thumbnail ?? []; 
+                $newImages = $request->file('thumbnail');
+                $newThumbnails = ImageManager::append('uploads/products/', $oldImages, $newImages);
+                $product->thumbnail = $newThumbnails;
             }
             $product->save();
 

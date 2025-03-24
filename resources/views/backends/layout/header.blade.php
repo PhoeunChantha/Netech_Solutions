@@ -4,10 +4,10 @@
     }
 
     .pos-style {
-        padding: 3px 5px !important;
+        padding: 5px 11px !important;
         background-color: green !important;
         color: white !important;
-        /* font-size: 16px; */
+        border-radius: 10px;
     }
 </style>
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">

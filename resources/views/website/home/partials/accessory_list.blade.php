@@ -1,18 +1,24 @@
  <div class="owl-carousel owl-carousel-accessory owl-theme" data-product-count="{{ $accessoriesProducts->count() }}">
      @foreach ($accessoriesProducts as $item)
          <div class="item">
-            <div class="card home-desktop border-0 shadow-lg product-card" data-product-id="{{ $item->id }}">
+             <div class="card home-desktop border-0 shadow-lg product-card" data-product-id="{{ $item->id }}">
                  <div class="card-header head-img justify-content-center">
                      {{-- Discount Badge --}}
-                      @if (
+                     @if (
                          $item->discount &&
                              $item->discount->start_date &&
                              $item->discount->end_date &&
                              now()->toDateString() >= \Carbon\Carbon::parse($item->discount->start_date)->toDateString() &&
                              now()->toDateString() <= \Carbon\Carbon::parse($item->discount->end_date)->toDateString())
-                         <span class="discount-amount text-white bg-danger">
-                             {{ $item->discount->discount_value }}% OFF
-                         </span>
+                         @if ($item->discount->discount_type == 'percentage')
+                             <span class="discount-amount text-white bg-danger">
+                                 {{ $item->discount->discount_value }}% OFF
+                             </span>
+                         @elseif ($item->discount->discount_type == 'fixed')
+                             <span class="discount-amount text-white bg-danger">
+                                 ${{ number_format($item->discount->discount_value, 2) }} OFF
+                             </span>
+                         @endif
                      @endif
 
                      {{-- Product Image --}}
@@ -25,14 +31,16 @@
                              {{ $item->name }}
                          </a>
                      </h5>
-
                      @php
                          $discountValue = $item->discount ? $item->discount->discount_value : 0;
-
                          $discountedPrice = $item->price;
 
-                         if ($discountValue > 0) {
-                             $discountedPrice = $item->price - $item->price * ($discountValue / 100); // Apply discount
+                         if ($item->discount) {
+                             if ($item->discount->discount_type == 'percentage') {
+                                 $discountedPrice = $item->price - $item->price * ($discountValue / 100); 
+                             } elseif ($item->discount->discount_type == 'fixed') {
+                                 $discountedPrice = $item->price - $discountValue;
+                             }
                          }
                      @endphp
 
@@ -56,4 +64,3 @@
          </div>
      @endforeach
  </div>
-

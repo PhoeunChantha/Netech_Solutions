@@ -89,12 +89,17 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label class="required_lable" for="brand">{{ __('Discount Type') }}</label>
-                                        <select name="discount_type" id="brand"
+                                        <label class="required_lable" for="discount_type">{{ __('Discount Type') }}</label>
+                                        <select name="discount_type" id="discount_type"
                                             class="form-control select2 @error('discount_type') is-invalid @enderror">
                                             <option value="">{{ __('Select type') }}</option>
-                                            <option value="percentage">{{ __('Percentage') }}</option>
-                                            <option value="fixed">{{ __('Fixed') }}</option>
+                                            <option selected value="percentage"
+                                                {{ old('discount_type') == 'percentage' ? 'selected' : '' }}>
+                                                {{ __('Percentage') }}
+                                            </option>
+                                            <option value="fixed" {{ old('discount_type') == 'fixed' ? 'selected' : '' }}>
+                                                {{ __('Fixed') }}
+                                            </option>
                                         </select>
                                         @error('discount_type')
                                             <span class="invalid-feedback" role="alert">
@@ -103,18 +108,46 @@
                                         @enderror
                                     </div>
 
-                                    <div class="form-group col-md-6 ">
+                                    <div class="form-group col-md-6" id="amount">
                                         <label class="required_lable"
-                                            for="discount_value">{{ __('Discount Amount') }}</label>
-                                        <input type="number" name="discount_value" id="discount_value"
-                                            class="form-control @error('discount_value') is-invalid @enderror"
-                                            step="any" value="{{ old('discount_value', 0) }}"
-                                            oninput="validateQuantity(this)">
-                                        @error('discount_value')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                            for="discount_value_fixed">{{ __('Discount Amount') }}</label>
+                                        <div class="input-group">
+                                            <input type="number" name="discount_value" id="discount_value_fixed"
+                                                class="form-control @error('discount_value') is-invalid @enderror"
+                                                step="any" value="{{ old('discount_value', 0) }}"
+                                                oninput="validateQuantity(this)">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            @error('discount_value')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6 d-none" id="percent">
+                                        <label class="required_lable"
+                                            for="discount_value_percent">{{ __('Discount Percentage') }}</label>
+                                        <div class="input-group">
+                                            <input type="number" name="discount_value" id="discount_value_percent"
+                                                class="form-control @error('discount_value') is-invalid @enderror"
+                                                step="any" value="{{ old('discount_value', 0) }}"
+                                                oninput="validateQuantity(this)">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-percent"></i>
+                                                </span>
+                                            </div>
+                                            @error('discount_value')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="form-group col-md-6 ">
                                         <label class="required_lable" for="quantity_limited">{{ __('Quantity') }}</label>
@@ -187,7 +220,7 @@
                                                         </div>
                                                     @endforeach
                                                 </section> --}}
-                                                <section class="Wrapper">
+                                                {{-- <section class="Wrapper">
                                                     @foreach ($brands as $brand)
                                                         @if ($brand->products->isNotEmpty())
                                                             <!-- Only display brands with non-discounted products -->
@@ -222,11 +255,47 @@
                                                             </div>
                                                         @endif
                                                     @endforeach
+                                                </section> --}}
+                                                <section class="Wrapper">
+                                                    @foreach ($brands as $brand)
+                                                        @if ($brand->products->isNotEmpty())
+                                                            <!-- Only display brands with non-discounted products -->
+                                                            <div class="Checkbox-parent Accordion d-flex align-items-center"
+                                                                style="margin-bottom: 3px; cursor: pointer;">
+                                                                <i class="fas fa-caret-down mt-0"></i>
+                                                                <span
+                                                                    style="margin-left: 2% !important; font-weight: 400; font-size: 15px;">
+                                                                    {{ $brand->name }}
+                                                                </span>
+                                                                <input id="apply_discount_to_{{ $brand->id }}"
+                                                                    name="apply_discount_to"
+                                                                    class="material-icons ml-auto @error('apply_discount_to') is-invalid @enderror"
+                                                                    type="checkbox" />
+                                                            </div>
+                                                            <div id="Accordion-panel-{{ $brand->id }}"
+                                                                class="Accordion-panel">
+                                                                <ul class="Checkbox-child pl-4">
+                                                                    @foreach ($brand->products as $product)
+                                                                        <!-- Filter out discounted products -->
+                                                                        @if (!in_array($product->id, $discountedProductIds))
+                                                                            <li
+                                                                                class="d-flex align-items-center justify-content-between">
+                                                                                <span
+                                                                                    style="font-weight: 400; font-size: 15px; margin-bottom: 3px;">
+                                                                                    {{ $product->name }}
+                                                                                </span>
+                                                                                <input value="{{ $product->id }}"
+                                                                                    name="product_ids[]"
+                                                                                    class="material-icons"
+                                                                                    type="checkbox" />
+                                                                            </li>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
                                                 </section>
-
-
-
-
 
                                             </div>
                                         </div>
@@ -254,13 +323,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 form-group">
-                                    <button type="submit" class="btn btn-primary float-right">
-                                        <i class="fa fa-save"></i>
-                                        {{ __('Save') }}
-                                    </button>
+                                <div class="row">
+                                    <div class="col-12 form-group">
+                                        <button type="submit" class="btn btn-primary float-right">
+                                            <i class="fa fa-save"></i>
+                                            {{ __('Save') }}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -273,6 +342,26 @@
 @endsection
 
 @push('js')
+    <script>
+        $(document).ready(function() {
+            function toggleDiscountFields() {
+                var discountType = $('#discount_type').val();
+                if (discountType === 'percentage') {
+                    $('#amount').addClass('d-none');
+                    $('#percent').removeClass('d-none');
+                } else {
+                    $('#percent').addClass('d-none');
+                    $('#amount').removeClass('d-none');
+                }
+            }
+
+            toggleDiscountFields();
+
+            $(document).on('change', '#discount_type', function() {
+                toggleDiscountFields();
+            });
+        });
+    </script>
     <script>
         const compressor = new window.Compress();
         $('.custom-file-input').change(function(e) {

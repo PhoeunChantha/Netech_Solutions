@@ -81,7 +81,7 @@
                                                                 <label
                                                                     for="description_{{ $lang['code'] }}">{{ __('Description') }}({{ strtoupper($lang['code']) }})</label>
                                                                 <textarea type="text" id="description_{{ $lang['code'] }}"
-                                                                    class="form-control summernote @error('description') is-invalid @enderror" name="description[]"
+                                                                    class="form-control @error('description') is-invalid @enderror" name="description[]"
                                                                     placeholder="{{ __('Enter Description') }}" value="">{{ $translate[$lang['code']]['description'] ?? $discount['description'] }}</textarea>
                                                                 @error('description')
                                                                     <span class="invalid-feedback" role="alert">
@@ -106,11 +106,11 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label class="required_lable" for="brand">{{ __('Discount Type') }}</label>
-                                        <select name="discount_type" id="brand"
+                                        <label class="required_lable" for="discount_type">{{ __('Discount Type') }}</label>
+                                        <select name="discount_type" id="discount_type"
                                             class="form-control select2 @error('discount_type') is-invalid @enderror">
                                             <option value="">{{ __('Select type') }}</option>
-                                            <option value="percentage"
+                                            <option selected value="percentage"
                                                 {{ old('discount_type', $discount->discount_type) == 'percentage' ? 'selected' : '' }}>
                                                 {{ __('Percentage') }}
                                             </option>
@@ -119,7 +119,6 @@
                                                 {{ __('Fixed') }}
                                             </option>
                                         </select>
-
                                         @error('discount_type')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -127,19 +126,48 @@
                                         @enderror
                                     </div>
 
-                                    <div class="form-group col-md-6 ">
+                                    <div class="form-group col-md-6" id="amount">
                                         <label class="required_lable"
-                                            for="discount_value">{{ __('Discount Amount') }}</label>
-                                        <input type="number" name="discount_value" id="discount_value"
-                                            class="form-control @error('discount_value') is-invalid @enderror"
-                                            step="any"
-                                            value="{{ old('discount_value', $discount->discount_value ?? 0) }}"
-                                            oninput="validateQuantity(this)">
-                                        @error('discount_value')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                            for="discount_value_fixed">{{ __('Discount Amount') }}</label>
+                                        <div class="input-group">
+                                            <input type="number" name="discount_value" id="discount_value_fixed"
+                                                class="form-control @error('discount_value') is-invalid @enderror"
+                                                step="any"
+                                                value="{{ old('discount_value', $discount->discount_value ?? 0) }}"
+                                                oninput="validateQuantity(this)">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            @error('discount_value')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6 d-none" id="percent">
+                                        <label class="required_lable"
+                                            for="discount_value_percent">{{ __('Discount Percentage') }}</label>
+                                        <div class="input-group">
+                                            <input type="number" name="discount_value" id="discount_value_percent"
+                                                class="form-control @error('discount_value') is-invalid @enderror"
+                                                step="any"
+                                                value="{{ old('discount_value', $discount->discount_value ?? 0) }}"
+                                                oninput="validateQuantity(this)">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-percent"></i>
+                                                </span>
+                                            </div>
+                                            @error('discount_value')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="form-group col-md-6 ">
                                         <label class="required_lable" for="quantity_limited">{{ __('Quantity') }}</label>
@@ -250,13 +278,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 form-group">
-                                    <button type="submit" class="btn btn-primary float-right">
-                                        <i class="fa fa-save"></i>
-                                        {{ __('Save') }}
-                                    </button>
+                                <div class="row">
+                                    <div class="col-12 form-group">
+                                        <button type="submit" class="btn btn-primary float-right">
+                                            <i class="fa fa-save"></i>
+                                            {{ __('Save') }}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -270,6 +298,26 @@
 @endsection
 
 @push('js')
+    <script>
+        $(document).ready(function() {
+            function toggleDiscountFields() {
+                var discountType = $('#discount_type').val();
+                if (discountType === 'percentage') {
+                    $('#amount').addClass('d-none');
+                    $('#percent').removeClass('d-none');
+                } else {
+                    $('#percent').addClass('d-none');
+                    $('#amount').removeClass('d-none');
+                }
+            }
+
+            toggleDiscountFields();
+
+            $(document).on('change', '#discount_type', function() {
+                toggleDiscountFields();
+            });
+        });
+    </script>
     <script>
         $('.custom-file-input').change(function(e) {
             var reader = new FileReader();

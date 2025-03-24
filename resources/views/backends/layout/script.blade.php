@@ -16,13 +16,12 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('backend/dist/js/adminlte.min.js') }}"></script>
 
-<script src="{{ asset('backend/plugins/moment/moment.min.js') }}"></script>
+{{-- <script src="{{ asset('backend/plugins/moment/moment.min.js') }}"></script> --}}
 <script src="{{ asset('backend/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
-<script src="{{ asset('backend/plugins/daterangepicker/daterangepicker.js') }}"></script>
+{{-- <script src="{{ asset('backend/plugins/daterangepicker/daterangepicker.js') }}"></script> --}}
 <!-- Datepicker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
-{{-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> --}}
 {{-- summernote --}}
 <script src="{{ asset('backend/plugins/summernote/summernote-bs4.min.js') }}"></script>
 
@@ -37,14 +36,36 @@
 
 {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 <script src="{{ asset('backend/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
-<script src="{{ asset('backend/plugins/daterangepicker/daterangepicker.js') }}"></script>
 <script src="{{ asset('js/compress.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+{{-- datarangepicker --}}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 {{ Session::has('message') }}
 {{-- DataTable --}}
+<script>
+    $(function() {
+        $('.daterangefilter').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+
+        $('.daterangefilter').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format(
+                'MM/DD/YYYY'));
+        });
+
+        $('.daterangefilter').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
+
+    });
+</script>
 <script>
     $(document).ready(function() {
         if ($('#OrderdataTable').length && $('#OrderdataTableButtons').length) {

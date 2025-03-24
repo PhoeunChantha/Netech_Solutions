@@ -43,83 +43,64 @@
                         </div>
                         <div class="card-body">
                             <div class="col-12">
-                                <div class="row">
-                                    <form method="GET" action="{{ route('admin.expense-report.expense') }}" id="filter-form">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Transaction Type</label>
-                                                <select name="transaction_type" class="form-control transaction-filter">
-                                                    <option value="">All</option>
-                                                    <option value="income"
-                                                        {{ request('transaction_type') == 'income' ? 'selected' : '' }}>
-                                                        Income</option>
-                                                    <option value="expense"
-                                                        {{ request('transaction_type') == 'expense' ? 'selected' : '' }}>
-                                                        Expense</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Date From</label>
-                                                <input type="date" name="date_from" value="{{ request('date_from') }}"
-                                                    class="form-control transaction-filter-date-from">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Date To</label>
-                                                <input type="date" name="date_to" value="{{ request('date_to') }}"
-                                                    class="form-control transaction-filter-date-to">
-                                            </div>
+                                <form method="GET" action="{{ route('admin.expense-report.expense') }}" id="filter-form">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>{{ __('Product Name') }}</label>
+                                            <input type="text" name="product_name" value="{{ request('product_name') }}"
+                                                class="form-control transaction-filter">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>{{ __('Date Range') }}</label>
+                                            <input type="text" name="date_range" id="daterangefilter"
+                                                class="form-control daterangefilter transaction-filter"
+                                                value="{{ request('date_range') }}">
+                                        </div>
 
-                                            <div class="col-md-3">
-                                                <label>Product Name</label>
-                                                <input type="text" name="product_name"
-                                                    value="{{ request('product_name') }}"
-                                                    class="form-control transaction-filter">
-                                            </div>
-                                            <div class="col-md-3 mt-3">
-                                                <label>Transaction Amount</label>
-                                                <select name="transaction_amount_range"
-                                                    class="form-control transaction-filter">
-                                                    <option value="">All</option>
-                                                    <option value="0-100"
-                                                        {{ request('transaction_amount_range') == '0-100' ? 'selected' : '' }}>
-                                                        0 -
-                                                        100</option>
-                                                    <option value="100-500"
-                                                        {{ request('transaction_amount_range') == '100-500' ? 'selected' : '' }}>
-                                                        100
-                                                        - 500</option>
-                                                    <option value="500-1000"
-                                                        {{ request('transaction_amount_range') == '500-1000' ? 'selected' : '' }}>
-                                                        500
-                                                        - 1000</option>
-                                                    <option value="1000-3000"
-                                                        {{ request('transaction_amount_range') == '1000-3000' ? 'selected' : '' }}>
-                                                        1000 - 3000</option>
-                                                    <option value="3000-5000"
-                                                        {{ request('transaction_amount_range') == '3000-5000' ? 'selected' : '' }}>
-                                                        3000 - 5000</option>
-                                                    <option value="5000-"
-                                                        {{ request('transaction_amount_range') == '5000-' ? 'selected' : '' }}>
-                                                        5000+
-                                                    </option>
-                                                </select>
-                                            </div>
 
-                                            <div class="col-md-3 mt-2">
-                                                <div class="row align-items-center mt-3">
-                                                    <div class="mt-4 mr-2">
-                                                        <button type="button"
-                                                            class="btn btn-danger btn-reset-transaction">Reset</button>
-                                                    </div>
-                                                    <div class="mt-4">
-                                                        <button type="submit"
-                                                            class="btn btn-primary w-100 btn-filter-transaction">Filter</button>
-                                                    </div>
+                                        <div class="col-md-3">
+                                            <label>{{ __('Transaction Amount') }}</label>
+                                            <select name="transaction_amount_range" class="form-control transaction-filter">
+                                                <option value="">All</option>
+                                                <option value="0-100"
+                                                    {{ request('transaction_amount_range') == '0-100' ? 'selected' : '' }}>
+                                                    0 -
+                                                    100</option>
+                                                <option value="100-500"
+                                                    {{ request('transaction_amount_range') == '100-500' ? 'selected' : '' }}>
+                                                    100
+                                                    - 500</option>
+                                                <option value="500-1000"
+                                                    {{ request('transaction_amount_range') == '500-1000' ? 'selected' : '' }}>
+                                                    500
+                                                    - 1000</option>
+                                                <option value="1000-3000"
+                                                    {{ request('transaction_amount_range') == '1000-3000' ? 'selected' : '' }}>
+                                                    1000 - 3000</option>
+                                                <option value="3000-5000"
+                                                    {{ request('transaction_amount_range') == '3000-5000' ? 'selected' : '' }}>
+                                                    3000 - 5000</option>
+                                                <option value="5000-"
+                                                    {{ request('transaction_amount_range') == '5000-' ? 'selected' : '' }}>
+                                                    5000+
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="row align-items-center">
+                                                <div class="mt-4 mr-2">
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-reset-transaction">Reset</button>
+                                                </div>
+                                                <div class="mt-4">
+                                                    <button type="submit"
+                                                        class="btn btn-primary w-100 btn-filter-transaction">Filter</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
-                                </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -204,13 +185,11 @@
                         url: "{{ route('admin.expense-report.expense') }}",
                         type: "GET",
                         data: function(d) {
-                            d.transaction_type = $('select[name="transaction_type"]').val();
                             d.transaction_amount_range = $(
                                 'select[name="transaction_amount_range"]').val();
                             d.product_name = $('input[name="product_name"]').val();
                             d.customer_name = $('input[name="customer_name"]').val();
-                            d.date_from = $('input[name="date_from"]').val();
-                            d.date_to = $('input[name="date_to"]').val();
+                            d.date_range = $('input[name="date_range"]').val();
                             d.search_value = $('#purchaseTable_filter input').val();
                         },
                         error: function(xhr, error, thrown) {
@@ -285,21 +264,15 @@
                     transactionTable.ajax.reload();
                 });
 
-                $('.transaction-filter').on('change keyup',
-                    function(e) {
-                        e.preventDefault();
-                        transactionTable.ajax.reload();
-                    });
-
-                $('.transaction-filter-date-from, .transaction-filter-date-to').on('change', function(e) {
+                $('.transaction-filter').on('change keyup', function(e) {
                     e.preventDefault();
                     transactionTable.ajax.reload();
                 });
+
                 $('.btn-reset-transaction').on('click', function(e) {
                     e.preventDefault();
-                    $('select[name="transaction_type"]').val('');
                     $('select[name="transaction_amount_range"]').val('');
-                    $('input[name="product_name"], input[name="customer_name"], input[name="date_from"], input[name="date_to"]')
+                    $('input[name="product_name"], input[name="customer_name"], input[name="date_range"]')
                         .val('');
                     $('#transactionTable_filter input').val('');
                     transactionTable.ajax.reload();
