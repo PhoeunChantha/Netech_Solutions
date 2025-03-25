@@ -41,7 +41,7 @@
                                 </li>
                             </ul>
 
-                            <input type="text" id="discount-type-input" name="discount_type" value="percent">
+                            <input type="hidden" id="discount-type-input" name="discount_type" value="percent">
 
                             <div class="tab-content" id="discount-type-content">
                                 <div class="tab-pane fade show active" id="discount-percent" role="tabpanel" aria-labelledby="discount-percent-tab">
@@ -50,7 +50,7 @@
                                             name="discount_percent" value="" placeholder="Enter discount percent">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
-                                                <i class="fas fa-percentage"></i> <!-- Percent Icon -->
+                                                <i class="fas fa-percentage"></i>
                                             </span>
                                         </div>
                                     </div>
@@ -62,7 +62,7 @@
                                             name="discount_amount" value="" placeholder="Enter discount amount">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
-                                                <i class="fas fa-dollar-sign"></i> <!-- Dollar Icon -->
+                                                <i class="fas fa-dollar-sign"></i>
                                             </span>
                                         </div>
                                     </div>

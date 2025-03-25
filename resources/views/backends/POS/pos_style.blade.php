@@ -130,6 +130,8 @@
         padding: 10px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
     }
 
     .product-card img {
@@ -354,8 +356,11 @@
     }
 
     .discount-amount {
-        margin-left: -115px !important;
-        margin-top: -10px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        /* margin-left: -115px !important;
+        margin-top: -10px; */
         border-top-left-radius: 9px;
         border-bottom-right-radius: 9px;
         padding: 4px 7px;

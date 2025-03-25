@@ -79,7 +79,7 @@
                                         @endif
                                         <button type="button"
                                             class="btn btn-primary w-75 btn-pay-price ml-2">{{ __('Pay') }}</button>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +159,6 @@
         // searchProducts
         function searchProducts() {
             const searchTerm = $('#product-search').val();
-
             $('.category-card').removeClass('selected');
             $(`[data-category-id="${currentCategory}"]`).addClass('selected');
 
@@ -167,6 +166,7 @@
                 url: '{{ route('admin.pos_search_products') }}',
                 method: 'POST',
                 data: {
+                    _token: '{{ csrf_token() }}',
                     category_id: currentCategory,
                     search_term: searchTerm
                 },
@@ -178,35 +178,49 @@
                         if (response.products.length > 0) {
                             response.products.forEach(product => {
                                 const hasDiscount = product.discount && product.discount.discount_value;
-                                const discountedPrice = hasDiscount ?
-                                    (product.price - (product.price * (product.discount.discount_value /
-                                        100))).toFixed(2) :
-                                    parseFloat(product.price).toFixed(2);
+                                const discountType = hasDiscount ? product.discount.discount_type :
+                                null;
+                                const discountValue = hasDiscount ? parseFloat(product.discount
+                                    .discount_value) : 0;
+                                const originalPrice = parseFloat(product.price);
+                                let discountedPrice = originalPrice;
 
-                                const originalPrice = parseFloat(product.price).toFixed(2);
+                                if (hasDiscount) {
+                                    if (discountType === "percentage") {
+                                        discountedPrice = originalPrice - (originalPrice * (
+                                            discountValue / 100));
+                                    } else if (discountType === "fixed") {
+                                        discountedPrice = originalPrice - discountValue;
+                                    }
+                                }
+
+                                discountedPrice = discountedPrice.toFixed(2);
+                                const originalPriceFormatted = originalPrice.toFixed(2);
                                 const stockStatus = product.quantity > 0 ?
                                     '<span class="instock">In stock</span>' :
                                     '<span class="out-stock">Out of stock</span>';
 
-                                const discount = product.discount ? product.discount.discount_value : 0;
                                 const quantityLimited = product.discount ? product.discount
                                     .quantity_limited : 0;
 
-                                productGrid.append(`
-                            <div class="product-card" data-product-id="${product.id}">
-                                ${hasDiscount ? `<span class="discount-amount text-white bg-danger text-left">${discount}% OFF</span>` : ''}
-                                <input type="hidden" class="discount_value" data-discount="${discount}" name="discount" value="${discount}">
-                                <input type="hidden" data-quantity_limited="${quantityLimited}" name="quantity_limited" value="${quantityLimited}">
-                                <input type="hidden" name="stock" data-stock="${product.quantity}" value="${product.quantity}">
-                                <img src="${product.thumbnail}" alt="${product.name}">
-                                <p class="product-title">${product.name}</p>
-                                <div class="div-price">
-                                    <p class="product-price discount-price mb-0 text-bold ">$${discountedPrice}</p>
-                                    ${hasDiscount ? `<p class="product-price original-price text-decoration-line-through mb-0 ">$${originalPrice}</p>` : ''}
-                                </div>
-                                ${stockStatus}
-                            </div>
-                        `);
+                                    productGrid.append(`
+                                        <div class="product-card" data-product-id="${product.id}" data-discount-type="${discountType}">
+                                            ${hasDiscount ? `<span class="discount-amount text-white bg-danger text-left">
+                                                ${discountType === 'percentage' ? discountValue + '% Off' : '$' + discountValue + ' Off'}
+                                            </span>` : ''}
+                                            <input type="hidden" class="discount_value" data-discount="${discountValue}" name="discount" value="${discountValue}">
+                                            <input type="hidden" data-quantity_limited="${quantityLimited}" name="quantity_limited" value="${quantityLimited}">
+                                            <input type="hidden" name="stock" data-stock="${product.quantity}" value="${product.quantity}">
+                                            <img src="${product.thumbnail}" alt="${product.name}">
+                                            <p class="product-title">${product.name}</p>
+                                            <div class="div-price">
+                                                <p class="product-price discount-price mb-0 text-bold ">$${discountedPrice}</p>
+                                                ${hasDiscount ? `<p class="product-price original-price text-decoration-line-through mb-0 ">$${originalPriceFormatted}</p>` : ''}
+                                            </div>
+                                            ${stockStatus}
+                                        </div>
+                                    `);
+
                             });
                         } else {
                             productGrid.append('<p>No products found.</p>');
@@ -218,6 +232,7 @@
                 }
             });
         }
+
 
 
         $('#product-table').on('click', '.btn-delete', function() {
@@ -237,6 +252,7 @@
             const productId = product.data('product-id');
             const productName = product.find('.product-title').text();
             const stock = product.find('input[name="stock"]').data('stock');
+            const discount_type = product.data('discount-type');5
             const discount_value = product.find('.discount_value').attr('data-discount');
 
             const originalPriceElement = product.find('.product-price.text-decoration-line-through');
@@ -261,13 +277,13 @@
                     toastr.error('Product out of stock!');
                     return;
                 }
-                quantity = updateExistingRow(existingRow, quantityLimited, originalPrice, discountedPrice);
+                quantity = updateExistingRow(existingRow, quantityLimited, originalPrice, discountedPrice,);
             } else {
                 if (stock === 0) {
                     toastr.error('No stock available');
                     return;
                 }
-                addNewRow(productId, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock,
+                addNewRow(productId,discount_type, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock,
                     discount_value);
             }
             updateTotals();
@@ -339,14 +355,14 @@
             return quantity;
         }
 
-        function addNewRow(productId, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock,
+        function addNewRow(productId,discount_type, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock,
             discount_value) {
             const subtotal = calculateSubtotal(quantity, quantityLimited, originalPrice, discountedPrice);
             // const priceToUse = quantity > quantityLimited ? originalPrice : discountedPrice;
             const priceToUse = originalPrice;
             const priceToUseformat = (priceToUse).toFixed(2);
             const row = `
-            <tr data-product-id="${productId}" data-original-price="${originalPrice}" data-discounted-price="${discountedPrice}" data-quantity-limited="${quantityLimited}" data-stock="${stock}" data-discount="${discount_value}">
+            <tr data-product-id="${productId}" data-discount-type="${discount_type}" data-original-price="${originalPrice}" data-discounted-price="${discountedPrice}" data-quantity-limited="${quantityLimited}" data-stock="${stock}" data-discount="${discount_value}">
                 <td>${productName}</td>
                 <td class="button-limit">
                     <input type="hidden" name="product_id" value="${productId}">
@@ -495,6 +511,7 @@
                 const productName = row.find('td:first').text().trim();
                 const quantity = parseInt(row.find('.quantity').text());
                 const subtotal = parseFloat(row.find('.subtotal').text().replace('$', ''));
+                const rowdiscounttype = row.data('discount-type');
                 const productDiscount = parseFloat(row.attr('data-discount') || 0);
 
 
@@ -503,17 +520,20 @@
                     productName,
                     quantity,
                     subtotal,
-                    productDiscount
+                    rowdiscounttype,
+                    productDiscount,
                 });
             });
 
             let orderDetailsHtml = '';
             productOrders.forEach((order) => {
+                const discountDisplay = order.rowdiscounttype === 'percentage' ? `%${order.productDiscount.toFixed(2)}` : `$${order.productDiscount.toFixed(2)}`;
                 orderDetailsHtml += `
                     <tr>
                         <td>${order.productName}</td>
                         <td>${order.quantity}</td>
-                        <td>%${order.productDiscount.toFixed(2)}</td>
+                        <td>${order.rowdiscounttype}</td>
+                        <td>${discountDisplay}</td>
                         <td>${order.subtotal.toFixed(2)}$</td>
                     </tr>
                 `;
@@ -526,6 +546,8 @@
             $('#payment_modal #customer_id').val(customer_id);
             $('#payment_modal #totaldiscount').val(totaldiscount);
             $('#payment_modal #discount_type').val(discountType);
+            $('#payment_modal #hidden_recieve_display').val(total.toFixed(2));
+            $('#payment_modal #recieve_display').text(total.toFixed(2));
             $('#payment_modal #subtotal_before_discount').val(subtotalbeforeDiscount);
 
             $('#payment_modal').modal('show');

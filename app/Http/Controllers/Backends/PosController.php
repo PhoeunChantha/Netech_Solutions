@@ -302,7 +302,9 @@ class PosController extends Controller
                 $orderDetail->quantity = $product['quantity'];
                 $orderDetail->unit_price = $product['unit_price'];
                 $orderDetail->price = $product['subtotal'];
+                $orderDetail->discount = $product['rowdiscounttype'];
                 $orderDetail->discount = $product['discount'];
+
                 $orderDetail->save();
 
                 $productModel = Product::find($product['product_id']);

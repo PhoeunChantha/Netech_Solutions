@@ -214,9 +214,11 @@
                     <tr>
 
                         <th style="width: 10%">QTY</th>
-                        <th style="width: 50%">Description</th>
+                        <th style="width: 50%">Product Name</th>
                         <th style="width: 20%">Unit Price</th>
+                        <th style="width: 20%">Discount Type</th>
                         <th style="width: 20%">Amount</th>
+                        <th style="width: 20%">Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -225,6 +227,14 @@
                             <td>{{ $item->quantity ?? '' }}</td>
                             <td>{{ $item->product->name ?? '' }}</td>
                             <td>{{ number_format(optional($item->product)->price, 2) ?? 'N/A' }}$</td>
+                            <td>{{ $item->discount_type ?? '' }}</td>
+                            <td>
+                                @if($item->discount_type == 'percentage')
+                                    {{ number_format($item->discount, 2) ?? '' }}%
+                                @else
+                                    {{ number_format($item->discount, 2) ?? '' }}$
+                                @endif
+                            </td>
                             <td>{{ number_format($item->price, 2) ?? '' }}$</td>
                         </tr>
                     @endforeach
@@ -234,15 +244,15 @@
             <!-- Total Section -->
             <div class="total-section">
                 <div class="total-row">
-                    <span class="total-label">Subtotal:</span>
+                    <span class="total-label">{{__('Subtotal')}}:</span>
                     <span>{{ number_format($invoice->total_amount, 2) ?? '' }}$</span>
                 </div>
                 <div class="total-row">
-                    <span class="total-label">Discount:</span>
+                    <span class="total-label">{{__('Discount')}}:</span>
                     <span>{{ number_format($invoice->discount_amount, 2) ?? '' }}$</span>
                 </div>
                 <div class="total-row">
-                    <span class="total-label total">Total:</span>
+                    <span class="total-label total">{{__('Total')}}:</span>
                     <span class="total">{{ number_format($invoice->total_amount, 2) ?? '' }}$</span>
                 </div>
             </div>

@@ -1,6 +1,6 @@
  <!-- Payment Modal -->
  <div class="modal" tabindex="-1" id="payment_modal">
-     <div class="modal-dialog modal-xl modal-dialog-centered ">
+     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
          <div class="modal-content">
              <div class="modal-header">
                  <h5 class="modal-title">{{ __('Payment') }}</h5>
@@ -20,6 +20,7 @@
                                  <tr>
                                      <th>{{ __('Product') }}</th>
                                      <th>{{ __('Quantity') }}</th>
+                                     <th>{{ __('Discount Type') }}</th>
                                      <th>{{ __('Discount') }}</th>
                                      <th>{{ __('Subtotal') }}</th>
                                  </tr>
@@ -249,7 +250,9 @@
                      quantity: $(this).find('.quantity').text(),
                      unit_price: $(this).find('.unit-price').text().replace('$', ''),
                      subtotal: $(this).find('.subtotal').text().replace('$', ''),
-                     discount: $(this).attr('data-discount')
+                     discount: $(this).attr('data-discount'),
+                     rowdiscounttype: $(this).data('discount-type')
+
                  });
              });
 
