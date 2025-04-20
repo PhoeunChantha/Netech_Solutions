@@ -1,5 +1,5 @@
 <div class="card-body p-0 table-wrapper ">
-    <table class="table">
+    <table class="table dataTable">
         <thead>
             <tr>
                 <th>#</th>
@@ -39,7 +39,7 @@
                     </td>
 
                     <td>
-                        @if (auth()->user()->can('message.reply'))
+                        @if (auth()->user()->can('message.edit'))
                             <a href="#" data-href="{{ route('admin.contact.replysms', $contact->id) }}"
                                 class="btn btn-info btn-sm btn-modal view-btn" data-container=".modal_form"
                                 data-toggle="modal" data-id="{{ $contact->id }}">
@@ -47,7 +47,7 @@
                                 {{ __('Reply Message') }}
                             </a>
                         @endif
-                        @if (auth()->user()->can('contact.delete'))
+                        @if (auth()->user()->can('message.delete'))
                             <form action="{{ route('admin.contact.destroy', $contact->id) }}"
                                 class="d-inline-block form-delete-{{ $contact->id }}">
                                 @csrf
@@ -67,7 +67,7 @@
         </tbody>
     </table>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
                 <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
@@ -77,5 +77,5 @@
                 <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $contacts->links() }}</div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>

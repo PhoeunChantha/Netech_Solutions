@@ -65,84 +65,10 @@
         });
 
     });
-</script>
-<script>
     $(document).ready(function() {
-        if ($('#OrderdataTable').length && $('#OrderdataTableButtons').length) {
-            if ($.fn.DataTable.isDataTable('#OrderdataTable')) {
-                $('#OrderdataTable').DataTable().clear().destroy();
-                // $('#dataTable').empty();
-            }
-            setTimeout(function() {
-                let OrderdataTable;
-                let actionColumnIndex = -1;
-                $('#OrderdataTable thead th').each(function(index) {
-                    let columnText = $(this).text().trim().toLowerCase();
-                    if (columnText.includes('action')) {
-                        actionColumnIndex = index;
-                    }
-                });
-
-                OrderdataTable = $('#OrderdataTable').DataTable({
-                    responsive: true,
-                    dom: '<"d-flex justify-content-between align-items-center"lfB>rtip',
-                    buttons: [{
-                            extend: 'csv',
-                            text: '<i class="fas fa-file-csv"></i> Export to CSV',
-                            exportOptions: {
-                                columns: ':visible:not(:last-child)'
-                            }
-                        },
-                        {
-                            extend: 'excel',
-                            text: '<i class="fas fa-file-excel"></i> Export to Excel',
-                            exportOptions: {
-                                columns: ':visible:not(:last-child)'
-                            }
-                        },
-                        {
-                            extend: 'print',
-                            text: '<i class="fas fa-print"></i> Print',
-                            exportOptions: {
-                                columns: ':visible:not(:last-child)'
-                            }
-                        },
-                        {
-                            extend: 'colvis',
-                            text: '<i class="fas fa-columns"></i> Column Visibility'
-                        },
-                        {
-                            extend: 'pdf',
-                            text: '<i class="fas fa-file-pdf"></i> Export to PDF',
-                            exportOptions: {
-                                columns: ':visible:not(:last-child)'
-                            }
-                        },
-                    ],
-                    columnDefs: actionColumnIndex !== -1 ? [{
-                        orderable: false,
-                        targets: actionColumnIndex
-                    }] : [],
-                    language: {
-                        search: "",
-                        searchPlaceholder: "Search..."
-                    },
-                    pagingType: "full_numbers"
-
-                });
-
-                if ($('#OrderdataTableButtons').length) {
-                    $('.dataTables_length').prependTo('#OrderdataTableButtons');
-                    OrderdataTable.buttons().container().appendTo('#OrderdataTableButtons');
-                    $('.dataTables_filter').appendTo('#OrderdataTableButtons');
-                } else {
-                    console.error("Div #OrderdataTableButtons not found.");
-                }
-            }, 100);
-
-        } else {
-            console.error("Table #dataTable or Div #OrderdataTableButtons not found.");
-        }
+        $('[data-toggle="tooltip"]').tooltip({
+            template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner" style="background-color: white; color: black; border: 1px solid #ccc;"></div></div>'
+        });
     });
 </script>
 <!-- DataTables JS -->
@@ -277,19 +203,7 @@
         });
 
 
-        // $(".table").DataTable({
-        // "responsive": true, "lengthChange": false, "autoWidth": false,
-        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        // $('#example2').DataTable({
-        // "paging": true,
-        // "lengthChange": false,
-        // "searching": false,
-        // "ordering": true,
-        // "info": true,
-        // "autoWidth": false,
-        // "responsive": true,
-        // });
+       
     });
 </script>
 

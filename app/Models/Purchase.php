@@ -23,6 +23,12 @@ class Purchase extends Model
     {
         return $this->belongsTo(Product::class);
     }
-
-    
+    public function purchaseDetails()
+    {
+        return $this->hasMany(PurchaseDetail::class);
+    }
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

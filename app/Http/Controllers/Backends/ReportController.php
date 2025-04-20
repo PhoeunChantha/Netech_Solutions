@@ -8,6 +8,8 @@ use App\Models\Customer;
 use App\Models\OrderDetail;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\BusinessSetting;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class ReportController extends Controller
@@ -16,10 +18,16 @@ class ReportController extends Controller
     {
 
         if ($request->ajax()) {
-            $orderReport = Order::with('orderdetails', 'customer');
+            $orderReport = Order::with('orderdetails', 'customer')->orderBy('created_at', 'desc');
 
             if ($request->filled('customer_id')) {
                 $orderReport->where('customer_id', $request->customer_id);
+            }
+            if ($request->filled('payment_status')) {
+                $orderReport->where('payment_status', $request->payment_status);
+            }
+            if ($request->filled('payment_method')) {
+                $orderReport->where('payment_method', $request->payment_method);
             }
 
             if ($request->filled('order_date')) {
@@ -71,6 +79,9 @@ class ReportController extends Controller
                     }
                     return 'Walk-in Customer';
                 })
+                ->addColumn('action', function ($orderReport) {
+                    return view('backends.reports.action', compact('orderReport'))->render();
+                })
                 
                 ->editColumn('created_at', function ($orderReport) {
                     return $orderReport->created_at ? \Carbon\Carbon::parse($orderReport->created_at)->format('d M, Y') : '-';
@@ -78,13 +89,25 @@ class ReportController extends Controller
                 ->editColumn('discount', function ($orderReport) {
                     return $orderReport->discount_type === 'percent' ? $orderReport->discount . '%' : '$' . number_format($orderReport->discount, 2);
                 })
+               
+                ->editColumn('payment_status', function ($orderReport) {
+                    return $orderReport->payment_status === 'due'
+                        ? '<span class="badge badge-warning">Due</span>'
+                        : '<span class="badge badge-success">Paid</span>';
+                })
+                ->editColumn('payment_method', function ($orderReport) {
+                    return $orderReport->payment_method;
+                })
+                ->editColumn('order_quantity', function ($orderReport) {
+                   return $orderReport->orderdetails->count();
+                })
                 ->editColumn('total_before_discount', function ($orderReport) {
                     return '$' . number_format($orderReport->total_before_discount, 2);
                 })
                 ->editColumn('total_amount', function ($orderReport) {
                     return '$' . number_format($orderReport->total_amount, 2);
                 })
-                ->rawColumns(['order_number'])
+                ->rawColumns(['order_number','payment_status','action'])
                 ->with('totalamount', $totalamount)
                 ->make(true);
             }
@@ -135,6 +158,14 @@ class ReportController extends Controller
     
             if ($request->filled('min_amount') && $request->filled('max_amount')) {
                 $transactions->whereBetween('amount', [$request->min_amount, $request->max_amount]);
+            }
+            if ($request->filled('transaction_amount_range')) {
+                $amountRange = explode('-', $request->transaction_amount_range);
+                if (count($amountRange) == 2) {
+                    $transactions->whereBetween('amount', [$amountRange[0], $amountRange[1]]);
+                } else {
+                    $transactions->where('amount', '>=', $amountRange[0]);
+                }
             }
     
             if (!empty($request->search_value)) {
@@ -224,6 +255,14 @@ class ReportController extends Controller
             if ($request->filled('min_amount') && $request->filled('max_amount')) {
                 $transactions->whereBetween('amount', [$request->min_amount, $request->max_amount]);
             }
+            if ($request->filled('transaction_amount_range')) {
+                $amountRange = explode('-', $request->transaction_amount_range);
+                if (count($amountRange) == 2) {
+                    $transactions->whereBetween('amount', [$amountRange[0], $amountRange[1]]);
+                } else {
+                    $transactions->where('amount', '>=', $amountRange[0]);
+                }
+            }
     
             if (!empty($request->search_value)) {
                 $search = $request->search_value;
@@ -274,8 +313,54 @@ class ReportController extends Controller
 
     public function Reportdetail($id)
     {
-        $report = Order::find($id);
+        $report = Order::with('customer')->find($id);
         $items = OrderDetail::with('product')->where('order_id', $report->id)->get();
         return view('backends.reports.report_detail', compact('report', 'items'));
+    }
+
+    /**
+     * printReport
+     */
+    
+    public function printReport(Request $request, $id){
+        $orderId = $request->id;
+        $invoice = Order::with(['customer', 'orderdetails.product','user'])->findOrFail($orderId);
+        $businessCollection = BusinessSetting::select('type', 'value')
+            ->whereIn('type', ['company_name', 'company_address', 'phone', 'email'])
+            ->pluck('value', 'type');
+        
+        $business = (object) $businessCollection->toArray();
+    
+        return view('backends.invoice.invoice', compact('invoice', 'business'));
+    }
+    
+     /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $report = Order::findOrFail($id);
+            $orderDetails = OrderDetail::where('order_id', $report->id)->get();
+
+            foreach ($orderDetails as $orderDetail) {
+                $orderDetail->delete();
+            }
+            $report->delete();
+            DB::commit();
+            return response()->json([
+                'status' => 1,
+                'msg' => __('Deleted successfully')
+            ]);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            \Log::error("Purchase Deletion Error: " . $e->getMessage());
+            return response()->json([
+                'status' => 0,
+                'msg' => __('Something went wrong')
+            ], 500);
+        }
     }
 }

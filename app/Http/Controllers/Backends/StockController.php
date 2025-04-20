@@ -31,17 +31,20 @@ class StockController extends Controller
     // }
     public function index()
     {
-        $stocks = Product::where('status', 1)->where('quantity', '>', 10)
-            ->latest('id')
-            ->paginate(10)->through(function ($product) {
-                $totalOrdered = $product->orderDetails->sum('quantity');
-                return [
-                    'code' => $product->code,
-                    'product_name' => $product->name,
-                    'total_ordered' => $totalOrdered,
-                    'stock_available' => $product->quantity,
-                ];
-            });
+        $stocks = Product::with('orderDetails')
+        ->where('status', 1)
+        ->where('quantity', '<', 10)
+        ->latest('id')
+        ->get()
+        ->map(function ($product) {
+            $totalOrdered = $product->orderDetails->sum('quantity');
+            return [
+                'code' => $product->code,
+                'product_name' => $product->name,
+                'total_ordered' => $totalOrdered,
+                'stock_available' => $product->quantity,
+            ];
+        });
 
         return view('backends.stock.index', compact('stocks'));
     }

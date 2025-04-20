@@ -35,23 +35,21 @@
     <!-- ./wrapper -->
 
     @include('backends.layout.script')
-    {{-- <script>
-        $(function() {
-            $('.dataTable').DataTable({
-                "paging": false,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": false,
-                "info": false,
-                "autoWidth": false,
-                "responsive": true,
-                "initComplete": function(settings, json) {
-                    $('.dataTables_filter input').addClass('mt-2 mr-2');
-                }
-            });
+    <script>
+        $('.dataTable').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "responsive": true,
+            "initComplete": function(settings, json) {
+                $('.dataTables_length').addClass('mt-2');
+                $('.dataTables_filter input').addClass('mt-2 mr-2');
+            }
         });
-    </script> --}}
-    
+    </script>
 </body>
 
 </html>

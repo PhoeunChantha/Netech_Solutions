@@ -45,21 +45,33 @@
                             <div class="col-12">
                                 <div class="tab-content" id="custom-content-below-tabContent">
                                     <div class="row">
-                                        <div class="col-sm-6 filter">
+                                        <div class="col-sm-4 filter">
                                             <select name="category_id" id="category_id" class="form-control select2">
-                                                <option value=""
-                                                    {{ !request()->filled('categories') ? 'selected' : '' }}>
+                                                <option value="" selected>
                                                     {{ __('Please Select Category') }}
                                                 </option>
-                                                @foreach ($categories as $cat)
-                                                    <option value="{{ $cat->id }}"
-                                                        {{ $cat->id == request('category_id') ? 'selected' : '' }}>
-                                                        {{ $cat->name }}
+                                                @foreach ($categories as $cate)
+                                                    <option value="{{ $cate->id }}"
+                                                        {{ $cate->id == request('category_id') ? 'selected' : '' }}>
+                                                        {{ $cate->name }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4 filter">
+                                            <select name="brand_id" id="brand_id" class="form-control select2">
+                                                <option value="" selected>
+                                                    {{ __('Please Select Brand') }}
+                                                </option>
+                                                @foreach ($brands as $brand)
+                                                    <option value="{{ $brand->id }}"
+                                                        {{ $brand->id == request('brand_id') ? 'selected' : '' }}>
+                                                        {{ $brand->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
                                             <a href="{{ route('admin.product.index') }}" class="btn btn-danger btn-lg">
                                                 <i class="fa fa-refresh" aria-hidden="true"></i>
                                                 {{ __('Reset') }}
@@ -70,8 +82,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card p-2">
+                        <div class="card-header px-0">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h3 class="card-title">{{ __('Product List') }}</h3>
@@ -79,12 +91,13 @@
                                 {{-- <span class="badge bg-warning total-count">{{ $grades->total() }}</span> --}}
                                 <div class="col-sm-6">
                                     @if (auth()->user()->can('product.create'))
-                                    <a class="btn btn-primary float-right" href="{{ route('admin.product.create') }}">
-                                        <i class=" fa fa-plus-circle"></i>
-                                        {{ __('Add New') }}
-                                    </a>
+                                        <a class="btn btn-primary float-right"
+                                            href="{{ route('admin.product.create') }}">
+                                            <i class=" fa fa-plus-circle"></i>
+                                            {{ __('Add New') }}
+                                        </a>
                                     @endif
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -96,21 +109,22 @@
                     </div>
                 </div>
             </div>
-        </div>
     </section>
     <div class="modal fade modal_form" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
 @endsection
 @push('js')
     <script>
         $(document).ready(function() {
-            $(document).on('change', '#category_id', function(e) {
+            $(document).on('change', '#category_id , #brand_id', function(e) {
                 e.preventDefault();
                 var category_id = $('#category_id').val();
+                var brand_id = $('#brand_id').val();
                 $.ajax({
                     type: "GET",
                     url: '{{ route('admin.product.index') }}',
                     data: {
                         'category_id': category_id
+                        , 'brand_id': brand_id
                     },
                     dataType: "json",
                     success: function(response) {
@@ -125,6 +139,7 @@
                 });
             });
             $('#category_id').select2();
+            $('#brand_id').select2();
         });
     </script>
     <script>

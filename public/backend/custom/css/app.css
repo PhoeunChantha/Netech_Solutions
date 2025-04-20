@@ -4,6 +4,15 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.nav-sidebar .nav-link p {
+    font-size: 14px;
+    font-weight: 500;
+    color: black;
+}
+.nav-sidebar .nav-link:hover p,
+.nav-sidebar .nav-link.active p {
+    color: white !important;
+}
 
 .nav-icon {
     scale: 0.8;

@@ -170,13 +170,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-12 form-group">
-                                    <button type="submit" class="btn btn-primary float-right">
-                                        <i class="fa fa-save"></i>
-                                        {{ __('Save') }}
-                                    </button>
-                                </div>
+                            <div class="col-12 form-group">
+                                <button type="submit" class="btn btn-primary float-right">
+                                    <i class="fa fa-save"></i>
+                                    {{ __('Save') }}
+                                </button>
                             </div>
                         </div>
                     </form>

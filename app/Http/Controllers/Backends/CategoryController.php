@@ -21,8 +21,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::latest('id')->paginate(10);
-        return view('backends.product-category.index', compact('category'));
+        $categories = Category::latest('id')->get();
+        return view('backends.product-category.index', compact('categories'));
     }
 
     /**

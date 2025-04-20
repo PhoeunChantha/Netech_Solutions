@@ -1,5 +1,5 @@
 @extends('backends.master')
-
+@section('page_title', 'Purchase Report')
 @push('css')
     <style>
         .preview {
@@ -18,7 +18,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h3>{{ __('Transactions') }}</h3>
+                    <h3>{{ __('Purchase Report') }}</h3>
                 </div>
                 <div class="col-sm-6" style="text-align: right">
                 </div>
@@ -53,13 +53,12 @@
                                         <div class="col-md-3">
                                             <label>{{ __('Date Range') }}</label>
                                             <input type="text" name="date_range" id="daterangefilter"
-                                                class="form-control daterangefilter transaction-filter"
-                                                value="{{ request('date_range') }}">
+                                                class="form-control daterangefilter" value="{{ request('date_range') }}">
                                         </div>
 
 
                                         <div class="col-md-3">
-                                            <label>{{ __('Transaction Amount') }}</label>
+                                            <label>{{ __('Total Amount') }}</label>
                                             <select name="transaction_amount_range" class="form-control transaction-filter">
                                                 <option value="">All</option>
                                                 <option value="0-100"
@@ -87,16 +86,16 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 mt-2">
                                             <div class="row align-items-center">
                                                 <div class="mt-4 mr-2">
                                                     <button type="button"
                                                         class="btn btn-danger btn-reset-transaction">Reset</button>
                                                 </div>
-                                                <div class="mt-4">
+                                                {{-- <div class="mt-4">
                                                     <button type="submit"
                                                         class="btn btn-primary w-100 btn-filter-transaction">Filter</button>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -108,7 +107,7 @@
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h3 class="card-title">{{ __('Transaction List') }}</h3>
+                                    <h3 class="card-title">{{ __('Report List') }}</h3>
                                 </div>
                                 {{-- <span class="badge bg-warning total-count">{{ $grades->total() }}</span> --}}
 
@@ -166,7 +165,28 @@
                             extend: 'print',
                             text: '<i class="fas fa-print"></i> Print',
                             exportOptions: {
-                                columns: ':visible:not(:last-child)'
+                                columns: ':visible',
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            footer: true,
+                            customize: function(win) {
+                                $(win.document.body).css('font-size', '10pt');
+                                $(win.document.body).find('table').addClass('table table-bordered');
+
+                                var footer = $(win.document.body).find('tfoot');
+                                footer.show();
+                                footer.css({
+                                    'font-weight': 'bold',
+                                    'background-color': '#D2D6DE',
+                                    'text-align': 'right'
+                                });
+
+                                $(win.document.body).css({
+                                    'padding': '10mm',
+                                    'margin': '0'
+                                });
                             }
                         },
                         {
@@ -179,7 +199,7 @@
                             exportOptions: {
                                 columns: ':visible:not(:last-child)'
                             }
-                        },
+                        }
                     ],
                     ajax: {
                         url: "{{ route('admin.expense-report.expense') }}",
@@ -205,25 +225,27 @@
                             }
                         },
                         {
-                            data: "transaction_type",
-                            name: "transaction_type"
+                            data: "transaction_date",
+                            name: "transaction_date"
                         },
+                        
                         {
                             data: "product_name",
                             name: "product_name",
                             defaultContent: "-"
                         },
-                        {
-                            data: "amount",
-                            name: "amount"
-                        },
+
                         {
                             data: "quantity",
                             name: "quantity"
                         },
                         {
-                            data: "transaction_date",
-                            name: "transaction_date"
+                            data: "transaction_type",
+                            name: "transaction_type"
+                        },
+                        {
+                            data: "amount",
+                            name: "amount"
                         },
                         {
                             data: "description",
@@ -266,6 +288,13 @@
 
                 $('.transaction-filter').on('change keyup', function(e) {
                     e.preventDefault();
+                    transactionTable.ajax.reload();
+                });
+                $('#daterangefilter').on('apply.daterangepicker', function(e, picker) {
+                    transactionTable.ajax.reload();
+                });
+                $('#daterangefilter').on('cancel.daterangepicker', function(e, picker) {
+                    $(this).val('');
                     transactionTable.ajax.reload();
                 });
 

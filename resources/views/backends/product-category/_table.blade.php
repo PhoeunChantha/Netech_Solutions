@@ -1,5 +1,5 @@
 <div class="card-body p-0 table-wrapper">
-    <table class="table">
+    <table class="table dataTable table-hover">
         <thead>
             <tr>
                 <th>#</th>
@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($category as $cate)
+            @foreach ($categories as $cate)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>
@@ -38,44 +38,40 @@
                         @endif
                     </td>
                     <td>
-                        @if (auth()->user()->can('product_category.edit'))
-                            <a href="#" data-href="{{ route('admin.product-category.edit', $cate->id) }}"
-                                class="btn btn-info btn-sm btn-modal btn-edit" data-toggle="modal"
-                                data-container=".modal_form">
-                                <i class="fas fa-pencil-alt"></i>
-                                {{ __('Edit') }}
-                            </a>
-                        @endif
-                        @if (auth()->user()->can('product_category.delete'))
-                            <form action="{{ route('admin.product-category.destroy', $cate->id) }}"
-                                class="d-inline-block form-delete-{{ $cate->id }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" data-id="{{ $cate->id }}"
-                                    data-href="{{ route('admin.product-category.destroy', $cate->id) }}"
-                                    class="btn btn-danger btn-sm btn-delete">
-                                    <i class="fa fa-trash-alt"></i>
-                                    {{ __('Delete') }}
-                                </button>
-                            </form>
-                        @endif
+                        <div class="btn-group dropleft">
+                            <button class="btn btn-info btn-sm dropdown-toggle" type="button"
+                                id="actionDropdown{{ $cate->id }}" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                {{ __('Actions') }}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-left"
+                                aria-labelledby="actionDropdown{{ $cate->id }}">
+                                @if (auth()->user()->can('product_category.edit'))
+                                    <a href="#" data-href="{{ route('admin.product-category.edit', $cate->id) }}"
+                                        class="btn btn-info dropdown-item btn-sm btn-modal btn-edit" data-toggle="modal"
+                                        data-container=".modal_form">
+                                        <i class="fas fa-pencil-alt"></i>
+                                        {{ __('Edit') }}
+                                    </a>
+                                @endif
+                                @if (auth()->user()->can('product_category.delete'))
+                                    <form action="{{ route('admin.product-category.destroy', $cate->id) }}"
+                                        class="d-inline-block form-delete-{{ $cate->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" data-id="{{ $cate->id }}"
+                                            data-href="{{ route('admin.product-category.destroy', $cate->id) }}"
+                                            class="btn btn-danger dropdown-item btn-sm btn-delete">
+                                            <i class="fa fa-trash-alt"></i>
+                                            {{ __('Delete') }}
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-
-    <div class="row">
-        <div class="col-12 d-flex flex-row flex-wrap">
-            <div class="row" style="width: -webkit-fill-available;">
-                <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
-                    {{ __('Showing') }} {{ $category->firstItem() }} {{ __('to') }} {{ $category->lastItem() }}
-                    {{ __('of') }} {{ $category->total() }} {{ __('entries') }}
-                </div>
-                <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $category->links() }}</div>
-            </div>
-        </div>
-    </div>
-
-
 </div>

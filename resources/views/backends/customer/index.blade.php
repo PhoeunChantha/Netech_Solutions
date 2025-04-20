@@ -69,28 +69,23 @@
                             </div>
                         </div>
                     </div> --}}
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card p-2">
+                        <div class="card-header px-0">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h3 class="card-title">{{ __('Employee List') }}</h3>
                                 </div>
-                                {{-- <span class="badge bg-warning total-count">{{ $grades->total() }}</span> --}}
                                 <div class="col-sm-6">
                                     @if (auth()->user()->can('customer.create'))
-                                    <a class="btn btn-primary float-right" href="{{ route('admin.customer.create') }}">
-                                        <i class=" fa fa-plus-circle"></i>
-                                        {{ __('Add New') }}
-                                    </a>
+                                        <a class="btn btn-primary float-right" href="{{ route('admin.customer.create') }}">
+                                            <i class=" fa fa-plus-circle"></i>
+                                            {{ __('Add New') }}
+                                        </a>
                                     @endif
                                 </div>
                             </div>
                         </div>
-                        <!-- /.card-header -->
-
-                        {{-- table --}}
                         @include('backends.customer._table')
-
                     </div>
                 </div>
             </div>
@@ -100,21 +95,6 @@
 @endsection
 @push('js')
     <script>
-        $('.btn_add').click(function(e) {
-            var tbody = $('.tbody');
-            var numRows = tbody.find("tr").length;
-            $.ajax({
-                type: "get",
-                url: window.location.href,
-                data: {
-                    "key": numRows
-                },
-                dataType: "json",
-                success: function(response) {
-                    $(tbody).append(response.tr);
-                }
-            });
-        });
 
         $(document).on('click', '.btn-edit', function() {
             $("div.modal_form").load($(this).data('href'), function() {

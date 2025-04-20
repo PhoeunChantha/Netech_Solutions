@@ -18,7 +18,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h3>{{ __('Phurchase') }}</h3>
+                    <h3>{{ __('Purchase') }}</h3>
                 </div>
                 <div class="col-sm-6" style="text-align: right">
                 </div>
@@ -48,38 +48,39 @@
                                         <div class="col-md-3">
                                             <label>{{ __('Supplier Name') }}</label>
                                             <input type="text" name="supplier_name"
-                                                value="{{ request('supplier_name') }}" class="form-control">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>{{ __('Product Name') }}</label>
-                                            <input type="text" name="product_name" value="{{ request('product_name') }}"
-                                                class="form-control">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>{{ __('Purchase Date') }}</label>
-                                            <input type="text" name="purchase_date"
-                                                value="{{ request('purchase_date') }}" class="form-control datepicker">
+                                                value="{{ request('supplier_name') }}" class="form-control purchase_filter">
                                         </div>
 
                                         <div class="col-md-3">
                                             <label>{{ __('Date Range') }}</label>
                                             <input type="text" name="date_range" id="daterangefilter"
-                                                class="form-control daterangefilter "
-                                                value="{{ request('date_range') }}">
+                                                class="form-control daterangefilter " value="{{ request('date_range') }}">
                                         </div>
                                         <div class="col-md-3">
                                             <label>{{ __('Purchase Status') }}</label>
-                                            <select name="purchase_status" class="form-control">
+                                            <select name="purchase_status" class="form-control purchase_filter">
                                                 <option value="">All</option>
                                                 <option value="Pending"
                                                     {{ request('purchase_status') == 'Pending' ? 'selected' : '' }}>
                                                     Pending</option>
-                                                <option value="Completed"
-                                                    {{ request('purchase_status') == 'Completed' ? 'selected' : '' }}>
-                                                    Completed</option>
+                                                <option value="Recieved"
+                                                    {{ request('purchase_status') == 'Recieved' ? 'selected' : '' }}>
+                                                    Recieved</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3">
+                                            <label>{{ __('Payment Status') }}</label>
+                                            <select name="Payment_status" class="form-control purchase_filter">
+                                                <option value="">All</option>
+                                                <option value="Paid"
+                                                    {{ request('Payment_status') == 'Paid' ? 'selected' : '' }}>
+                                                    Paid</option>
+                                                <option value="Due"
+                                                    {{ request('Payment_status') == 'Due' ? 'selected' : '' }}>
+                                                    Due</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3" hidden>
                                             <div class="row mt-2  align-items-center">
                                                 <div class="mt-4 mr-2">
                                                     <button class="btn btn-danger w-100 btn-reset">Reset</button>
@@ -99,7 +100,7 @@
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h3 class="card-title">{{ __('Phurchase List') }}</h3>
+                                    <h3 class="card-title">{{ __('Purchase List') }}</h3>
                                 </div>
                                 {{-- <span class="badge bg-warning total-count">{{ $grades->total() }}</span> --}}
                                 <div class="col-sm-6">
@@ -122,10 +123,22 @@
             </div>
         </div>
     </section>
-    {{-- <div class="modal fade modal_form" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div> --}}
+    <div class="modal fade modal_form" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
+
 @endsection
 @push('js')
+    {{-- <script>
+        $(document).on('click', '.detail-row', function() {
+            console.log($(this).data('href'));
+            let url = $(this).data('href');
 
+            if (url) {
+                $("div.modal_form").load(url, function() {
+                    $(this).modal('show');
+                });
+            }
+        });
+    </script> --}}
     <script>
         $(document).on('click', '.change_status', function(e) {
             e.preventDefault();
@@ -150,8 +163,8 @@
 
                         let statusClasses = {
                             'Pending': 'btn-warning',
-                            'Completed': 'btn-primary disabled',
-                            'Canceled': 'btn-danger'
+                            'Recieved': 'btn-primary disabled',
+                            'Ordered': 'btn-danger'
                         };
 
                         button.removeClass('btn-warning btn-primary btn-danger')
@@ -266,18 +279,27 @@
                         },
                     ],
                     ajax: {
-                        url: "{{ route('admin.purchases.index') }}", 
+                        url: "{{ route('admin.purchases.index') }}",
                         type: "GET",
                         data: function(d) {
                             d.supplier_name = $('input[name="supplier_name"]').val();
                             d.product_name = $('input[name="product_name"]').val();
-                            d.purchase_date = $('input[name="purchase_date"]').val();
                             d.date_range = $('input[name="date_range"]').val();
                             d.purchase_status = $('select[name="purchase_status"]').val();
+                            d.payment_status = $('select[name="Payment_status"]').val();
                             d.search_value = $('#purchaseTable_filter input').val();
                         },
                         dataSrc: function(json) {
-                            $('#totalpurchase').text('$' + parseFloat(json.totalpurchase).toFixed(2));
+                            const formatter = new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2
+                            });
+
+                            $('#totalpurchase').text(formatter.format(json.totalpurchase || 0));
+                            $('#totalpurchasedue').text(formatter.format(json.totalpurchasedue || 0));
+                            $('#totalpurchasepaid').text(formatter.format(json.totalpurchasepaid || 0));
+
                             return json.data;
                         },
                         error: function(xhr, error, thrown) {
@@ -292,28 +314,10 @@
                                     1;
                             }
                         },
-
                         {
                             data: "supplier.name",
                             name: "supplier.name",
                             defaultContent: "-"
-                        },
-                        {
-                            data: "product.name",
-                            name: "product.name",
-                            defaultContent: "-"
-                        },
-                        {
-                            data: "quantity",
-                            name: "quantity"
-                        },
-                        {
-                            data: "unit_cost",
-                            name: "unit_cost"
-                        },
-                        {
-                            data: "total_cost",
-                            name: "total_cost"
                         },
                         {
                             data: "purchase_date",
@@ -324,12 +328,43 @@
                             name: "purchase_status"
                         },
                         {
+                            data: "payment_status",
+                            name: "payment_status",
+                        },
+                        {
+                            data: "total_cost",
+                            name: "total_cost"
+                        },
+                        {
+                            data: "payment_due",
+                            name: "payment_due"
+                        },
+                        {
+                            data: "dollar_amount",
+                            name: "dollar_amount"
+                        },
+                        {
+                            data: "createdBy.name",
+                            name: "createdBy.name",
+                            defaultContent: "-"
+                        },
+                        {
                             data: "actions",
                             name: "actions",
                             orderable: false,
-                            searchable: false
+                            searchable: false,
+                            className: 'actions-column'
                         }
                     ],
+                    createdRow: function(row, data, dataIndex) {
+                        $(row)
+                            .addClass('detail-row')
+                            .attr({
+                                'style': 'cursor: pointer;',
+                                'data-href': `{{ route('admin.purchases.purchase_detail', ':id') }}`
+                                    .replace(':id', data.id)
+                            });
+                    },
                     language: {
                         search: "",
                         searchPlaceholder: "Search...",
@@ -339,7 +374,8 @@
                         paginate: {
                             next: "Next",
                             previous: "Previous"
-                        }
+                        },
+                        processing: '<div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div>'
                     }
                 });
                 if ($('#purchaseTableButtons').length) {
@@ -349,12 +385,32 @@
                 } else {
                     console.error("Div #purchaseTableButtons not found.");
                 }
-                $('#purchaseTable_filter input').on('keyup', function() {
+
+                purchaseTable.on('click', '.detail-row', function(e) {
+                    if ($(e.target).closest('.btn-group, .dropdown-menu').length) {
+                        return;
+                    }
+                    const url = $(this).data('href');
+                    if (url) {
+                        $("div.modal_form").load(url, function() {
+                            $(this).modal('show');
+                        });
+                    }
+                });
+                $('.purchaseTable_filter input').on('change', function() {
                     purchaseTable.ajax.reload();
                 });
 
-                $('.btn-filter').on('click', function(e) {
-                    e.preventDefault();
+                $('.purchase_filter').on('change keyup',
+                    function(e) {
+                        e.preventDefault();
+                        purchaseTable.ajax.reload();
+                    });
+                $('#daterangefilter').on('apply.daterangepicker', function(e, picker) {
+                    purchaseTable.ajax.reload();
+                });
+                $('#daterangefilter').on('cancel.daterangepicker', function(e, picker) {
+                    $(this).val(''); 
                     purchaseTable.ajax.reload();
                 });
 

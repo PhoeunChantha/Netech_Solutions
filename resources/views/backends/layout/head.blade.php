@@ -54,9 +54,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    
+
 </head>
 <style>
+    .tooltip-inner {
+        background-color: white !important;
+        color: black !important;
+        border: 1px solid #ccc !important;
+    }
+
+    .tooltip-arrow {
+        border-top-color: white !important;
+    }
+
     /* input[type="radio"], */
     input[type="checkbox"] {
         cursor: pointer;
@@ -233,27 +243,28 @@
     }
 </style>
 <style>
-    #OrderdataTableButtons,#sellreportTableButtons {
+    /* ✅ default-dataTable */
+    #defaultdataTableButtons {
         display: flex;
         gap: 15px;
         align-items: center;
     }
 
-    #OrderdataTableButtons,#sellreportTableButtons .dt-buttons {
+    #defaultdataTableButtons .dt-buttons {
         display: flex;
     }
 
-    #OrderdataTableButtons,#sellreportTableButtons .dt-buttons .dt-button {
+    #defaultdataTableButtons .dt-buttons .dt-button {
         margin: 0;
-        border: 1px solid #DDDDDD;
-        border-radius: 0;
-        background: #A1E9C9;
-        color: #229865;
+        background-color: #f4f4f4;
+        color: #444;
+        border-color: #ddd;
         padding: .3rem .65rem;
         font-size: 10px;
     }
 
-    #OrderdataTableButtons,#sellreportTableButtons input[type="search"] {
+    /* ✅ Search Bar & Pagination */
+    #defaultdataTableButtons input[type="search"] {
         height: 27px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -262,26 +273,149 @@
         width: 120px;
     }
 
-    #OrderdataTable_length,#sellreportTable_length label {
+    #defaultdataTable_length label {
         font-size: 12px;
         margin-top: .5rem !important;
     }
 
-    #OrderdataTable_length,#sellreportTable_length label select {
+    #defaultdataTable_length label select {
         width: 4rem;
         height: 1.5rem;
         border-radius: 5px;
     }
 
-    #OrderdataTable_filter,#sellreportTable_filter label {
+    #defaultdataTable_filter label {
         margin: 0;
     }
 
-    #OrderdataTable_info,#sellreportTable_info label{
+    #defaultdataTable_info {
         padding-top: 1.5rem;
     }
 
-    #OrderdataTable_paginate,#sellreportTable_paginate {
+    #defaultdataTable_paginate {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding-block: 0rem;
+        margin-block: 1rem;
+    }
+    
+     /* ✅ Discount Table */
+     #discountTableButtons,#sellreportTableButtons {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    #discountTableButtons .dt-buttons , #sellreportTableButtons .dt-buttons{
+        display: flex;
+    }
+
+    #discountTableButtons .dt-buttons .dt-button , #sellreportTableButtons .dt-buttons .dt-button{
+        margin: 0;
+        background-color: #f4f4f4;
+        color: #444;
+        border-color: #ddd;
+        padding: .3rem .65rem;
+        font-size: 10px;
+    }
+
+    /* ✅ Search Bar & Pagination */
+    #discountTableButtons input[type="search"], #sellreportTableButtons input[type="search"]{
+        height: 27px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        width: 120px;
+    }
+
+    #defaultdataTable_length label,#sellreportTable_length label {
+        font-size: 12px;
+        margin-top: .5rem !important;
+    }
+
+    #discountTable_length label select, #sellreportTable_length label select{
+        width: 4rem;
+        height: 1.5rem;
+        border-radius: 5px;
+    }
+
+    #discountTable_filter label, #sellreportTable_filter label{
+        margin: 0;
+    }
+
+     #sellreportTable_info{
+        padding-top: 1.5rem;
+    }
+
+    #sellreportTable_paginate{
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding-block: 0rem;
+        margin-block: 1rem;
+    }
+    #discountTable_info{
+        padding: 1rem;
+    }
+
+    #discountTable_paginate{
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding-block: 0rem;
+        margin-block: 1rem;
+        margin: 1rem;
+    }
+
+    /* ✅ purchase Table Buttons */
+    #purchaseTableButtons {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    #purchaseTableButtons .dt-buttons {
+        display: flex;
+    }
+
+    #purchaseTableButtons .dt-buttons .dt-button {
+        margin: 0;
+        background-color: #f4f4f4;
+        color: #444;
+        border-color: #ddd;
+        padding: .3rem .65rem;
+        font-size: 10px;
+    }
+
+    /* ✅ Search Bar & Pagination */
+    #purchaseTableButtons input[type="search"] {
+        height: 27px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        width: 120px;
+    }
+
+    #purchaseTable_length label {
+        font-size: 12px;
+        margin-top: .5rem !important;
+    }
+
+    #purchaseTable_length label select {
+        width: 4rem;
+        height: 1.5rem;
+        border-radius: 5px;
+    }
+
+    #purchaseTable_filter label {
+        margin: 0;
+    }
+
+    #purchaseTable_info {
+        padding-top: 1.5rem;
+    }
+
+    #purchaseTable_paginate {
         border: 1px solid #ccc;
         border-radius: 5px;
         padding-block: 0rem;
@@ -301,10 +435,9 @@
 
     #purchaseTableButtons .dt-buttons .dt-button {
         margin: 0;
-        border: 1px solid #DDDDDD;
-        /* border-radius: 5px; */
-        background: #A1E9C9;
-        color: #229865;
+        background-color: #f4f4f4;
+        color: #444;
+        border-color: #ddd;
         padding: .3rem .65rem;
         font-size: 10px;
     }
@@ -345,7 +478,7 @@
         margin-block: 1rem;
     }
 
-     /* ✅ purchase Table Buttons */
+    /* ✅ purchase Table Buttons */
     #purchaseTableButtons {
         display: flex;
         gap: 15px;
@@ -358,10 +491,9 @@
 
     #purchaseTableButtons .dt-buttons .dt-button {
         margin: 0;
-        border: 1px solid #DDDDDD;
-        /* border-radius: 5px; */
-        background: #A1E9C9;
-        color: #229865;
+        background-color: #f4f4f4;
+        color: #444;
+        border-color: #ddd;
         padding: .3rem .65rem;
         font-size: 10px;
     }
@@ -401,9 +533,9 @@
         padding-block: 0rem;
         margin-block: 1rem;
     }
-    
-     /* ✅ Transaction Table Buttons */
-     #transactionTableButtons {
+
+    /* ✅ Transaction Table Buttons */
+    #transactionTableButtons {
         display: flex;
         gap: 15px;
         align-items: center;
@@ -415,10 +547,9 @@
 
     #transactionTableButtons .dt-buttons .dt-button {
         margin: 0;
-        border: 1px solid #DDDDDD;
-        /* border-radius: 5px; */
-        background: #A1E9C9;
-        color: #229865;
+        background-color: #f4f4f4;
+        color: #444;
+        border-color: #ddd;
         padding: .3rem .65rem;
         font-size: 10px;
     }
@@ -497,20 +628,24 @@
 
     .dataTables_wrapper .dataTables_paginate .paginate_button.current,
     .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        background: #FFCEB1 !important;
-        border: 1px solid #B04B00 !important;
-        color: #B04B00 !important;
+        background: linear-gradient(90deg,
+                rgba(243, 49, 247, 1) 8%,
+                rgba(87, 158, 255, 1) 70%) !important;
+        border: 1px solid  rgba(243, 49, 247, 1) !important;
+        color: #F2F6F9 !important;
     }
 
     .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        background: #FFCEB1;
-        border: 1px solid #B04B00;
-        color: #B04B00 !important;
+        background: linear-gradient(90deg,
+                rgba(243, 49, 247, 1) 8%,
+                rgba(87, 158, 255, 1) 70%) !important;
+        border: 1px solid  rgba(243, 49, 247, 1);
+        color: #F2F6F9 !important;
     }
 
     .dataTables_wrapper .dataTables_paginate .paginate_button.current,
     .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-        color: #B04B00 !important;
+        color: #F2F6F9 !important;
     }
 </style>
 @stack('css')

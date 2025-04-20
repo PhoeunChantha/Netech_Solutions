@@ -276,12 +276,21 @@ class PosController extends Controller
             $order->receive_amount = $request->recieve_amount ?? 0;
             $order->order_number = $request->order_number;
             $order->total_amount = $request->total;
+
+            $order->bank_account = $request->bank_account;
             $order->user_id = auth()->user()->id ?? null;
             $order->discount_type = $request->discount_type;
             if ($request->discount_type == 'percent') {
                 $order->discount = $request->totaldiscount ?? 0;
             } else {
                 $order->discount_amount = $request->totaldiscount ?? 0;
+            }
+            $total_paydue = $request->total_amount - $request->recieve_amount;
+            $order->payment_due = $total_paydue < 0 ? 0 : $total_paydue;
+            if ($total_paydue < 0) {
+                $order->payment_status = 'paid';
+            } else {
+                $order->payment_status = 'due';
             }
             $order->payment_method = $request->payment_method;
             $order->payment_note = $request->payment_notes ?? '';
@@ -302,7 +311,7 @@ class PosController extends Controller
                 $orderDetail->quantity = $product['quantity'];
                 $orderDetail->unit_price = $product['unit_price'];
                 $orderDetail->price = $product['subtotal'];
-                $orderDetail->discount = $product['rowdiscounttype'];
+                $orderDetail->discount_type = $product['rowdiscounttype'];
                 $orderDetail->discount = $product['discount'];
 
                 $orderDetail->save();
@@ -336,9 +345,7 @@ class PosController extends Controller
             ]);
         } catch (Exception $e) {
             DB::rollBack();
-            dd($e);
             Log::error('Order Store Error:', ['error' => $e->getMessage()]);
-
             return response()->json([
                 'success' => 0,
                 'msg' => __('Something went wrong. Please try again.'),

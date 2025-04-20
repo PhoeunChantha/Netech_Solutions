@@ -1,5 +1,5 @@
 <div class="btn-group dropleft">
-    <button class="btn btn-info btn-sm dropdown-toggle" type="button"
+    <button style="z-index: 1000;" class="btn btn-info btn-sm dropdown-toggle" type="button"
         id="actionDropdown{{ $purchase->id }}" data-toggle="dropdown" aria-haspopup="true"
         aria-expanded="false">
         {{ __('Actions') }}
@@ -11,7 +11,7 @@
             <i class="fas fa-eye"></i> {{ __('View') }}
         </a> --}}
 
-        <a href="{{ route('admin.purchases.edit', $purchase->id) }}"
+        <a  href="{{ route('admin.purchases.edit', $purchase->id) }}"
             class="dropdown-item btn-edit">
             <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
         </a>

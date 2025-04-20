@@ -38,12 +38,12 @@
                                             <div class=" col-9 d-flex">
                                                 <div class="col-sm-6 filter">
                                                     <label for="start_date"> {{ __('Start Date') }}</label>
-                                                    <input type="date" id="start_date" class="form-control"
+                                                    <input type="text" id="start_date" class="form-control datepicker"
                                                         name="start_date" value="{{ request('start_date') }}">
                                                 </div>
                                                 <div class="col-sm-6 filter">
                                                     <label for="end_date"> {{ __('End Date') }}</label>
-                                                    <input type="date" id="end_date" class="form-control"
+                                                    <input type="text" id="end_date" class="form-control datepicker"
                                                         name="end_date" value="{{ request('end_date') }}">
                                                 </div>
                                             </div>
@@ -65,8 +65,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card p-2">
+                        <div class="card-header px-0">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h3 class="card-title">{{ __('Contact List') }}</h3>

@@ -24,21 +24,28 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-
         $categories = Category::all();
-        $products = Product::with('discount')->when($request->category_id, function ($query) use ($request) {
-            $query->where('category_id', $request->category_id);
-        })->latest('id')->paginate(10);
-
+        $brands = Brand::all();
+    
+        $products = Product::with('discount')
+            ->when($request->category_id, function ($query) use ($request) {
+                $query->where('category_id', $request->category_id);
+            })
+            ->when($request->brand_id, function ($query) use ($request) {
+                $query->where('brand_id', $request->brand_id);
+            })
+            ->latest('id')->get();
+    
         if ($request->ajax()) {
-            $view = view('backends.product._table', compact('products', 'categories'))->render();
+            $view = view('backends.product._table', compact('products', 'categories' ,'brands'))->render();
             return response()->json([
                 'view' => $view
             ]);
         }
-        // $products = Product::latest('id')->paginate(10);
-        return view('backends.product.index', compact('products', 'categories'));
+    
+        return view('backends.product.index', compact('products', 'categories', 'brands'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -68,7 +75,7 @@ class ProductController extends Controller
             'category_id' => 'required',
             'brand_id' => 'required|exists:brands,id',
             'price' => 'required|numeric',
-            'quantity' => 'required|numeric',
+            'default_purchase_price' => 'required|numeric',
         ]);
 
         if (is_null($request->name[array_search('en', $request->lang)])) {
@@ -107,6 +114,7 @@ class ProductController extends Controller
             $product->brand_id = $request->brand_id;
             $product->price = $request->price;
             $product->quantity = $request->quantity;
+            $product->default_purchase_price = $request->default_purchase_price;
             $product->created_by = auth()->user()->id;
             if ($request->hasFile('thumbnail')) {
                 $uploadedThumbnails = [];
@@ -199,9 +207,8 @@ class ProductController extends Controller
             'name' => 'required',
             'category_id' => 'required',
             'brand_id' => 'required|exists:brands,id',
-            // 'operating' => 'required',
-            'quantity' => 'required|numeric',
             'price' => 'required|numeric',
+            'default_purchase_price' => 'required|numeric',
             // 'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
         // dd($validator);
@@ -241,7 +248,7 @@ class ProductController extends Controller
             $product->category_id = $request->category_id;
             $product->specification = $request->specification;
             $product->brand_id = $request->brand_id;
-            // $product->operating_system = $request->operating;
+            $product->default_purchase_price = $request->default_purchase_price;
             $product->price = $request->price;
             $product->quantity = $request->quantity;
             $product->created_by = auth()->user()->id;

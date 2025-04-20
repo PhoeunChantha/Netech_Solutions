@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card">
+                    <div class="card p-2">
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">

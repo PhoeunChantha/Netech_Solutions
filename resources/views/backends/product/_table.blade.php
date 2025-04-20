@@ -5,7 +5,7 @@
     }
 </style>
 <div class="card-body p-0 table-wrapper">
-    <table class="table dataTable">
+    <table class="table dataTable table-hover">
         <thead>
             <tr>
                 <th>#</th>
@@ -122,7 +122,7 @@
         </tbody>
     </table>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
                 <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
@@ -132,7 +132,5 @@
                 <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $products->links() }}</div>
             </div>
         </div>
-    </div>
-
-
+    </div> --}}
 </div>

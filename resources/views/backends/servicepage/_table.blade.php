@@ -1,5 +1,5 @@
 <div class="card-body p-0 table-wrapper">
-    <table class="table dataTable">
+    <table class="table dataTable table-hover">
         <thead>
             <tr>
                 <th>#</th>
@@ -37,50 +37,47 @@
                         @endif
                     </td>
                     <td>
-                        @if (auth()->user()->can('service.edit'))
-                            <a href="#" class="btn btn-info btn-sm btn-view" data-toggle="modal"
-                                data-target="#view-service{{ $service->id }}">
-                                <i class="fas fa-eye"></i>
-                                {{ __('View') }}
-                            </a>
-                        @endif
-                        @if (auth()->user()->can('service.edit'))
-                            <a href="{{ route('admin.service.edit', $service->id) }}"
-                                class="btn btn-info btn-sm btn-edit">
-                                <i class="fas fa-pencil-alt"></i>
-                                {{ __('Edit') }}
-                            </a>
-                        @endif
-                        @if (auth()->user()->can('service.delete'))
-                            <form action="{{ route('admin.service.destroy', $service->id) }}"
-                                class="d-inline-block form-delete-{{ $service->id }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" data-id="{{ $service->id }}"
-                                    data-href="{{ route('admin.service.destroy', $service->id) }}"
-                                    class="btn btn-danger btn-sm btn-delete">
-                                    <i class="fa fa-trash-alt"></i>
-                                    {{ __('Delete') }}
-                                </button>
-                            </form>
-                        @endif
-
+                        <div class="btn-group dropleft">
+                            <button style="z-index: 1000;" class="btn btn-info btn-sm dropdown-toggle" type="button"
+                                id="actionDropdown{{ $service->id }}" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                {{ __('Actions') }}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-left"
+                                aria-labelledby="actionDropdown{{ $service->id }}">
+                                @if (auth()->user()->can('service.edit'))
+                                    <a href="#" class="btn btn-info btn-sm btn-view dropdown-item" data-toggle="modal"
+                                        data-target="#view-service{{ $service->id }}">
+                                        <i class="fas fa-eye"></i>
+                                        {{ __('View') }}
+                                    </a>
+                                @endif
+                                @if (auth()->user()->can('service.edit'))
+                                    <a href="{{ route('admin.service.edit', $service->id) }}"
+                                        class="btn btn-info btn-sm btn-edit dropdown-item">
+                                        <i class="fas fa-pencil-alt"></i>
+                                        {{ __('Edit') }}
+                                    </a>
+                                @endif
+                                @if (auth()->user()->can('service.delete'))
+                                    <form action="{{ route('admin.service.destroy', $service->id) }}"
+                                        class="d-inline-block form-delete-{{ $service->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" data-id="{{ $service->id }}"
+                                            data-href="{{ route('admin.service.destroy', $service->id) }}"
+                                            class="btn btn-danger btn-sm btn-delete dropdown-item">
+                                            <i class="fa fa-trash-alt"></i>
+                                            {{ __('Delete') }}
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 @include('backends.servicepage.view-service')
             @endforeach
         </tbody>
     </table>
-
-    <div class="row">
-        <div class="col-12 d-flex flex-row flex-wrap">
-            <div class="row" style="width: -webkit-fill-available;">
-                <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
-                    {{ __('Showing') }} {{ $services->firstItem() }} {{ __('to') }} {{ $services->lastItem() }}
-                    {{ __('of') }} {{ $services->total() }} {{ __('entries') }}
-                </div>
-                <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $services->links() }}</div>
-            </div>
-        </div>
-    </div>
 </div>

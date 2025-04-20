@@ -1,12 +1,12 @@
-<div class="card-body py-0 table-wrapper">
-    <table class="table table-hover">
+<div class="card-body p-0 table-wrapper">
+    <table class="table table-hover dataTable">
         <thead>
             <tr>
-                <th>Product ID</th>
-                <th>Product Name</th>
+                <th>{{ __('Product Code') }}</th>
+                <th>{{ __('Product Name') }}</th>
                 {{-- <th>Total Purchased</th> --}}
                 <th>Total Ordered</th>
-                <th>Stock Available</th>
+                <th>{{ __('Stock Available') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -26,7 +26,7 @@
             @endforeach
         </tbody>
     </table>
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
                 <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
@@ -36,5 +36,5 @@
                 <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $stocks->links() }}</div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>

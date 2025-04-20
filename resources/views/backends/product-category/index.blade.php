@@ -31,8 +31,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card p-2">
+                        <div class="card-header px-0">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h3 class="card-title">{{ __('Category List') }}</h3>
@@ -44,15 +44,15 @@
                                     <i class=" fa fa-plus-circle"></i>
                                     {{ __('Add New') }}
                                 </a> --}}
-                                @if (auth()->user()->can('product_category.create'))
-                                <a class="btn btn-primary btn-modal float-right" href="#"
-                                    data-href="{{ route('admin.product-category.create') }}" data-toggle="modal"
-                                    data-container=".modal_form">
-                                    <i class=" fa fa-plus-circle"></i>
-                                    {{ __('Add New') }}
-                                </a>
-                                @endif
-                                  
+                                    @if (auth()->user()->can('product_category.create'))
+                                        <a class="btn btn-primary btn-modal float-right" href="#"
+                                            data-href="{{ route('admin.product-category.create') }}" data-toggle="modal"
+                                            data-container=".modal_form">
+                                            <i class=" fa fa-plus-circle"></i>
+                                            {{ __('Add New') }}
+                                        </a>
+                                    @endif
+
 
                                 </div>
                             </div>

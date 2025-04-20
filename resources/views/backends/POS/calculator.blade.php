@@ -14,7 +14,7 @@
                      <input type="hidden" id="totaldiscount" name="totaldiscount" value="">
                      <input type="hidden" id="discount_type" name="discount_type" value="">
                      <input type="hidden" id="subtotal_before_discount" name="subtotal_before_discount" value="">
-                     <div class="col-md-12">
+                     <div class="col-md-12" hidden>
                          <table class="table table-bordered">
                              <thead>
                                  <tr>
@@ -34,7 +34,7 @@
                      <div class="col-md-9">
                          <div class="row d-flex justify-content-center">
                              <div class="col-md-6 payment-calculator">
-                                <div class="form-group">
+                                 <div class="form-group">
                                      <label for="receiveAmount">{{ __('Receive Amount') }}*</label>
                                      <div class="input-group">
                                          <div class="input-group-prepend">
@@ -78,6 +78,11 @@
                                          <option value="Cash">{{ __('Cash') }}</option>
                                          <option value="Bank">{{ __('Bank transfer') }}</option>
                                      </select>
+                                 </div>
+                                 <div class="form-group d-none" id="bank_account">
+                                     <label for="paymentMethod">{{ __('Bank Account No') }}</label>
+                                     <input type="text" name="bank_account" id="bank_account"
+                                         class="form-control" value="">
                                  </div>
 
                                  <div class="form-group mt-5">
@@ -123,6 +128,17 @@
      </div>
  </div>
  @push('js')
+     <script>
+         $(document).ready(function() {
+             $('#paymentMethod').on('change', function() {
+                 if ($(this).val() === 'Bank') {
+                     $('#bank_account').removeClass('d-none');
+                 } else {
+                     $('#bank_account').addClass('d-none');
+                 }
+             });
+         });
+     </script>
      <script>
          $(document).ready(function() {
              $(document).on('click', '.key-pad', function() {
@@ -225,7 +241,7 @@
          $('#confirm-payment-btn').on('click', function() {
              const totalAmount = $('#hidden_payment_display').val();
              const recieveAmount = parseFloat($('#hidden_recieve_display').val());
-             
+
              if (!recieveAmount || isNaN(recieveAmount)) {
                  toastr.error('Please enter the payment amount.');
                  return;
@@ -274,8 +290,14 @@
                      _token: $('meta[name="csrf-token"]').attr('content')
                  },
                  success: function(response) {
+                     $(window).off('beforeunload');
+                     let successSound = new Audio('{{ asset('uploads/order.mp3') }}');
+                     successSound.play();
+
                      toastr.success('Order placed successfully!');
+
                      $('#payment_modal').modal('hide');
+
                      $('#product-table tr').empty();
                      $('.discount-container').text('0.00$');
                      $('.subtotal-container').text('0.00$');
@@ -284,9 +306,12 @@
                      $('#finaltotal').val('');
                      $('#discount').val('');
 
-                     const invoiceUrl = `{{ route('admin.invoice.index') }}?order_id=${response.order_id}`;
+                     const invoiceUrl =
+                         `{{ route('admin.invoice.index') }}?order_id=${response.order_id}`;
                      const posUrl = `{{ route('admin.pos.index') }}`;
+
                      let printWindow = window.open(invoiceUrl, '_blank');
+
                      if (printWindow) {
                          printWindow.onload = function() {
                              printWindow.print();
@@ -294,37 +319,14 @@
 
                          printWindow.onafterprint = function() {
                              printWindow.close();
-                             window.location.href = posUrl; 
+                             window.location.href = posUrl;
                          };
 
-                         let printCanceled = false;
-                         let checkFocus = setInterval(() => {
-                             if (printWindow.closed) {
-                                 clearInterval(checkFocus);
-                                 if (!printCanceled) {
-                                     window.location.href = posUrl; 
-                                 }
-                             }
-                         }, 500);
-
-                         window.onfocus = function() {
-                             setTimeout(() => {
-                                 if (!printWindow.closed) {
-                                     printCanceled = true;
-                                     printWindow.close();
-                                     window.location.href = posUrl;
-                                 }
-                             }, 500);
-                         };
                      } else {
                          window.location.href = posUrl;
                      }
-
-                     //  setTimeout(function() {
-                     //      //   location.reload();
-                     //      $('#invoiceModal').modal('show');
-                     //  }, 2000);
                  },
+
                  error: function() {
                      toastr.error('Failed to place order. Please try again.');
                  }

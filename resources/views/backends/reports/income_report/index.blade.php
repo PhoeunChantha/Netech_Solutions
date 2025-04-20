@@ -1,5 +1,5 @@
 @extends('backends.master')
-
+@section('page_title', 'Income Report')
 @push('css')
     <style>
         .preview {
@@ -18,7 +18,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h3>{{ __('Transactions') }}</h3>
+                    <h3>{{ __('Income Report') }}</h3>
                 </div>
                 <div class="col-sm-6" style="text-align: right">
                 </div>
@@ -47,8 +47,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <label>{{ __('Product Name') }}</label>
-                                            <input type="text" name="product_name"
-                                                value="{{ request('product_name') }}"
+                                            <input type="text" name="product_name" value="{{ request('product_name') }}"
                                                 class="form-control transaction-filter">
                                         </div>
                                         <div class="col-md-3">
@@ -57,15 +56,14 @@
                                                 class="form-control daterangefilter transaction-filter"
                                                 value="{{ request('date_range') }}">
                                         </div>
-                                       
+
                                         <div class="col-md-3">
-                                            <label>{{ __('Transaction Amount') }}</label>
-                                            <select name="transaction_amount_range"
-                                                class="form-control transaction-filter">
+                                            <label>{{ __('Total Amount') }}</label>
+                                            <select name="transaction_amount_range" class="form-control transaction-filter">
                                                 <option value="">All</option>
                                                 <option value="0-100"
-                                                    {{ request('transaction_amount_range') == '0-100' ? 'selected' : '' }}>
-                                                    0 -
+                                                    {{ request('transaction_amount_range') == '0-100' ? 'selected' : '' }}>0
+                                                    -
                                                     100</option>
                                                 <option value="100-500"
                                                     {{ request('transaction_amount_range') == '100-500' ? 'selected' : '' }}>
@@ -88,16 +86,16 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-3 d-flex">
+                                        <div class="col-md-3 d-flex mt-2">
                                             <div class="mt-4 mr-2">
                                                 <button type="button"
                                                     class="btn btn-danger btn-reset-transaction">Reset</button>
                                             </div>
-                                            <div class="mt-4">
+                                            {{-- <div class="mt-4">
                                                 <button type="submit"
                                                     class="btn btn-primary w-100 btn-filter-transaction">Filter</button>
-                                            </div>
-                                            
+                                            </div> --}}
+
                                         </div>
                                     </div>
                                 </form>
@@ -108,7 +106,7 @@
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h3 class="card-title">{{ __('Transaction List') }}</h3>
+                                    <h3 class="card-title">{{ __('Report List') }}</h3>
                                 </div>
                                 {{-- <span class="badge bg-warning total-count">{{ $grades->total() }}</span> --}}
 
@@ -166,7 +164,28 @@
                             extend: 'print',
                             text: '<i class="fas fa-print"></i> Print',
                             exportOptions: {
-                                columns: ':visible:not(:last-child)'
+                                columns: ':visible',
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            footer: true,
+                            customize: function(win) {
+                                $(win.document.body).css('font-size', '10pt');
+                                $(win.document.body).find('table').addClass('table table-bordered');
+
+                                var footer = $(win.document.body).find('tfoot');
+                                footer.show();
+                                footer.css({
+                                    'font-weight': 'bold',
+                                    'background-color': '#D2D6DE',
+                                    'text-align': 'right'
+                                });
+
+                                $(win.document.body).css({
+                                    'padding': '10mm',
+                                    'margin': '0'
+                                });
                             }
                         },
                         {
@@ -179,14 +198,14 @@
                             exportOptions: {
                                 columns: ':visible:not(:last-child)'
                             }
-                        },
+                        }
                     ],
                     ajax: {
                         url: "{{ route('admin.income-report.income') }}",
                         type: "GET",
                         data: function(d) {
-                            d.transaction_amount_range = $(
-                                'select[name="transaction_amount_range"]').val();
+                            d.transaction_amount_range = $('select[name="transaction_amount_range"]')
+                                .val();
                             d.product_name = $('input[name="product_name"]').val();
                             d.customer_name = $('input[name="customer_name"]').val();
                             d.date_range = $('input[name="date_range"]').val();
@@ -205,25 +224,27 @@
                             }
                         },
                         {
-                            data: "transaction_type",
-                            name: "transaction_type"
+                            data: "transaction_date",
+                            name: "transaction_date"
                         },
+                       
                         {
                             data: "product_name",
                             name: "product_name",
                             defaultContent: "-"
                         },
-                        {
-                            data: "amount",
-                            name: "amount"
-                        },
+
                         {
                             data: "quantity",
                             name: "quantity"
                         },
                         {
-                            data: "transaction_date",
-                            name: "transaction_date"
+                            data: "transaction_type",
+                            name: "transaction_type"
+                        },
+                        {
+                            data: "amount",
+                            name: "amount"
                         },
                         {
                             data: "description",
@@ -269,8 +290,14 @@
                         e.preventDefault();
                         transactionTable.ajax.reload();
                     });
+                $('#daterangefilter').on('apply.daterangepicker', function(e, picker) {
+                    transactionTable.ajax.reload();
+                });
+                $('#daterangefilter').on('cancel.daterangepicker', function(e, picker) {
+                    $(this).val('');
+                    transactionTable.ajax.reload();
+                });
 
-               
                 $('.btn-reset-transaction').on('click', function(e) {
                     e.preventDefault();
                     $('select[name="transaction_type"]').val('');

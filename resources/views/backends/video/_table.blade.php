@@ -1,5 +1,5 @@
 <div class="card-body p-0 table-wrapper">
-    <table class="table">
+    <table class="table dataTable">
         <thead>
             <tr>
                 <th>{{ __('#') }}</th>
@@ -17,7 +17,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $video->name }}</td>
-                    <td>{{ substr($video->description, 0, 50) }}{{ strlen($video->description) > 50 ? '...' : '' }}
+                    <td>{{ substr($video->description, 0, 40) }}{{ strlen($video->description) > 50 ? '...' : '' }}
                     </td>
                     <td>{{ $video->video_type }}</td>
                     <td>
@@ -33,12 +33,12 @@
                     <td>{{ $video->createdBy->name ?? 'null' }}</td>
                     <td>
                         @if (auth()->user()->can('video.edit'))
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input switcher_input status"
-                                id="status_{{ $video->id }}" data-id="{{ $video->id }}"
-                                {{ $video->status == 1 ? 'checked' : '' }} name="status">
-                            <label class="custom-control-label" for="status_{{ $video->id }}"></label>
-                        </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input switcher_input status"
+                                    id="status_{{ $video->id }}" data-id="{{ $video->id }}"
+                                    {{ $video->status == 1 ? 'checked' : '' }} name="status">
+                                <label class="custom-control-label" for="status_{{ $video->id }}"></label>
+                            </div>
                         @endif
                     </td>
                     <td>
@@ -76,7 +76,7 @@
             @endforeach
         </tbody>
     </table>
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
                 <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
@@ -86,5 +86,5 @@
                 <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $videos->links() }}</div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>

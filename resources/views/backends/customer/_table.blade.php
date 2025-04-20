@@ -40,31 +40,38 @@
                         @endif
                     </td>
                     <td>
-                        {{-- <a href="#" class="btn btn-info btn-sm btn-view" data-toggle="modal"
-                            data-target="#view-custloyee{{ $cust->id }}">
-                            <i class="fas fa-eye"></i>
-                            {{ __('View') }}
-                        </a> --}}
-                        @if (auth()->user()->can('customer.edit'))
-                            <a href="{{ route('admin.customer.edit', $cust->id) }}"
-                                class="btn btn-info btn-sm btn-edit">
-                                <i class="fas fa-pencil-alt"></i>
-                                {{ __('Edit') }}
-                            </a>
-                        @endif
-                        @if (auth()->user()->can('customer.delete'))
-                            <form action="{{ route('admin.customer.destroy', $cust->id) }}"
-                                class="d-inline-block form-delete-{{ $cust->id }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" data-id="{{ $cust->id }}"
-                                    data-href="{{ route('admin.customer.destroy', $cust->id) }}"
-                                    class="btn btn-danger btn-sm btn-delete">
-                                    <i class="fa fa-trash-alt"></i>
-                                    {{ __('Delete') }}
-                                </button>
-                            </form>
-                        @endif
+                        <div class="btn-group dropleft">
+                            <button style="z-index: 1000;" class="btn btn-info btn-sm dropdown-toggle" type="button"
+                                id="actionDropdown{{ $cust->id }}" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                {{ __('Actions') }}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-left"
+                                aria-labelledby="actionDropdown{{ $cust->id }}">
+                                {{-- <a href="#" class="dropdown-item btn-view" data-toggle="modal"
+                                    data-target="#view-product{{ $purchase->id }}">
+                                    <i class="fas fa-eye"></i> {{ __('View') }}
+                                </a> --}}
+                                @if (auth()->user()->can('customer.edit'))
+                                    <a href="{{ route('admin.customer.edit', $cust->id) }}"
+                                        class="dropdown-item btn-edit">
+                                        <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
+                                    </a>
+                                @endif
+                                @if (auth()->user()->can('customer.delete'))
+                                    <form action="{{ route('admin.customer.destroy', $cust->id) }}"
+                                        class="d-inline-block form-delete-{{ $cust->id }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" data-id="{{ $cust->id }}"
+                                            data-href="{{ route('admin.customer.destroy', $cust->id) }}"
+                                            class="dropdown-item btn-delete">
+                                            <i class="fa fa-trash-alt"></i> {{ __('Delete') }}
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 {{-- @include('backends.servicepage.view-service') --}}
@@ -72,7 +79,7 @@
         </tbody>
     </table>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
                 <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
@@ -83,5 +90,5 @@
                 <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $customers->links() }}</div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>

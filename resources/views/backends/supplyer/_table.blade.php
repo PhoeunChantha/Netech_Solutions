@@ -13,7 +13,7 @@
                 <th>{{ __('Contact') }}</th>
                 <th>{{ __('Email') }}</th>
                 <th>{{ __('Address') }}</th>
-                <th>{{ __('Status') }}</th>
+                {{-- <th>{{ __('Status') }}</th> --}}
                 <th>{{ __('Action') }}</th>
             </tr>
         </thead>
@@ -25,7 +25,7 @@
                     <td>{{ $sup->contact }}</td>
                     <td>{{ $sup->email ?? 'N/A' }}</td>
                     <td>{{ $sup->address ?? 'N/A' }}</td>
-                    <td>{{ $sup->status }}</td>
+                    {{-- <td>{{ $sup->status }}</td> --}}
                     <td>
                         <div class="btn-group dropleft">
                             <button class="btn btn-info btn-sm dropdown-toggle" type="button"
@@ -66,7 +66,7 @@
         </tbody>
     </table>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-12 d-flex flex-row flex-wrap">
             <div class="row" style="width: -webkit-fill-available;">
                 <div class="col-12 col-sm-6 text-center text-sm-left pl-3" style="margin-block: 20px">
@@ -77,5 +77,5 @@
                 <div class="col-12 col-sm-6 pagination-nav pr-3"> {{ $suppliers->links() }}</div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>

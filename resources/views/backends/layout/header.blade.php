@@ -12,50 +12,50 @@
 </style>
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
-    <ul class="navbar-nav">
-        <li class="nav-item">
+    <ul class="navbar-nav ">
+        <li class="nav-item sidebar-toggle-system">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         {{-- <li class="nav-item d-none d-sm-inline-block">
             <a href="{{ route('admin.dashboard') }}" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{ route('admin.contact.index') }}" class="nav-link">Contact</a>
         </li> --}}
+        <li class="nav-item d-none" id="logo-pos" style="margin-left: 20px;">
+            <img width="30%" src="@if (session()->has('app_logo') && file_exists('uploads/business_settings/' . session()->get('app_logo'))) {{ asset('uploads/business_settings/' . session()->get('app_logo')) }} @else {{ asset('uploads/image/default.png') }} @endif"
+                alt="AdminLTE Logo" class=""
+                style="">
+        </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown">
-            <a class="nav-link" href="{{ route('home') }}" target="_blank">
-
-                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-
-                    <g id="SVGRepo_iconCarrier">
-                        <path d="M4 15L20 15" stroke="#579eff" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round"></path>
-                        <path d="M4 9L20 9" stroke="#579eff" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round"></path>
-                        <circle cx="12" cy="12" r="9" stroke="#579eff" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round"></circle>
-                        <path
-                            d="M12.0004 20.8182L11.2862 21.5181C11.4742 21.7101 11.7317 21.8182 12.0004 21.8182C12.2691 21.8182 12.5265 21.7101 12.7146 21.5181L12.0004 20.8182ZM12.0004 3.18188L12.7146 2.48198C12.5265 2.29005 12.2691 2.18188 12.0004 2.18188C11.7317 2.18188 11.4742 2.29005 11.2861 2.48198L12.0004 3.18188ZM14.6004 12.0001C14.6004 15.1611 13.3373 18.0251 11.2862 20.1183L12.7146 21.5181C15.1173 19.0662 16.6004 15.7053 16.6004 12.0001H14.6004ZM11.2861 3.88178C13.3373 5.97501 14.6004 8.83903 14.6004 12.0001H16.6004C16.6004 8.29478 15.1173 4.93389 12.7146 2.48198L11.2861 3.88178ZM9.40039 12.0001C9.40039 8.83903 10.6634 5.97501 12.7146 3.88178L11.2861 2.48198C8.88347 4.93389 7.40039 8.29478 7.40039 12.0001H9.40039ZM12.7146 20.1183C10.6634 18.0251 9.40039 15.1611 9.40039 12.0001H7.40039C7.40039 15.7053 8.88348 19.0662 11.2862 21.5181L12.7146 20.1183Z"
-                            fill="#579eff"></path>
-                    </g>
-                </svg>
-                {{ __('Go to website') }}
+        <li class="nav-item d-none" id="search-product" >
+            <div class="product-search" style="width: 41rem; border:1px solid #ccc;border-radius: 8px;">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="product-search" class="form-control"
+                        placeholder="Search for products">
+                </div>
+            </div>
+        </li>
+        <li class="nav-item d-flex align-items-center justify-content-center ml-3" id="back-button">
+            <a class="btn btn-primary" href="{{ route('admin.dashboard') }}" class="" style="">
+               <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
             </a>
         </li>
+        <li class="nav-item dropdown" id="url-website">
+            <a class="nav-link" href="{{ route('home') }}" target="_blank">
+                <img width="24px" class="" class="" src="{{ asset('svgs/www.png') }}" alt="">
+                {{ __('website') }}
+            </a>
+        </li>
+        
         @if (auth()->user()->can('pos.view'))
-            <li class="nav-item">
-                <a href="{{ route('admin.pos.index') }}"
+            <li class="nav-item" id="url-pos">
+                <a href="{{ route('admin.pos.index', request(['type' => 'pos'])) }}"
                     class="nav-link pos-style d-flex align-items-center justify-content-center @if (request()->routeIs('admin.pos.index')) active @endif">
-                    <i class="nav-icon fas fa-shopping-cart mr-1"></i>
+                    <img width="24px" class="nav-icon" src="{{ asset('svgs/POS.png') }}" alt="">
                     <p class="m-0">
                         {{ __('POS') }}
                     </p>
@@ -81,7 +81,7 @@
                     Notifications</a>
             </div>
         </li> --}}
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" id="change-language">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="flag-icon flag-icon-{{ $current_locale == 'en' ? 'gb' : $current_locale }}"></i>
             </a>
@@ -106,7 +106,7 @@
             </div>
         </li>
 
-        <li class="nav-item dropdown user-menu">
+        <li class="nav-item dropdown user-menu" id="user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 {{-- <img src="{{ asset('uploads/default-profile.png') }}" class="user-image img-circle elevation-2"
                     alt="User Image"> --}}
@@ -172,7 +172,7 @@
                 </li>
             </ul>
         </li>
-        <li class="nav-item">
+        <li class="nav-item d-flex align-items-center justify-content-center">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                 <i class="fas fa-expand-arrows-alt"></i>
             </a>
@@ -183,6 +183,59 @@
 
 {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
 @push('js')
+    <script>
+        $(document).ready(function() {
+            const isPosRoute = window.location.pathname.includes('/pos');
+
+            function toggleSidebar() {
+                if (isPosRoute) {
+                    $('.main-sidebar').addClass('d-none');
+                    $('.sidebar-toggle-system').addClass('d-none');
+
+                    $('.sidebar-mini.sidebar-collapse .content-wrapper').each(function() {
+                        this.style.setProperty('margin-left', '0', 'important');
+                    });
+                    $('body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper')
+                        .each(function() {
+                            this.style.setProperty('margin-left', '0', 'important');
+                        });
+                    $('body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header')
+                        .each(function() {
+                            this.style.setProperty('margin-left', '0', 'important');
+                        });
+                    $('body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer')
+                        .each(function() {
+                            this.style.setProperty('margin-left', '0', 'important');
+                        });
+                    $('#logo-pos ,#search-product, #back-button').removeClass('d-none');
+                    $('#change-language , #user-menu , #url-website , #url-pos').addClass('d-none');
+
+                    $('body').addClass('sidebar-collapse sidebar-closed');
+                } else {
+                    $('.main-sidebar').removeClass('d-none');
+                    $('.sidebar-toggle-system').removeClass('d-none');
+                    $('#logo-pos ,#search-product, #back-button').addClass('d-none');
+                    $('#back-button').removeClass('d-flex');
+                    $('#back-button').addClass('d-none');
+                    $('.content-wrapper').css('margin-left', '');
+                    $('#change-language , #user-menu , #url-website , #url-pos').removeClass('d-none');
+
+                    $('body').removeClass('sidebar-collapse sidebar-closed');
+                }
+            }
+
+            toggleSidebar();
+
+            $('a.pos-style').on('click', function() {
+                if ($(this).attr('href').includes('type=pos')) {
+                    localStorage.setItem('sidebarHidden', 'true');
+                }
+            });
+
+
+        });
+    </script>
+
     {{-- <script>
         $(document).ready(function() {
             // Function to update unread count

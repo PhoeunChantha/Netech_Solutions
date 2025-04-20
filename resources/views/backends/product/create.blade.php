@@ -164,8 +164,19 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="required_label" for="quantity">{{ __('Quantity') }}</label>
+                                    <div class="form-group col-md-6 ">
+                                        <label class="required_lable" for="default_purchase_price">{{ __('Default Purchase Price') }}</label>
+                                        <input type="number" name="default_purchase_price" id="default_purchase_price"
+                                            class="form-control @error('default_purchase_price') is-invalid @enderror" step="any"
+                                            value="{{ old('default_purchase_price', 0) }}" oninput="validateQuantity(this)">
+                                        @error('default_purchase_price')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="" for="quantity">{{ __('Quantity') }}</label>
                                         <input type="number" name="quantity" id="quantity"
                                             class="form-control @error('quantity') is-invalid @enderror" step="any"
                                             min="0" value="{{ old('quantity', 0) }}"
@@ -176,6 +187,25 @@
                                             </span>
                                         @enderror
                                     </div>
+                                   
+                                    <div class="form-group col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="hidden" name="thumbnails" class="thumbnails_hidden">
+                                                    <input type="file" class="custom-file-input" id="exampleInputFile"
+                                                        name="thumbnail[]" accept="image/png, image/jpeg" multiple>
+                                                    <label class="custom-file-label"
+                                                        for="exampleInputFile">{{ __('Choose files') }}</label>
+                                                </div>
+                                            </div>
+                                            <div class=" preview preview-multiple text-center border rounded mt-2"
+                                                style="height: 170px; display: flex; flex-wrap: wrap;">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <label for="specification">{{ __('Specification') }}</label>
                                         <textarea class="form-control summernote" id="specification" name="specification" rows="3"
@@ -185,24 +215,6 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="hidden" name="thumbnails" class="thumbnails_hidden">
-                                                <input type="file" class="custom-file-input" id="exampleInputFile"
-                                                    name="thumbnail[]" accept="image/png, image/jpeg" multiple>
-                                                <label class="custom-file-label"
-                                                    for="exampleInputFile">{{ __('Choose files') }}</label>
-                                            </div>
-                                        </div>
-                                        <div class=" preview preview-multiple text-center border rounded mt-2"
-                                            style="height: 170px; display: flex; flex-wrap: wrap;">
-                                            
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -288,7 +300,7 @@
 
             files.forEach((file, index) => {
                 compressor.compress([file], {
-                    size: 4, // Max size in MB
+                    size: 2, // Max size in MB
                     quality: 0.75,
                 }).then((output) => {
                     const compressedFile = Compress.convertBase64ToFile(output[0].data, output[0]

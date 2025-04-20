@@ -21,7 +21,6 @@ use App\Http\Controllers\Website\AccountController;
 use App\Http\Controllers\Website\ContactController;
 use App\Http\Controllers\Website\DesktopController;
 use App\Http\Controllers\website\PaymentController;
-use App\Http\Controllers\Website\ProfileController;
 use App\Http\Controllers\Backends\InvoiceController;
 use App\Http\Controllers\Backends\ProductController;
 use App\Http\Controllers\Backends\ServiceController;
@@ -42,7 +41,6 @@ use App\Http\Controllers\Backends\TransactionController;
 use App\Http\Controllers\Website\FrontServiceController;
 use App\Http\Controllers\Website\PolicyAndTermController;
 use App\Http\Controllers\Backends\TermAndPolicyController;
-use App\Http\Controllers\Website\ProductCategoryController;
 use App\Http\Controllers\Backends\BusinessSettingController;
 use App\Http\Controllers\Backends\EmailConfigurationController;
 use App\Http\Controllers\Website\HomeController as WebsiteHomeController;
@@ -257,6 +255,7 @@ Route::middleware(['auth:user', 'CheckUserLogin', 'SetSessionData'])->group(func
         Route::resource('transactions', TransactionController::class);
         // purchase
         Route::resource('purchases', PurchaseController::class);
+        Route::get('/purchases/purchase-detail/{id}', [PurchaseController::class, 'purchase_Detail'])->name('purchases.purchase_detail');
         Route::post('purchases/update_status', [PurchaseController::class, 'updateStatus'])->name('purchases.update_status');
         Route::get('purchases/product-create', [PurchaseController::class, 'productCreate'])->name('purchases.product-create');
         Route::post('purchases/product-store', [PurchaseController::class, 'productstore'])->name('purchases.product-store');
@@ -273,10 +272,13 @@ Route::middleware(['auth:user', 'CheckUserLogin', 'SetSessionData'])->group(func
         Route::get('expense-report', [ReportController::class, 'expense'])->name('expense-report.expense');
         Route::get('income-report', [ReportController::class, 'income'])->name('income-report.income');
         Route::get('/report/report-detail/{id}', [ReportController::class, 'reportDetail'])->name('report.report-detail');
-       
+        Route::get('report/print-report/{id}', [ReportController::class, 'printReport'])->name('report.print-report');
+        Route::delete('report/delete/{id}', [ReportController::class, 'destroy'])->name('report.destroy');
+
         // dashboard filter
         Route::get('dashboard/top-products-chart', [DashboardController::class, 'topProductsChart'])->name('dashboard.topProductsChart');
         Route::get('dashboard/profit-chart', [DashboardController::class, 'profitChart'])->name('dashboard.profitChart');
+        Route::get('/dashboard/dashboard-stats', [DashboardController::class, 'dashboardStats'])->name('dashboard.stats');
 
         // pos
         Route::get('pos', [PosController::class, 'index'])->name('pos.index');

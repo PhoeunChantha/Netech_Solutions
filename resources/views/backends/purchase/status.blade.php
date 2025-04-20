@@ -1,8 +1,8 @@
 @php
     $statusMapping = [
         'Pending' => ['label' => 'Pending', 'class' => 'btn-warning'], 
-        'Completed' => ['label' => 'Completed', 'class' => 'btn-primary disabled'], 
-        'Canceled' => ['label' => 'Canceled', 'class' => 'btn-danger'], 
+        'Recieved' => ['label' => 'Recieved', 'class' => 'btn-primary disabled'], 
+        'Ordered' => ['label' => 'Ordered', 'class' => 'btn-danger'], 
     ];
 
     $currentStatus = $purchase->purchase_status ?? 'Pending';
@@ -24,16 +24,16 @@
         </li>
         <li>
             <a href="javascript:void(0)"
-                class="change_status completed-status dropdown-item {{ $currentStatus == 'Completed' ? 'active' : '' }}"
-                data-id="{{ $purchase->id }}" data-status="Completed">
-                Completed
+                class="change_status Recieved-status dropdown-item {{ $currentStatus == 'Recieved' ? 'active' : '' }}"
+                data-id="{{ $purchase->id }}" data-status="Recieved">
+                Recieved
             </a>
         </li>
         <li>
             <a href="javascript:void(0)"
-                class="change_status canceled-status dropdown-item {{ $currentStatus == 'Canceled' ? 'active' : '' }}"
-                data-id="{{ $purchase->id }}" data-status="Canceled">
-                Canceled
+                class="change_status Ordered-status dropdown-item {{ $currentStatus == 'Ordered' ? 'active' : '' }}"
+                data-id="{{ $purchase->id }}" data-status="Ordered">
+                Ordered
             </a>
         </li>
     </ul>

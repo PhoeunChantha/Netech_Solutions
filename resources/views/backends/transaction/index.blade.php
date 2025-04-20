@@ -59,22 +59,19 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label>{{ __('Product Name') }}</label>
-                                            <input type="text" name="product_name"
-                                                value="{{ request('product_name') }}"
+                                            <input type="text" name="product_name" value="{{ request('product_name') }}"
                                                 class="form-control transaction-filter">
                                         </div>
                                         <div class="col-md-3">
                                             <label>{{ __('Date Range') }}</label>
                                             <input type="text" name="date_range" id="daterangefilter"
-                                                class="form-control daterangefilter "
-                                                value="{{ request('date_range') }}">
+                                                class="form-control daterangefilter " value="{{ request('date_range') }}">
                                         </div>
 
-                                        
+
                                         <div class="col-md-3">
                                             <label>{{ __('Transaction Amount') }}</label>
-                                            <select name="transaction_amount_range"
-                                                class="form-control transaction-filter">
+                                            <select name="transaction_amount_range" class="form-control transaction-filter">
                                                 <option value="">All</option>
                                                 <option value="0-100"
                                                     {{ request('transaction_amount_range') == '0-100' ? 'selected' : '' }}>
@@ -101,7 +98,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-3" hidden>
                                             <div class="row align-items-center">
                                                 <div class="mt-4 mr-2">
                                                     <button type="button"
@@ -115,7 +112,7 @@
                                         </div>
                                     </div>
                                 </form>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -181,7 +178,28 @@
                             extend: 'print',
                             text: '<i class="fas fa-print"></i> Print',
                             exportOptions: {
-                                columns: ':visible:not(:last-child)'
+                                columns: ':visible',
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            footer: true,
+                            customize: function(win) {
+                                $(win.document.body).css('font-size', '10pt');
+                                $(win.document.body).find('table').addClass('table table-bordered');
+
+                                var footer = $(win.document.body).find('tfoot');
+                                footer.show();
+                                footer.css({
+                                    'font-weight': 'bold',
+                                    'background-color': '#D2D6DE',
+                                    'text-align': 'right'
+                                });
+
+                                $(win.document.body).css({
+                                    'padding': '10mm',
+                                    'margin': '0'
+                                });
                             }
                         },
                         {
@@ -194,7 +212,7 @@
                             exportOptions: {
                                 columns: ':visible:not(:last-child)'
                             }
-                        },
+                        }
                     ],
                     ajax: {
                         url: "{{ route('admin.transactions.index') }}",
@@ -285,8 +303,15 @@
                         e.preventDefault();
                         transactionTable.ajax.reload();
                     });
+                $('#daterangefilter').on('apply.daterangepicker', function(e, picker) {
+                    transactionTable.ajax.reload();
+                });
+                $('#daterangefilter').on('cancel.daterangepicker', function(e, picker) {
+                    $(this).val('');
+                    transactionTable.ajax.reload();
+                });
 
-               
+
                 $('.btn-reset-transaction').on('click', function(e) {
                     e.preventDefault();
                     $('select[name="transaction_type"]').val('');

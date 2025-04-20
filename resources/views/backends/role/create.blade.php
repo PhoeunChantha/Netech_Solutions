@@ -1223,6 +1223,51 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="view_sell_report" name="permissions[]"
+                                                                value="sell_report.view">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="view_sell_report">{{ __('View Sell Report') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="view_purchase_report" name="permissions[]"
+                                                                value="purchase_report.view">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="view_purchase_report">{{ __('View Purchase Report') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="view_income_report" name="permissions[]"
+                                                                value="income_report.view">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="view_income_report">{{ __('View Income Report') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <hr>
                                 </div>
@@ -1258,6 +1303,45 @@
                                                         </label>
                                                         <label class="ml-2"
                                                             for="apply_discount">{{ __('Apply Discount') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                                <div class="Terms and Policy">
+                                    <div class="d-flex">
+                                        <label for="" class="mr-2 mb-3">{{ __('Terms and Policy') }}</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="view_term" name="permissions[]"
+                                                                value="term.view">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="view_term">{{ __('View Terms') }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <label class="switch">
+                                                            <input type="checkbox" id="view_policy" name="permissions[]"
+                                                                value="policy.view">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="ml-2"
+                                                            for="view_policy">{{ __('View Policy') }}</label>
                                                     </div>
                                                 </div>
                                             </div>

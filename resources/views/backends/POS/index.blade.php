@@ -1,10 +1,11 @@
 @extends('backends.master')
+@section('page_title', 'POS')
 @section('contents')
     @include('backends.pos.pos_style')
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6" style="margin-top: 2rem;">
                     {{-- <form id="pos_form" method="POST">
                         @csrf --}}
                     <div class="mt-1">
@@ -22,7 +23,9 @@
                             </div>
                             <div>
                                 <button type="button" class="btn btn-primary ml-2" data-toggle="modal"
-                                    data-target="#create_customer" style="height: 37px">{{ __('Add Customer') }}</button>
+                                    data-target="#create_customer" style="height: 37px" title="{{ __('Add Customer') }}">
+                                    <i class="fas fa-user-plus"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -91,7 +94,7 @@
                     @include('backends.pos.create_customer')
                 </div>
                 <!-- Cart Section -->
-                <div class="col-md-6 mt-2">
+                <div class="col-md-6" style="margin-top: 2rem;">
                     <div class="category-tabs">
                         <!-- "All" Category Button -->
                         <div class="category-card selected" onclick="filterProducts('all')" data-category-id="all">
@@ -116,15 +119,7 @@
                         @endforelse
                     </div>
 
-                    <div class="product-search mt-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
-                            </div>
-                            <input type="text" id="product-search" class="form-control"
-                                placeholder="Search for products">
-                        </div>
-                    </div>
+                    
                     <div class="product-grid">
 
                     </div>
@@ -179,7 +174,7 @@
                             response.products.forEach(product => {
                                 const hasDiscount = product.discount && product.discount.discount_value;
                                 const discountType = hasDiscount ? product.discount.discount_type :
-                                null;
+                                    null;
                                 const discountValue = hasDiscount ? parseFloat(product.discount
                                     .discount_value) : 0;
                                 const originalPrice = parseFloat(product.price);
@@ -203,11 +198,11 @@
                                 const quantityLimited = product.discount ? product.discount
                                     .quantity_limited : 0;
 
-                                    productGrid.append(`
+                                productGrid.append(`
                                         <div class="product-card" data-product-id="${product.id}" data-discount-type="${discountType}">
                                             ${hasDiscount ? `<span class="discount-amount text-white bg-danger text-left">
-                                                ${discountType === 'percentage' ? discountValue + '% Off' : '$' + discountValue + ' Off'}
-                                            </span>` : ''}
+                                                    ${discountType === 'percentage' ? discountValue + '% Off' : '$' + discountValue + ' Off'}
+                                                </span>` : ''}
                                             <input type="hidden" class="discount_value" data-discount="${discountValue}" name="discount" value="${discountValue}">
                                             <input type="hidden" data-quantity_limited="${quantityLimited}" name="quantity_limited" value="${quantityLimited}">
                                             <input type="hidden" name="stock" data-stock="${product.quantity}" value="${product.quantity}">
@@ -223,7 +218,12 @@
 
                             });
                         } else {
-                            productGrid.append('<p>No products found.</p>');
+                            productGrid.append(`
+                               <div class="empty-product text-center col-md-12">
+                                    <img src="{{ asset('uploads/not-found.png') }}" alt="No data" width="100px" height="100px" class="mx-auto d-block" />
+                                    <p>{{ __('No products found') }}</p>
+                                </div>
+                            `);
                         }
                     }
                 },
@@ -252,7 +252,8 @@
             const productId = product.data('product-id');
             const productName = product.find('.product-title').text();
             const stock = product.find('input[name="stock"]').data('stock');
-            const discount_type = product.data('discount-type');5
+            const discount_type = product.data('discount-type');
+            5
             const discount_value = product.find('.discount_value').attr('data-discount');
 
             const originalPriceElement = product.find('.product-price.text-decoration-line-through');
@@ -277,13 +278,14 @@
                     toastr.error('Product out of stock!');
                     return;
                 }
-                quantity = updateExistingRow(existingRow, quantityLimited, originalPrice, discountedPrice,);
+                quantity = updateExistingRow(existingRow, quantityLimited, originalPrice, discountedPrice, );
             } else {
                 if (stock === 0) {
                     toastr.error('No stock available');
                     return;
                 }
-                addNewRow(productId,discount_type, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock,
+                addNewRow(productId, discount_type, productName, quantity, quantityLimited, originalPrice,
+                    discountedPrice, stock,
                     discount_value);
             }
             updateTotals();
@@ -355,7 +357,8 @@
             return quantity;
         }
 
-        function addNewRow(productId,discount_type, productName, quantity, quantityLimited, originalPrice, discountedPrice, stock,
+        function addNewRow(productId, discount_type, productName, quantity, quantityLimited, originalPrice, discountedPrice,
+            stock,
             discount_value) {
             const subtotal = calculateSubtotal(quantity, quantityLimited, originalPrice, discountedPrice);
             // const priceToUse = quantity > quantityLimited ? originalPrice : discountedPrice;
@@ -414,8 +417,7 @@
             if ($('#product-table tr').length > 0) {
                 var confirmationMessage = 'Are you sure you want to leave?';
                 (e.originalEvent || e).returnValue = confirmationMessage;
-                e.preventDefault();
-                return '';
+                return confirmationMessage;
             }
         });
     </script>
@@ -527,7 +529,8 @@
 
             let orderDetailsHtml = '';
             productOrders.forEach((order) => {
-                const discountDisplay = order.rowdiscounttype === 'percentage' ? `%${order.productDiscount.toFixed(2)}` : `$${order.productDiscount.toFixed(2)}`;
+                const discountDisplay = order.rowdiscounttype === 'percentage' ?
+                    `%${order.productDiscount.toFixed(2)}` : `$${order.productDiscount.toFixed(2)}`;
                 orderDetailsHtml += `
                     <tr>
                         <td>${order.productName}</td>

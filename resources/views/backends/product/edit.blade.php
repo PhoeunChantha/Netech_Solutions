@@ -181,7 +181,18 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6 ">
-                                        <label class="required_lable" for="quantity">{{ __('Quantity') }}</label>
+                                        <label class="required_lable" for="default_purchase_price">{{ __('Default Purchase Price') }}</label>
+                                        <input type="number" name="default_purchase_price" id="default_purchase_price"
+                                            class="form-control @error('default_purchase_price') is-invalid @enderror" step="any"
+                                            value="{{ old('default_purchase_price', $product->default_purchase_price ?? 0) }}" oninput="validateQuantity(this)">
+                                        @error('default_purchase_price')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group col-md-12 ">
+                                        <label class="" for="quantity">{{ __('Quantity') }}</label>
                                         <input type="number" name="quantity" id="quantity"
                                             class="form-control @error('quantity') is-invalid @enderror" step="any"
                                             value="{{ old('quantity', $product->quantity ?? 0) }}"
@@ -192,17 +203,8 @@
                                             </span>
                                         @enderror
                                     </div>
+                                   
                                     <div class="form-group col-md-12">
-                                        <label for="specification">{{ __('Specification') }}</label>
-                                        <textarea class="form-control summernote" id="specification" name="specification" rows="3"
-                                            placeholder="{{ __('Enter Specification') }}">{{ $product->specification }}</textarea>
-                                        @error('specification')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
                                             <div class="input-group">
@@ -237,6 +239,16 @@
                                                 @endif
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="specification">{{ __('Specification') }}</label>
+                                        <textarea class="form-control summernote" id="specification" name="specification" rows="3"
+                                            placeholder="{{ __('Enter Specification') }}">{{ $product->specification }}</textarea>
+                                        @error('specification')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
