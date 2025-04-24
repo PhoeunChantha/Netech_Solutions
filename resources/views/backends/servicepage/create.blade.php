@@ -60,7 +60,7 @@
                                                                 @enderror
                                                             </div>
                                                             <div class="form-group col-md-12">
-                                                                <label
+                                                                <label class="required_lable"
                                                                     for="description_{{ $lang['code'] }}">{{ __('Description') }}
                                                                     ({{ strtoupper($lang['code']) }})
                                                                 </label>
@@ -88,8 +88,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-6" hidden>
                                         <label class="required_lable" for="category">{{ __('Category') }}</label>
                                         <select name="category_id" id="category_id"
                                             class="form-control select2 @error('category_id') is-invalid @enderror">
@@ -116,24 +115,23 @@
                                             </span>
                                         @enderror
                                     </div> --}}
-                                    <div class="form-group col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input type="hidden" name="thumbnails" class="thumbnails_hidden">
-                                                    <input type="file" class="custom-file-input" id="exampleInputFile"
-                                                        name="thumbnails" accept="image/png, image/jpeg">
-                                                    <label class="custom-file-label"
-                                                        for="exampleInputFile">{{ __('Choose file') }}</label>
-                                                </div>
-                                            </div>
-                                            <div class="preview preview-multiple text-center border rounded mt-2"
-                                                style="height: 150px">
-                                                <img src="{{ asset('uploads/defualt.png') }}" alt=""
-                                                    height="100%">
+                                    <div class="form-group col-md-12">
+                                        <label class="required_lable" for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="hidden" name="thumbnails" class="thumbnails_hidden">
+                                                <input type="file" class="custom-file-input" id="exampleInputFile"
+                                                    name="thumbnails" accept="image/png, image/jpeg">
+                                                <label class="custom-file-label"
+                                                    for="exampleInputFile">{{ __('Choose file') }}</label>
                                             </div>
                                         </div>
+                                        <div class="preview preview-multiple text-center border rounded mt-2"
+                                            style="height: 150px">
+                                            <img src="{{ asset('uploads/defualt.png') }}" alt=""
+                                                height="100%">
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>

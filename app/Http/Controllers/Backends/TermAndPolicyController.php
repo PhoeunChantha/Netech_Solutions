@@ -61,12 +61,13 @@ class TermAndPolicyController extends Controller
                 'msg' => __('Updated sucessfully')
             ]);
         } catch (Exception $e) {
-            dd($e);
             DB::rollBack();
             return redirect()->route('admin.term_condition')->with([
                 'success' => 0,
                 'msg' => __('Something went wrong')
             ]);
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
     }
     public function policy()
@@ -119,12 +120,14 @@ class TermAndPolicyController extends Controller
                 'msg' => __('Updated sucessfully')
             ]);
         } catch (Exception $e) {
-            dd($e);
+           
             DB::rollBack();
             return redirect()->route('admin.policy')->with([
                 'success' => 0,
                 'msg' => __('Something went wrong')
             ]);
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
     }
 }

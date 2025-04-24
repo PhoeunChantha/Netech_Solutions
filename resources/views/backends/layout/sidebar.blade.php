@@ -1,7 +1,7 @@
 <aside class="main-sidebar elevation-4 sidebar-light-info" style="">
     <!-- Brand Logo -->
     <a href="{{ route('admin.dashboard') }}" class="brand-link" style="">
-        <img src="@if (session()->has('app_logo') && file_exists('uploads/business_settings/' . session()->get('app_logo'))) {{ asset('uploads/business_settings/' . session()->get('app_logo')) }} @else {{ asset('uploads/image/default.png') }} @endif"
+        <img src="{{ session()->has('app_logo') && file_exists(public_path('uploads/business_settings/' . session()->get('app_logo'))) ? asset('uploads/business_settings/' . session()->get('app_logo')) : asset('uploads/image/default-icon.png') }}""
             alt="AdminLTE Logo" class="brand-image pt-2"
             style="width: 100%; object-fit: contain; margin-left: 0; height: 60px; max-height: 60px;">
     </a>

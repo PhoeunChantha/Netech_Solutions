@@ -672,15 +672,15 @@
                             const animationDelay = index * 0.1;
 
                             const row = `<tr style="animation-delay: ${animationDelay}s">
-                        <td>
-                            <a class="example-image-link" href="${imageUrl}" data-fancybox="gallery-products">
-                                <img class="image-thumbnail" src="${imageUrl}" 
-                                    alt="product-thumbnail" width="55px" height="55px" />
-                            </a>
-                        </td>
-                        <td>${productName}</td>
-                        <td class="text-center fw-bold">${sales}</td>
-                    </tr>`;
+                                            <td style="width: 152px">
+                                                <a class="example-image-link" href="${imageUrl}" data-fancybox="gallery-products-${productName}"  data-caption="${productName}">
+                                                    <img class="image-thumbnail" src="${imageUrl}" 
+                                                        alt="product-thumbnail" width="55px" height="55px" />
+                                                </a>
+                                            </td>
+                                            <td style="width: 277px">${productName}</td>
+                                            <td class="text-center fw-bold">${sales}</td>
+                                        </tr>`;
 
                             tableBody.append(row);
                         });

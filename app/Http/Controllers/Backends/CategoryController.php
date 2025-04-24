@@ -104,12 +104,14 @@ class CategoryController extends Controller
                 'msg' => __('Create successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+           
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return redirect()->back()->with($output);
@@ -217,6 +219,8 @@ class CategoryController extends Controller
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return redirect()->back()->with($output);
@@ -251,6 +255,8 @@ class CategoryController extends Controller
                 'status' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);
@@ -270,8 +276,10 @@ class CategoryController extends Controller
             DB::commit();
         } catch (Exception $e) {
 
-            $output = ['status' => 0, 'msg' => __('Something went wrong')];
             DB::rollBack();
+            $output = ['status' => 0, 'msg' => __('Something went wrong')];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);

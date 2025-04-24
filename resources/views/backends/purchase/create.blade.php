@@ -66,7 +66,7 @@
                                                 @foreach ($products as $product)
                                                     <option value="{{ $product->id }}" data-name="{{ $product->name }}"
                                                         data-sell="{{ $product->price }}"
-                                                        data-default-purchase-price="{{ $product->default_purchase_price  }}"
+                                                        data-default-purchase-price="{{ $product->default_purchase_price }}"
                                                         data-quantity="{{ $product->quantity }}">
                                                         {{ $product->name }}
                                                     </option>
@@ -93,7 +93,7 @@
                                             <option value="">{{ __('Select Status') }}</option>
                                             <option value="Pending">{{ __('Pending') }}</option>
                                             <option value="Recieved">{{ __('Recieved') }}</option>
-                                            <option value="Ordered">{{ __('Ordered') }}</option>
+                                            {{-- <option value="Ordered">{{ __('Ordered') }}</option> --}}
                                         </select>
                                         @error('status')
                                             <span class="invalid-feedback" role="alert">
@@ -110,6 +110,7 @@
                                                     <th>{{ __('Purchase Quantity') }}</th>
                                                     <th>{{ __('Purchase Price') }}</th>
                                                     <th>{{ __('Sell Price') }}</th>
+                                                    <th>{{ __('Sub Total') }}</th>
                                                     <th>{{ __('Action') }}</th>
                                                 </tr>
                                             </thead>
@@ -514,6 +515,9 @@
                                 <input type="number" name="products[${productId}][sell_price]" class="form-control" value="${productSellPrice}" step="0.01" required>
                             </td>
                             <td>
+                                 <span class="subtotal">0.00</span>
+                            </td>
+                            <td>
                                 <button type="button" class="btn btn-danger btn-sm remove-row" data-id="${productId}">
                                     <i class="fa fa-trash"></i>
                                 </button>
@@ -529,6 +533,14 @@
 
                 $('#product_id').val([]).trigger('change.select2');
                 updateTotals();
+            });
+            $(document).on('input', '.quantity, .price', function() {
+                const row = $(this).closest('tr');
+                const quantity = parseFloat(row.find('.quantity').val()) || 0;
+                const price = parseFloat(row.find('.price').val()) || 0;
+                const subtotal = (quantity * price).toFixed(2);
+                row.find('.subtotal').text(subtotal);
+                updateTotals(); 
             });
 
             // When a row is removed
@@ -548,12 +560,14 @@
             function updateTotals() {
                 let totalItems = 0;
                 let totalAmount = 0;
+                
 
                 $('#product-table tbody tr').each(function() {
                     const quantity = parseFloat($(this).find('input[name*="[quantity]"]').val()) || 0;
                     const purchasePrice = parseFloat($(this).find('input[name*="[price]"]')
                         .val()) || 0;
-
+                    const subtotal = (quantity * purchasePrice).toFixed(2);
+                    $(this).find('.subtotal').text(subtotal);
                     totalItems += quantity;
                     totalAmount += quantity * purchasePrice;
                 });
@@ -566,7 +580,7 @@
                 const totalAmount = parseFloat($('#totalamount').text().replace('$', '')) || 0;
                 const rielAmount = parseFloat($('#riel_amount').val()) || 0;
                 const dollarAmount = parseFloat($('#dollar_amount').val()) || 0;
-                
+
 
                 const exchangeRate = 4000;
                 if ($('#riel_amount').is(':focus')) {

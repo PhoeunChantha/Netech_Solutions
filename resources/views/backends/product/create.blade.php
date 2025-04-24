@@ -52,7 +52,7 @@
                                                                 <input type="name" id="name_{{ $lang['code'] }}"
                                                                     class="form-control @error('name') is-invalid @enderror"
                                                                     name="name[]" placeholder="{{ __('Enter Name') }}"
-                                                                    value="">
+                                                                     value="{{ old('name[]') }}">
                                                                 @error('name')
                                                                     <span class="invalid-feedback" role="alert">
                                                                         <strong>{{ $message }}</strong>
@@ -65,7 +65,7 @@
                                                                     ({{ strtoupper($lang['code']) }})
                                                                 </label>
                                                                 <textarea type="text" id="description_{{ $lang['code'] }}"
-                                                                    class="form-control    @error('description') is-invalid @enderror" name="description[]"
+                                                                    class="form-control @error('description') is-invalid @enderror" name="description[]"
                                                                     placeholder="{{ __('Enter Description') }}" value=""></textarea>
                                                                 @error('description')
                                                                     <span class="invalid-feedback" role="alert">
@@ -165,10 +165,12 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6 ">
-                                        <label class="required_lable" for="default_purchase_price">{{ __('Default Purchase Price') }}</label>
+                                        <label class="required_lable"
+                                            for="default_purchase_price">{{ __('Default Purchase Price') }}</label>
                                         <input type="number" name="default_purchase_price" id="default_purchase_price"
-                                            class="form-control @error('default_purchase_price') is-invalid @enderror" step="any"
-                                            value="{{ old('default_purchase_price', 0) }}" oninput="validateQuantity(this)">
+                                            class="form-control @error('default_purchase_price') is-invalid @enderror"
+                                            step="any" value="{{ old('default_purchase_price', 0) }}"
+                                            oninput="validateQuantity(this)">
                                         @error('default_purchase_price')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -177,7 +179,7 @@
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label class="" for="quantity">{{ __('Quantity') }}</label>
-                                        <input type="number" name="quantity" id="quantity"
+                                        <input readonly type="number" name="quantity" id="quantity"
                                             class="form-control @error('quantity') is-invalid @enderror" step="any"
                                             min="0" value="{{ old('quantity', 0) }}"
                                             oninput="validateQuantity(this)">
@@ -187,10 +189,10 @@
                                             </span>
                                         @enderror
                                     </div>
-                                   
+
                                     <div class="form-group col-md-12">
                                         <div class="form-group">
-                                            <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                                            <label class="required_lable" for="exampleInputFile">{{ __('Thumbnail') }}</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="hidden" name="thumbnails" class="thumbnails_hidden">
@@ -202,7 +204,6 @@
                                             </div>
                                             <div class=" preview preview-multiple text-center border rounded mt-2"
                                                 style="height: 170px; display: flex; flex-wrap: wrap;">
-                                                
                                             </div>
                                         </div>
                                     </div>
@@ -292,56 +293,150 @@
         });
     </script> --}}
     <script>
+        // const compressor = new window.Compress();
+        // $('.custom-file-input').change(function(e) {
+        //     const container = $(this).closest('.form-group').find('.preview');
+        //     const thumbnails_hidden = $(this).closest('.custom-file').find('input[type=hidden]');
+        //     const files = [...e.target.files]; 
+
+        //     files.forEach((file, index) => {
+        //         compressor.compress([file], {
+        //             size: 2,
+        //             quality: 0.75,
+        //         }).then((output) => {
+        //             const compressedFile = Compress.convertBase64ToFile(output[0].data, output[0]
+        //                 .ext);
+        //             const formData = new FormData();
+        //             formData.append('image', compressedFile);
+
+        //             $.ajax({
+        //                 url: "{{ route('save_temp_file') }}",
+        //                 type: 'POST',
+        //                 data: formData,
+        //                 processData: false,
+        //                 contentType: false,
+        //                 success: function(response) {
+        //                     if (response.status == 1) {
+        //                         const tempFileName = response.temp_files;
+        //                         const imgContainer = $('.preview-multiple');
+        //                         const img = $('<img>').attr('src',
+        //                             "{{ asset('uploads/temp') }}" + '/' +
+        //                             tempFileName).css({
+        //                             width: '165px',
+        //                             height: '165px',
+        //                             objectFit: 'cover',
+        //                         });
+
+        //                         imgContainer.append(img);
+        //                         container.append(imgContainer);
+
+        //                         // Update hidden input with selected file names (for later storage)
+        //                         let currentFiles = thumbnails_hidden.val() ?
+        //                             thumbnails_hidden.val().split(',') : [];
+        //                         currentFiles.push(tempFileName);
+        //                         thumbnails_hidden.val(currentFiles.join(','));
+        //                     } else {
+        //                         toastr.error(response.msg);
+        //                     }
+        //                 }
+        //             });
+        //         });
+        //     });
+        // });
         const compressor = new window.Compress();
-        $('.custom-file-input').change(function(e) {
-            const container = $(this).closest('.form-group').find('.preview');
-            const thumbnails_hidden = $(this).closest('.custom-file').find('input[type=hidden]');
-            const files = [...e.target.files]; // All selected files
 
-            files.forEach((file, index) => {
+        $('.custom-file-input').on('change', function(e) {
+            const $formGroup = $(this).closest('.form-group');
+            const $preview = $formGroup.find('.preview-multiple');
+            const $hidden = $formGroup.find('input.thumbnails_hidden');
+            const $fileInput = this;
+            const files = Array.from(e.target.files);
+
+            files.forEach(file => {
+                const originalName = file.name;
+
                 compressor.compress([file], {
-                    size: 2, // Max size in MB
-                    quality: 0.75,
-                }).then((output) => {
-                    const compressedFile = Compress.convertBase64ToFile(output[0].data, output[0]
-                        .ext);
-                    const formData = new FormData();
-                    formData.append('image', compressedFile);
+                        size: 2,
+                        quality: 0.75
+                    })
+                    .then(output => {
+                        const compressedFile = Compress.convertBase64ToFile(
+                            output[0].data, output[0].ext
+                        );
+                        const formData = new FormData();
+                        formData.append('image', compressedFile);
 
-                    $.ajax({
-                        url: "{{ route('save_temp_file') }}",
-                        type: 'POST',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function(response) {
-                            if (response.status == 1) {
-                                const tempFileName = response.temp_files;
-                                const imgContainer = $('.preview-multiple');
-                                const img = $('<img>').attr('src',
-                                    "{{ asset('uploads/temp') }}" + '/' +
-                                    tempFileName).css({
-                                    width: '165px',
-                                    height: '165px',
-                                    objectFit: 'cover',
-                                });
+                        $.ajax({
+                            url: "{{ route('save_temp_file') }}",
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                if (response.status !== 1) {
+                                    return toastr.error(response.msg);
+                                }
 
-                                imgContainer.append(img);
-                                container.append(imgContainer);
+                                const tempFilename = response.temp_files;
 
-                                // Update hidden input with selected file names (for later storage)
-                                let currentFiles = thumbnails_hidden.val() ?
-                                    thumbnails_hidden.val().split(',') : [];
-                                currentFiles.push(tempFileName);
-                                thumbnails_hidden.val(currentFiles.join(','));
-                            } else {
-                                toastr.error(response.msg);
+                                let tempList = $hidden.val() ?
+                                    $hidden.val().split(',').map(s => s.trim()).filter(
+                                        Boolean) : [];
+                                tempList.push(tempFilename);
+                                $hidden.val(tempList.join(','));
+
+                                const $wrapper = $(`
+                                    <div class="image-wrapper position-relative"
+                                        data-temp-filename="${tempFilename}"
+                                        data-orig-name="${originalName}"
+                                        style="width:165px; height:165px; margin:5px;">
+                                        <img src="{{ asset('uploads/temp') }}/${tempFilename}"
+                                            style="width:100%; height:100%; object-fit:cover;">
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm remove-temp-image"
+                                                style="position:absolute; top:2px; right:2px; padding:0 6px;">
+                                        &times;
+                                        </button>
+                                    </div>
+                                    `);
+
+                                $preview.append($wrapper);
                             }
-                        }
+                        });
                     });
-                });
+                    
             });
         });
+
+
+        $(document).on('click', '.remove-temp-image', function() {
+            const $wrapper = $(this).closest('.image-wrapper');
+            const tempName = $wrapper.attr('data-temp-filename');
+            const origName = $wrapper.attr('data-orig-name');
+            const $formGroup = $wrapper.closest('.form-group');
+            const $hidden = $formGroup.find('input.thumbnails_hidden');
+            const fileInput = $formGroup.find('input.custom-file-input')[0];
+
+            let tempList = $hidden.val() ?
+                $hidden.val().split(',').map(s => s.trim()).filter(Boolean) : [];
+            tempList = tempList.filter(n => n !== tempName);
+            $hidden.val(tempList.join(','));
+
+            const dt = new DataTransfer();
+            Array.from(fileInput.files)
+                .forEach(f => {
+                    if (f.name !== origName) {
+                        dt.items.add(f);
+                    }
+                });
+            fileInput.files = dt.files;
+
+            $wrapper.remove();
+        });
+
+
+
+
 
 
 

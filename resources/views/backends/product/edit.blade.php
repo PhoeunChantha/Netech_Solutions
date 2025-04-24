@@ -181,10 +181,13 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6 ">
-                                        <label class="required_lable" for="default_purchase_price">{{ __('Default Purchase Price') }}</label>
+                                        <label class="required_lable"
+                                            for="default_purchase_price">{{ __('Default Purchase Price') }}</label>
                                         <input type="number" name="default_purchase_price" id="default_purchase_price"
-                                            class="form-control @error('default_purchase_price') is-invalid @enderror" step="any"
-                                            value="{{ old('default_purchase_price', $product->default_purchase_price ?? 0) }}" oninput="validateQuantity(this)">
+                                            class="form-control @error('default_purchase_price') is-invalid @enderror"
+                                            step="any"
+                                            value="{{ old('default_purchase_price', $product->default_purchase_price ?? 0) }}"
+                                            oninput="validateQuantity(this)">
                                         @error('default_purchase_price')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -193,7 +196,7 @@
                                     </div>
                                     <div class="form-group col-md-12 ">
                                         <label class="" for="quantity">{{ __('Quantity') }}</label>
-                                        <input type="number" name="quantity" id="quantity"
+                                        <input readonly type="number" name="quantity" id="quantity"
                                             class="form-control @error('quantity') is-invalid @enderror" step="any"
                                             value="{{ old('quantity', $product->quantity ?? 0) }}"
                                             oninput="handlePriceInput(this)">
@@ -203,14 +206,15 @@
                                             </span>
                                         @enderror
                                     </div>
-                                   
+
                                     <div class="form-group col-md-12">
                                         <div class="form-group">
-                                            <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                                            <label class="required_lable" for="exampleInputFile">{{ __('Thumbnail') }}</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="exampleInputFile"
-                                                        name="thumbnail[]" accept="image/png, image/jpeg" multiple>
+                                                    <input type="file" class="custom-file-input"
+                                                        id="custom-file-input" name="thumbnail[]"
+                                                        accept="image/png, image/jpeg" multiple>
                                                     <label class="custom-file-label" for="exampleInputFile">
                                                         @if (is_array($product->thumbnail) && count($product->thumbnail) > 0)
                                                             {{ implode(', ', array_map('basename', $product->thumbnail)) }}
@@ -220,22 +224,26 @@
                                                     </label>
                                                 </div>
                                             </div>
+
                                             <div class="preview text-center border rounded mt-2"
                                                 style="height: 150px; display: flex; flex-wrap: wrap; gap: 5px; overflow: auto;">
-                                                @if (is_array($product->thumbnail))
+                                                @if (is_array($product->thumbnail) && count($product->thumbnail))
                                                     @foreach ($product->thumbnail as $index => $thumbnail)
-                                                        <div class="image-wrapper" style="position: relative;">
+                                                        <div class="image-wrapper position-relative">
                                                             <img src="{{ asset('uploads/products/' . $thumbnail) }}"
-                                                                alt="Existing Image" style="height: 100%; width: auto;">
+                                                                alt="Existing Image" style="height:100%; width:auto;">
                                                             <button type="button"
                                                                 class="btn btn-danger btn-sm remove-image"
-                                                                style="position: absolute; top: 5px; right: 5px;"
+                                                                style="position:absolute; top:5px; right:5px;"
                                                                 data-index="{{ $index }}">×</button>
+
+                                                            <input type="hidden" name="old_thumbnail[]"
+                                                                value="{{ $thumbnail }}">
                                                         </div>
                                                     @endforeach
                                                 @else
-                                                    <img src="{{ asset('uploads/defualt.png') }}" alt=""
-                                                        height="100%">
+                                                    <img src="{{ asset('uploads/default.png') }}" height="100%"
+                                                        alt="">
                                                 @endif
                                             </div>
                                         </div>
@@ -271,80 +279,316 @@
 @endsection
 
 @push('js')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle file input change
-            const fileInput = document.getElementById('exampleInputFile');
-            const preview = document.querySelector('.preview');
+  
+    {{-- <script>
+        /**
+         * Compress and convert any image file to PNG under the given maxSize (bytes).
+         * @param {File} file - Original image file
+         * @param {number} maxSize - Maximum allowed size in bytes (default 2MB)
+         * @returns {Promise<Blob>} - Promise that resolves with compressed PNG blob
+         */
+        function compressAndConvertToPNG(file, maxSize = 2 * 1024 * 1024) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = () => reject(new Error('File reading failed'));
+                reader.onload = () => {
+                    const img = new Image();
+                    img.src = reader.result;
+                    img.onerror = () => reject(new Error('Image load failed'));
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
 
-            fileInput.addEventListener('change', function(e) {
-                const files = e.target.files;
-
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    if (file && file.type.match('image.*')) {
-                        const reader = new FileReader();
-
-                        reader.onload = function(e) {
-                            const wrapper = document.createElement('div');
-                            wrapper.className = 'image-wrapper';
-                            wrapper.style.position = 'relative';
-
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.style.height = '100%';
-                            img.style.width = 'auto';
-
-                            const removeBtn = document.createElement('button');
-                            removeBtn.type = 'button';
-                            removeBtn.className = 'btn btn-danger btn-sm remove-new-image';
-                            removeBtn.style.position = 'absolute';
-                            removeBtn.style.top = '5px';
-                            removeBtn.style.right = '5px';
-                            removeBtn.innerHTML = '×';
-
-                            wrapper.appendChild(img);
-                            wrapper.appendChild(removeBtn);
-                            preview.appendChild(wrapper);
+                        if (file.size > maxSize) {
+                            const ratio = Math.sqrt(maxSize / file.size);
+                            width *= ratio;
+                            height *= ratio;
                         }
 
-                        reader.readAsDataURL(file);
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        canvas.toBlob(blob => {
+                            if (!blob) return reject(new Error('Compression failed'));
+                            if (blob.size > maxSize) {
+                                const downRatio = Math.sqrt((maxSize / blob.size));
+                                canvas.width = width * downRatio;
+                                canvas.height = height * downRatio;
+                                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                                canvas.toBlob(smallerBlob => smallerBlob ? resolve(smallerBlob) :
+                                    reject(new Error('Second compression failed')),
+                                    'image/png');
+                            } else {
+                                resolve(blob);
+                            }
+                        }, 'image/png');
+                    };
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('custom-file-input');
+            const previewContainer = document.querySelector('.preview');
+
+            fileInput.addEventListener('change', async (e) => {
+                const files = Array.from(e.target.files);
+                const compressedFiles = [];
+
+                for (const file of files) {
+                    if (!file.type.startsWith('image/')) continue;
+                    try {
+                        const pngBlob = await compressAndConvertToPNG(file);
+                        const pngFile = new File([
+                            pngBlob
+                        ], file.name.replace(/\.[^.]+$/, '') + '.png', {
+                            type: 'image/png'
+                        });
+                        compressedFiles.push(pngFile);
+
+                        const url = URL.createObjectURL(pngBlob);
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'image-wrapper position-relative';
+                        const imgEl = document.createElement('img');
+                        imgEl.src = url;
+                        imgEl.style.height = '100%';
+                        imgEl.style.width = 'auto';
+
+                        const removeBtn = document.createElement('button');
+                        removeBtn.type = 'button';
+                        removeBtn.className = 'btn btn-danger btn-sm remove-new-image';
+                        removeBtn.style.position = 'absolute';
+                        removeBtn.style.top = '5px';
+                        removeBtn.style.right = '5px';
+                        removeBtn.textContent = '×';
+                        removeBtn.addEventListener('click', () => wrapper.remove());
+
+                        wrapper.append(imgEl, removeBtn);
+                        previewContainer.appendChild(wrapper);
+                    } catch (err) {
+                        console.error('Image compression error:', err);
                     }
                 }
-            });
 
-            // Remove existing image
-            preview.addEventListener('click', function(e) {
+                const dataTransfer = new DataTransfer();
+                compressedFiles.forEach(f => dataTransfer.items.add(f));
+                fileInput.files = dataTransfer.files;
+
+                const label = fileInput.nextElementSibling;
+                const existingText = label.textContent.trim();
+                const newNames = Array.from(fileInput.files).map(f => f.name).join(', ');
+                label.textContent = existingText && existingText !== '{{ __('Choose file') }}' ?
+                    `${existingText}, ${newNames}` :
+                    newNames;
+            });
+        });
+    </script> --}}
+    <script>
+        /**
+         * Remove background using color distance to white, but only affect areas near the edges.
+         * Prevents removing interior white content by limiting the margin.
+         * @param {HTMLCanvasElement} canvas
+         * @param {number} threshold - distance threshold (0–441)
+         * @param {number} edgeMargin - pixel margin from edges to consider as background
+         */
+        function removeBackground(canvas, threshold = 60, edgeMargin = 15) {
+            const ctx = canvas.getContext('2d');
+            const {
+                width: w,
+                height: h
+            } = canvas;
+            const imgData = ctx.getImageData(0, 0, w, h);
+            const data = imgData.data;
+            const visited = new Uint8Array(w * h);
+            const stack = [];
+
+            const idx = (x, y) => y * w + x;
+            const isWhiteLike = (x, y) => {
+                const i = idx(x, y) * 4;
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                const distanceToWhite = Math.sqrt(
+                    Math.pow(255 - r, 2) +
+                    Math.pow(255 - g, 2) +
+                    Math.pow(255 - b, 2)
+                );
+                return distanceToWhite < threshold;
+            };
+
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    const nearEdge = x < edgeMargin || x >= w - edgeMargin || y < edgeMargin || y >= h - edgeMargin;
+                    if (nearEdge && isWhiteLike(x, y)) {
+                        visited[idx(x, y)] = 1;
+                        stack.push([x, y]);
+                    }
+                }
+            }
+
+            while (stack.length) {
+                const [x, y] = stack.pop();
+                [
+                    [1, 0],
+                    [-1, 0],
+                    [0, 1],
+                    [0, -1]
+                ].forEach(([dx, dy]) => {
+                    const nx = x + dx;
+                    const ny = y + dy;
+                    if (nx >= 0 && nx < w && ny >= 0 && ny < h) {
+                        const i = idx(nx, ny);
+                        if (!visited[i] && isWhiteLike(nx, ny)) {
+                            visited[i] = 1;
+                            stack.push([nx, ny]);
+                        }
+                    }
+                });
+            }
+
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    const i = idx(x, y);
+                    if (visited[i]) {
+                        data[i * 4 + 3] = 0;
+                    }
+                }
+            }
+
+            ctx.putImageData(imgData, 0, 0);
+        }
+
+        function processImage(file, maxSize = 2 * 1024 * 1024) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = () => reject(new Error('File reading failed'));
+                reader.onload = () => {
+                    const img = new Image();
+                    img.src = reader.result;
+                    img.onerror = () => reject(new Error('Image load failed'));
+                    img.onload = () => {
+                        let width = img.width;
+                        let height = img.height;
+                        if (file.size > maxSize) {
+                            const ratio = Math.sqrt(maxSize / file.size);
+                            width *= ratio;
+                            height *= ratio;
+                        }
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        removeBackground(canvas, 60, 15);
+
+                        canvas.toBlob(blob => {
+                            if (!blob) return reject(new Error('Compression failed'));
+                            if (blob.size > maxSize) {
+                                const downRatio = Math.sqrt(maxSize / blob.size);
+                                const tmpW = canvas.width * downRatio;
+                                const tmpH = canvas.height * downRatio;
+                                const tmp = document.createElement('canvas');
+                                tmp.width = tmpW;
+                                tmp.height = tmpH;
+                                const tmpCtx = tmp.getContext('2d');
+                                tmpCtx.drawImage(canvas, 0, 0, tmpW, tmpH);
+                                removeBackground(tmp, 60, 15);
+                                tmp.toBlob(smallerBlob => {
+                                    smallerBlob ? resolve(smallerBlob) : reject(new Error(
+                                        'Second compression failed'));
+                                }, 'image/png');
+                            } else {
+                                resolve(blob);
+                            }
+                        }, 'image/png');
+                    };
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('custom-file-input');
+            const previewContainer = document.querySelector('.preview');
+            const form = fileInput.closest('form');
+
+            previewContainer.addEventListener('click', function(e) {
                 if (e.target.classList.contains('remove-image')) {
                     const wrapper = e.target.closest('.image-wrapper');
-                    const index = e.target.getAttribute('data-index');
-                    wrapper.remove();
-                    // Optionally add hidden input to track removed images if needed
-                    // const input = document.createElement('input');
-                    // input.type = 'hidden';
-                    // input.name = 'removed_thumbnails[]';
-                    // input.value = index;
-                    // preview.appendChild(input);
-                }
-            });
-
-            // Remove newly uploaded image
-            preview.addEventListener('click', function(e) {
-                if (e.target.classList.contains('remove-new-image')) {
-                    const wrapper = e.target.closest('.image-wrapper');
+                    const oldInput = wrapper.querySelector('input[name="old_thumbnail[]"]');
+                    if (oldInput) {
+                        const removed = document.createElement('input');
+                        removed.type = 'hidden';
+                        removed.name = 'removed_thumbnails[]';
+                        removed.value = oldInput.value;
+                        form.appendChild(removed);
+                    }
                     wrapper.remove();
                 }
             });
 
-            // Update file input label
-            fileInput.addEventListener('change', function(e) {
-                const fileNames = Array.from(e.target.files).map(file => file.name);
-                const label = this.nextElementSibling;
-                label.textContent = fileNames.length > 0 ? fileNames.join(', ') :
-                    '{{ __('Choose file') }}';
+            fileInput.addEventListener('change', async (e) => {
+                const files = Array.from(e.target.files);
+                const processedFiles = [];
+
+                for (const file of files) {
+                    if (!file.type.startsWith('image/')) continue;
+                    try {
+                        const blob = await processImage(file);
+                        const pngFile = new File([blob], file.name.replace(/\.[^.]+$/, '') + '.png', {
+                            type: 'image/png'
+                        });
+                        processedFiles.push(pngFile);
+
+                        const url = URL.createObjectURL(blob);
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'image-wrapper position-relative';
+                        const imgEl = document.createElement('img');
+                        imgEl.src = url;
+                        imgEl.style.height = '100%';
+                        imgEl.style.width = 'auto';
+
+                        const removeBtn = document.createElement('button');
+                        removeBtn.type = 'button';
+                        removeBtn.className = 'btn btn-danger btn-sm remove-new-image';
+                        removeBtn.style.position = 'absolute';
+                        removeBtn.style.top = '5px';
+                        removeBtn.style.right = '5px';
+                        removeBtn.textContent = '×';
+                        removeBtn.addEventListener('click', () => wrapper.remove());
+
+                        wrapper.append(imgEl, removeBtn);
+                        previewContainer.appendChild(wrapper);
+                    } catch (err) {
+                        console.error('Image processing error:', err);
+                    }
+                }
+
+                const dt = new DataTransfer();
+                processedFiles.forEach(f => dt.items.add(f));
+                fileInput.files = dt.files;
+
+                const label = fileInput.nextElementSibling;
+                const existingText = label.textContent.trim();
+                const newNames = Array.from(fileInput.files).map(f => f.name).join(', ');
+                const fallbackText = "Choose file";
+                label.textContent = existingText && existingText !== fallbackText ?
+                    `${existingText}, ${newNames}` :
+                    newNames;
             });
         });
     </script>
+
+
+
+
     <script>
         // $('.custom-file-input').change(function(e) {
         //     var reader = new FileReader();

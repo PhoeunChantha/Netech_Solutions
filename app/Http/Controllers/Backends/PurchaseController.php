@@ -149,66 +149,6 @@ class PurchaseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'supplier_id' => 'required|exists:suppliers,id',
-    //         'product_id' => 'required|exists:products,id',
-    //         'quantity' => 'required|integer|min:1',
-    //         'unit_cost' => 'required|numeric|min:0',
-    //         'total_cost' => 'required|numeric|min:0',
-    //         'purchase_date' => 'required|date',
-    //         'status' => 'required|string',
-    //     ]);
-    //     if ($validator->fails()) {
-    //         return redirect()->back()
-    //             ->withErrors($validator)
-    //             ->withInput()
-    //             ->with(['success' => 0, 'msg' => __('Invalid form input')]);
-    //     }
-
-    //     try {
-    //         DB::beginTransaction();
-
-    //         $purchase = new Purchase();
-    //         $purchase->supplier_id = $request->supplier_id;
-    //         $purchase->product_id = $request->product_id;
-    //         $purchase->quantity = $request->quantity;
-    //         $purchase->unit_cost = $request->unit_cost;
-    //         $purchase->total_cost = $request->total_cost;
-    //         $purchase->purchase_date = $request->purchase_date;
-    //         $purchase->purchase_status = $request->status;
-    //         $purchase->description = $request->description;
-    //         $purchase->created_by = auth()->user()->id;
-
-    //         $purchase->save();
-
-    //         $transaction = new Transaction();
-    //         $transaction->transaction_type = 'expense';
-    //         $transaction->purchase_id = $purchase->id;
-    //         $transaction->product_id = $request->product_id;
-    //         $transaction->amount = $purchase->total_cost;
-    //         $transaction->quantity = $purchase->quantity;
-    //         $transaction->transaction_date = now();
-    //         $transaction->description = 'Purchase of ' . $purchase->quantity . ' units';
-    //         $transaction->save();
-
-    //         DB::commit();
-
-    //         $output = [
-    //             'success' => 1,
-    //             'msg' => ('Create successfully'),
-    //         ];
-    //         return redirect()->route('admin.purchases.index')->with($output);
-    //     } catch (Exception $e) {
-    //         dd($e);
-    //         DB::rollBack();
-    //         $output = [
-    //             'success' => 0,
-    //             'msg' => __('Something went wrong'),
-    //         ];
-    //     }
-    // }
     public function store(Request $request)
     {
         // dd($request->all());
@@ -218,7 +158,6 @@ class PurchaseController extends Controller
             'products' => 'required|array',
             'products.*.price' => 'required|numeric|min:0',
             'products.*.sell_price' => 'required|numeric|min:0',
-
             'dollar_amount' => 'required|numeric|min:0',
             'payment_method' => 'required|string',
         ]);
@@ -274,11 +213,13 @@ class PurchaseController extends Controller
                 $totalCost += $quantity * $purchasePrice;
 
                 // Update product stock
-                if ($request->status == 'Received') {
+                if ($request->status == 'Recieved') {
                     $product = Product::find($productId);
 
                     if ($product) {
                         $product->quantity += $quantity;
+                        $product->price = $sellPrice;
+                        $product->default_purchase_price = $purchasePrice;
                         $product->save();
 
                         Transaction::create([
@@ -304,12 +245,12 @@ class PurchaseController extends Controller
                 'msg' => 'Created successfully',
             ]);
         } catch (\Exception $e) {
-            dd($e);
             DB::rollBack();
             return redirect()->back()->with([
                 'success' => 0,
-                'msg' => 'Something went wrong: ' . $e->getMessage(),
+                'msg' => 'Something went wrong',
             ]);
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
         }
     }
 
@@ -405,22 +346,17 @@ class PurchaseController extends Controller
                 'product' => $product
             ]);
         } catch (Exception $e) {
-            dd($e);
             DB::rollBack();
             return response()->json([
                 'success' => 0,
                 'msg' => 'Something went wrong'
             ]);
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
         }
     }
     /**
      * Display the specified resource.
      */
-    // public function show(string $id) {
-    //     $purchase = Purchase::findOrFail($id);
-    //     $details = PurchaseDetail::with('product')->where('purchase_id', $purchase->id)->get();
-    //     return view('backends.purchase.details', compact('purchase', 'details'));
-    // }
     public function purchase_Detail($id)
     {
         $purchase = Purchase::with('supplier')->findOrFail($id);
@@ -433,9 +369,9 @@ class PurchaseController extends Controller
      */
     public function edit(string $id)
     {
+        $products = Product::where('status', 1)->get();
         $purchase = Purchase::with('purchaseDetails')->findOrFail($id);
         $suppliers = Supplier::pluck('name', 'id');
-        $products = Product::where('status', 1)->get();
         return view('backends.purchase.edit', compact('purchase', 'suppliers', 'products'));
     }
 
@@ -448,12 +384,10 @@ class PurchaseController extends Controller
             'supplier_id' => 'required|exists:suppliers,id',
             'purchase_date' => 'required|date',
             'products' => 'required|array',
-            'products.*.price' => 'required|numeric|min:0',
-            'products.*.sell_price' => 'required|numeric|min:0',
+            'products.*.price' => 'required',
+            'products.*.sell_price' => 'required',
             'dollar_amount' => 'required',
-            'riel_amount' => 'required',
             'payment_method' => 'required|string',
-
         ]);
 
         // if ($validator->fails()) {
@@ -465,7 +399,7 @@ class PurchaseController extends Controller
 
         try {
             DB::beginTransaction();
-
+            
             $purchase = Purchase::findOrFail($id);
             $purchase->supplier_id = $request->supplier_id;
             $purchase->purchase_date = $request->purchase_date;
@@ -489,18 +423,17 @@ class PurchaseController extends Controller
             $purchase->save();
 
             $totalCost = 0;
-
             foreach ($request->products as $productId => $productData) {
                 $quantity = (float) ($productData['quantity'] ?? 0);
                 $purchasePrice = (float) ($productData['price'] ?? 0);
                 $sellPrice = (float) ($productData['sell_price'] ?? 0);
-
+            
                 if ($quantity <= 0 || $purchasePrice <= 0) continue;
-
+            
                 $purchaseDetail = PurchaseDetail::where('purchase_id', $purchase->id)
                     ->where('product_id', $productId)
-                    ->first();
-
+                    ->first(); 
+            
                 if ($purchaseDetail) {
                     $purchaseDetail->quantity = $quantity;
                     $purchaseDetail->price = $purchasePrice;
@@ -515,17 +448,19 @@ class PurchaseController extends Controller
                         'sell_price' => $sellPrice,
                     ]);
                 }
+            
                 $totalCost += $quantity * $purchasePrice;
-
-                if ($request->status == 'Received') {
+              
+                if ($request->status == 'Recieved') {
                     $product = Product::find($productId);
-
                     if ($product) {
-                        $product->quantity += $quantity;
+                        $product->quantity += $quantity;  
+                        $product->price = $sellPrice; 
+                        $product->default_purchase_price = $purchasePrice; 
                         $product->save();
-
+            
                         Transaction::create([
-                            'transaction_type' => 'expense',
+                            'transaction_type' => 'expense', 
                             'purchase_id' => $purchase->id,
                             'product_id' => $productId,
                             'quantity' => $quantity,
@@ -536,6 +471,7 @@ class PurchaseController extends Controller
                     }
                 }
             }
+            
 
             $purchase->total_cost = $totalCost;
             $purchase->save();
@@ -548,12 +484,11 @@ class PurchaseController extends Controller
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error updating purchase: ' . $e->getMessage());
-
-            // return redirect()->back()->with([
-            //     'success' => 0,
-            //     'msg' => 'Something went wrong: ' . $e->getMessage(),
-            // ]);
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+            return redirect()->back()->with([
+                'success' => 0,
+                'msg' => 'Something went wrong',
+            ]);
         }
     }
 
@@ -589,12 +524,11 @@ class PurchaseController extends Controller
             ]);
         } catch (\Throwable $e) {
             DB::rollBack();
-            \Log::error("Purchase Deletion Error: " . $e->getMessage());
-
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
             return response()->json([
                 'status' => 0,
-                'msg' => __('Something went wrong while deleting the purchase. Please try again.')
-            ], 500);
+                'msg' => __('Something went wrong.')
+            ]);
         }
     }
 

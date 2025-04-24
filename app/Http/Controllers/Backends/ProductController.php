@@ -86,14 +86,7 @@ class ProductController extends Controller
                 );
             });
         }
-        if (is_null($request->description[array_search('en', $request->lang)])) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'description',
-                    'Description field is required!'
-                );
-            });
-        }
+      
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -160,12 +153,14 @@ class ProductController extends Controller
                 'msg' => ('Create successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+           
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
         return redirect()->route('admin.product.index')->with($output);
     }
@@ -211,24 +206,16 @@ class ProductController extends Controller
             'default_purchase_price' => 'required|numeric',
             // 'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
-        // dd($validator);
 
-        // if (is_null($request->name[array_search('en', $request->lang)])) {
-        //     $validator->after(function ($validator) {
-        //         $validator->errors()->add(
-        //             'name',
-        //             'Name field is required!'
-        //         );
-        //     });
-        // }
-        // if (is_null($request->description[array_search('en', $request->lang)])) {
-        //     $validator->after(function ($validator) {
-        //         $validator->errors()->add(
-        //             'description',
-        //             'Description field is required!'
-        //         );
-        //     });
-        // }
+        if (is_null($request->name[array_search('en', $request->lang)])) {
+            $validator->after(function ($validator) {
+                $validator->errors()->add(
+                    'name',
+                    'Name field is required!'
+                );
+            });
+        }
+       
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -252,13 +239,27 @@ class ProductController extends Controller
             $product->price = $request->price;
             $product->quantity = $request->quantity;
             $product->created_by = auth()->user()->id;
-            if ($request->hasFile('thumbnail')) {
-                $oldImages = $product->thumbnail ?? []; 
-                $newImages = $request->file('thumbnail');
-                $newThumbnails = ImageManager::append('uploads/products/', $oldImages, $newImages);
-                $product->thumbnail = $newThumbnails;
-            }
-            $product->save();
+           
+                $kept = $request->input('old_thumbnail', []); // array of filenames
+
+                $original = $product->getOriginal('thumbnail') ?? [];
+                $removed  = array_diff($original, $kept);
+                foreach ($removed as $rm) {
+                    $path = public_path('uploads/products/'.$rm);
+                    if (file_exists($path)) {
+                        @unlink($path);
+                    }
+                }
+
+                if ($request->hasFile('thumbnail')) {
+                    $newFiles = $request->file('thumbnail');
+                    $all = ImageManager::append('uploads/products/', $kept, $newFiles);
+                } else {
+                    $all = $kept;
+                }
+
+                $product->thumbnail = $all;
+                $product->save();
 
             $data = [];
             foreach ($request->lang as $index => $key) {
@@ -291,15 +292,17 @@ class ProductController extends Controller
 
             $output = [
                 'success' => 1,
-                'msg' => ('Create successfully'),
+                'msg' => ('Updated successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+          
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return redirect()->route('admin.product.index')->with($output);
@@ -319,6 +322,8 @@ class ProductController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $output = ['status' => 0, 'msg' => __('Something went wrong')];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);
@@ -352,6 +357,8 @@ class ProductController extends Controller
                 'status' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);

@@ -124,12 +124,14 @@ class CustomerController extends Controller
                 'msg' => ('Create successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+          
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
         return redirect()->route('admin.customer.index')->with($output);
     }
@@ -245,12 +247,14 @@ class CustomerController extends Controller
                 'msg' => ('Update successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+          
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
         return redirect()->route('admin.customer.index')->with($output);
     }
@@ -269,6 +273,8 @@ class CustomerController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $output = ['status' => 0, 'msg' => __('Something went wrong')];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);
@@ -302,6 +308,8 @@ class CustomerController extends Controller
                 'status' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);

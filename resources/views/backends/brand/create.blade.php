@@ -47,12 +47,12 @@
                                                             <div class="form-group col-md-12">
                                                                 <input type="hidden" name="lang[]"
                                                                     value="{{ $lang['code'] }}">
-                                                                <label
+                                                                <label class="required_label"
                                                                     for="name_{{ $lang['code'] }}">{{ __('Name') }}({{ strtoupper($lang['code']) }})</label>
                                                                 <input type="name" id="name_{{ $lang['code'] }}"
                                                                     class="form-control @error('name') is-invalid @enderror"
                                                                     name="name[]" placeholder="{{ __('Enter Name') }}"
-                                                                    value="{{ old('name') }}">
+                                                                    value="{{ old('name[]') }}">
                                                                 @error('name')
                                                                     <span class="invalid-feedback" role="alert">
                                                                         <strong>{{ $message }}</strong>
@@ -90,7 +90,7 @@
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <div class="form-group">
-                                            <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                                            <label class="required_label" for="exampleInputFile">{{ __('Thumbnail') }}</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="hidden" name="thumbnails" class="thumbnails_hidden">

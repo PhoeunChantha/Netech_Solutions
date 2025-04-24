@@ -248,16 +248,16 @@
                             defaultContent: "-"
                         },
                         {
+                            data: "amount",
+                            name: "amount"
+                        },
+                        {
                             data: "quantity",
                             name: "quantity"
                         },
                         {
                             data: "transaction_date",
                             name: "transaction_date"
-                        },
-                        {
-                            data: "amount",
-                            name: "amount"
                         },
                         {
                             data: "description",

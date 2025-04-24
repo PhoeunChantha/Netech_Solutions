@@ -186,10 +186,10 @@
                                                             <div class="preview">
                                                                 <img style="height: 224px"
                                                                     src="
-                                                            @if ($about_company_image && file_exists('uploads/business_settings/' . $about_company_image)) {{ asset('uploads/business_settings/' . $about_company_image) }}
-                                                            @else
-                                                                {{ asset('uploads/defualt.png') }} @endif
-                                                            "
+                                                                        @if ($about_company_image && file_exists(public_path('uploads/business_settings/' .  $about_company_image))) {{ asset('uploads/business_settings/' .  $about_company_image) }}
+                                                                        @else
+                                                                            {{ asset('uploads/defualt.png') }} @endif
+                                                                        "
                                                                     alt="" height="120px">
                                                             </div>
                                                             <div class="custom-file">
@@ -226,11 +226,12 @@
                                                         <div class="form-group">
                                                             <label for="web_header_logo">{{ __('Website logo') }}</label>
                                                             <div class="preview">
+                                                            
                                                                 <img src="
-                                                            @if ($web_header_logo && file_exists('uploads/business_settings/' . $web_header_logo)) {{ asset('uploads/business_settings/' . $web_header_logo) }}
-                                                            @else
-                                                                {{ asset('uploads/default.png') }} @endif
-                                                            "
+                                                                        @if ($web_header_logo && file_exists(public_path('uploads/business_settings/' .  $web_header_logo))) {{ asset('uploads/business_settings/' .  $web_header_logo) }}
+                                                                        @else
+                                                                            {{ asset('uploads/defualt.png') }} @endif
+                                                                        "
                                                                     alt="" height="120px">
                                                             </div>
                                                             <div class="custom-file">
@@ -266,10 +267,9 @@
                                                             <label for="fav_icon">{{ __('Fav icon') }}</label>
                                                             <div class="preview">
                                                                 <img src="
-                                                            @if ($fav_icon && file_exists('uploads/business_settings/' . $fav_icon)) {{ asset('uploads/business_settings/' . $fav_icon) }}
-                                                            @else
-                                                                {{ asset('uploads/image/default.png') }} @endif
-                                                            "
+                                                                        @if ($fav_icon && file_exists(public_path('uploads/business_settings/' .  $fav_icon))) {{ asset('uploads/business_settings/' .  $fav_icon) }}
+                                                                        @else
+                                                                            {{ asset('uploads/defualt.png') }} @endif"
                                                                     alt="" height="120px">
                                                             </div>
                                                             <div class="custom-file">

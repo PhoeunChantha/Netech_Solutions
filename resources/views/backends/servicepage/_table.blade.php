@@ -6,7 +6,7 @@
                 <th>{{ __('Thumbnail') }}</th>
                 <th>{{ __('Name') }}</th>
                 {{-- <th>{{ __('Description') }}</th> --}}
-                <th>{{ __('Category') }}</th>
+                {{-- <th>{{ __('Category') }}</th> --}}
                 <th>{{ __('Status') }}</th>
                 <th>{{ __('Action') }}</th>
             </tr>
@@ -25,7 +25,7 @@
                             alt="" class="profile_img_table">
                     </td>
                     <td>{{ $service->name }}</td>
-                    <td>{{ $service->category->name ?? 'null' }}</td>
+                    {{-- <td>{{ $service->category->name ?? 'null' }}</td> --}}
                     <td>
                         @if (auth()->user()->can('service.edit'))
                             <div class="custom-control custom-switch">

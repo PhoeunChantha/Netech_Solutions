@@ -58,24 +58,7 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    {{-- <div class="form-group col-md-6">
-                                        <label class="required_lable">{{ __('User ID') }}</label>
-                                        <input type="name" class="form-control @error('user_id') is-invalid @enderror"
-                                            value="{{ old('user_id', $user->user_id) }}" name="user_id"
-                                            placeholder="{{ __('Enter User ID') }}">
-                                        @error('user_id')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div> --}}
-                                    {{-- <div class="form-group col-md-6">
-                                            <label>{{__('Gender')}}</label>
-                                            <select class="form-control" name="gender" >
-                                                <option value="1">{{__('Male')}}</option>
-                                                <option value="2">{{__('Female')}}</option>
-                                            </select>
-                                        </div> --}}
+
                                     <div class="form-group col-md-6">
                                         <label class="required_lable">{{ __('Phone Number') }}</label>
                                         <input type="text" class="form-control @error('phone') is-invalid @enderror"
@@ -87,17 +70,7 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    {{-- <div class="form-group col-md-6">
-                                        <label class="required_lable">{{ __('Telegram Number') }}</label>
-                                        <input type="text" class="form-control @error('telegram') is-invalid @enderror"
-                                            value="{{ old('telegram', $user->telegram) }}" name="telegram"
-                                            placeholder="{{ __('Enter Telegram Number') }}">
-                                        @error('telegram')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div> --}}
+
                                     <div class="form-group col-md-6">
                                         <label class="required_lable">{{ __('Email') }}</label>
                                         <input type="text" class="form-control @error('email') is-invalid @enderror"
@@ -112,12 +85,15 @@
                                     <div class="form-group col-md-6">
                                         <label class="required_lable">{{ __('Password') }}</label>
                                         <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                            value="" name="password" placeholder="{{ __('Enter Password') }}">
+                                            value="" name="password" placeholder="{{ __('Enter Password') }}"
+                                            minlength="8">
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
+                                        <small class="text-danger d-none"
+                                            id="password_error">{{ __('Password must be at least 8 characters long.') }}</small>
                                     </div>
 
                                     <div class="form-group col-md-6">
@@ -185,13 +161,26 @@
 
 @push('js')
     <script>
-        $('.custom-file-input').change(function(e) {
-            var reader = new FileReader();
-            var preview = $(this).closest('.form-group').find('.preview img');
-            reader.onload = function(e) {
-                preview.attr('src', e.target.result).show();
-            }
-            reader.readAsDataURL(this.files[0]);
+        $(document).ready(function() {
+            $('#password').on('input', function() {
+                var password = $(this).val();
+                if (password.length < 8) {
+                    $('#password_error').removeClass('d-none');
+                } else {
+                    $('#password_error').addClass('d-none');
+                }
+                if (password == '') {
+                    $('#password_error').addClass('d-none');
+                }
+            }); 
+            $('.custom-file-input').change(function(e) {
+                var reader = new FileReader();
+                var preview = $(this).closest('.form-group').find('.preview img');
+                reader.onload = function(e) {
+                    preview.attr('src', e.target.result).show();
+                }
+                reader.readAsDataURL(this.files[0]);
+            });
         });
     </script>
 @endpush

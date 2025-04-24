@@ -301,7 +301,7 @@
     }
 
     .main-text .text-pro {
-        width: 60%;
+        /* width: 60%; */
         font-size: 20px;
         font-weight: 800;
         /* margin-right: 2em; */

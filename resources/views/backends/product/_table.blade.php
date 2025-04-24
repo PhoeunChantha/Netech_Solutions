@@ -49,10 +49,10 @@
                                     @endif
                                 @endforeach
                             @else
-                                <a class="example-image-link" href="{{ asset('uploads/products/default.png') }}"
+                                <a class="example-image-link" href="{{ asset('uploads/defualt.png') }}"
                                     data-fancybox="gallery-{{ $product->id }}">
                                     <img class="example-image image-thumbnail"
-                                        src="{{ asset('uploads/products/default.png') }}" alt="default-thumbnail"
+                                        src="{{ asset('uploads/defualt.png') }}" alt="default-thumbnail"
                                         width="50px" height="50px" style="cursor:pointer" />
                                 </a>
                             @endif

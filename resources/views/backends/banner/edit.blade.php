@@ -61,7 +61,7 @@
                                                             <div class="form-group col-md-12">
                                                                 <input type="hidden" name="lang[]"
                                                                     value="{{ $lang['code'] }}">
-                                                                <label
+                                                                <label class="required_label"
                                                                     for="name_{{ $lang['code'] }}">{{ __('Name') }}({{ strtoupper($lang['code']) }})</label>
                                                                 <input type="name" id="name_{{ $lang['code'] }}"
                                                                     class="form-control @error('name') is-invalid @enderror"
@@ -102,8 +102,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="order">{{ __('Order') }}</label>
+                                    <div class="form-group col-md-12">
+                                        <label class="required_label" for="order">{{ __('Order') }}</label>
                                         <input type="number" id="order" min="1"
                                             class="form-control @error('order') is-invalid @enderror" name="order"
                                             placeholder="{{ __('Enter order') }}"
@@ -114,9 +114,9 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <div class="form-group">
-                                            <label for="exampleInputFile">{{ __('Image') }}</label>
+                                            <label class="required_label" for="exampleInputFile">{{ __('Image') }}</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="file" class="custom-file-input" id="exampleInputFile"

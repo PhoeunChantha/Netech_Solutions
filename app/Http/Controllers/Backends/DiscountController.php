@@ -19,21 +19,7 @@ use Illuminate\Support\Facades\Validator;
 
 class DiscountController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // public function index()
-    // {
-    //     $discounts = Discount::all();
-    //     $discountProducts = [];
-    //     foreach ($discounts as $discount) {
-    //         if (!empty($discount->product_ids)) {
-    //             $products = Product::whereIn('id', $discount->product_ids)->get();
-    //             $discountProducts[$discount->id] = $products;
-    //         }
-    //     }
-    //     return view('backends.discount.index', compact('discounts', 'discountProducts'));
-    // }
+  
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -132,7 +118,6 @@ class DiscountController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'description' => 'required',
             'product_ids' => 'required|array',
             'product_ids.*' => 'numeric',
             'discount_type' => 'required|in:percentage,fixed',
@@ -151,15 +136,7 @@ class DiscountController extends Controller
                 );
             });
         }
-        if (is_null($request->description[array_search('en', $request->lang)])) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'description',
-                    'Description field is required!'
-                );
-            });
-        }
-
+       
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
@@ -218,12 +195,14 @@ class DiscountController extends Controller
                 'msg' => ('Create successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
-            // DB::rollBack();
-            // $output = [
-            //     'success' => 0,
-            //     'msg' => __('Something went wrong'),
-            // ];
+            // dd($e);
+            DB::rollBack();
+            $output = [
+                'success' => 0,
+                'msg' => __('Something went wrong'),
+            ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
         return redirect()->route('admin.discount.index')->with($output);
     }
@@ -261,7 +240,6 @@ class DiscountController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'description' => 'required',
             'product_ids' => 'required|array',
             'product_ids.*' => 'numeric',
             'discount_type' => 'required|in:percentage,fixed',
@@ -280,14 +258,7 @@ class DiscountController extends Controller
                 );
             });
         }
-        if (is_null($request->description[array_search('en', $request->lang)])) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'description',
-                    'Description field is required!'
-                );
-            });
-        }
+      
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -354,6 +325,8 @@ class DiscountController extends Controller
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
         return redirect()->route('admin.discount.index')->with($output);
     }
@@ -372,6 +345,8 @@ class DiscountController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $output = ['status' => 0, 'msg' => __('Something went wrong')];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);
@@ -412,6 +387,7 @@ class DiscountController extends Controller
                 'status' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
         }
 
         return response()->json($output);

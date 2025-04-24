@@ -59,7 +59,6 @@ class ContactController extends Controller
                 'email' => $request->customerEmail,
             ];
             
-            // Use the AdminReplyContact mailable class
             Mail::to($template['email'])->send(new AdminReplyContact($template));
 
             $output = [
@@ -67,9 +66,7 @@ class ContactController extends Controller
                 'msg' => __('Your message has been sent!')
             ];
         } catch (\Exception $e) {
-            // Debugging
-            dd($e);
-
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong')
@@ -149,6 +146,8 @@ class ContactController extends Controller
                 'status' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
         return response()->json($output);
     }

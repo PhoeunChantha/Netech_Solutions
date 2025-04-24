@@ -38,31 +38,43 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|unique:roles,name',
-            'permissions' => 'required|array'
-        ]);
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|unique:roles,name',
+                'permissions' => 'required|array'
+            ]);
 
-        $role_name = $validated['name'];
-        $permissions = $validated['permissions'];
+            $role_name = $validated['name'];
+            $permissions = $validated['permissions'];
 
-        // Create the role
-        $role = Role::create(['name' => $role_name]);
+            // Create the role
+            $role = Role::create(['name' => $role_name]);
 
-        // Create permissions if they do not exist
-        $this->__createPermissionIfNotExists($permissions);
+            // Create permissions if they do not exist
+            $this->__createPermissionIfNotExists($permissions);
 
-        // Sync permissions with the role
-        if (!empty($permissions)) {
-            $role->syncPermissions($permissions);
+            // Sync permissions with the role
+            if (!empty($permissions)) {
+                $role->syncPermissions($permissions);
+            }
+
+            $output = [
+                'success' => 1,
+                'msg' => __("Admin role created successfully")
+            ];
+
+            return redirect()->route('admin.role.index')->with($output);
+        } catch (Exception $e) {
+            // Log the exception
+            \Log::error('Role creation error: ' . $e->getMessage());
+
+            $output = [
+                'success' => 0,
+                'msg' => __('Something went wrong')
+            ];
+
+            return redirect()->route('admin.role.index')->with($output);
         }
-
-        $output = [
-            'success' => 1,
-            'msg' => __("Admin role created successfully")
-        ];
-
-        return redirect()->route('admin.role.index')->with($output);
     }
 
     /**
@@ -92,33 +104,45 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|unique:roles,name,' . $id,
-            'permissions' => 'array'
-        ]);
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|unique:roles,name,' . $id,
+                'permissions' => 'array'
+            ]);
 
-        $role_name = $validated['name'];
-        $permissions = $validated['permissions'] ?? [];
+            $role_name = $validated['name'];
+            $permissions = $validated['permissions'] ?? [];
 
-        // Update the role
-        $role = Role::findOrFail($id);
-        $role->name = $role_name;
-        $role->save();
+            // Update the role
+            $role = Role::findOrFail($id);
+            $role->name = $role_name;
+            $role->save();
 
-        // Create permissions if they do not exist
-        $this->__createPermissionIfNotExists($permissions);
+            // Create permissions if they do not exist
+            $this->__createPermissionIfNotExists($permissions);
 
-        // Sync permissions with the role
-        if (!empty($permissions)) {
-            $role->syncPermissions($permissions);
+            // Sync permissions with the role
+            if (!empty($permissions)) {
+                $role->syncPermissions($permissions);
+            }
+
+            $output = [
+                'success' => 1,
+                'msg' => __("Admin role updated successfully")
+            ];
+
+            return redirect()->route('admin.role.index')->with($output);
+        } catch (Exception $e) {
+            // Log the exception
+            \Log::error('Role update error: ' . $e->getMessage());
+
+            $output = [
+                'success' => 0,
+                'msg' => __('Something went wrong')
+            ];
+
+            return redirect()->route('admin.role.index')->with($output);
         }
-
-        $output = [
-            'success' => 1,
-            'msg' => __("Admin role updated successfully")
-        ];
-
-        return redirect()->route('admin.role.index')->with($output);
     }
 
     /**

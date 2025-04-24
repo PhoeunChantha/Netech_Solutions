@@ -51,7 +51,7 @@
                                         aria-labelledby="lang_{{ $lang['code'] }}-tab">
                                         <div class="form-group">
                                             <input type="hidden" name="lang[]" value="{{ $lang['code'] }}">
-                                            <label
+                                            <label class="required_lable"
                                                 for="name_{{ $lang['code'] }}">{{ __('Name') }}({{ strtoupper($lang['code']) }})</label>
                                             <input type="text" name="name[]" id="name_{{ $lang['code'] }}"
                                                 class="form-control"
@@ -66,7 +66,7 @@
                 </div>
                 <div class="form-group col-md-12">
                     <div class="form-group">
-                        <label for="exampleInputFile">{{ __('Image') }}</label>
+                        <label class="required_lable" for="exampleInputFile">{{ __('Image') }}</label>
                         <div class="input-group">
                             <div class="custom-file">
                                 <input type="hidden" name="icon_images" class="image_hidden">
@@ -88,7 +88,7 @@
                 </div>
                 <div class="form-group col-md-12">
                     <div class="form-group">
-                        <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                        <label class="required_lable" for="exampleInputFile">{{ __('Thumbnail') }}</label>
                         <div class="input-group">
                             <div class="custom-file">
                                 <input type="hidden" name="thumbnails" class="thumbnails_hidden">

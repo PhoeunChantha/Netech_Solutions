@@ -119,12 +119,15 @@ class VideoController extends Controller
                 'msg' => ('Create successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+           
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
+
         }
         return redirect()->route('admin.video.index')->with($output);
     }
@@ -160,7 +163,7 @@ class VideoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            // 'thumbnail' => 'required',
+            'thumbnail' => 'required',
             'description' => 'required',
         ]);
 
@@ -239,12 +242,13 @@ class VideoController extends Controller
                 'msg' => ('Updated successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+           
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
         }
         return redirect()->route('admin.video.index')->with($output);
     }
@@ -278,6 +282,8 @@ class VideoController extends Controller
                 'status' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);
@@ -296,9 +302,10 @@ class VideoController extends Controller
 
             DB::commit();
         } catch (Exception $e) {
-            dd($e);
+           
             DB::rollBack();
             $output = ['status' => 0, 'msg' => __('Something went wrong')];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
         }
 
         return response()->json($output);

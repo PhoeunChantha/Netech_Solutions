@@ -76,7 +76,6 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->password = Hash::make($request['password']);
 
-
             if ($request->hasFile('image')) {
                 $user->image = ImageManager::upload('uploads/users/', $request->image);
             }
@@ -93,6 +92,8 @@ class UserController extends Controller
                 'success' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return redirect()->route('admin.user.index')->with($output);
@@ -182,12 +183,14 @@ class UserController extends Controller
                 'msg' => __('Updated successfully')
             ];
         } catch (Exception $e) {
-            dd($e);
+          
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return redirect()->route('admin.user.index')->with($output);
@@ -216,11 +219,12 @@ class UserController extends Controller
             ];
         } catch (Exception $e) {
             DB::rollBack();
-
             $output = [
                 'status' => 0,
                 'msg' => __('Something when wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);
@@ -241,6 +245,8 @@ class UserController extends Controller
 
             $output = ['status' => 0, 'msg' => __('Something went wrong')];
             DB::rollBack();
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);

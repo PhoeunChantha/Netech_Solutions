@@ -76,7 +76,7 @@
 
                                     <div class="col-md-3 d-flex flex-column justify-content-center align-item-center">
                                         @if (auth()->user()->can('apply.discount'))
-                                            <button id="discount-button" type="button" class="btn btn-primary w-75 m-2"><img
+                                            <button type="button" class="btn btn-primary w-75 m-2 discount-price"><img
                                                     class="mr-2" src="{{ asset('svgs/pos_discount.svg') }}"
                                                     alt="">{{ __('Discount') }}</button>
                                         @endif
@@ -233,8 +233,6 @@
             });
         }
 
-
-
         $('#product-table').on('click', '.btn-delete', function() {
             $(this).closest('tr').remove();
             $('.discount-container').text('0.00$');
@@ -275,13 +273,13 @@
 
             if (existingRow.length > 0) {
                 if (parseInt(existingRow.find('.quantity').text()) >= stock) {
-                    toastr.warning('Product out of stock!');
+                    toastr.error('Product out of stock!');
                     return;
                 }
                 quantity = updateExistingRow(existingRow, quantityLimited, originalPrice, discountedPrice, );
             } else {
                 if (stock === 0) {
-                    toastr.warning('No stock available');
+                    toastr.error('No stock available');
                     return;
                 }
                 addNewRow(productId, discount_type, productName, quantity, quantityLimited, originalPrice,
@@ -309,7 +307,7 @@
             console.log('quantityLimited', quantityLimited);
 
             if (quantity > stock) {
-                toastr.warning('Product out of stock!');
+                toastr.error('Product out of stock!');
                 return;
             } else {
                 quantityElement.text(quantity);
@@ -423,11 +421,11 @@
     </script>
     <!-- Apply discount modal -->
     <script>
-        $(document).on('click', '#discount-button', function() {
+        $(document).on('click', '.discount-price', function() {
             const subtotal = parseFloat($('#subtotal').val() || 0);
             // const discountexisting = parseFloat($('#discount').val());
             if (subtotal <= 0) {
-                toastr.warning('Please add products to cart before applying discount.');
+                toastr.error('Please add products to cart before applying discount.');
                 return;
             }
             // if (discountexisting > 0) {

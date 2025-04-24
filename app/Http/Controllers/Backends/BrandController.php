@@ -46,7 +46,6 @@ class BrandController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'description' => 'nullable',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
         if (is_null($request->name[array_search('en', $request->lang)])) {
@@ -57,14 +56,7 @@ class BrandController extends Controller
                 );
             });
         }
-        if (is_null($request->description[array_search('en', $request->lang)])) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'description',
-                    'Description field is required!'
-                );
-            });
-        }
+       
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
@@ -111,12 +103,14 @@ class BrandController extends Controller
                 'msg' => ('Create successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+          
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
         return redirect()->route('admin.brand.index')->with($output);
     }
@@ -153,7 +147,6 @@ class BrandController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'description' => 'nullable',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
         if (is_null($request->name[array_search('en', $request->lang)])) {
@@ -164,14 +157,7 @@ class BrandController extends Controller
                 );
             });
         }
-        if (is_null($request->description[array_search('en', $request->lang)])) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'description',
-                    'Description field is required!'
-                );
-            });
-        }
+      
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
@@ -221,12 +207,14 @@ class BrandController extends Controller
                 'msg' => ('Create successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+           
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
         return redirect()->route('admin.brand.index')->with($output);
     }
@@ -260,6 +248,8 @@ class BrandController extends Controller
                 'status' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
         return response()->json($output);
     }

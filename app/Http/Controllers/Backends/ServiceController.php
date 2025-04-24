@@ -62,7 +62,6 @@ class ServiceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'category_id' => 'required',
             'thumbnails' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
@@ -97,7 +96,7 @@ class ServiceController extends Controller
             $service->name = $request->name[array_search('en', $request->lang)];
             $service->slug = Str::slug($request->name[array_search('en', $request->lang)]);
             $service->description = $request->description[array_search('en', $request->lang)];
-            $service->category_id = $request->category_id;
+            $service->category_id = $request->category_id ?? null;
             if ($request->hasFile('thumbnails')) {
                 $service->thumbnails = ImageManager::upload('uploads/serviceimg/', $request->thumbnails);
             }
@@ -138,12 +137,14 @@ class ServiceController extends Controller
                 'msg' => ('Create successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+           
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
         return redirect()->route('admin.service.index')->with($output);
     }
@@ -181,7 +182,6 @@ class ServiceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'category_id' => 'required',
             'thumbnails' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
         // dd($validator);
@@ -218,7 +218,7 @@ class ServiceController extends Controller
             $service->name = $request->name[array_search('en', $request->lang)];
             $service->description = $request->description[array_search('en', $request->lang)];
             $service->slug = Str::slug($request->name[array_search('en', $request->lang)]);
-            $service->category_id = $request->category_id;
+            $service->category_id = $request->category_id ?? null;
             if ($request->hasFile('thumbnails')) {
                 $oldImage = $service->thumbnails;
                 $service->thumbnails = ImageManager::update('uploads/serviceimg/', $oldImage, $request->file('thumbnails'));
@@ -260,12 +260,13 @@ class ServiceController extends Controller
                 'msg' => ('Create successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+           
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
         }
 
         return redirect()->route('admin.service.index')->with($output);
@@ -299,6 +300,7 @@ class ServiceController extends Controller
                 'status' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
         }
 
         return response()->json($output);
@@ -318,8 +320,9 @@ class ServiceController extends Controller
             DB::commit();
         } catch (Exception $e) {
 
-            $output = ['status' => 0, 'msg' => __('Something went wrong')];
             DB::rollBack();
+            $output = ['status' => 0, 'msg' => __('Something went wrong')];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
         }
 
         return response()->json($output);

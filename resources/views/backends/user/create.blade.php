@@ -53,13 +53,7 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                        {{-- <div class="form-group col-md-6">
-                                            <label>{{__('Gender')}}</label>
-                                            <select class="form-control" name="gender" >
-                                                <option value="1">{{__('Male')}}</option>
-                                                <option value="2">{{__('Female')}}</option>
-                                            </select>
-                                        </div> --}}
+                                       
                                         <div class="form-group col-md-6">
                                             <label class="required_lable">{{__('Phone Number')}}</label>
                                             <input type="text" class="form-control @error('phone') is-invalid @enderror" value="{{ old('phone') }}"
@@ -83,16 +77,17 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="required_lable">{{__('Password')}}</label>
-                                            <input type="password" class="form-control @error('password') is-invalid @enderror" value=""
-                                                name="password" placeholder="{{__('Enter Password')}}" >
+                                            <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" value=""
+                                                name="password" placeholder="{{__('Enter Password')}}" minlength="8">
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                            <small class="text-danger d-none" id="password_error">{{__('Password must be at least 8 characters long.')}}</small>
                                         </div>
-
-                                        <div class="form-group col-md-6">
+                                       
+                                        <div class="form-group col-md-12">
                                             <label class="required_lable" for="role">{{__('Role')}}</label>
                                             <select name="role" id="role" class="form-control select2 @error('password') is-invalid @enderror">
                                                 @foreach ($roles as $id => $name)
@@ -106,15 +101,10 @@
                                             @enderror
 
                                         </div>
-                                        {{-- <div class="form-group col-md-6">
-                                            <label>{{__('Address')}}</label>
-                                            <input type="text" class="form-control" value="{{ old('address') }}"
-                                                name="address" placeholder="{{__('Enter Address')}}" >
-                                        </div> --}}
 
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-12">
                                             <div class="form-group">
-                                                <label for="exampleInputFile">{{__('Image')}}</label>
+                                                <label for="exampleInputFile">{{__('Profile')}}</label>
                                                 <div class="input-group">
                                                     <div class="custom-file">
                                                         <input type="file" class="custom-file-input" id="exampleInputFile" name="image">
@@ -143,6 +133,21 @@
 @endsection
 
 @push('js')
+<script>
+    $(document).ready(function() {
+        $('#password').on('input', function() {
+            var password = $(this).val();
+            if (password.length < 8) {
+                $('#password_error').removeClass('d-none');
+            } else {
+                $('#password_error').addClass('d-none');
+            }
+            if(password == '') {
+                $('#password_error').addClass('d-none');
+            }
+        });
+    });
+</script>
     <script>
         $('.custom-file-input').change(function (e) {
             var reader = new FileReader();

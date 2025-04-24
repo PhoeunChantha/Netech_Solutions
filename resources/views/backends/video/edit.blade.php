@@ -60,7 +60,7 @@
                                                             <div class="form-group col-md-12">
                                                                 <input type="hidden" name="lang[]"
                                                                     value="{{ $lang['code'] }}">
-                                                                <label
+                                                                <label class="required_label"
                                                                     for="name_{{ $lang['code'] }}">{{ __('Name') }}({{ strtoupper($lang['code']) }})</label>
                                                                 <input type="name" id="name_{{ $lang['code'] }}"
                                                                     class="form-control @error('name') is-invalid @enderror"
@@ -73,7 +73,7 @@
                                                                 @enderror
                                                             </div>
                                                             <div class="form-group col-md-12">
-                                                                <label
+                                                                <label class="required_label"
                                                                     for="description_{{ $lang['code'] }}">{{ __('Description') }}({{ strtoupper($lang['code']) }})</label>
                                                                 <textarea type="text" id="description_{{ $lang['code'] }}"
                                                                     class="form-control @error('description') is-invalid @enderror" name="description[]"
@@ -123,18 +123,18 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6" id="video_url">
-                                        <label for="video_url">{{ __('Video URL') }}</label>
+                                        <label class="required_label" for="video_url">{{ __('Video URL') }}</label>
                                         <input type="text" class="form-control" name="video_url"
                                             value="{{ $video->video_url }}">
                                     </div>
                                     <div class="form-group col-md-6" id="video_id">
-                                        <label for="video_id">{{ __('Video ID') }}</label>
+                                        <label class="required_label" for="video_id">{{ __('Video ID') }}</label>
                                         <input type="text" class="form-control" name="video_id"
                                             value="{{ $video->video_id }}">
                                     </div>
                                     <div class="form-group col-md-6" hidden id="video_file">
                                         <div class="form-group">
-                                            <label for="exampleInputFile">{{ __('Video') }}</label>
+                                            <label class="required_label" for="exampleInputFile">{{ __('Video') }}</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="file" class="custom-file-input" id="exampleInputFile"
@@ -152,7 +152,7 @@
                                     </div>
                                     <div class="form-group col-md-6" >
                                         <div class="form-group">
-                                            <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                                            <label class="required_label" for="exampleInputFile">{{ __('Thumbnail') }}</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="file" class="custom-file-input" id="exampleInputFile"

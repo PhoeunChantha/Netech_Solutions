@@ -78,7 +78,7 @@
                                                                 @enderror
                                                             </div>
                                                             <div class="form-group col-md-12">
-                                                                <label
+                                                                <label class="required_lable"
                                                                     for="description_{{ $lang['code'] }}">{{ __('Description') }}({{ strtoupper($lang['code']) }})</label>
                                                                 <textarea rows="4" type="text" id="description_{{ $lang['code'] }}"
                                                                     class="form-control  @error('description') is-invalid @enderror" name="description[]"
@@ -106,7 +106,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-6" hidden>
                                         <label class="required_lable" for="category">{{ __('Category') }}</label>
                                         <select name="category_id" id="category_id"
                                             class="form-control select2 @error('category_id') is-invalid @enderror">
@@ -137,25 +137,24 @@
                                         @enderror
                                     </div> --}}
                                     <div class="form-group col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="exampleInputFile"
-                                                        name="thumbnails">
-                                                    <label class="custom-file-label"
-                                                        for="exampleInputFile">{{ $service->thumbnails ?? __('Choose file') }}</label>
-                                                </div>
-                                            </div>
-                                            <div class="preview text-center border rounded mt-2" style="height: 150px">
-                                                <img src="
-                                                    @if ($service->thumbnails && file_exists(public_path('uploads/serviceimg/' . $service->thumbnails))) {{ asset('uploads/serviceimg/' . $service->thumbnails) }}
-                                                    @else
-                                                        {{ asset('uploads/image/default.png') }} @endif
-                                                    "
-                                                    alt="" height="100%">
+                                        <label class="required_lable" for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="exampleInputFile"
+                                                    name="thumbnails">
+                                                <label class="custom-file-label"
+                                                    for="exampleInputFile">{{ $service->thumbnails ?? __('Choose file') }}</label>
                                             </div>
                                         </div>
+                                        <div class="preview text-center border rounded mt-2" style="height: 150px">
+                                            <img src="
+                                                @if ($service->thumbnails && file_exists(public_path('uploads/serviceimg/' . $service->thumbnails))) {{ asset('uploads/serviceimg/' . $service->thumbnails) }}
+                                                @else
+                                                    {{ asset('uploads/image/default.png') }} @endif
+                                                "
+                                                alt="" height="100%">
+                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>

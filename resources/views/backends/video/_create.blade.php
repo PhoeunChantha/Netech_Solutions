@@ -46,7 +46,7 @@
                                                             <div class="form-group col-md-12">
                                                                 <input type="hidden" name="lang[]"
                                                                     value="{{ $lang['code'] }}">
-                                                                <label
+                                                                <label class="required_label"
                                                                     for="name_{{ $lang['code'] }}">{{ __('Name') }}({{ strtoupper($lang['code']) }})</label>
                                                                 <input type="name" id="name_{{ $lang['code'] }}"
                                                                     class="form-control @error('name') is-invalid @enderror"
@@ -59,7 +59,7 @@
                                                                 @enderror
                                                             </div>
                                                             <div class="form-group col-md-12">
-                                                                <label
+                                                                <label class="required_label"
                                                                     for="description_{{ $lang['code'] }}">{{ __('Description') }}
                                                                     ({{ strtoupper($lang['code']) }})
                                                                 </label>
@@ -92,7 +92,7 @@
                                         <select class="form-control select2 @error('video_type') is-invalid @enderror"
                                             name="video_type" id="video_type">
                                             <option value="">{{ __('Select Type') }}</option>
-                                            <option value="video_url">{{ __('URL') }}</option>
+                                            <option selected value="video_url">{{ __('URL') }}</option>
                                             <option value="video_id">{{ __('ID') }}</option>
                                         </select>
                                         @error('video_type')
@@ -103,17 +103,17 @@
                                     </div>
 
                                     <div class="form-group col-md-6" id="video_url" style="display: none;">
-                                        <label for="video_url">{{ __('Video URL') }}</label>
+                                        <label class="required_label" for="video_url">{{ __('Video URL') }}</label>
                                         <input type="text" class="form-control" name="video_url">
                                     </div>
 
                                     <div class="form-group col-md-6" id="video_id" style="display: none;">
-                                        <label for="video_id">{{ __('Video ID') }}</label>
+                                        <label class="required_label" for="video_id">{{ __('Video ID') }}</label>
                                         <input type="text" class="form-control" name="video_id" placeholder="https://www.youtube.com/watch?v=">
                                     </div>
 
                                     <div class="form-group col-md-6" id="video_file" style="display: none;">
-                                        <label for="exampleInputFile">{{ __('Video') }}</label>
+                                        <label class="required_label" for="exampleInputFile">{{ __('Video') }}</label>
                                         <div class="input-group">
                                             <div class="custom-file">
                                                 <input type="hidden" name="videos" class="images_hidden">
@@ -132,7 +132,7 @@
 
                                     <div class="form-group col-md-6">
                                         <div class="form-group">
-                                            <label for="exampleInputFile">{{ __('Thumbnail') }}</label>
+                                            <label class="required_label" for="exampleInputFile">{{ __('Thumbnail') }}</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="hidden" name="thumbnails" class="images_hidden">

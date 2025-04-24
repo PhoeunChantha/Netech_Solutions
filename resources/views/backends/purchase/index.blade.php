@@ -263,7 +263,28 @@
                             extend: 'print',
                             text: '<i class="fas fa-print"></i> Print',
                             exportOptions: {
-                                columns: ':visible:not(:last-child)'
+                                columns: ':visible',
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            footer: true,
+                            customize: function(win) {
+                                $(win.document.body).css('font-size', '10pt');
+                                $(win.document.body).find('table').addClass('table table-bordered');
+
+                                var footer = $(win.document.body).find('tfoot');
+                                footer.show();
+                                footer.css({
+                                    'font-weight': 'bold',
+                                    'background-color': '#D2D6DE',
+                                    'text-align': 'right'
+                                });
+
+                                $(win.document.body).css({
+                                    'padding': '10mm',
+                                    'margin': '0'
+                                });
                             }
                         },
                         {
@@ -276,7 +297,7 @@
                             exportOptions: {
                                 columns: ':visible:not(:last-child)'
                             }
-                        },
+                        }
                     ],
                     ajax: {
                         url: "{{ route('admin.purchases.index') }}",
@@ -410,7 +431,7 @@
                     purchaseTable.ajax.reload();
                 });
                 $('#daterangefilter').on('cancel.daterangepicker', function(e, picker) {
-                    $(this).val(''); 
+                    $(this).val('');
                     purchaseTable.ajax.reload();
                 });
 

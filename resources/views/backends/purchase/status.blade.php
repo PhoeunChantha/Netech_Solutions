@@ -10,7 +10,7 @@
     $statusClass = $statusMapping[$currentStatus]['class'];
 @endphp
 <div class="btn-group">
-    <button type="button" class="btn btn-sm {{ $statusClass }} dropdown-toggle status-dropdown" data-toggle="dropdown"
+    <button disabled type="button" class="btn btn-sm {{ $statusClass }} dropdown-toggle status-dropdown" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
         {{ $statusText }}
     </button>

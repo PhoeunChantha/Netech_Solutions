@@ -66,12 +66,14 @@ class SupplierController extends Controller
             ];
             return redirect()->route('admin.supplier.index')->with($output);
         } catch (Exception $e) {
-            dd($e);
+          
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
     }
 
@@ -125,12 +127,14 @@ class SupplierController extends Controller
             ];
             return redirect()->route('admin.supplier.index')->with($output);
         } catch (Exception $e) {
-            dd($e);
+         
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
     }
 
@@ -168,6 +172,8 @@ class SupplierController extends Controller
                 'status' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);

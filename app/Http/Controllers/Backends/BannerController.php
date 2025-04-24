@@ -48,7 +48,6 @@ class BannerController extends Controller
             'name' => 'required',
             'order' => 'required',
             'image' => 'required',
-            'description' => 'nullable',
         ]);
 
         if (is_null($request->name[array_search('en', $request->lang)])) {
@@ -59,14 +58,7 @@ class BannerController extends Controller
                 );
             });
         }
-        if (is_null($request->description[array_search('en', $request->lang)])) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'description',
-                    'Description field is required!'
-                );
-            });
-        }
+        
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -116,12 +108,14 @@ class BannerController extends Controller
                 'msg' => ('Create successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+          
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
         return redirect()->route('admin.banner.index')->with($output);
     }
@@ -160,7 +154,7 @@ class BannerController extends Controller
             'name' => 'required',
             'order' => 'required',
             'image' => 'required',
-            'description' => 'nullable',
+            
         ]);
 
         if (is_null($request->name[array_search('en', $request->lang)])) {
@@ -171,14 +165,7 @@ class BannerController extends Controller
                 );
             });
         }
-        if (is_null($request->description[array_search('en', $request->lang)])) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'description',
-                    'Description field is required!'
-                );
-            });
-        }
+       
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -228,12 +215,15 @@ class BannerController extends Controller
                 'msg' => ('Create successfully'),
             ];
         } catch (Exception $e) {
-            dd($e);
+            
             DB::rollBack();
             $output = [
                 'success' => 0,
                 'msg' => __('Something went wrong'),
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
+
         }
         return redirect()->route('admin.banner.index')->with($output);
     }
@@ -267,6 +257,9 @@ class BannerController extends Controller
                 'status' => 0,
                 'msg' => __('Something went wrong')
             ];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
+
         }
 
         return response()->json($output);
@@ -285,8 +278,10 @@ class BannerController extends Controller
             DB::commit();
         } catch (Exception $e) {
 
-            $output = ['status' => 0, 'msg' => __('Something went wrong')];
             DB::rollBack();
+            $output = ['status' => 0, 'msg' => __('Something went wrong')];
+            \Log::emergency('Line:' . $e->getLine() . ' ' . 'Message:' . $e->getMessage());
+
         }
 
         return response()->json($output);
