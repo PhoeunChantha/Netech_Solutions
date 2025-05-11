@@ -1,4 +1,4 @@
-<p align="center"><a href="https://sarana.website/" target="_blank"><img src="https://sarana.website/netech-solutions//public/up…ds/business_settings/2025-04-23-6808e62ebe43f.png" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://sarana.website/" target="_blank"><img src="https://sarana.website/netech-solutions/public/up…ds/business_settings/2025-04-23-6808e62ebe43f.png" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
